@@ -176,7 +176,7 @@ TAB: Android 上的 <code>simpleperf</code> profiles
 **常见场景(主要是旧版)：** 你通常只会在处理**旧数据或旧工作流**时遇到 Android Systrace 格式，例如：
 
 - 分析在 Android 9 (Pie) 之前的 Android 系统上生成的 traces。
-- 使用 `systrace.py` 命令行工具记录的历史 traces。
+- 使用 `systrace.py` 命令行工具采集的历史 traces。
 - 检查来自非常旧版本的 Android Studio profiler 的 traces。
 
 **对于 Android 上的任何当前或新 tracing(9 Pie 及更新版本)，Perfetto 是标准且强烈推荐的工具。**
@@ -567,7 +567,7 @@ TAB: Android 上的 <code>simpleperf</code> profiles
 
 **常见场景：** 此格式主要在以下情况下遇到：
 
-- 处理在 Fuchsia OS 设备或模拟器上记录的 traces，用于调试系统行为或分析性能。
+- 处理在 Fuchsia OS 设备或模拟器上采集的 traces，用于调试系统行为或分析性能。
 - 在某些特殊的、非 Fuchsia 用例中，需要一种二进制、紧凑且可流式传输的格式，与 Chrome JSON 的事件结构有相似之处。
   - 但是，对于 Fuchsia 生态系统之外的此类自定义 tracing 需求，通常建议生成 Perfetto 的[原生 TrackEvent protobuf 格式](/docs/reference/synthetic-track-event.md)，因为它功能更丰富且 Perfetto 工具的支持更好。
 
@@ -579,7 +579,7 @@ TAB: Android 上的 <code>simpleperf</code> profiles
 **如何生成：**
 
 - **在 Fuchsia OS 上：**
-  - **使用 `ffx`(Fuchsia 的开发者工具)：** 从开发主机在 Fuchsia 系统上记录 traces 的主要方式是使用 `ffx trace start` 命令。
+  - **使用 `ffx`(Fuchsia 的开发者工具)：** 从开发主机在 Fuchsia 系统上采集 traces 的主要方式是使用 `ffx trace start` 命令。
   - **目标上的 `trace` 实用程序：** Fuchsia 设备还包括一个可以控制 tracing 并保存 trace 数据的 `trace` 实用程序。
   - **使用 `ktrace` 进行内核特定 tracing：** 对于 Zircon 内核级 tracing，可以使用 `ktrace` 命令行实用程序。
 - **由自定义工具以编程方式：** 某些项目可能也会以编程方式为特定的非 Fuchsia 用例生成此格式，特别是如果需要二进制、紧凑且可流式传输的 trace 格式。

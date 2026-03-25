@@ -55,7 +55,7 @@ https://raw.githubusercontent.com/google/perfetto/main/tools/heap_profile)。
 
 #### 使用 Perfetto UI 的记录页面
 
-你还可以使用 [Perfetto UI](https://ui.perfetto.dev/#!/record/memory) 记录 heapprofd profile。在 trace 配置中勾选"Heap profiling"，输入你要定位的进程，单击"Add Device"配对你的手机，并直接从浏览器记录 profile。这在 Windows 上也是可能的。
+你还可以使用 [Perfetto UI](https://ui.perfetto.dev/#!/record/memory) 采集 heapprofd profile。在 trace 配置中勾选"Heap profiling"，输入你要定位的进程，单击"Add Device"配对你的手机，并直接从浏览器采集 profile。这在 Windows 上也是可能的。
 
 ## 查看数据
 

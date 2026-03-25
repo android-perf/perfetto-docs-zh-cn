@@ -1,4 +1,4 @@
-# 使用 Perfetto 记录应用内 trace
+# 使用 Perfetto 采集应用内 trace
 
 在本指南中，你将学习如何：
 
@@ -255,7 +255,7 @@ WHERE name = 'Framerate';
 
 虽然应用内 tracing 对于理解应用程序在隔离中的行为很有用，但它的真正力量来自于将其与系统范围的 trace 结合。这使你能够查看应用的事件如何与 CPU 调度、内存使用和 I/O 等系统事件相关联，在整个系统上下文中提供应用程序性能的完整图景。
 
-要启用组合 tracing，你需要更改应用程序以连接到系统范围的 tracing 服务，然后使用标准系统 tracing 工具记录 trace。
+要启用组合 tracing，你需要更改应用程序以连接到系统范围的 tracing 服务，然后使用标准系统 tracing 工具采集 trace。
 
 1. **修改你的应用程序代码**：
 
@@ -291,9 +291,9 @@ WHERE name = 'Framerate';
  }
  ```
 
-2. **记录系统 trace**：
+2. **采集系统 trace**：
 
- 运行你的应用程序，你现在可以使用 [Recording system traces](/docs/getting-started/system-tracing.md) 指南中描述的方法记录组合 trace。
+ 运行你的应用程序，你现在可以使用 [采集 system traces](/docs/getting-started/system-tracing.md) 指南中描述的方法采集组合 trace。
 
  配置 trace 时，除了你想要收集的任何系统数据源（例如，`linux.ftrace`）之外，你还需要启用 `track_event` 数据源。这将确保你的应用程序的自定义事件包含在 trace 中。
 
@@ -301,7 +301,7 @@ WHERE name = 'Framerate';
 
 ## 后续步骤
 
-现在你已经记录了你的第一个应用内 trace，你可以了解更多有关为代码添加插桩的信息：
+现在你已经采集了你的第一个应用内 trace，你可以了解更多有关为代码添加插桩的信息：
 
-- **[Tracing SDK](/docs/instrumentation/tracing-sdk.md)**： 深入了解 SDK 的功能。
-- **[Track Events](/docs/instrumentation/track-events.md)**： 了解有关不同类型的 track events 以及如何使用它们的更多信息。
+- **[Tracing SDK](/docs/instrumentation/tracing-sdk.md)** ： 深入了解 SDK 的功能。
+- **[Track Events](/docs/instrumentation/track-events.md)** ： 了解有关不同类型的 track events 以及如何使用它们的更多信息。

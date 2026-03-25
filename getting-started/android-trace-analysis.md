@@ -181,7 +181,7 @@ GROUP BY process_name;
 Thread tracks 显示 [thread's state](/docs/data-sources/cpu-scheduling.md#decoding-code-end_state-code-)，
 例如它是否正在运行、可运行但未运行、休眠等。性能问题的常见来源是应用线程进入 "uninterruptible sleep"，即调用阻塞在不可中断条件上的内核函数。
 
-要排除不可中断睡眠问题，你需要在记录 traces 时在 Perfetto 配置中包含以下代码段：
+要排除不可中断睡眠问题，你需要在采集 traces 时在 Perfetto 配置中包含以下代码段：
 
 ```
 data_sources: {
@@ -395,7 +395,7 @@ debug tracks 现在应该如下所示：
 
 JobScheduler 是一个 Android 系统服务，可帮助应用高效地安排后台任务（如数据同步或文件下载）。在 Android 开发中，_Background jobs_ 通常指应用需要执行的任何不直接与用户界面交互的工作。这可能包括与服务器同步数据、下载文件、处理图像、发送分析或执行数据库操作等任务。
 
-要在 `android_job_scheduler_states` 表中收集后台作业的数据，你需要在记录 traces 时在 Perfetto 配置中包含以下代码段：
+要在 `android_job_scheduler_states` 表中收集后台作业的数据，你需要在采集 traces 时在 Perfetto 配置中包含以下代码段：
 
 ```
 data_sources {
@@ -434,7 +434,7 @@ GROUP BY job_name, job_id, internal_stop_reason, package_name;
 
 ## 获取 CPU 利用率和处理信息
 
-要收集与 CPU 上的事件和利用率相关的数据，你需要在记录 traces 时在 Perfetto 配置中包含以下代码段：
+要收集与 CPU 上的事件和利用率相关的数据，你需要在采集 traces 时在 Perfetto 配置中包含以下代码段：
 
 ```
 data_sources {

@@ -22,7 +22,7 @@ perfetto - 捕获 traces
 以下列出了在任一模式下使用 `perfetto` 时的可用选项。
 
 `-d`, `--background`
-:: Perfetto 立即退出命令行界面并在后台继续记录你的 trace。
+:: Perfetto 立即退出命令行界面并在后台继续采集你的 trace。
 
 `-o`, `--out` _OUT_FILE_
 :：指定输出 trace 文件的所需路径，或 `-` 用于 stdout。
@@ -106,14 +106,14 @@ perfetto - 捕获 traces
 后面跟着事件说明符列表：
 
 `ATRACE_CAT`
-:：指定要为其记录 trace 的 atrace 类别。
+:：指定要为其采集 trace 的 atrace 类别。
  例如，以下命令使用 atrace 追踪窗口管理器：
  `adb shell perfetto --out FILE wm`。要记录其他类别，请参阅
  [atrace 类别列表](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/native/cmds/atrace/atrace.cpp)。
  注意:可用类别取决于 Android 版本。
 
 `FTRACE_GROUP/FTRACE_NAME`
-:：指定要为其记录 trace 的 ftrace 事件。
+:：指定要为其采集 trace 的 ftrace 事件。
  例如，以下命令追踪 sched/sched_switch 事件：
  `adb shell perfetto --out FILE sched/sched_switch`
 

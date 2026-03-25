@@ -274,7 +274,7 @@ void PlaySound(const char* path) {
 
 Async slices 允许 trace 可能在不同线程上开始和结束的逻辑操作。它们是 Perfetto SDK 中 _track events_ 的相同概念。
 
-由于 begin/end 可以发生在不同的线程上，你需要向每个 begin/end 函数传递一个 _cookie_。cookie 只是一个用于匹配 begin/end 对的整数。cookie 通常从代表正在被 trace 的逻辑操作的指针或唯一 ID 派生（例如，作业 id）。
+由于 begin/end 可以发生在不同的线程上，你需要向每个 begin/end 函数传递一个 _cookie_ 。cookie 只是一个用于匹配 begin/end 对的整数。cookie 通常从代表正在被 trace 的逻辑操作的指针或唯一 ID 派生（例如，作业 id）。
 
 语义和约束：
 
@@ -408,7 +408,7 @@ void onButtonClicked() {
 
 你应该考虑使用 Jetpack 的 [androidx.tracing](https://developer.android.com/jetpack/androidx/releases/tracing)。我们与 Jetpack 项目密切合作。使用 androidx.tracing 将在我们改进 SDK 时带来更平滑的迁移路径。
 
-## 记录 trace
+## 采集 trace
 
 为了记录 atrace，你必须启用 `linux.ftrace` 数据源并在 `ftrace_config` 中添加：
 
@@ -459,15 +459,15 @@ TAB: Raw config
 
 现在你已经学习了如何使用 `ATrace` 插桩你的代码，这里是一些你可能觉得有用的其他文档：
 
-### 录制 trace
+### 采集 trace
 
-- **[Recording system traces](/docs/getting-started/system-tracing.md)**： 了解有关在 Android 上记录 trace 的更多信息。
+- **[Recording system traces](/docs/getting-started/system-tracing.md)** ： 了解有关在 Android 上采集 trace 的更多信息。
 
 ### 其他 Android 数据源
 
-- **[Scheduling data](/docs/data-sources/cpu-scheduling.md)**： 查看哪些线程在哪些 CPU 上运行。
-- **[CPU frequency](/docs/data-sources/cpu-freq.md)**： 查看每个 CPU 运行多快。
+- **[Scheduling data](/docs/data-sources/cpu-scheduling.md)** ： 查看哪些线程在哪些 CPU 上运行。
+- **[CPU frequency](/docs/data-sources/cpu-freq.md)** ： 查看每个 CPU 运行多快。
 
 ### 分析 trace
 
-- **[Perfetto UI](/docs/visualization/perfetto-ui.md)**： 了解 trace viewer 的所有功能。
+- **[Perfetto UI](/docs/visualization/perfetto-ui.md)** ： 了解 trace viewer 的所有功能。

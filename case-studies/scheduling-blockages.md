@@ -175,7 +175,7 @@ data_sources {
 ...
 ```
 
-录制 overrun 消失了，我们得到了一个更有用的 trace。现在 trace 中的每个线程都有三个 track:
+采集 overrun 消失了，我们得到了一个更有用的 trace。现在 trace 中的每个线程都有三个 track:
 
 1. 一个具有线程调度状态(Running、Runnable 等)
 2. 一个具有常用的 tracing slice (Choreographer#doFrame、Animation)

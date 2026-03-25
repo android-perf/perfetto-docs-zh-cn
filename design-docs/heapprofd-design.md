@@ -11,7 +11,7 @@ _**更新：** 2020-04-20_
 
 ![](/docs/images/heapprofd-design/Architecture.png)
 
-实现一个进程外 heap profiler。在 malloc 中进行最少的内联处理，然后委托给中央组件进行进一步处理。这引入了一个新的守护进程 _heapprofd_。
+实现一个进程外 heap profiler。在 malloc 中进行最少的内联处理，然后委托给中央组件进行进一步处理。这引入了一个新的守护进程 _heapprofd_ 。
 
 当启用 tracing 时，无论是通过系统属性还是传递给现有进程的信号，一定百分比的 malloc 调用会将当前调用堆栈复制到由 heapprofd 接收的共享内存缓冲区中。heapprofd 使用 libunwindstack 异步进行堆栈展开和符号化。此信息用于构建账本表以跟踪活动分配，并最终转储到 Perfetto trace 中。
 

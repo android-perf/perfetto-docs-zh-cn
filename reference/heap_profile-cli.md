@@ -6,7 +6,7 @@ heap_profile - 在 Android 设备上记录 heap profile
 
 ## 描述
 
-`tools/heap_profile` 允许在 Android 上收集原生 heap profile。有关数据源的更多详细信息，请参见[记录 traces](/docs/data-sources/native-heap-profiler.md)。
+`tools/heap_profile` 允许在 Android 上收集原生 heap profile。有关数据源的更多详细信息，请参见[采集 traces](/docs/data-sources/native-heap-profiler.md)。
 
 ```
 用法: heap_profile [-h] [-i INTERVAL] [-d DURATION] [--no-start] [-p PIDS]

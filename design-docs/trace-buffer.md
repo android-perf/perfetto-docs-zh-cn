@@ -16,9 +16,9 @@ TraceBuffer 是一个_加强版 ring buffer_。不幸的是，由于协议的复
 在深入研究其复杂性之前，让我们探索其关键操作。
 
 从逻辑上讲，TraceBuffer 处理重叠的数据流，称为
-_TraceWriter Sequences_，或简称为 _Sequences_：
+_TraceWriter Sequences_ ，或简称为 _Sequences_ ：
 
-- 写入 trace 数据的客户端进程充当 _Producer_。通常
+- 写入 trace 数据的客户端进程充当 _Producer_ 。通常
   1 Producer = 1 Process，但有些情况下一个进程可以托管 >1
   producers（例如，如果它使用 N 个库，每个库都静态链接 tracing
   SDK）
@@ -549,4 +549,4 @@ BM_TraceBuffer_WR_MultipleWriters<TraceBufferV1>   bytes_per_second=3.19148G/s
 BM_TraceBuffer_WR_MultipleWriters<TraceBufferV2>   bytes_per_second=3.47354G/s
 BM_TraceBuffer_RD_MixedPackets<TraceBufferV1>      bytes_per_second=1.26698G/s
 BM_TraceBuffer_RD_MixedPackets<TraceBufferV2>      bytes_per_second=1.35394G/s
-```
+``

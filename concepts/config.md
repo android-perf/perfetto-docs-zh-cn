@@ -270,7 +270,7 @@ data_sources {
 
 ## 触发器
 
-在正常条件下，trace 会话的生命周期与 `perfetto` 命令行客户端的调用简单匹配：当 TraceConfig 传递给 `perfetto` 时 trace 数据记录开始，当 `TraceConfig.duration_ms` 已经过去或命令行客户端终止时结束。
+在正常条件下，trace 会话的生命周期与 `perfetto` 命令行客户端的调用简单匹配：当 TraceConfig 传递给 `perfetto` 时 trace 数据采集开始，当 `TraceConfig.duration_ms` 已经过去或命令行客户端终止时结束。
 
 Perfetto 支持基于触发器的替代启动或停止 trace 模式。总体思想是在 trace 配置本身中声明：
 

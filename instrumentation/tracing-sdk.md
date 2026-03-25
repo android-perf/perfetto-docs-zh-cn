@@ -257,7 +257,7 @@ CustomDataSource::Trace([](CustomDataSource::TraceContext ctx) {
  [127.0.0.1:32278](https://cs.android.com/android/platform/superproject/main/+/main:external/perfetto/src/tracing/ipc/default_socket.cc;l=75;drc=4f88a2fdfd3801c109d5e927b8206f9756288b12)
  ) + 命名 shmem。
 
-## {#recording} 通过 API 记录 Trace
+## {#recording} 通过 API 采集 Trace
 
 _通过 API 进行 tracing目前仅支持进程内模式。使用系统模式时，请使用 `perfetto` 命令行客户端（请参阅快速入门指南）。_
 

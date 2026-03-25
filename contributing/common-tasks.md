@@ -176,7 +176,7 @@ WHERE launch_id = $launch_id AND slice_name GLOB $slice_name;
    tools/ninja -C out/android_release_arm64 tracebox
    ```
 
-2. 使用 `record_android_trace` sideload 并记录 trace:
+2. 使用 `record_android_trace` sideload 并采集 trace:
    ```bash
    tools/record_android_trace \
    --sideload-path out/android_release_arm64/tracebox \

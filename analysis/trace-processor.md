@@ -95,9 +95,9 @@ class DiffTestBlueprint:
  out: Union[Path, Json, Csv, TextProto]
 ```
 
-_Trace_ 和 _Out_：对于除 `Path` 之外的每种类型，对象的内容将被视为文件内容，因此它必须遵循相同的规则。
+_Trace_ 和 _Out_ ：对于除 `Path` 之外的每种类型，对象的内容将被视为文件内容，因此它必须遵循相同的规则。
 
-_Query_：对于 metrics 测试，提供 metrics 名称就足够了。对于查询测试，可以是原始 SQL 语句，例如 `"SELECT * FROM SLICE"` 或 `.sql` 文件的路径。
+_Query_ ：对于 metrics 测试，提供 metrics 名称就足够了。对于查询测试，可以是原始 SQL 语句，例如 `"SELECT * FROM SLICE"` 或 `.sql` 文件的路径。
 
 NOTE: `trace_processor_shell` 和关联的 proto 描述符需要在运行 `tools/diff_test_trace_processor.py` 之前构建。最简单的方法是最初并在对 trace processor 代码的每次更改时运行 `tools/ninja -C <out directory>`。
 

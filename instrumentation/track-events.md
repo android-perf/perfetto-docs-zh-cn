@@ -142,7 +142,7 @@ TRACE_EVENT("category", "MyEvent", [&](perfetto::EventContext ctx) {
 
 传递给宏的 lambda 函数仅在给定类别的 tracing 已启用时才会被调用。它总是被同步调用，并且如果有多个并发 tracing 会话处于活动状态，可能会被多次调用。
 
-现在你已经使用 Track events 为你的应用程序进行了插桩，你准备好开始[记录 Trace]（tracing-sdk.md#recording）了。
+现在你已经使用 Track events 为你的应用程序进行了插桩，你准备好开始[采集 Trace]（tracing-sdk.md#recording）了。
 
 ## 类别配置
 
@@ -336,7 +336,7 @@ TRACE_EVENT("cat", "name"[, track][, timestamp]
  "arg3", value3);
  ```
 
- 有关将自定义类型记录为 debug 注解，请参阅 |TracedValue|。
+ 有关将自定义类型采集为 debug 注解，请参阅 |TracedValue|。
 
 4. 任意数量的 TrackEvent 字段（包括扩展）：
 
@@ -433,7 +433,7 @@ Perfetto 支持三种类型的 track：
 
 Track 可以有父 track，父 track 用于将相关的 track 分组在一起。例如，`ThreadTrack` 的父 track 是该线程所属进程的 `ProcessTrack`。默认情况下，track 被分组在当前进程的 `ProcessTrack` 下。
 
-track 由 uuid 标识，uuid 在整个记录的 trace 中必须是唯一的。为了最大限度地减少意外冲突的机会，子 track 的 uuid 与其父 track 的 uuid 组合，每个 `ProcessTrack` 都有一个随机的、每个进程的 uuid。
+track 由 uuid 标识，uuid 在整个采集的 trace 中必须是唯一的。为了最大限度地减少意外冲突的机会，子 track 的 uuid 与其父 track 的 uuid 组合，每个 `ProcessTrack` 都有一个随机的、每个进程的 uuid。
 
 默认情况下，Track events（例如，`TRACE_EVENT`）使用调用线程的 `ThreadTrack`。可以覆盖它，例如，标记在不同线程上开始和结束的事件：
 
@@ -519,7 +519,7 @@ TRACE_COUNTER("category", "MyCounter", 1234.5);
 TRACE_COUNTER("category", perfetto::CounterTrack("Framerate", "fps"), 120);
 ```
 
-作为另一个示例，记录字节但接受千字节作为样本（以减少 trace 二进制大小）的内存 counter 可以这样定义：
+作为另一个示例，采集字节但接受千字节作为样本（以减少 trace 二进制大小）的内存 counter 可以这样定义：
 
 ```C++
 perfetto::CounterTrack memory_track = perfetto::CounterTrack("Memory")

@@ -12,7 +12,7 @@ ATrace API 通过以下表面暴露：
 
 有两种类型的 atrace 事件：系统事件和应用事件。
 
-**系统事件**：仅由 Android 内部使用 libcutils 发出。这些事件按类别（也称为 _标签_）分组，例如，"am"（ActivityManager）、"pm"（PackageManager）。有关类别的完整列表，请参见 [Perfetto UI](https://ui.perfetto.dev) 的 _记录新 trace_ 页面。
+**系统事件**：仅由 Android 内部使用 libcutils 发出。这些事件按类别（也称为 _标签_）分组，例如，"am"（ActivityManager）、"pm"（PackageManager）。有关类别的完整列表，请参见 [Perfetto UI](https://ui.perfetto.dev) 的 _采集新 trace_ 页面。
 
 类别可用于跨多个进程启用事件组，而无需担心哪个特定的系统进程发出它们。
 

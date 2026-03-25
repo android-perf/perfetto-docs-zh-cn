@@ -52,8 +52,8 @@ TAB: Android (Perfetto UI)
 - 在 `Names` 框中输入进程名称。
 - 你必须输入的进程名称是（第一个参数的）进程 cmdline。即 `adb shell ps -A` 的最右列（NAME）。
 - 在 `Buffers and duration` 页面选择观察时间。这将决定 profile 拦截 malloc/free 调用的时间。
-- 按红色按钮开始记录 trace。
-- 在记录 trace 时，与被 profile 的进程交互。运行你的用户旅程，测试模式，与应用交互。
+- 按红色按钮开始采集 trace。
+- 在采集 trace 时，与被 profile 的进程交互。运行你的用户旅程，测试模式，与应用交互。
 
 ![UI Recording](/docs/images/heapprofd-ui.png)
 
@@ -245,7 +245,7 @@ TAB: Android (Perfetto UI)
 - 在 `Names` 框中输入进程名称。
 - 你必须输入的进程名称是（第一个参数的）进程 cmdline。即 `adb shell ps -A` 的最右列（NAME）。
 - 在 `Buffers and duration` 页面选择短持续时间（10 秒或更少）。trace 持续时间对于此特定数据源没有意义，因为它在 trace 结束时发出整个转储。更长的 trace 不会导致更多或更好的数据。
-- 按红色按钮开始记录 trace。
+- 按红色按钮开始采集 trace。
 
 ![UI Recording](/docs/images/jheapprof-ui.png)
 
@@ -285,7 +285,7 @@ curl -LO https://raw.githubusercontent.com/google/perfetto/main/tools/java_heap_
 ```bash
 python3 java_heap_dump -n com.google.android.apps.nexuslauncher
 ```
-脚本将记录带有堆转储的 trace 并打印 trace 文件的路径(例如 /tmp/tmpmhuvqmnqprofile)
+脚本将采集带有堆转储的 trace 并打印 trace 文件的路径(例如 /tmp/tmpmhuvqmnqprofile)
 
 ```bash
 Wrote profile to /tmp/tmpmhuvqmnqprofile
