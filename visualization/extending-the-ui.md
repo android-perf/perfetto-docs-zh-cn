@@ -73,7 +73,7 @@ graph TD
 
 这些在设置中本地配置，是自定义你自己的工作流的最简单方式。不需要服务器或共享基础设施。
 
-有关如何设置这些，请参阅[命令和宏](/docs/visualization/ui-automation.md)，以及[命令自动化参考]（/docs/visualization/commands-automation-reference.md）获取可用命令的完整列表。
+有关如何设置这些，请参阅[命令和宏](/docs/visualization/ui-automation.md)，以及[命令自动化参考](/docs/visualization/commands-automation-reference.md）获取可用命令的完整列表。
 
 ## 扩展服务器
 

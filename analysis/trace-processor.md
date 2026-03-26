@@ -61,7 +61,7 @@ ts value
 
 ## Python API
 
-trace processor 的 C++ 库也通过 Python 公开。这在[单独的页面]（/docs/analysis/trace-processor-python.md）上有文档说明。
+trace processor 的 C++ 库也通过 Python 公开。这在[单独的页面](/docs/analysis/trace-processor-python.md）上有文档说明。
 
 ## 测试
 

@@ -187,7 +187,7 @@ SMB 页面的大小由每个生产者在连接时通过 `InitializeConnectionReq
 
 另一方面，页面大小对由于碎片（请参见下面的块）导致的内存浪费没有影响。
 
-**块**是页面的一部分，包含 [`TracePacket(s)`][trace-packet-ref]（根 trace proto）的线性序列。
+**块**是页面的一部分，包含 [`TracePacket(s)`][trace-packet-ref](根 trace proto）的线性序列。
 
 块定义了生产者和 trace 服务之间交互的粒度。当生产者填满块时，它会向服务发送 `CommitData` IPC，要求服务将其内容复制到中央非共享缓冲区。
 

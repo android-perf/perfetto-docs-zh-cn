@@ -13,7 +13,7 @@
 
 #### 可用频率
 
-还可以通过启用 `linux.system_info` 数据源一次性采集每个 CPU 支持的完整频率列表。这将在 trace 采集开始时记录 `/sys/devices/system/cpu/cpu*/cpufreq/scaling_available_frequencies`。此信息通常通过检查 [`cpu_freq` 表]（/docs/analysis/sql-tables.autogen#cpu_freq）来区分大/小核心。
+还可以通过启用 `linux.system_info` 数据源一次性采集每个 CPU 支持的完整频率列表。这将在 trace 采集开始时记录 `/sys/devices/system/cpu/cpu*/cpufreq/scaling_available_frequencies`。此信息通常通过检查 [`cpu_freq` 表](/docs/analysis/sql-tables.autogen#cpu_freq）来区分大/小核心。
 
 由于上述 `power/cpu_frequency` 的相同原因，现代 Intel 平台不支持此功能。
 

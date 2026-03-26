@@ -17,7 +17,7 @@ data_sources: {
 ```
 
 ## Linux 内核 trace
-Perfetto 与 [Linux 内核事件 trace]（https://www.kernel.org/doc/Documentation/trace/ftrace.txt）集成。虽然 Perfetto 对某些事件有特殊支持（例如，请参见 [CPU 调度](#cpu-scheduling)），但 Perfetto 可以收集任意事件。
+Perfetto 与 [Linux 内核事件 trace](https://www.kernel.org/doc/Documentation/trace/ftrace.txt）集成。虽然 Perfetto 对某些事件有特殊支持（例如，请参见 [CPU 调度](#cpu-scheduling)），但 Perfetto 可以收集任意事件。
 此配置收集四个 Linux 内核事件：
 
 ```protobuf

@@ -6,7 +6,7 @@ _此数据源仅在 Android userdebug 构建上受支持。_
 
 支持来自 [EventLog] 的文本格式事件和二进制格式事件。
 
-这允许你查看与 trace 的其余部分时间同步的 Log event。当采集[长 trace]（/docs/concepts/config#long-traces）时，它允许你无限期地采集 Event log，而不管 Android Log 守护程序缓冲区大小如何（即，Log event 定期获取并复制到 trace 缓冲区中）。
+这允许你查看与 trace 的其余部分时间同步的 Log event。当采集[长 trace](/docs/concepts/config#long-traces）时，它允许你无限期地采集 Event log，而不管 Android Log 守护程序缓冲区大小如何（即，Log event 定期获取并复制到 trace 缓冲区中）。
 
 数据源可以配置为过滤来自特定 Log buffer 的事件，并仅保留匹配特定标签或优先级的事件。
 

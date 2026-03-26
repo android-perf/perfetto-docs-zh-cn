@@ -1,6 +1,6 @@
 # Trace Processor (Python)
 
-Trace Processor Python API 构建在 Trace Processor [C++ 库]（/docs/analysis/trace-processor.md）之上。通过与 Python 集成，该库允许利用 Python 丰富的数据分析生态系统来处理 trace。
+Trace Processor Python API 构建在 Trace Processor [C++ 库](/docs/analysis/trace-processor.md）之上。通过与 Python 集成，该库允许利用 Python 丰富的数据分析生态系统来处理 trace。
 
 ## 设置
 

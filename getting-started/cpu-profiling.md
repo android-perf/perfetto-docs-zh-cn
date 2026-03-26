@@ -223,7 +223,7 @@ python3 cpu_profile -n com.android.example -f 100
 
 #### 缺失符号和反混淆
 
-如果你的 profiles 缺少 native 库的函数名称，但你有权访问库的调试版本（带有符号数据），你可以按照[这些说明]（/docs/data-sources/native-heap-profiler#symbolization）指示 `cpu_profile` 脚本在主机上符号化 profile，同时替换脚本名称。
+如果你的 profiles 缺少 native 库的函数名称，但你有权访问库的调试版本（带有符号数据），你可以按照[这些说明](/docs/data-sources/native-heap-profiler#symbolization）指示 `cpu_profile` 脚本在主机上符号化 profile，同时替换脚本名称。
 
 TAB: Linux (command line)
 
@@ -257,7 +257,7 @@ python3 traceconv profile --perf /tmp/trace.pb
 
 #### 缺失符号和反混淆
 
-如果你的 profiles 缺少 native 库的函数名称，但你有权访问库的调试版本（带有符号数据），你可以按照[这些说明]（/docs/data-sources/native-heap-profiler#symbolization）事后符号化 profile，跳过 heap profiling 脚本，而是直接使用 `traceconv symbolize` 脚本命令。
+如果你的 profiles 缺少 native 库的函数名称，但你有权访问库的调试版本（带有符号数据），你可以按照[这些说明](/docs/data-sources/native-heap-profiler#symbolization）事后符号化 profile，跳过 heap profiling 脚本，而是直接使用 `traceconv symbolize` 脚本命令。
 
 </tabs?>
 

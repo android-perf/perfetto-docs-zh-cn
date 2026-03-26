@@ -247,7 +247,7 @@ data_sources {
 duration_ms: 10000
 ```
 
-请参阅[系统 tracing 页面]（/docs/getting-started/system-tracing.md）以设置 tracebox。对于此示例，我们将使用刚刚创建的配置文件从命令行采集 trace：
+请参阅[系统 tracing 页面](/docs/getting-started/system-tracing.md）以设置 tracebox。对于此示例，我们将使用刚刚创建的配置文件从命令行采集 trace：
 ```bash
 ./tracebox -c ticker.cfg --txt -o ticker.pftrace
 ```

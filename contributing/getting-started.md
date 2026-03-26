@@ -94,7 +94,7 @@ gh pr create # 需要 cli.github.com
 
 #### 外部贡献者
 
-请像为任何其他 GitHub 仓库做贡献一样进行贡献。有关如何进行的良好解释，可以在[这里]（https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-a-project）找到。
+请像为任何其他 GitHub 仓库做贡献一样进行贡献。有关如何进行的良好解释，可以在[这里](https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-a-project）找到。
 
 ### 测试
 
@@ -109,7 +109,7 @@ gh pr create # 需要 cli.github.com
 - 如果你想为 UI 添加新功能，最可能的下一步是 [UI 快速入门](ui-getting-started)。
 - 如果你想编辑 UI 的核心功能：这是一个大得多的更改，需要深入了解 Perfetto UI。大多数请求/错误现在与各种插件相关，而不是核心。
 - 如果你想添加新的 ftrace 事件，请查看[常见任务页面](common-tasks)。
-- 如果你想为 Perfetto SQL 标准库添加新表/视图/函数，你需要先理解 [Perfetto SQL 语法](/docs/analysis/perfetto-sql-syntax.md)，然后阅读[常见任务页面]（common-tasks）中更新标准库的详细信息。
+- 如果你想为 Perfetto SQL 标准库添加新表/视图/函数，你需要先理解 [Perfetto SQL 语法](/docs/analysis/perfetto-sql-syntax.md)，然后阅读[常见任务页面](common-tasks）中更新标准库的详细信息。
 - 如果你想为 Perfetto 添加对新文件类型的支持，你需要向 Trace Processor C++ 代码添加新的导入器。
 
 ## {#community} 社区交流

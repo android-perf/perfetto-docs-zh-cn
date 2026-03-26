@@ -1015,7 +1015,7 @@ Perfetto 支持三种类型的关联标识符：
 
 这是一个完整的、独立的 Python 脚本，演示如何使用
 `StreamingTraceProtoBuilder`。它基于
-[入门指南]（/docs/getting-started/converting.md）中的"创建基本 Timeline
+[入门指南](/docs/getting-started/converting.md）中的"创建基本 Timeline
 Slice"示例。
 
 你可以将此代码保存为新文件（例如，`streaming_converter.py`）并运行它。

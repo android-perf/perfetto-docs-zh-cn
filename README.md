@@ -92,7 +92,7 @@ Google 还有许多其他团队以多种方式使用 Perfetto。这包括 tracin
 - [Meta Quest 平台上的性能和优化](https://m.facebook.com/RealityLabs/videos/performance-and-optimization-on-meta-quest-platform/488126049869673/)
 - [通过比例 trace 进行性能测试](https://www.jviotti.com/2022/09/07/performance-testing-through-proportional-traces.html)
 - [性能](https://www.twoscomplement.org/podcast/performance.mp3) 
- [Twoscomplement 播客]（https://www.twoscomplement.org/#podcast）的一集"我们最高效的播客。Ben 和 Matt 在不到 30 分钟内谈论性能测试和优化。"
+ [Twoscomplement 播客](https://www.twoscomplement.org/#podcast）的一集"我们最高效的播客。Ben 和 Matt 在不到 30 分钟内谈论性能测试和优化。"
 - [Collabora：使用 Perfetto 分析虚拟化 GPU 加速](https://www.collabora.com/news-and-blog/blog/2021/04/22/profiling-virtualized-gpu-acceleration-with-perfetto/)
 - [Snap：大规模客户端 Tracing](https://www.droidcon.com/2022/06/28/client-tracing-at-scale/)
  "由于 Android 设备种类繁多，很难找到性能问题的根本原因。通过利用 trace，我们可以开始了解导致糟糕用户体验的确切情况。我们将讨论如何为我们的 Snapchat 应用进行插桩，以便我们能够获得必要的可解释性信号。此外，我们将描述如何将 tracing 纳入我们的开发过程，从本地调试到性能测试，最后到生产。"

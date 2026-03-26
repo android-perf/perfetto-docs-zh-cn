@@ -12,7 +12,7 @@ Perfetto Tracing SDK 是一个 C++17 库，允许用户空间应用程序发出 
 
 ## 快速入门
 
-TIP: 这些示例中的代码也可在[仓库中]（/examples/sdk/README.md）找到。
+TIP: 这些示例中的代码也可在[仓库中](/examples/sdk/README.md）找到。
 
 要开始使用 Client API，首先从最新的 Perfetto 版本下载 SDK 源文件：
 1) 访问 https://github.com/google/perfetto/releases/latest
@@ -86,7 +86,7 @@ int main(int argc, char** argv) {
 
 ## 自定义数据源 vs Track 事件
 
-SDK 提供两个抽象层来注入tracing 数据，它们彼此构建，在代码复杂度和表现力之间进行权衡：[Track 事件]（#track-events）和[自定义数据源](#custom-data-sources)。
+SDK 提供两个抽象层来注入tracing 数据，它们彼此构建，在代码复杂度和表现力之间进行权衡：[Track 事件](#track-events）和[自定义数据源](#custom-data-sources)。
 
 ### Track 事件
 
@@ -251,7 +251,7 @@ CustomDataSource::Trace([](CustomDataSource::TraceContext ctx) {
 使用系统模式时，必须从外部控制追踪会话，使用 `perfetto` 命令行客户端（请参阅[参考](/docs/reference/perfetto-cli)）。这是因为在收集系统 trace 时，不允许tracing 数据生产者读取 trace 数据，因为它可能会披露有关其他进程的信息并允许侧信道攻击。
 
 - 在 Android 9 (Pie) 及更高版本上，traced 作为平台的一部分提供。
-- 在旧版本的 Android 上，可以使用[独立的基于 NDK 的工作流]（/docs/contributing/build-instructions.md）从源代码构建 traced，并通过 adb shell sideload。
+- 在旧版本的 Android 上，可以使用[独立的基于 NDK 的工作流](/docs/contributing/build-instructions.md）从源代码构建 traced，并通过 adb shell sideload。
 <!-- * 在 Linux、MacOS 和 Windows 上，`traced` 必须单独构建和运行。有关说明，请参阅 [Linux quickstart](/docs/quickstart/linux-tracing.md)。
 - 在 Windows 上，追踪协议通过 TCP/IP 工作 -->
  [127.0.0.1:32278](https://cs.android.com/android/platform/superproject/main/+/main:external/perfetto/src/tracing/ipc/default_socket.cc;l=75;drc=4f88a2fdfd3801c109d5e927b8206f9756288b12)

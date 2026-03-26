@@ -7,7 +7,7 @@ traced - Perfetto tracing 服务
 ## 描述
 
 `traced` 是 Perfetto
-[基于服务的架构]（/docs/concepts/service-model.md）中的中央守护程序。它充当系统上所有tracing 活动的总站，调解想要记录数据的实体（生产者）和想要控制和读取 traces 的实体（消费者）之间的交互。
+[基于服务的架构](/docs/concepts/service-model.md）中的中央守护程序。它充当系统上所有tracing 活动的总站，调解想要记录数据的实体（生产者）和想要控制和读取 traces 的实体（消费者）之间的交互。
 
 在典型的系统范围 tracing设置中（如 Android 或 Linux 上）,`traced` 作为长期运行的后台守护程序运行，通常在系统启动时启动。
 

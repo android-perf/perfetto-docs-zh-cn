@@ -11,7 +11,7 @@ UI 插件允许开发者直接向 Perfetto 界面添加新的可视化和 profil
 > 注意:所有插件目前都是树内（in-tree）的，即它们位于开源 Perfetto 代码库中，并与位于 https://ui.perfetto.dev 的 Perfetto 公共构建一起提供。如果你想添加闭源插件，你需要 fork 并托管你自己的 Perfetto 版本。目前，没有办法 sideload 闭源插件。
 
 以 'com.example' 开头的插件
-[这里]（https://github.com/google/perfetto/tree/main/ui/src/plugins）提供了本文档中列出的功能的实时示例，因此如果你的特定功能有示例，请一定要查看。
+[这里](https://github.com/google/perfetto/tree/main/ui/src/plugins）提供了本文档中列出的功能的实时示例，因此如果你的特定功能有示例，请一定要查看。
 
 你将在这篇文档中使用的公共插件 API 可以在这里浏览
 [这里](https://github.com/google/perfetto/tree/main/ui/src/public)。

@@ -39,7 +39,7 @@ with BatchTraceProcessor(files) as btp:
  btp.query('...')
 ```
 
-NOTE: 加载过多 trace 可能会导致内存不足问题：详见[内存使用]（/docs/analysis/batch-trace-processor#memory-usage）部分。
+NOTE: 加载过多 trace 可能会导致内存不足问题：详见[内存使用](/docs/analysis/batch-trace-processor#memory-usage）部分。
 
 常见需求是加载位于云端的 trace 或通过向服务器发送请求加载。为了支持这种用例，可以使用 [trace URIs](/docs/analysis/batch-trace-processor#trace-uris) 加载 trace：
 

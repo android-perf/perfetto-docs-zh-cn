@@ -21,7 +21,7 @@ tools/open_trace_in_ui -i /path/to/trace
 
 ## 为什么 Perfetto 不支持 \<某些冷门的 JSON 格式功能\>?
 
-JSON trace 格式被视为遗留 trace 格式，并在尽力而为的基础上提供支持。虽然我们尽力保持与 chrome://tracing UI 和 [格式规范]（https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview#heading=h.nso4gcezn7n1）在如何解析和显示事件方面的兼容性，但这并不总是可能的。
+JSON trace 格式被视为遗留 trace 格式，并在尽力而为的基础上提供支持。虽然我们尽力保持与 chrome://tracing UI 和 [格式规范](https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview#heading=h.nso4gcezn7n1）在如何解析和显示事件方面的兼容性，但这并不总是可能的。
 对于在 Chrome 外部以编程方式生成并依赖 chrome://tracing 实现细节的 traces，尤其如此。
 
 如果支持某个功能会引入不成比例的技术债务，我们通常会做出不支持该功能的选择。建议用户改为发出 [TrackEvent](/docs/instrumentation/track-events.md)，这是 Perfetto 的原生 trace 格式。请参阅[此指南](/docs/reference/synthetic-track-event.md)，了解如何使用 TrackEvent 表示常见的 JSON 事件。
@@ -40,7 +40,7 @@ Perfetto UI 和 trace processor 不支持重叠的 B/E/X 事件，以符合
 一个常见问题是用户想使用 Perfetto profile 和可视化工具，但他们不想对他们的程序进行插桩。这可能是因为 Perfetto 不适合他们的用例，或者他们可能已经有一个现有的 tracing 系统。
 
 对此的推荐方法是发出 Perfetto 的原生 TrackEvent proto 格式。参考指南可在
-[此处]（/docs/reference/synthetic-track-event.md）获得。
+[此处](/docs/reference/synthetic-track-event.md）获得。
 
 
 ## 我的应用程序有多个进程。如何在一个 trace 中看到所有这些进程？

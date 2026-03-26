@@ -1,7 +1,7 @@
 # PerfettoSQL 语法
 *本文档记录了 PerfettoSQL 的语法，这是一种用于 trace processor 和其他 Perfetto 分析工具查询 trace 的 SQL 方言。*
 
-PerfettoSQL 是[SQLite 实现的 SQL 方言]（https://www.sqlite.org/lang.html）的直接后代。具体来说，在 SQLite 中有效的任何 SQL 在 PerfettoSQL 中也有效。
+PerfettoSQL 是[SQLite 实现的 SQL 方言](https://www.sqlite.org/lang.html）的直接后代。具体来说，在 SQLite 中有效的任何 SQL 在 PerfettoSQL 中也有效。
 
 然而，仅 SQLite 语法是不够的，原因有两个：
 1. 它非常基本，例如，它不支持创建函数或宏

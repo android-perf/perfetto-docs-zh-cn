@@ -9,7 +9,7 @@ Track events 是 [Perfetto Tracing SDK](tracing-sdk.md) 的一部分。
 
 有关如何检出和构建 SDK 的说明，请参阅 Tracing SDK 页面的 [快速入门](/docs/instrumentation/tracing-sdk#getting-started) 部分。
 
-TIP: 这些示例中的代码也可在[仓库中]（/examples/sdk/README.md）找到。
+TIP: 这些示例中的代码也可在[仓库中](/examples/sdk/README.md）找到。
 
 有几种主要的 Track event 类型：
 
@@ -83,7 +83,7 @@ void LoadGame() {
 }
 ```
 
-请注意，你不需要为 `TRACE_EVENT_END` 提供名称，因为它会自动关闭在同一线程上开始的最近事件。换句话说，给定线程上的所有事件共享同一个堆栈。这意味着不建议在单独的函数中使用匹配的 `TRACE_EVENT_BEGIN` 和 `TRACE_EVENT_END` 标记对，因为无关的事件可能会意外终止原始事件；对于跨越函数边界的事件，通常最好在[单独的 track]（#tracks）上发出它们。
+请注意，你不需要为 `TRACE_EVENT_END` 提供名称，因为它会自动关闭在同一线程上开始的最近事件。换句话说，给定线程上的所有事件共享同一个堆栈。这意味着不建议在单独的函数中使用匹配的 `TRACE_EVENT_BEGIN` 和 `TRACE_EVENT_END` 标记对，因为无关的事件可能会意外终止原始事件；对于跨越函数边界的事件，通常最好在[单独的 track](#tracks）上发出它们。
 
 你还可以与事件一起提供（最多两个）debug 注解。
 
@@ -142,7 +142,7 @@ TRACE_EVENT("category", "MyEvent", [&](perfetto::EventContext ctx) {
 
 传递给宏的 lambda 函数仅在给定类别的 tracing 已启用时才会被调用。它总是被同步调用，并且如果有多个并发 tracing 会话处于活动状态，可能会被多次调用。
 
-现在你已经使用 Track events 为你的应用程序进行了插桩，你准备好开始[采集 Trace]（tracing-sdk.md#recording）了。
+现在你已经使用 Track events 为你的应用程序进行了插桩，你准备好开始[采集 Trace](tracing-sdk.md#recording）了。
 
 ## 类别配置
 

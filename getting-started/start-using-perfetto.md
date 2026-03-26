@@ -200,7 +200,7 @@ Perfetto 是 Chromium 浏览器及其相关项目（Angle、Skia、V8）的 chro
 
 - **教程**：[在 Chrome 上采集 trace](/docs/getting-started/chrome-tracing.md)
 
-有关 Chrome 中实际 trace 分析的一般介绍，[这篇 Perf-Planet 博客文章]（https://calendar.perfplanet.com/2023/digging-chrome-traces-introduction-example/）也是一个有用的资源。
+有关 Chrome 中实际 trace 分析的一般介绍，[这篇 Perf-Planet 博客文章](https://calendar.perfplanet.com/2023/digging-chrome-traces-introduction-example/）也是一个有用的资源。
 
 ## {#trace-like-data} 任何有"trace 类数据"需要分析或可视化的人
 
@@ -235,10 +235,10 @@ Perfetto 强大的 UI 和 Trace Processor 不仅限于 Perfetto 自己采集的 
 
 有关 Perfetto 灵活的架构如何适应各种复杂诊断场景的更多灵感，请参阅：
 
-- Snap 关于[大规模客户端 trace]（https://www.droidcon.com/2022/06/28/client-tracing-at-scale/）的演示。
+- Snap 关于[大规模客户端 trace](https://www.droidcon.com/2022/06/28/client-tracing-at-scale/）的演示。
 - Collabora 如何使用 Perfetto 进行[虚拟化 GPU 加速分析](https://www.collabora.com/news-and-blog/blog/2021/04/22/profiling-virtualized-gpu-acceleration-with-perfetto/)。
 
 如果你不确定从哪里开始或 Perfetto 如何适用于你的独特情况：
 
 - **浏览我们的文档：** 使用导航侧边栏探索不同的部分，如"概念"、"数据源"或"深入探索"。
-- **参与社区：** 在 [Discord](https://discord.gg/35ShE3A) 或我们的[公开邮件列表]（https://groups.google.com/forum/#!forum/perfetto-dev）上提问。
+- **参与社区：** 在 [Discord](https://discord.gg/35ShE3A) 或我们的[公开邮件列表](https://groups.google.com/forum/#!forum/perfetto-dev）上提问。

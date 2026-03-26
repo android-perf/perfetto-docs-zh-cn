@@ -102,6 +102,6 @@ Omnibox 转换为命令面板。可以使用模糊匹配搜索命令。
 
 一旦你对基本 UI 交互感到舒适，你可以自定义和扩展 UI 以加快分析工作流程：
 
-- **自动化重复任务：** 使用[命令和宏]（/docs/visualization/ui-automation.md）配置启动命令，每次打开 trace 时自动固定 track 或创建 debug track，并为你偶尔运行的特定分析工作流创建宏。
-- **与团队共享工作流：** 使用[扩展服务器]（/docs/visualization/extension-servers.md）向你的团队分发宏、SQL 模块和 proto 描述符。
+- **自动化重复任务：** 使用[命令和宏](/docs/visualization/ui-automation.md）配置启动命令，每次打开 trace 时自动固定 track 或创建 debug track，并为你偶尔运行的特定分析工作流创建宏。
+- **与团队共享工作流：** 使用[扩展服务器](/docs/visualization/extension-servers.md）向你的团队分发宏、SQL 模块和 proto 描述符。
 - **查看所有扩展选项：** [扩展 UI](/docs/visualization/extending-the-ui.md) 涵盖了所有自定义 Perfetto 的方式，从简单的宏到插件。

@@ -494,7 +494,7 @@ TAB: Android 上的 <code>simpleperf</code> profiles
 **Perfetto 支持：**
 
 - **Perfetto UI & Trace Processor：** Perfetto 的 Trace Processor 可以解析文本 logcat 文件。
-  - 导入的日志消息被填充到 `android_logs` SQL 表中。这与 Perfetto 通过其 [Android Log 数据源]（/docs/data-sources/android-log.md）本机收集 logcat 数据时使用的表相同。
+  - 导入的日志消息被填充到 `android_logs` SQL 表中。这与 Perfetto 通过其 [Android Log 数据源](/docs/data-sources/android-log.md）本机收集 logcat 数据时使用的表相同。
   - 在 Perfetto UI 中，这些日志出现在 "Android Logs" 面板中，按时间顺序显示并可以过滤。这允许将日志消息与主 Timeline 上的其他 trace 事件相关联。
 - **支持的格式：** Perfetto 的解析器设计用于处理常见的 `adb logcat` 输出格式，对 `logcat -v long` 和 `logcat -v threadtime` 有很好的支持。其他更奇特或高度定制的 logcat 格式可能无法完全解析。
 
@@ -538,7 +538,7 @@ TAB: Android 上的 <code>simpleperf</code> profiles
     - 将主要的 **`dumpstate` 板级信息**（通常在 `bugreport-*.txt` 或 `dumpstate_board.txt` 等文件中找到）解析到 `dumpstate` SQL 表中。此表包括系统属性、内核版本、构建指纹和其他硬件/软件详细信息。
     - 将 `batterystats` 部分的详细 **电池统计信息**提取到 `battery_stats` SQL 表中。这提供有关电池电量、充电状态和随时间的电源事件的信息。
   - 这种集成方法允许用户在统一的 Perfetto 环境中分析系统 trace，以及来自 bugreport 的关键系统状态（来自 `dumpstate`）和电池信息（来自 `batterystats`），无需手动提取这些组件。
-  - **注意：** Perfetto 处理 bugreport 时的重点是它自己的原生 trace 格式和 `dumpstate` 的特定结构化部分，如 `batterystats`。它通常 **不会** 尝试导入或解析可能存在于旧 bugreport 中的旧版 Systrace 文件（`systrace.html` 或 `systrace.txt`）。要分析这些，你通常会手动提取它们并按照 [Android systrace 格式]（#android-systrace-format）部分打开它们。
+  - **注意：** Perfetto 处理 bugreport 时的重点是它自己的原生 trace 格式和 `dumpstate` 的特定结构化部分，如 `batterystats`。它通常 **不会** 尝试导入或解析可能存在于旧 bugreport 中的旧版 Systrace 文件（`systrace.html` 或 `systrace.txt`）。要分析这些，你通常会手动提取它们并按照 [Android systrace 格式](#android-systrace-format）部分打开它们。
 
 **如何生成：**
 

@@ -22,7 +22,7 @@ Perfetto 提供了两种补充技术来调试上述内容：
 
 ## Native (C/C++/Rust) Heap Profiling
 
-C/C++/Rust 等 native 语言通常通过使用 libc 系列的 `malloc`/`free` 函数在最低级别分配和释放内存。Native heap profiling 通过_拦截_对这些函数的调用并注入跟踪已分配但未释放内存的调用栈的代码来工作。这允许跟踪每个分配的"代码来源"。malloc/free 可能是繁重堆进程中的性能热点：为了减轻 memory profiler 的开销，我们支持[采样]（/docs/design-docs/heapprofd-sampling）以权衡准确性和开销。
+C/C++/Rust 等 native 语言通常通过使用 libc 系列的 `malloc`/`free` 函数在最低级别分配和释放内存。Native heap profiling 通过_拦截_对这些函数的调用并注入跟踪已分配但未释放内存的调用栈的代码来工作。这允许跟踪每个分配的"代码来源"。malloc/free 可能是繁重堆进程中的性能热点：为了减轻 memory profiler 的开销，我们支持[采样](/docs/design-docs/heapprofd-sampling）以权衡准确性和开销。
 
 NOTE: 使用 Perfetto 的 native heap profiling 仅适用于 Android 和 Linux;这是由于我们用于拦截 malloc 和 free 的技术仅在这些操作系统上工作。
 

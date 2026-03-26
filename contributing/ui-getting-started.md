@@ -67,7 +67,7 @@ WebStorm 或 IntelliJ Idea Ultimate(Community 版本
 位于 `ui` 文件夹中。
 
 对于 VSCode 用户，我们建议使用 eslint & prettier 扩展来完全在 IDE 内部处理此问题。
-请参阅[有用扩展]（#useful-extensions）部分了解如何设置。
+请参阅[有用扩展](#useful-extensions）部分了解如何设置。
 
 ### 格式化和 Linting
 

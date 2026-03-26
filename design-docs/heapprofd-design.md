@@ -114,7 +114,7 @@ class StackMemory : public unwindstack::MemoryRemote {
 
 远程展开还使我们能够在 libunwindstack 中使用 _全局缓存_(`Elf::SetCachingEnabled(true)`)。这防止了由不同进程使用的调试信息被加载和解压缩多次。
 
-我们添加一个 `FDMaps` 对象来解析从目标进程发送的 `/proc/self/maps` 映射。我们为每个正在分析的进程保持 `FDMaps` 对象缓存。这既节省了文本解析 `/proc/[pid]/maps` 的开销，也保持了展开所需的各种对象（例如，解压缩的 minidebuginfo）。如果展开因 `ERROR_INVALID_MAP` 失败，我们重新解析 maps 对象。我们将对 libunwindstack 进行更改，以创建 [`LocalUpdatableMaps`]（https://cs.android.com/android/platform/superproject/main/+/main:system/unwinding/libunwindstack/Maps.cpp?q=symbol:LocalUpdatableMaps）的更通用版本，该版本也适用于远程进程。
+我们添加一个 `FDMaps` 对象来解析从目标进程发送的 `/proc/self/maps` 映射。我们为每个正在分析的进程保持 `FDMaps` 对象缓存。这既节省了文本解析 `/proc/[pid]/maps` 的开销，也保持了展开所需的各种对象（例如，解压缩的 minidebuginfo）。如果展开因 `ERROR_INVALID_MAP` 失败，我们重新解析 maps 对象。我们将对 libunwindstack 进行更改，以创建 [`LocalUpdatableMaps`](https://cs.android.com/android/platform/superproject/main/+/main:system/unwinding/libunwindstack/Maps.cpp?q=symbol:LocalUpdatableMaps）的更通用版本，该版本也适用于远程进程。
 
 
 #### 远程展开的优势
@@ -151,7 +151,7 @@ class StackMemory : public unwindstack::MemoryRemote {
 
 
 ### Fork 处理
-进程 fork 后，我们需要清理由父进程初始化的状态并卸载 malloc 挂钩。我们目前不打算支持跟踪 fork，请参阅 [考虑的替代方案]（#alternatives-considered）以获取可能的实现。
+进程 fork 后，我们需要清理由父进程初始化的状态并卸载 malloc 挂钩。我们目前不打算支持跟踪 fork，请参阅 [考虑的替代方案](#alternatives-considered）以获取可能的实现。
 
 ## 性能考虑
 
