@@ -541,6 +541,25 @@ fi
 
 print_info "Node.js 版本: $(node --version 2>/dev/null || echo '未知')"
 
+# 检查 Perfetto 构建依赖
+cd "$PERFETTO_DIR"
+print_info "检查构建依赖..."
+if ! tools/install-build-deps --check-only --ui --filter=nodejs --filter=pnpm --filter=gn --filter=ninja > /dev/null 2>&1; then
+    print_warning "构建依赖不完整，正在自动安装..."
+    print_info "运行: install-build-deps --ui --filter=nodejs --filter=pnpm --filter=gn --filter=ninja"
+    print_info "这可能需要几分钟时间，请耐心等待..."
+    
+    if tools/install-build-deps --ui --filter=nodejs --filter=pnpm --filter=gn --filter=ninja 2>&1 | tee -a "$LOG_FILE"; then
+        print_success "构建依赖安装完成"
+    else
+        print_error "构建依赖安装失败"
+        print_info "请手动运行: cd perfetto && tools/install-build-deps --ui --filter=nodejs --filter=pnpm --filter=gn --filter=ninja"
+        exit 1
+    fi
+else
+    print_success "构建依赖已满足"
+fi
+
 # 检查端口
 if ! check_port 8082; then
     print_info "端口 8082 被占用，尝试清理..."
