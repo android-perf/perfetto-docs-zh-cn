@@ -557,9 +557,9 @@ Perfetto 以前有一个不同的系统来计算 metrics，通常称为"v1 metri
 
 以下是主要区别：
 
-- **输出架构**：旧系统要求用户定义自己的输出 protobuf 架构。这很强大，但学习曲线陡峭，导致不一致、难以维护的输出。Trace 汇总使用单个、定义良好的输出 proto（`TraceSummary`），确保所有汇总的结构一致。
-- **易于使用**：使用 trace 汇总，你不需要为输出编写或管理任何 `.proto` 文件。你只需要定义要计算的数据（查询）及其形状（维度和值）。Perfetto 处理其余部分。
-- **灵活性与工具**：虽然旧系统在输出结构方面提供了更多的灵活性，但这是以可工具化为代价的。trace 汇总的标准化输出使构建用于分析、可视化和回归跟踪的可靠、长期工具变得容易得多。
+- **输出架构** ：旧系统要求用户定义自己的输出 protobuf 架构。这很强大，但学习曲线陡峭，导致不一致、难以维护的输出。Trace 汇总使用单个、定义良好的输出 proto（`TraceSummary`），确保所有汇总的结构一致。
+- **易于使用** ：使用 trace 汇总，你不需要为输出编写或管理任何 `.proto` 文件。你只需要定义要计算的数据（查询）及其形状（维度和值）。Perfetto 处理其余部分。
+- **灵活性与工具** ：虽然旧系统在输出结构方面提供了更多的灵活性，但这是以可工具化为代价的。trace 汇总的标准化输出使构建用于分析、可视化和回归跟踪的可靠、长期工具变得容易得多。
 
 ## 参考
 
@@ -590,29 +590,29 @@ print(summary_proto)
 
 `trace_summary` 方法接受以下参数：
 
-- **`specs`**： `TraceSummarySpec` 定义的列表（作为文本或字节）。
-- **`metric_ids`**： 要计算的可选 metrics ID 列表。如果为 `None`，则计算规范中的所有 metrics。
-- **`metadata_query_id`**： 用于 trace 范围元数据的查询的可选 ID。
+- **specs** ： `TraceSummarySpec` 定义的列表（作为文本或字节）。
+- **metric_ids** ： 要计算的可选 metrics ID 列表。如果为 `None`，则计算规范中的所有 metrics。
+- **metadata_query_id** ： 用于 trace 范围元数据的查询的可选 ID。
 
 TAB: Command-line shell
 
 `trace_processor_shell` 允许你使用专用标志从 trace 文件计算 trace 汇总。
 
-- **按 ID 运行特定 metrics**：使用 `--summary-metrics-v2` 标志提供逗号分隔的 metrics ID 列表。
+- **按 ID 运行特定 metrics** ：使用 `--summary-metrics-v2` 标志提供逗号分隔的 metrics ID 列表。
  ```bash
  trace_processor_shell --summary \\
  --summary-spec YOUR_SPEC_FILE \\
  --summary-metrics-v2 METRIC_ID_1,METRIC_ID_2 \\
  TRACE_FILE
  ```
-- **运行规范中定义的所有 metrics**：使用关键字 `all`。
+- **运行规范中定义的所有 metrics** ：使用关键字 `all`。
  ```bash
  trace_processor_shell --summary \\
  --summary-spec YOUR_SPEC_FILE \\
  --summary-metrics-v2 all \\
  TRACE_FILE
  ```
-- **输出格式**：使用 `--summary-format` 控制输出格式。
+- **输出格式** ：使用 `--summary-format` 控制输出格式。
   - `text`：人类可读的文本 protobuf(默认)。
   - `binary`：二进制 protobuf。
 
@@ -636,17 +636,17 @@ TAB: Command-line shell
 - **`metric_bundles` (repeated
  [`TraceMetricV2Bundle`](/protos/perfetto/trace_summary/v2_metric.proto))**:
  每个 metrics 的计算结果。
-- **`metadata` (repeated `Metadata`)**：trace 级元数据的键值对。
+- **`metadata` (repeated `Metadata`)** ：trace 级元数据的键值对。
 
 ### [`TraceMetricV2Spec`](/protos/perfetto/trace_summary/v2_metric.proto)
 
 定义单个 metrics。
 
-- **`id` (string)**：metrics 的唯一标识符。
-- **`dimensions` (repeated string)**：作为维度的列。
-- **`value` (string)**：包含 metrics 数值值的列。
-- **`unit` (oneof)**：metrics 值的单位（例如，`TIME_NANOS`、`BYTES`）。也可以是 `custom_unit` 字符串。
-- **`polarity` (enum)**：较高还是较低的值更好（例如，`HIGHER_IS_BETTER`、`LOWER_IS_BETTER`）。
+- **`id` (string)** ：metrics 的唯一标识符。
+- **`dimensions` (repeated string)** ：作为维度的列。
+- **`value` (string)** ：包含 metrics 数值值的列。
+- **`unit` (oneof)** ：metrics 值的单位（例如，`TIME_NANOS`、`BYTES`）。也可以是 `custom_unit` 字符串。
+- **`polarity` (enum)** ：较高还是较低的值更好（例如，`HIGHER_IS_BETTER`、`LOWER_IS_BETTER`）。
 - **`query`
  ([`PerfettoSqlStructuredQuery`](/protos/perfetto/perfetto_sql/structured_query.proto))**:
  计算数据的查询。
@@ -657,10 +657,10 @@ TAB: Command-line shell
 
 使用模板会自动将生成的 metrics 捆绑到输出中的单个 [`TraceMetricV2Bundle`](/protos/perfetto/trace_summary/v2_metric.proto) 中。
 
-- **`id_prefix` (string)**：所有生成 metrics 的 ID 的前缀。
-- **`dimensions` (repeated string)**：所有 metrics 的共享维度。
-- **`value_columns` (repeated string)**：查询中的列列表。每列将使用 ID `<id_prefix>_<value_column>` 生成唯一的 metrics。
-- **`value_column_specs` (repeated `ValueColumnSpec`)**：值列规范的列表，允许每个列具有唯一的 `unit` 和 `polarity`。
+- **`id_prefix` (string)** ：所有生成 metrics 的 ID 的前缀。
+- **`dimensions` (repeated string)** ：所有 metrics 的共享维度。
+- **`value_columns` (repeated string)** ：查询中的列列表。每列将使用 ID `<id_prefix>_<value_column>` 生成唯一的 metrics。
+- **`value_column_specs` (repeated `ValueColumnSpec`)** ：值列规范的列表，允许每个列具有唯一的 `unit` 和 `polarity`。
 - **`query`
  ([`PerfettoSqlStructuredQuery`](/protos/perfetto/perfetto_sql/structured_query.proto))**:
  计算所有 metrics 数据的共享查询。
@@ -669,8 +669,8 @@ TAB: Command-line shell
 
 包含捆绑在一起的一个或多个 metrics 的结果。
 
-- **`specs` (repeated `TraceMetricV2Spec`)**：bundle 中所有 metrics 的规范。
-- **`row` (repeated `Row`)**：每行包含维度值和该组维度的所有 metrics 值。
+- **`specs` (repeated `TraceMetricV2Spec`)** ：bundle 中所有 metrics 的规范。
+- **`row` (repeated `Row`)** ：每行包含维度值和该组维度的所有 metrics 值。
 
 ### [`PerfettoSqlStructuredQuery`](/protos/perfetto/perfetto_sql/structured_query.proto)
 
@@ -680,20 +680,20 @@ TAB: Command-line shell
 
 查询的源可以是以下之一：
 
-- **`table`**：PerfettoSQL 表或视图。
-- **`sql`**：任意 SQL `SELECT` 语句。
-- **`simple_slices`**：查询 `slice` 表的便利方法。
-- **`inner_query`**：嵌套结构化查询。
-- **`inner_query_id`**：对共享结构化查询的引用。
-- **`interval_intersect`**：`base` 数据源与一个或多个 `interval` 数据源的基于时间的交集。
+- **table** ：PerfettoSQL 表或视图。
+- **sql** ：任意 SQL `SELECT` 语句。
+- **simple_slices** ：查询 `slice` 表的便利方法。
+- **inner_query** ：嵌套结构化查询。
+- **inner_query_id** ：对共享结构化查询的引用。
+- **interval_intersect** ：`base` 数据源与一个或多个 `interval` 数据源的基于时间的交集。
 
 #### 查询操作
 
 这些操作按顺序应用于来自源的数据：
 
-- **`filters`**：用于过滤行的条件列表。
-- **`group_by`**：对行进行分组并应用聚合函数。
-- **`select_columns`**：选择并可选地重命名列。
+- **filters** ：用于过滤行的条件列表。
+- **group_by** ：对行进行分组并应用聚合函数。
+- **select_columns** ：选择并可选地重命名列。
 
 #### 聚合运算符
 
@@ -712,9 +712,9 @@ TAB: Command-line shell
 
 ##### 聚合字段要求
 
-- **`COUNT`**：`column_name` 是可选的。如果省略，则默认为 `COUNT(*)`。
-- **`SUM`、`MIN`、`MAX`、`MEAN`、`MEDIAN`、`DURATION_WEIGHTED_MEAN`**：需要 `column_name`。
-- **`PERCENTILE`**：需要 `column_name` 和 `percentile`。
+- **COUNT** ：`column_name` 是可选的。如果省略，则默认为 `COUNT(*)`。
+- **`SUM`、`MIN`、`MAX`、`MEAN`、`MEDIAN`、`DURATION_WEIGHTED_MEAN`** ：需要 `column_name`。
+- **PERCENTILE** ：需要 `column_name` 和 `percentile`。
 
 ##### 示例：计算第 99 百分位数
 
