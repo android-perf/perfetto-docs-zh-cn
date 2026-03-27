@@ -445,6 +445,33 @@ find . -name "*.html" ! -path "./.git/*" -exec sed -i '' 's|href="/perfetto-docs
 
 ---
 
+## 首页配置
+
+### 使用 README.md 作为首页
+
+默认情况下，Perfetto 官方构建系统会生成一个英文的营销首页（"System profiling, app tracing..."）。
+
+**要让首页显示中文文档的 README.md 内容**，部署脚本会自动进行以下修改：
+
+```
+# 修改 infra/perfetto.dev/BUILD.gn 中的 gen_index 目标
+md_to_html("gen_index") {
+  markdown = "${src_doc_dir}/README.md"        # 使用 README.md 作为内容
+  html_template = "src/template_markdown.html" # 使用 Markdown 模板
+  deps = [ ":gen_toc" ]
+  out_html = "index.html"
+}
+```
+
+**效果**：
+- 访问 `http://localhost:8082/` 或 `https://your-username.github.io/repo-name/`
+- 首页直接显示 "什么是 Perfetto?" 文档内容
+- 保留官方渲染样式（左侧导航栏、右侧目录等）
+
+**注意**：此修改由 `deploy.sh` 自动完成，无需手动操作。
+
+---
+
 ## 总结
 
 部署成功的关键要点：
@@ -454,5 +481,6 @@ find . -name "*.html" ! -path "./.git/*" -exec sed -i '' 's|href="/perfetto-docs
 3. ✅ **完整复制** - 确保 docs/ 目录完全替换
 4. ✅ **删除管理文件** - `.project/` 目录不属于构建系统
 5. ✅ **修复死链** - 删除指向不存在文件的引用
-6. ✅ **GitHub Pages 路径修复** - 所有绝对路径必须添加仓库名前缀
-7. ✅ **添加 .html 扩展名** - GitHub Pages 需要显式的文件扩展名
+6. ✅ **首页配置** - 自动修改 BUILD.gn 使用 README.md 作为首页
+7. ✅ **GitHub Pages 路径修复** - 所有绝对路径必须添加仓库名前缀
+8. ✅ **添加 .html 扩展名** - GitHub Pages 需要显式的文件扩展名
