@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>制作新的 SDK 发布 - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="制作新的 SDK 发布 - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/contributing/sdk-releasing">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/assets/favicon.png" />
+  <script type="text/javascript" src="/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/">
+      <img src="/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/docs/">Docs</a>
+  <a href="/docs/contributing/getting-started#community">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/docs/tracing-101">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/docs/getting-started/start-using-perfetto">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/docs/getting-started/system-tracing">系统 Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/in-app-tracing">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/memory-profiling">Memory Profiling</a></p>
+</li>
+<li><p><a href="/docs/getting-started/cpu-profiling">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/docs/getting-started/atrace">Android atrace</a></p>
+</li>
+<li><p><a href="/docs/getting-started/ftrace">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/getting-started/other-formats">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/docs/getting-started/converting">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/docs/getting-started/android-trace-analysis">分析 Android Trace</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/docs/case-studies/memory">Android 内存使用</a></p>
+</li>
+<li><p><a href="/docs/case-studies/scheduling-blockages">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/docs/concepts/config">Trace 配置</a></p>
+</li>
+<li><p><a href="/docs/concepts/buffers">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/docs/concepts/service-model">服务模型</a></p>
+</li>
+<li><p><a href="/docs/concepts/clock-sync">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/docs/learning-more/tracing-in-background">后台 Tracing</a></p>
+</li>
+<li><p><a href="/docs/learning-more/android">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/chrome-tracing">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/tracing-sdk">Tracing SDK</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/track-events">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/getting-started">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/analysis/stdlib-docs">标准库</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-syntax">语法</a></p>
+</li>
+<li><p><a href="/docs/analysis/style-guide">样式指南</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-backcompat">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-processor">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-processor-python">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-summary">Trace 汇总</a></p>
+</li>
+<li><p><a href="/docs/quickstart/traceconv">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/docs/visualization/perfetto-ui">Perfetto UI</a></p>
+</li>
+<li><p><a href="/docs/visualization/large-traces">打开大型 trace</a></p>
+</li>
+<li><p><a href="/docs/visualization/deep-linking-to-perfetto-ui">深度链接</a></p>
+</li>
+<li><p><a href="/docs/analysis/debug-tracks">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/docs/visualization/extending-the-ui">概述</a></p>
+</li>
+<li><p><a href="/docs/visualization/ui-automation">命令和宏</a></p>
+</li>
+<li><p><a href="/docs/visualization/extension-servers">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/docs/contributing/getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/contributing/common-tasks">常见任务</a></p>
+</li>
+<li><p><a href="/docs/contributing/become-a-committer">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/docs/contributing/ui-getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/contributing/ui-plugins">插件</a></p>
+</li>
+<li><p><a href="/docs/faq">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/native-heap-profiler">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/docs/data-sources/java-heap-profiler">Java 堆转储</a></p>
+</li>
+<li><p><a href="/docs/data-sources/memory-counters">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/cpu-scheduling">调度事件</a></p>
+</li>
+<li><p><a href="/docs/data-sources/syscalls">系统调用</a></p>
+</li>
+<li><p><a href="/docs/data-sources/cpu-freq">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/atrace">Atrace</a></p>
+</li>
+<li><p><a href="/docs/data-sources/android-log">Logcat</a></p>
+</li>
+<li><p><a href="/docs/data-sources/frametimeline">Frame Timeline</a></p>
+</li>
+<li><p><a href="/docs/data-sources/battery-counters">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/docs/data-sources/android-game-intervention-list">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/docs/reference/trace-packet-proto">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/docs/reference/synthetic-track-event">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/docs/reference/trace-config-proto">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/docs/concepts/concurrent-tracing-sessions">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/docs/concepts/detached-mode">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/docs/case-studies/android-boot-tracing">开机 Tracing</a></p>
+</li>
+<li><p><a href="/docs/case-studies/android-outofmemoryerror">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/docs/reference/android-version-notes">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/docs/reference/kernel-track-event">内核 track 事件</a></p>
+</li>
+<li><p><a href="/docs/data-sources/previous-boot-trace">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/docs/reference/perfetto-cli">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/docs/reference/traced">traced</a></p>
+</li>
+<li><p><a href="/docs/reference/traced_probes">traced_probes</a></p>
+</li>
+<li><p><a href="/docs/reference/heap_profile-cli">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/docs/reference/tracebox">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/docs/analysis/sql-tables">Prelude 表</a></p>
+</li>
+<li><p><a href="/docs/analysis/builtin">内置函数</a></p>
+</li>
+<li><p><a href="/docs/analysis/sql-stats">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/metrics">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/batch-trace-processor">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/deployment/deploying-bigtrace-on-a-single-machine">Bigtrace</a></p>
+</li>
+<li><p><a href="/docs/deployment/deploying-bigtrace-on-kubernetes">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/interceptors">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/docs/visualization/commands-automation-reference">命令自动化参考</a></p>
+</li>
+<li><p><a href="/docs/visualization/extension-server-protocol">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/docs/contributing/build-instructions">构建</a></p>
+</li>
+<li><p><a href="/docs/contributing/testing">测试</a></p>
+</li>
+<li><p><a href="/docs/contributing/developer-tools">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/docs/contributing/sdk-releasing">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/docs/contributing/python-releasing">Python 发布流程</a></p>
+</li>
+<li><p><a href="/docs/visualization/perfetto-ui-release-process">UI 发布流程</a></p>
+</li>
+<li><p><a href="/docs/contributing/chrome-branches">Chrome 分支</a></p>
+</li>
+<li><p><a href="/docs/contributing/sqlite-upgrade-guide">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/docs/design-docs/api-and-abi">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/docs/design-docs/life-of-a-tracing-session">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/docs/design-docs/protozero">ProtoZero</a></p>
+</li>
+<li><p><a href="/docs/design-docs/security-model">安全模型</a></p>
+</li>
+<li><p><a href="/docs/design-docs/checkpoint-atoms">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/docs/design-docs/batch-trace-processor">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/design-docs/trace-processor-architecture">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-design">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-wire-protocol">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-sampling">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/docs/design-docs/continuous-integration">Perfetto CI</a></p>
+</li>
+<li><p><a href="/docs/design-docs/lock-free-task-runner">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/contributing/sdk-releasing">
+    <h1>制作新的 SDK 发布</h1><p>本指南展示如何制作新的 Perfetto SDK 发布。</p>
+<p>在快照发布之前，检查没有打开的<a href="http://b/savedsearches/5776355">发布阻止项</a>。</p>
+<p>签出代码，然后为新发布决定版本号（vX.Y）。
+主版本号（X）在每次发布时递增（每月）。
+次要版本号仅在每月发布之上的次要更改/修复时递增（在 releases/vN.x 分支上的 cherry-pick）。</p>
+<p>继续下面的适当部分。</p>
+<h2><a name="a-" class="anchor" href="#a-"></a>a) 创建新的主版本</h2><p>确保当前的 main 分支在
+<a href="https://luci-scheduler.appspot.com/jobs/perfetto">LUCI</a> 上构建，方法是触发所有
+构建并等待它们成功。如果任何构建失败，请在继续之前在 main 上修复失败。</p>
+<p>在 CHANGELOG 中创建一个新主版本的条目：这通常涉及
+将&quot;Unreleased&quot;条目重命名为你之前选择的版本号
+(<a href="https://r.android.com/2417175">示例</a>)。</p>
+<p>测试 perfetto 构建工具可以解析 CHANGELOG：构建后，
+运行 <code>perfetto --version</code> 应该显示你的新版本号。</p>
+<p>上传 CHANGELOG 更改并在 main 分支上提交它。</p>
+<p>为新主版本创建发布分支(这里是&quot;v16.x&quot;):</p>
+<code class="hljs code-block">git fetch origin
+git push origin origin/main:refs/heads/releases/v16.x
+git fetch origin
+git checkout -b releases/v16.x -t origin/releases/v16.x</code><p>继续<a href="#building-and-tagging-the-release">构建发布</a>。</p>
+<h2><a name="b-" class="anchor" href="#b-"></a>b) 提升次要版本</h2><p>签出现有发布分支（这里是&quot;5.x&quot;）并合并新发布所需的
+修订，解决你可能遇到的任何冲突。</p>
+<code class="hljs code-block">git checkout -b releases/v16.x -t origin/releases/v16.x</code><p>如果你只想在新发布中引入一个或两个补丁，请考虑
+单独 cherry-pick 它们：</p>
+<code class="hljs code-block">git cherry-pick &lt;sha1&gt;</code><p>否则，你可以进行完整合并：</p>
+<code class="hljs code-block">git merge &lt;sha1&gt;</code><p>使用新次要版本的专用条目更新 CHANGELOG。
+这很重要，因为
+由构建系统调用的 <a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//tools/write_version_header.py">write_version_header.py</a> 脚本
+查看 CHANGELOG 以找出最新的
+v${maj}.${min} 版本。</p>
+<p>有关示例，请参阅 <a href="https://r.android.com/1730332">r.android.com/1730332</a></p>
+<code class="hljs code-block">v16.1 - 2021-06-08:
+ Tracing service and probes:
+  - Cherry-pick of r.android.com/1716718 which missed to v16 branch ... .
+
+
+v16.0 - 2021-06-01:
+ ...</code><h2><a name="-" class="anchor" href="#-"></a>标记发布</h2><ol>
+<li>一旦发布的所有更改都已合并到发布分支中，
+ 为其创建并推送标记（&quot;vX.Y&quot;是新版本）。</li>
+</ol>
+<code class="hljs code-block"><span class="hljs-comment"># 确保分支是最新的</span>
+git pull
+
+git status
+<span class="hljs-comment"># 应该打印:Your branch is up to date with &#x27;origin/releases/v16.x&#x27;。</span>
+<span class="hljs-comment"># 如果你的分支与 origin/releases/vX.X 分歧，请勿继续</span>
+
+git tag -a -m <span class="hljs-string">&quot;Perfetto vX.Y&quot;</span> vX.Y
+git push origin vX.Y</code><ol start="2">
+<li>更新文档以指向最新发布。</li>
+</ol>
+<ul>
+<li><a href="/docs/instrumentation/tracing-sdk">docs/instrumentation/tracing-sdk.md</a></li>
+<li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//examples/sdk/README.md">examples/sdk/README.md</a></li>
+</ul>
+<ol start="6">
+<li>发送一封带有 CHANGELOG 的电子邮件到 perfetto-dev@，抄送 perfetto-announce@
+ （内部 - 执行前请确保你有权限）和
+ <a href="https://groups.google.com/forum/#!forum/perfetto-dev">公开 perfetto-dev</a>。</li>
+</ol>
+<h2><a name="-sdk-github-" class="anchor" href="#-sdk-github-"></a>使用预构建和 SDK 源代码创建 GitHub 发布</h2><ol start="3">
+<li><p>几分钟内，LUCI 调度器将触发 <a href="https://luci-scheduler.appspot.com/jobs/perfetto">https://luci-scheduler.appspot.com/jobs/perfetto</a> 上的预构建二进制文件构建。
+ 等待所有机器人成功完成并返回到 WAITING 状态。</p>
+</li>
+<li><p>在运行打包脚本之前签出发布标记：</p>
+</li>
+</ol>
+<code class="hljs code-block">git checkout vX.Y</code><ol start="5">
+<li>运行 <code>tools/release/package-github-release-artifacts vX.Y</code>。这将：</li>
+</ol>
+<ul>
+<li><p>验证工作目录是干净的(没有未提交的更改)</p>
+</li>
+<li><p>验证你在正确的 git 标记（vX.Y）上</p>
+</li>
+<li><p>从 LUCI 下载预构建二进制文件</p>
+</li>
+<li><p>从当前检出生成合并的 SDK 源文件</p>
+</li>
+<li><p>将所有内容打包到 <code>/tmp/perfetto-vX.Y-github-release/</code></p>
+</li>
+<li><p>必须总共有 12 个 zip 文件：</p>
+</li>
+<li><p>10 个预构建二进制文件：linux-{arm,arm64,amd64},
+ android-{arm,arm64,x86,x64}, mac-{amd64,arm64}, win-amd64</p>
+</li>
+<li><p>2 个 SDK 源代码 zip:perfetto-cpp-sdk-src.zip, perfetto-c-sdk-src.zip</p>
+</li>
+<li><p>如果一个或多个预构建 zip 缺失，这意味着 LUCI 机器人之一失败，
+ 检查 Log(遵循调用 Log 中的&quot;Task URL: &quot;链接)。</p>
+</li>
+<li><p>如果发生这种情况，你需要使用修复重新生成 vX.(Y+1) 发布
+ (查看历史 v20.1，其中 Windows 失败需要重新生成)。</p>
+</li>
+</ul>
+<ol start="6">
+<li>打开 <a href="https://github.com/google/perfetto/releases/new">https://github.com/google/perfetto/releases/new</a> 并</li>
+</ol>
+<ul>
+<li>选择&quot;Choose Tag&quot; -&gt; vX.Y</li>
+<li>&quot;Release title&quot; -&gt; &quot;Perfetto vX.Y&quot;</li>
+<li>&quot;Describe release&quot; -&gt; 复制 CHANGELOG，将其包装在三重反引号中。</li>
+<li>&quot;Attach binaries&quot; -&gt; 附加上一步中的所有十二个 .zip 文件
+ (10 个预构建二进制文件 + 2 个 SDK 源代码 zip)。</li>
+</ul>
+<ol start="7">
+<li><p>运行 <code>tools/roll-prebuilts vX.Y</code>。它将更新 <code>tools/</code> 下各种脚本中的 SHA256。
+ 上传带有更改的 CL。</p>
+</li>
+<li><p>发送一封带有 CHANGELOG 的电子邮件到 perfetto-dev@（内部）和
+ <a href="https://groups.google.com/forum/#!forum/perfetto-dev">公开 perfetto-dev</a>。</p>
+</li>
+<li><p>呼，你完成了！</p>
+</li>
+</ol>
+
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

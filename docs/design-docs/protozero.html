@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Protozero 设计文档 - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="Protozero 设计文档 - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/design-docs/protozero">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/assets/favicon.png" />
+  <script type="text/javascript" src="/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/">
+      <img src="/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/docs/">Docs</a>
+  <a href="/docs/contributing/getting-started#community">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/docs/tracing-101">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/docs/getting-started/start-using-perfetto">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/docs/getting-started/system-tracing">系统 Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/in-app-tracing">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/memory-profiling">Memory Profiling</a></p>
+</li>
+<li><p><a href="/docs/getting-started/cpu-profiling">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/docs/getting-started/atrace">Android atrace</a></p>
+</li>
+<li><p><a href="/docs/getting-started/ftrace">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/getting-started/other-formats">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/docs/getting-started/converting">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/docs/getting-started/android-trace-analysis">分析 Android Trace</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/docs/case-studies/memory">Android 内存使用</a></p>
+</li>
+<li><p><a href="/docs/case-studies/scheduling-blockages">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/docs/concepts/config">Trace 配置</a></p>
+</li>
+<li><p><a href="/docs/concepts/buffers">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/docs/concepts/service-model">服务模型</a></p>
+</li>
+<li><p><a href="/docs/concepts/clock-sync">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/docs/learning-more/tracing-in-background">后台 Tracing</a></p>
+</li>
+<li><p><a href="/docs/learning-more/android">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/chrome-tracing">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/tracing-sdk">Tracing SDK</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/track-events">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/getting-started">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/analysis/stdlib-docs">标准库</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-syntax">语法</a></p>
+</li>
+<li><p><a href="/docs/analysis/style-guide">样式指南</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-backcompat">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-processor">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-processor-python">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-summary">Trace 汇总</a></p>
+</li>
+<li><p><a href="/docs/quickstart/traceconv">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/docs/visualization/perfetto-ui">Perfetto UI</a></p>
+</li>
+<li><p><a href="/docs/visualization/large-traces">打开大型 trace</a></p>
+</li>
+<li><p><a href="/docs/visualization/deep-linking-to-perfetto-ui">深度链接</a></p>
+</li>
+<li><p><a href="/docs/analysis/debug-tracks">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/docs/visualization/extending-the-ui">概述</a></p>
+</li>
+<li><p><a href="/docs/visualization/ui-automation">命令和宏</a></p>
+</li>
+<li><p><a href="/docs/visualization/extension-servers">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/docs/contributing/getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/contributing/common-tasks">常见任务</a></p>
+</li>
+<li><p><a href="/docs/contributing/become-a-committer">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/docs/contributing/ui-getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/contributing/ui-plugins">插件</a></p>
+</li>
+<li><p><a href="/docs/faq">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/native-heap-profiler">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/docs/data-sources/java-heap-profiler">Java 堆转储</a></p>
+</li>
+<li><p><a href="/docs/data-sources/memory-counters">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/cpu-scheduling">调度事件</a></p>
+</li>
+<li><p><a href="/docs/data-sources/syscalls">系统调用</a></p>
+</li>
+<li><p><a href="/docs/data-sources/cpu-freq">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/atrace">Atrace</a></p>
+</li>
+<li><p><a href="/docs/data-sources/android-log">Logcat</a></p>
+</li>
+<li><p><a href="/docs/data-sources/frametimeline">Frame Timeline</a></p>
+</li>
+<li><p><a href="/docs/data-sources/battery-counters">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/docs/data-sources/android-game-intervention-list">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/docs/reference/trace-packet-proto">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/docs/reference/synthetic-track-event">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/docs/reference/trace-config-proto">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/docs/concepts/concurrent-tracing-sessions">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/docs/concepts/detached-mode">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/docs/case-studies/android-boot-tracing">开机 Tracing</a></p>
+</li>
+<li><p><a href="/docs/case-studies/android-outofmemoryerror">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/docs/reference/android-version-notes">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/docs/reference/kernel-track-event">内核 track 事件</a></p>
+</li>
+<li><p><a href="/docs/data-sources/previous-boot-trace">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/docs/reference/perfetto-cli">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/docs/reference/traced">traced</a></p>
+</li>
+<li><p><a href="/docs/reference/traced_probes">traced_probes</a></p>
+</li>
+<li><p><a href="/docs/reference/heap_profile-cli">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/docs/reference/tracebox">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/docs/analysis/sql-tables">Prelude 表</a></p>
+</li>
+<li><p><a href="/docs/analysis/builtin">内置函数</a></p>
+</li>
+<li><p><a href="/docs/analysis/sql-stats">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/metrics">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/batch-trace-processor">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/deployment/deploying-bigtrace-on-a-single-machine">Bigtrace</a></p>
+</li>
+<li><p><a href="/docs/deployment/deploying-bigtrace-on-kubernetes">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/interceptors">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/docs/visualization/commands-automation-reference">命令自动化参考</a></p>
+</li>
+<li><p><a href="/docs/visualization/extension-server-protocol">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/docs/contributing/build-instructions">构建</a></p>
+</li>
+<li><p><a href="/docs/contributing/testing">测试</a></p>
+</li>
+<li><p><a href="/docs/contributing/developer-tools">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/docs/contributing/sdk-releasing">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/docs/contributing/python-releasing">Python 发布流程</a></p>
+</li>
+<li><p><a href="/docs/visualization/perfetto-ui-release-process">UI 发布流程</a></p>
+</li>
+<li><p><a href="/docs/contributing/chrome-branches">Chrome 分支</a></p>
+</li>
+<li><p><a href="/docs/contributing/sqlite-upgrade-guide">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/docs/design-docs/api-and-abi">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/docs/design-docs/life-of-a-tracing-session">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/docs/design-docs/protozero">ProtoZero</a></p>
+</li>
+<li><p><a href="/docs/design-docs/security-model">安全模型</a></p>
+</li>
+<li><p><a href="/docs/design-docs/checkpoint-atoms">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/docs/design-docs/batch-trace-processor">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/design-docs/trace-processor-architecture">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-design">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-wire-protocol">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-sampling">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/docs/design-docs/continuous-integration">Perfetto CI</a></p>
+</li>
+<li><p><a href="/docs/design-docs/lock-free-task-runner">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/design-docs/protozero">
+    <h1>Protozero 设计文档</h1><p>Protozero 是专为 Perfetto 跟踪用例量身定制的零拷贝、零分配、零系统调用的 protobuf 序列化库。</p>
+<h2><a name="-" class="anchor" href="#-"></a>动机</h2><p>Protozero 专为所有 Perfetto tracing 路径中使用的 proto 序列化进行了设计和优化。反序列化仅在项目后期引入，主要由离线工具使用（例如，[TraceProcessor](/docs/analysis/trace-processor.md）。<em>零拷贝、零分配、零系统调用</em> 语句仅适用于序列化代码。</p>
+<p>Perfetto 在 tracing 快速路径中广泛使用 protobuf。Perfetto 中的每个 trace 事件都是一个 proto(请参阅 <a href="/docs/reference/trace-packet-proto">TracePacket</a> 参考)。这允许事件具有强类型，并使团队更容易使用一种普遍理解的语言来保持向后兼容性。</p>
+<p>跟踪快速路径必须具有非常低的开销，因为检测点散布在 Android 和 Chrome 等项目的代码库中，并且对性能至关重要。</p>
+<p>此处的开销不仅定义为执行检测点所需的 CPU 时间（或退休的指令）。tracing 系统中的一个主要开销源是检测点的工作集，具体来说是额外的 I 缓存和 D 缓存未命中，这会减慢 tracing 检测点之后的非 tracing 代码的速度。</p>
+<p>Protozero 与规范 C++ protobuf 库如 <a href="https://github.com/google/protobuf">libprotobuf</a> 的主要设计区别在于：</p>
+<ul>
+<li><p>将序列化和反序列化视为由不同代码服务的不同用例。</p>
+</li>
+<li><p>优化序列化路径的二进制大小和工作集大小。</p>
+</li>
+<li><p>忽略 protobuf 的大部分错误检查和长尾功能（repeated vs optional、完整类型检查）。</p>
+</li>
+<li><p>Protozero 不设计为通用的 protobuf 反/序列化，并且大量自定义以保持跟踪写入代码最小，并允许编译器查看架构层。</p>
+</li>
+<li><p>Protozero 生成的代码必须是隔离的。当构建合并的 <a href="/docs/instrumentation/tracing-sdk">Tracing SDK</a> 时，所有 perfetto 跟踪源必须不依赖于 C+- 标准库和 C 库以外的任何其他库。</p>
+</li>
+</ul>
+<h2><a name="-" class="anchor" href="#-"></a>使用</h2><p>在构建系统级别，Protozero 与传统的 libprotobuf 库非常相似。
+Protozero <code>.proto -&gt; .pbzero.{cc,h}</code> 编译器基于 libprotobuf 解析器和编译器基础设施。Protozero 是一个 <code>protoc</code> 编译器插件。</p>
+<p>Protozero 在构建时对 libprotobuf 有依赖（插件依赖于 libprotobuf 的解析器和编译器）。但是，由它生成的 <code>.pbzero.{cc,h}</code> 代码对 libprotobuf 没有运行时依赖（甚至没有仅头文件的依赖）。</p>
+<p>为了从 proto 生成 Protozero 存根，你需要：</p>
+<ol>
+<li>构建 Protozero 编译器插件，位于 <a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//src/protozero/protoc_plugin/">src/protozero/protoc_plugin/</a>。</li>
+</ol>
+<code class="hljs code-block">tools/ninja -C out/default protozero_plugin protoc</code><ol start="2">
+<li>调用 libprotobuf <code>protoc</code> 编译器传递 <code>protozero_plugin</code>:</li>
+</ol>
+<code class="hljs code-block">out/default/protoc \
+--plugin=protoc-gen-plugin=out/default/protozero_plugin \
+--plugin_out=wrapper_namespace=pbzero:/tmp/ \
+test_msg.proto</code><p> 这会生成 <code>/tmp/test_msg.pbzero.{cc,h}</code>。</p>
+<p> 注意:.cc 文件始终为空。Protozero 生成的代码仅是头文件。发出 .cc 文件仅因为某些构建系统的规则假设 protobuf 代码生成生成 .cc 和 .h 文件。</p>
+<h2><a name="proto-" class="anchor" href="#proto-"></a>Proto 序列化</h2><p>理解 Protozero 设计原则的最快方法是从一个小示例开始，并比较 libprotobuf 和 Protozero 之间生成的代码。</p>
+<code class="hljs code-block">syntax = <span class="hljs-string">&quot;proto2&quot;</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">TestMsg</span> </span>{
+ <span class="hljs-keyword">optional</span> <span class="hljs-built_in">string</span> str_val = <span class="hljs-number">1</span>;
+ <span class="hljs-keyword">optional</span> <span class="hljs-built_in">int32</span> int_val = <span class="hljs-number">2</span>;
+ <span class="hljs-keyword">repeated</span> TestMsg nested = <span class="hljs-number">3</span>;
+}</code><h4>libprotobuf 方法</h4><p>libprotobuf 方法是生成一个 C++ 类，它为每个 proto 字段有一个成员，并具有专用的序列化和反序列化方法。</p>
+<code class="hljs code-block">out/default/protoc --cpp_out=. test_msg.proto</code><p>生成 test_msg.pb.{cc,h}。经过许多简化，它看起来如下：</p>
+<code class="hljs code-block"><span class="hljs-comment">// 此类由标准 protoc 编译器在 .pb.h 源中生成。</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestMsg</span> :</span> <span class="hljs-keyword">public</span> protobuf::MessageLite {
+ <span class="hljs-keyword">private</span>:
+ int32 int_val_;
+ ArenaStringPtr str_val_;
+ RepeatedPtrField&lt;TestMsg&gt; nested_; <span class="hljs-comment">// 实际上是 vector&lt;TestMsg&gt;</span>
+
+ <span class="hljs-keyword">public</span>:
+ <span class="hljs-function"><span class="hljs-keyword">const</span> std::string&amp; <span class="hljs-title">str_val</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span>;
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_str_val</span><span class="hljs-params">(<span class="hljs-keyword">const</span> std::string&amp; value)</span></span>;
+
+ <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">has_int_val</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span>;
+ <span class="hljs-function"><span class="hljs-keyword">int32_t</span> <span class="hljs-title">int_val</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span>;
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_int_val</span><span class="hljs-params">(<span class="hljs-keyword">int32_t</span> value)</span></span>;
+
+ ::<span class="hljs-function">TestMsg* <span class="hljs-title">add_nested</span><span class="hljs-params">()</span></span>;
+ ::<span class="hljs-function">TestMsg* <span class="hljs-title">mutable_nested</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index)</span></span>;
+ <span class="hljs-function"><span class="hljs-keyword">const</span> TestMsg&amp; <span class="hljs-title">nested</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index)</span></span>;
+
+ <span class="hljs-function">std::string <span class="hljs-title">SerializeAsString</span><span class="hljs-params">()</span></span>;
+ <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">ParseFromString</span><span class="hljs-params">(<span class="hljs-keyword">const</span> std::string&amp;)</span></span>;
+}</code><p>这些存根的主要特征是：</p>
+<ul>
+<li><p>从 .proto 消息生成的代码可以在代码库中用作通用对象，而无需使用 <code>SerializeAs*()</code> 或 <code>ParseFrom*()</code> 方法（尽管轶事证据表明大多数项目仅在反/序列化端点使用这些 proto 生成的类）。</p>
+</li>
+<li><p>序列化 proto 的端到端旅程涉及两个步骤：</p>
+</li>
+</ul>
+<ol>
+<li>设置生成类的各个 int / string / vector 字段。</li>
+<li>对这些字段进行序列化传递。</li>
+</ol>
+<p> 依次，这会对生成的代码产生副作用。字符串和向量的 STL 复制/赋值运算符是非平凡的，因为，例如，它们需要处理动态内存调整大小。</p>
+<h4>Protozero 方法</h4><code class="hljs code-block"><span class="hljs-comment">// 此类由 .pbzero.h 源中的 Protozero 插件生成。</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestMsg</span> :</span> <span class="hljs-keyword">public</span> protozero::Message {
+ <span class="hljs-keyword">public</span>:
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_str_val</span><span class="hljs-params">(<span class="hljs-keyword">const</span> std::string&amp; value)</span> </span>{
+ <span class="hljs-built_in">AppendBytes</span>(<span class="hljs-comment">/*field_id=*/</span><span class="hljs-number">1</span>, value.<span class="hljs-built_in">data</span>(), value.<span class="hljs-built_in">size</span>());
+ }
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_str_val</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* data, <span class="hljs-keyword">size_t</span> size)</span> </span>{
+ <span class="hljs-built_in">AppendBytes</span>(<span class="hljs-comment">/*field_id=*/</span><span class="hljs-number">1</span>, data, size);
+ }
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_int_val</span><span class="hljs-params">(<span class="hljs-keyword">int32_t</span> value)</span> </span>{
+ <span class="hljs-built_in">AppendVarInt</span>(<span class="hljs-comment">/*field_id=*/</span><span class="hljs-number">2</span>, value);
+ }
+ <span class="hljs-function">TestMsg* <span class="hljs-title">add_nested</span><span class="hljs-params">()</span> </span>{
+ <span class="hljs-keyword">return</span> BeginNestedMessage&lt;TestMsg&gt;(<span class="hljs-comment">/*field_id=*/</span><span class="hljs-number">3</span>);
+ }
+}</code><p>Protozero 生成的存根是仅追加的。随着调用 <code>set_*</code>、<code>add_*</code> 方法，传递的参数直接序列化到目标缓冲区中。这引入了一些限制：</p>
+<ul>
+<li><p>不可能读回：这些类不能用作 C+- 结构的替代品。</p>
+</li>
+<li><p>不执行错误检查：如果调用者意外调用两次 <code>set_*()</code> 方法，没有什么可以阻止在序列化的 proto 中两次发出非重复字段。尽管如此，仍在编译时执行基本类型检查。</p>
+</li>
+<li><p>嵌套字段必须以堆栈方式填充，并且不能交错写入。一旦开始嵌套消息，必须在返回设置父消息的字段之前设置其字段。事实证明，对于大多数跟踪用例，这不会成为问题。</p>
+</li>
+</ul>
+<p>这有许多优点：</p>
+<ul>
+<li><p>Protozero 生成的类在它们派生的基类（<code>protozero::Message</code>）之上不添加任何额外状态。它们只定义调用基类序列化方法的内联 setter 方法。编译器可以看到这些方法的所有内联扩展。</p>
+</li>
+<li><p>因此，Protozero 的二进制成本独立于定义的 protobuf 消息的数量及其字段，并且仅取决于 <code>set_*</code>/<code>add_*</code> 调用的数量。这（即未使用的 proto 消息和字段的二进制成本）在 libprotobuf 中轶事地是一个大问题。</p>
+</li>
+<li><p>序列化方法不涉及任何复制或动态分配。内联扩展直接调用 <code>protozero::Message</code> 的相应 <code>AppendVarInt()</code> / <code>AppendString()</code> 方法。</p>
+</li>
+<li><p>这允许直接将 trace 事件序列化到 <a href="/docs/concepts/buffers">tracing 共享内存缓冲区</a>，即使它们不是连续的。</p>
+</li>
+</ul>
+<h3><a name="-" class="anchor" href="#-"></a>分散缓冲区写入</h3><p>Protozero 设计的一个关键部分是支持在非全局连续的连续内存区域序列上直接序列化。</p>
+<p>这是通过将所有生成类的基类 <code>protozero::Message</code> 与 <code>protozero::ScatteredStreamWriter</code> 分离来实现的。它解决的问题如下：Protozero 基于直接序列化到共享内存缓冲区 chunks。这些 chunks 在大多数情况下为 4KB - 32KB。同时，调用者将尝试写入单个消息的数据量没有限制，trace 事件可能高达 256 MiB。</p>
+<p><img src="/docs/images/protozero-ssw.png" alt="Protozero scattered buffers diagram"></p>
+<h4>快速路径</h4><p>在所有时间，底层的 <code>ScatteredStreamWriter</code> 知道当前缓冲区的边界。所有写操作都进行边界检查，并在跨越缓冲区边界时命中慢速路径。</p>
+<p>大多数写操作可以在当前缓冲区边界内完成。在这种情况下，<code>set_*</code> 操作的成本本质上是 <code>memcpy()</code>，并带有 protobuf 前缀和长度限定字段的 var-int 编码的额外开销。</p>
+<h4>慢速路径</h4><p>跨越边界时，慢速路径请求 <code>ScatteredStreamWriter::Delegate</code> 提供新缓冲区。<code>GetNewBuffer()</code> 的实现由客户端决定。在跟踪用例中，该调用将从跟踪共享内存缓冲区获取新的线程本地 chunk。</p>
+<p>也可以实现其他基于堆的实现。例如，Protozero 源提供了一个辅助类 <code>HeapBuffered&lt;TestMsg&gt;</code>，主要用于测试(请参阅 <a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//include/perfetto/protozero/scattered_heap_buffer.h">scattered_heap_buffer.h</a>)，它在跨越当前缓冲区的边界时分配新的堆缓冲区。</p>
+<p>考虑以下示例：</p>
+<code class="hljs code-block">TestMsg outer_msg;
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">1000</span>; i++) {
+ TestMsg* nested = outer_msg.<span class="hljs-built_in">add_nested</span>();
+ nested-&gt;<span class="hljs-built_in">set_int_val</span>(<span class="hljs-number">42</span>);
+}</code><p>在某个时候，其中一个 <code>set_int_val()</code> 调用将命中慢速路径并获取新缓冲区。整体想法是拥有一个大多数时候极其轻量级的序列化机制，并且在缓冲区边界需要一些额外的函数调用，以便它们的成本在所有 trace 事件上摊销。</p>
+<p>在整个 Perfetto tracing 用例的上下文中，慢速路径涉及获取进程本地互斥锁并在共享内存缓冲区中找到下一个可用 chunk。因此，只要写入在线程本地 chunk 内发生，写入就是无锁的，并且每 4KB-32KB（取决于 tracing 配置）获取一个新 chunk 需要一次临界区。</p>
+<p>假设两个线程同时跨越 chunk 边界并调用 <code>GetNewBuffer()</code> 的可能性极低，因此临界区在大多数情况下是无竞争的。</p>
+<div class="mermaid">sequenceDiagram
+ participant C as 调用站点
+ participant M as Message
+ participant SSR as ScatteredStreamWriter
+ participant DEL as Buffer Delegate
+ C->>M: set_int_val(...)
+ activate C
+ M->>SSR: AppendVarInt(...)
+ deactivate C
+ Note over C,SSR: 快速路径上的典型写入
+
+ C->>M: set_str_val(...)
+ activate C
+ M->>SSR: AppendString(...)
+ SSR->>DEL: GetNewBuffer(...)
+ deactivate C
+ Note over C,DEL: 跨越 4KB - 32KB chunks 时的慢速路径写入。</div><h3><a name="-" class="anchor" href="#-"></a>延迟修补</h3><p>protobuf 二进制编码中的嵌套消息以其 varint 编码的大小为前缀。</p>
+<p>考虑以下内容：</p>
+<code class="hljs code-block">TestMsg* nested = outer_msg.<span class="hljs-built_in">add_nested</span>();
+nested-&gt;<span class="hljs-built_in">set_int_val</span>(<span class="hljs-number">42</span>);
+nested-&gt;<span class="hljs-built_in">set_str_val</span>(<span class="hljs-string">&quot;foo&quot;</span>);</code><p>使用 libprotobuf 的此 protobuf 消息的规范编码将是：</p>
+<code class="hljs code-block">1a 07 0a 03 66 6f 6f 10 2a
+^-+-^ ^-----+------^ ^-+-^
+ | | |
+ | | +--&gt; 字段 ID: 2 [int_val], value = 42。
+ | |
+ | +------&gt; 字段 ID: 1 [str_val], len = 3, value = <span class="hljs-string">&quot;foo&quot;</span> (66 6f 6f)。
+ |
+ +------&gt; 字段 ID: 3 [nested], length: 7 <span class="hljs-comment"># !!!</span></code><p>此序列中的第二个字节（07）对于直接编码是有问题的。在调用 <code>outer_msg.add_nested()</code> 时，我们无法预先知道嵌套消息的总体大小（在这种情况下，5 + 2 = 7）。</p>
+<p>我们在 Protozero 中解决此问题的方法是为每个嵌套消息的 <em>大小</em> 保留四个字节，并在消息完成时（或当我们尝试设置父消息之一的字段时）回填它们。我们通过使用冗余 varint 编码对消息的大小进行编码来做到这一点，在这种情况下：<code>87 80 80 00</code> 而不是 <code>07</code>。</p>
+<p>在 C++ 级别，<code>protozero::Message</code> 类保存指向其 <code>size</code> 字段的指针，该指针通常指向消息的开头，其中保留了四个字节，并在 <code>Message::Finalize()</code> 传递中回填它。</p>
+<p>这对于整个消息位于一个连续缓冲区中的情况工作正常，但在消息可能跨越缓冲区边界时会带来进一步的挑战：消息可能很大 MB。从整体跟踪角度来看，保存消息开始的共享内存缓冲区 chunk 可能已经消失（即已提交到中央服务缓冲区），当我们到达结束时。</p>
+<p>为了支持此用例，在跟踪代码级别（在 Protozero 之外），当消息跨越缓冲区边界时，其 <code>size</code> 字段被重定向到临时修补缓冲区(请参阅 <a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//src/tracing/core/patch_list.h">patch_list.h</a>)。此修补缓冲区随后带外发送，通过下一个提交 IPC 进行(请参阅 <a href="/docs/design-docs/api-and-abi#tracing-protocol-abi">跟踪协议 ABI</a>)</p>
+<h3><a name="-" class="anchor" href="#-"></a>性能特征</h3><p class="callout note">NOTE: 有关基准测试的完整代码，请参阅 <code>/src/protozero/test/protozero_benchmark.cc</code></p>
+<p>我们考虑两种场景：写入简单事件和嵌套事件</p>
+<h4>简单事件</h4><p>包含用 4 个整数（2 x 32 位、2 x 64 位）和 32 字节字符串填充平面 proto 消息，如下所示：</p>
+<code class="hljs code-block"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">FillMessage_Simple</span><span class="hljs-params">(T* msg)</span> </span>{
+ msg-&gt;<span class="hljs-built_in">set_field_int32</span>(...);
+ msg-&gt;<span class="hljs-built_in">set_field_uint32</span>(...);
+ msg-&gt;<span class="hljs-built_in">set_field_int64</span>(...);
+ msg-&gt;<span class="hljs-built_in">set_field_uint64</span>(...);
+ msg-&gt;<span class="hljs-built_in">set_field_string</span>(...);
+}</code><h4>嵌套事件</h4><p>包含类似的递归嵌套 3 层深的消息：</p>
+<code class="hljs code-block"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">FillMessage_Nested</span><span class="hljs-params">(T* msg, <span class="hljs-keyword">int</span> depth = <span class="hljs-number">0</span>)</span> </span>{
+ <span class="hljs-built_in">FillMessage_Simple</span>(msg);
+ <span class="hljs-keyword">if</span> (depth &lt; <span class="hljs-number">3</span>) {
+ <span class="hljs-keyword">auto</span>* child = msg-&gt;<span class="hljs-built_in">add_field_nested</span>();
+ <span class="hljs-built_in">FillMessage_Nested</span>(child, depth + <span class="hljs-number">1</span>);
+ }
+}</code><h4>比较条款</h4><p>我们比较相同消息类型的 Protozero、libprotobuf 和光速序列化器的性能。</p>
+<p>光速序列化器是一个非常简单的 C++ 类，只是将数据附加到线性缓冲区中，对所有类型的假设都是有利的。它不使用任何二进制稳定编码，不执行边界检查，所有写入都是 64 位对齐的，它不处理任何线程安全。</p>
+<code class="hljs code-block"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">SOLMsg</span> {</span>
+ <span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Append</span><span class="hljs-params">(T x)</span> </span>{
+ <span class="hljs-comment">// memcpy 将被编译器省略，后者只发出一条 64 位对齐 mov 指令。</span>
+ <span class="hljs-built_in">memcpy</span>(<span class="hljs-keyword">reinterpret_cast</span>&lt;<span class="hljs-keyword">void</span>*&gt;(ptr_), &amp;x, <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(x));
+ ptr_ += <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(x);
+ }
+
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_field_int32</span><span class="hljs-params">(<span class="hljs-keyword">int32_t</span> x)</span> </span>{ <span class="hljs-built_in">Append</span>(x); }
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_field_uint32</span><span class="hljs-params">(<span class="hljs-keyword">uint32_t</span> x)</span> </span>{ <span class="hljs-built_in">Append</span>(x); }
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_field_int64</span><span class="hljs-params">(<span class="hljs-keyword">int64_t</span> x)</span> </span>{ <span class="hljs-built_in">Append</span>(x); }
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_field_uint64</span><span class="hljs-params">(<span class="hljs-keyword">uint64_t</span> x)</span> </span>{ <span class="hljs-built_in">Append</span>(x); }
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_field_string</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* str)</span> </span>{ ptr_ = <span class="hljs-built_in">strcpy</span>(ptr_, str); }
+
+ <span class="hljs-built_in"><span class="hljs-keyword">alignas</span></span>(<span class="hljs-keyword">uint64_t</span>) <span class="hljs-keyword">char</span> storage_[<span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(g_fake_input_simple) + <span class="hljs-number">8</span>];
+ <span class="hljs-keyword">char</span>* ptr_ = &amp;storage_[<span class="hljs-number">0</span>];
+};</code><p>光速序列化器作为参考，如果参数封送和边界检查是零成本，_序列化器可能有多快_。</p>
+<h4>基准测试结果</h4><h5>Google Pixel 3 - aarch64</h5><code class="hljs code-block">$ cat out/droid_arm64/args.gn
+target_os = <span class="hljs-string">&quot;android&quot;</span>
+is_clang = <span class="hljs-literal">true</span>
+is_debug = <span class="hljs-literal">false</span>
+target_cpu = <span class="hljs-string">&quot;arm64&quot;</span>
+
+$ ninja -C out/droid_arm64/ perfetto_benchmarks &amp;&amp; \
+ adb push --sync out/droid_arm64/perfetto_benchmarks /data/<span class="hljs-built_in">local</span>/tmp/perfetto_benchmarks &amp;&amp; \
+ adb shell <span class="hljs-string">&#x27;/data/local/tmp/perfetto_benchmarks --benchmark_filter=BM_Proto*&#x27;</span>
+
+------------------------------------------------------------------------
+Benchmark Time CPU Iterations
+------------------------------------------------------------------------
+BM_Protozero_Simple_Libprotobuf 402 ns 398 ns 1732807
+BM_Protozero_Simple_Protozero 242 ns 239 ns 2929528
+BM_Protozero_Simple_SpeedOfLight 118 ns 117 ns 6101381
+BM_Protozero_Nested_Libprotobuf 1810 ns 1800 ns 390468
+BM_Protozero_Nested_Protozero 780 ns 773 ns 901369
+BM_Protozero_Nested_SpeedOfLight 138 ns 136 ns 5147958</code><h5>HP Z920 工作站（Intel Xeon E5-2690 v4）运行 Linux</h5><code class="hljs code-block">
+$ cat out/linux_clang_release/args.gn
+is_clang = <span class="hljs-literal">true</span>
+is_debug = <span class="hljs-literal">false</span>
+
+$ ninja -C out/linux_clang_release/ perfetto_benchmarks &amp;&amp; \
+ out/linux_clang_release/perfetto_benchmarks --benchmark_filter=BM_Proto*
+
+------------------------------------------------------------------------
+Benchmark Time CPU Iterations
+------------------------------------------------------------------------
+BM_Protozero_Simple_Libprotobuf 428 ns 428 ns 1624801
+BM_Protozero_Simple_Protozero 261 ns 261 ns 2715544
+BM_Protozero_Simple_SpeedOfLight 111 ns 111 ns 6297387
+BM_Protozero_Nested_Libprotobuf 1625 ns 1625 ns 436411
+BM_Protozero_Nested_Protozero 843 ns 843 ns 849302
+BM_Protozero_Nested_SpeedOfLight 140 ns 140 ns 5012910</code>
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>使用 Tracing 和 callstack 采样调试调度阻塞 - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="使用 Tracing 和 callstack 采样调试调度阻塞 - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/case-studies/scheduling-blockages">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/assets/favicon.png" />
+  <script type="text/javascript" src="/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/">
+      <img src="/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/docs/">Docs</a>
+  <a href="/docs/contributing/getting-started#community">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/docs/tracing-101">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/docs/getting-started/start-using-perfetto">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/docs/getting-started/system-tracing">系统 Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/in-app-tracing">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/memory-profiling">Memory Profiling</a></p>
+</li>
+<li><p><a href="/docs/getting-started/cpu-profiling">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/docs/getting-started/atrace">Android atrace</a></p>
+</li>
+<li><p><a href="/docs/getting-started/ftrace">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/getting-started/other-formats">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/docs/getting-started/converting">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/docs/getting-started/android-trace-analysis">分析 Android Trace</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/docs/case-studies/memory">Android 内存使用</a></p>
+</li>
+<li><p><a href="/docs/case-studies/scheduling-blockages">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/docs/concepts/config">Trace 配置</a></p>
+</li>
+<li><p><a href="/docs/concepts/buffers">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/docs/concepts/service-model">服务模型</a></p>
+</li>
+<li><p><a href="/docs/concepts/clock-sync">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/docs/learning-more/tracing-in-background">后台 Tracing</a></p>
+</li>
+<li><p><a href="/docs/learning-more/android">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/chrome-tracing">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/tracing-sdk">Tracing SDK</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/track-events">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/getting-started">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/analysis/stdlib-docs">标准库</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-syntax">语法</a></p>
+</li>
+<li><p><a href="/docs/analysis/style-guide">样式指南</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-backcompat">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-processor">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-processor-python">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-summary">Trace 汇总</a></p>
+</li>
+<li><p><a href="/docs/quickstart/traceconv">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/docs/visualization/perfetto-ui">Perfetto UI</a></p>
+</li>
+<li><p><a href="/docs/visualization/large-traces">打开大型 trace</a></p>
+</li>
+<li><p><a href="/docs/visualization/deep-linking-to-perfetto-ui">深度链接</a></p>
+</li>
+<li><p><a href="/docs/analysis/debug-tracks">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/docs/visualization/extending-the-ui">概述</a></p>
+</li>
+<li><p><a href="/docs/visualization/ui-automation">命令和宏</a></p>
+</li>
+<li><p><a href="/docs/visualization/extension-servers">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/docs/contributing/getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/contributing/common-tasks">常见任务</a></p>
+</li>
+<li><p><a href="/docs/contributing/become-a-committer">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/docs/contributing/ui-getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/contributing/ui-plugins">插件</a></p>
+</li>
+<li><p><a href="/docs/faq">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/native-heap-profiler">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/docs/data-sources/java-heap-profiler">Java 堆转储</a></p>
+</li>
+<li><p><a href="/docs/data-sources/memory-counters">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/cpu-scheduling">调度事件</a></p>
+</li>
+<li><p><a href="/docs/data-sources/syscalls">系统调用</a></p>
+</li>
+<li><p><a href="/docs/data-sources/cpu-freq">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/atrace">Atrace</a></p>
+</li>
+<li><p><a href="/docs/data-sources/android-log">Logcat</a></p>
+</li>
+<li><p><a href="/docs/data-sources/frametimeline">Frame Timeline</a></p>
+</li>
+<li><p><a href="/docs/data-sources/battery-counters">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/docs/data-sources/android-game-intervention-list">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/docs/reference/trace-packet-proto">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/docs/reference/synthetic-track-event">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/docs/reference/trace-config-proto">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/docs/concepts/concurrent-tracing-sessions">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/docs/concepts/detached-mode">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/docs/case-studies/android-boot-tracing">开机 Tracing</a></p>
+</li>
+<li><p><a href="/docs/case-studies/android-outofmemoryerror">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/docs/reference/android-version-notes">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/docs/reference/kernel-track-event">内核 track 事件</a></p>
+</li>
+<li><p><a href="/docs/data-sources/previous-boot-trace">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/docs/reference/perfetto-cli">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/docs/reference/traced">traced</a></p>
+</li>
+<li><p><a href="/docs/reference/traced_probes">traced_probes</a></p>
+</li>
+<li><p><a href="/docs/reference/heap_profile-cli">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/docs/reference/tracebox">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/docs/analysis/sql-tables">Prelude 表</a></p>
+</li>
+<li><p><a href="/docs/analysis/builtin">内置函数</a></p>
+</li>
+<li><p><a href="/docs/analysis/sql-stats">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/metrics">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/batch-trace-processor">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/deployment/deploying-bigtrace-on-a-single-machine">Bigtrace</a></p>
+</li>
+<li><p><a href="/docs/deployment/deploying-bigtrace-on-kubernetes">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/interceptors">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/docs/visualization/commands-automation-reference">命令自动化参考</a></p>
+</li>
+<li><p><a href="/docs/visualization/extension-server-protocol">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/docs/contributing/build-instructions">构建</a></p>
+</li>
+<li><p><a href="/docs/contributing/testing">测试</a></p>
+</li>
+<li><p><a href="/docs/contributing/developer-tools">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/docs/contributing/sdk-releasing">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/docs/contributing/python-releasing">Python 发布流程</a></p>
+</li>
+<li><p><a href="/docs/visualization/perfetto-ui-release-process">UI 发布流程</a></p>
+</li>
+<li><p><a href="/docs/contributing/chrome-branches">Chrome 分支</a></p>
+</li>
+<li><p><a href="/docs/contributing/sqlite-upgrade-guide">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/docs/design-docs/api-and-abi">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/docs/design-docs/life-of-a-tracing-session">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/docs/design-docs/protozero">ProtoZero</a></p>
+</li>
+<li><p><a href="/docs/design-docs/security-model">安全模型</a></p>
+</li>
+<li><p><a href="/docs/design-docs/checkpoint-atoms">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/docs/design-docs/batch-trace-processor">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/design-docs/trace-processor-architecture">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-design">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-wire-protocol">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-sampling">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/docs/design-docs/continuous-integration">Perfetto CI</a></p>
+</li>
+<li><p><a href="/docs/design-docs/lock-free-task-runner">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/case-studies/scheduling-blockages">
+    <h1>使用 Tracing 和 callstack 采样调试调度阻塞</h1><p>在本指南中，你将学习如何：</p>
+<ul>
+<li>捕获组合的调度和 callstack 采样 traces。</li>
+<li>基于调度事件执行精确的 callstack 采样，而不是基于时间/随机采样。</li>
+<li>使用数据推断锁争用、优先级反转和其他调度阻塞问题。</li>
+</ul>
+<h2><a name="-" class="anchor" href="#-"></a>我们要解决的问题</h2><p>一个 bug 导致 Android SystemUI 主线程在下拉通知栏时阻塞 1-10 毫秒，导致通知栏动画偶尔卡顿。这个 bug 相当可重现。</p>
+<p>在 trace 中，bug 表现为 Android 的 systemui 主线程在动画中间被阻塞（即被取消调度），如下所示：</p>
+<p><img src="/docs/images/sched-latency/problem.png" alt="Trace with problem"></p>
+<h2><a name="-" class="anchor" href="#-"></a>剧透：根本原因</h2><p>我们使用 Perfetto 中在 <code>sched_switch</code> + <code>sched_waking</code> 上触发的调用栈采样来找到根本原因。这恰好在线程在尝试获取已被持有的锁时挂起或在释放锁后唤醒等待者的时刻提供调用栈。</p>
+<p>实际问题如下：</p>
+<ul>
+<li>Android 的 SystemUI 使用 Kotlin coroutines。</li>
+<li>在内部，Kotlin coroutines 依赖于 <a href="https://cs.android.com/android/platform/superproject/main/+/main:libcore/ojluni/src/main/java/java/util/concurrent/ScheduledThreadPoolExecutor.java?q=ScheduledThreadPoolExecutor">ScheduledThreadPoolExecutor</a>。</li>
+<li>SystemUI 的主线程正在尝试调度低优先级 coroutines。</li>
+<li>在内部，这转换为使用后台线程池将未来任务追加到任务队列。</li>
+<li>在 ScheduledThreadPoolExecutor 中排队任务需要 <a href="https://cs.android.com/android/platform/superproject/main/+/main:libcore/ojluni/src/main/java/java/util/concurrent/locks/ReentrantLock.java;l=108">ReentrantLock</a>。</li>
+<li>后台线程也需要相同的锁来从队列中提取任务。</li>
+<li>ReentrantLock 不感知等待者的优先级。释放锁时，它会按 lock() 调用的顺序一次唤醒一个等待者线程。</li>
+<li>SystemUI 中有许多后台优先级 coroutines，因此该锁频繁被 BG 线程争用。</li>
+<li>ReentrantLock 也不是 CPU 感知的，并且可能在 unlock() 后唤醒等待者时在同一个核心上序列化 CPU 亲和线程。</li>
+<li>这导致一种形式的优先级反转，主线程最终在能够获取锁之前等待一长串后台线程。</li>
+</ul>
+<h2><a name="-" class="anchor" href="#-"></a>方法论</h2><p>如果你想直接跳转到 trace 配置，请参阅 <a href="#appendix-final-trace-config-used">附录：使用的最终 trace 配置</a>。</p>
+<p>相反，如果你想了解我们的调试旅程以及我们是如何到达该配置的，请继续阅读。</p>
+<p>我们的旅程始于一位同事询问我们是否可以以 10KHz 或更高的频率记录 callstack 样本。答案是一概的 _&quot;忘掉它&quot;_：由于 Android 上 callstack 采样的工作方式，这根本无法实现。（需要解压缩调试部分；异步展开，内核为每个样本将原始栈复制到 perf_event 缓冲区；基于 DWARF 的展开）。</p>
+<p>当我们问 <em>&quot;为什么你需要高频率采样？&quot;</em> 时，讨论变得有趣了。
+我们的同事告诉我们这个 bug: _&quot;我想知道主线程在哪里阻塞和恢复执行。如果样本足够频繁，也许我就能用罪魁祸首获得正确的调用栈&quot;_。</p>
+<p>不幸的是，即使是最有性能意识的工程师也经常混淆 &quot;callstack 采样&quot; 与 <em>随机采样</em> 或 _基于时间（或基于指令/周期）的采样_，忘记了 <strong>callstack 采样是更强大的机器</strong>。</p>
+<p>虽然随机采样无疑是 callstack 采样最流行的形式之一，但这种方法更有助于回答形式为 <em>&quot;函数在哪里花费 CPU 周期？&quot;</em> 或 <em>&quot;我能做些什么来减少任务的 CPU 使用？&quot;</em> 的问题。这些都不适用于此。</p>
+<p>Linux - 以及许多其他操作系统 - 上的 callstack 采样要强大得多。简单来说，你可以将 callstack 采样视为 _&quot;每次特定事件发生 N 次时抓取一个调用栈&quot;_（另请参阅此 <a href="https://easyperf.net/blog/2018/06/01/PMU-counters-and-profiling-basics%EF%BC%89%E4%BB%A5%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%85%A5%E8%A7%A3%E9%87%8A">easyperf.net 博客文章</a>。</p>
+<p>有趣的部分是 _哪个特定事件_。通常这可以是：</p>
+<ul>
+<li>定时器溢出，以实现 &quot;每 X ms 抓取一个调用栈&quot;。</li>
+<li>PMU Counters 溢出，例如以实现 &quot;每 N 条指令退役 / M 次缓存未命中抓取一个调用栈&quot;。</li>
+<li><code>/sys/kernel/tracing/event/**/*</code> 中可用的任何内核跟踪点。</li>
+</ul>
+<p>后者是可以将 callstack 采样变成实用的瑞士军刀的有趣选项。现在，内核中定义了大量跟踪点，但其中两个在这里特别有趣：</p>
+<ol>
+<li><p><code>sched_switch</code>：每次发生上下文切换时都会触发这种情况。有趣的情况是当你尝试获取锁 → 锁被持有 → 你要求内核将线程放在等待链上 → 内核将你调度出去时。
+ 在内部，这通常最终导致 <code>sys_futex(FUTEX_WAIT, ...)</code>。
+ <strong>这很重要，因为这是我们关心的线程阻塞的时刻。</strong></p>
+</li>
+<li><p><code>sched_waking</code>：每当一个线程使另一个线程有资格再次被调度时触发。注意，&quot;有资格被调度&quot; != &quot;现在被调度&quot;。线程可以在被唤醒后许多毫秒被放在运行队列（即调度）上。在此期间可能会调度其他线程。
+ <strong>这很重要，因为这是另一个线程最终唤醒（解除阻塞）我们线程的时刻。</strong></p>
+</li>
+</ol>
+<p>所以整体游戏如下：如果你可以看到你的线程在哪里被阻塞的调用栈，以及另一个线程在哪里解除阻塞你线程的调用栈，这两个调用栈通常通过代码搜索提供足够的信息来弄清楚其他所有内容。</p>
+<p>这种技术并不是特别新颖，也不是 Linux 特有的。如果你想阅读更详细的文章，请查看 Bruce Dawson 的 <a href="https://randomascii.wordpress.com/2012/05/11/the-lost-xperf-documentationcpu-scheduling/">The Lost Xperf Documentation–CPU Usage (Precise)</a>，它在 Windows 上详细解释了这个用例（这些原则大多也适用于 Linux）。</p>
+<h2><a name="-" class="anchor" href="#-"></a>我们的第一次失败尝试</h2><p>起初我们过于兴奋，编写了一个在每个 <code>sched_switch</code> 和每个 <code>sched_waking</code> 上抓取调用栈的配置。提供的配置仅供参考（不要使用它）以及一些有用的注释。</p>
+<p><code>linux.perf</code> 是在 Perfetto 中执行 callstack 采样的数据源（相当于 Linux 的 <code>perf</code> 或 Android 的 <code>simpleperf</code> 命令行工具）。</p>
+<p>你会注意到有两个数据源实例。为什么？
+这反映了 <a href="https://man7.org/linux/man-pages/man2/perf_event_open.2.html">perf_event_open</a> syscall 在底层的工作方式：如果你想要在 <em>某事</em> 上的调用栈，那么 <em>某事</em> 必须是 <em>leader</em> Counter。
+在我们的实现中，每个 perf 数据源映射到一个 leader Counter，具有自己的 perf 缓冲区。</p>
+<p>所以我们有一个 <code>sched_switch</code> 的数据源，一个 <code>sched_waking</code> 的数据源，这是我们追求的两个跟踪点。</p>
+<p><code>period:1</code> 意味着 &quot;采样每个事件&quot;。我们真的不想在这里做任何采样。我们不是在寻找通用的聚合火焰图。
+我们想要捕获一个非常特定的一组调用栈，用于每帧精确发生一次的事件。不采样，谢谢。</p>
+<p><code>ring_buffer_pages: 2048</code> 使用了比平时大的 perf 事件环形缓冲区。这是内核排队所有样本的缓冲区，我们的 traced_perf 守护进程读取它们。
+更大的缓冲区提供了更多处理突发的能力。
+大小以页面为单位，所以 2048 * 4KB -&gt; 8MB。
+不幸的是，更高的值似乎会失败，因为内核无法找到连续的 mlockable 内存区域。</p>
+<code class="hljs code-block">
+# *** 不要使用此配置 ***
+# 这会 overrun 调用栈采样器(见注释)。
+# 附录中有改进的配置。
+
+# 第 <span class="hljs-number">1</span> 部分
+
+data_sources {
+ config {
+ name: <span class="hljs-string">&quot;linux.perf&quot;</span>
+ perf_event_config {
+ timebase {
+ period: <span class="hljs-number">1</span>
+ tracepoint {
+ name: <span class="hljs-string">&quot;sched/sched_switch&quot;</span>
+ }
+ timestamp_clock: PERF_CLOCK_MONOTONIC
+ }
+ callstack_sampling {
+ kernel_frames: <span class="hljs-literal">true</span>
+ }
+ ring_buffer_pages: <span class="hljs-number">2048</span> # <span class="hljs-number">8</span>MB
+ }
+ }
+}
+
+# 第 <span class="hljs-number">2</span> 部分
+
+data_sources {
+ config {
+ name: <span class="hljs-string">&quot;linux.perf&quot;</span>
+ perf_event_config {
+ timebase {
+ period: <span class="hljs-number">1</span>
+ tracepoint {
+ name: <span class="hljs-string">&quot;sched/sched_waking&quot;</span>
+ }
+ timestamp_clock: PERF_CLOCK_MONOTONIC
+ }
+ callstack_sampling {
+ kernel_frames: <span class="hljs-literal">true</span>
+ }
+ ring_buffer_pages: <span class="hljs-number">2048</span> # <span class="hljs-number">8</span>MB
+ }
+ }
+}</code><p>不幸的是，这种方法理论上听起来不错，但导致了灾难性的失败。</p>
+<p><img src="/docs/images/sched-latency/recording_errors.png" alt="Recording errors"></p>
+<p>在每个 sched_switch 上采样太多了。在一个屏幕打开的空闲手机上，平均每秒有 ~20K 调度事件，开始触摸屏幕时爆发远超该速率。内核和 traced_perf 都无法跟上该速率。</p>
+<h2><a name="-" class="anchor" href="#-"></a>跟踪点过滤器来救援</h2><p>毕竟，我们不需要系统中每个调度活动的调用栈。我们真正关心的是 SystemUI 的主线程，以及任何其他参与其阻塞的线程。</p>
+<p>所以在我们的下一次迭代中，我们通过仅过滤 SystemUI 线程来平息调用栈采样器，如下所示。</p>
+<p>&quot;filter&quot; 操作符一直传递到内核，它在跟踪点级别进行过滤(即在发出调用栈样本之前)</p>
+<p>需要注意几点：</p>
+<ul>
+<li>每个 sched_switch 事件有两个线程名称(称为 &quot;comm&quot;)：被调度的线程（<code>prev_comm</code>）和被调度的新线程（<code>next_comm</code>）。
+ 我们想要捕获我们调度进或调度出 SystemUI 主线程的所有实例。</li>
+<li>相反，sched_waking 只有被唤醒线程的 &quot;comm&quot;。</li>
+</ul>
+<p>所以我们更新配置如下：</p>
+<code class="hljs code-block">...
+ tracepoint {
+ name: &quot;sched/sched_switch&quot;
+ filter: &quot;prev_comm ~ \&quot;*systemui*\&quot; || next_comm ~ \&quot;*systemui*\&quot;
+ }
+...
+ tracepoint {
+ name: &quot;sched/sched_waking&quot;
+ filter: &quot;comm ~ \&quot;*systemui*\&quot;
+ }
+...</code><p>采集 overrun 消失了，我们得到了一个更有用的 trace。现在 trace 中的每个线程都有三个 track:</p>
+<ol>
+<li>一个具有线程调度状态(Running、Runnable 等)</li>
+<li>一个具有常用的 tracing slice (Choreographer#doFrame、Animation)</li>
+<li>一个新的带有调用栈（彩色 V 形）。每个 V 形对应一个样本。如果你点击它，你可以看到调用栈。</li>
+</ol>
+<p><img src="/docs/images/sched-latency/callstack_tracks.png" alt="Callstack tracks"></p>
+<p>现在我们可以放大我们正在寻找的主线程阻塞，并最终找到我们被阻塞的位置。</p>
+<p><img src="/docs/images/sched-latency/annotated_trace.png" alt="Annotated trace"></p>
+<p>我们得到了第一条情报：sysui 的主线程在尝试将未来任务发布到 ScheduledThreadPoolExecutor 的任务队列时在互斥锁上被阻塞。</p>
+<p>这里有几个问题：</p>
+<ul>
+<li>为什么发布任务需要锁(这更多是一个离题的 Kotlin coroutine 架构设计问题)</li>
+<li>为什么这个锁被持有 1.5ms?</li>
+<li>谁持有这个锁？</li>
+</ul>
+<p>为了回答这个问题，让我们反向 trace 事件。在神秘阻塞点之后点击主线程的 Running Slice 并查看 &quot;woken by&quot;。这表示唤醒我们的线程。</p>
+<p>点击它，我们将看到我们被一个 BG 线程唤醒。</p>
+<p><img src="/docs/images/sched-latency/waker.png" alt="Identifying the waker"></p>
+<p>点击该链接会带我们到唤醒线程的 Timeline。但在这里魔法发生了。因为我们在 <code>sched_waking</code> 上也启用了栈采样，现在我们的唤醒者也有一个调用栈。</p>
+<p>选择 V 形将向我们展示导致唤醒的调用栈：</p>
+<p><img src="/docs/images/sched-latency/waker_callstack.png" alt="Waker callstack"></p>
+<p>我们在这里看到的是，后台任务的执行获取锁，从队列中获取任务，然后释放锁。</p>
+<p>释放锁的行为最终唤醒主线程。但这还不是我们要寻找的完整答案。我们最终让这个随机 BG 线程拥有锁是怎么回事？这个线程只运行了一个 160 us 的微小任务。但主线程的整个阻塞时间是 1.5 ms，是 10 倍。同时发生了什么？</p>
+<p><img src="/docs/images/sched-latency/recap.png" alt="Recap"></p>
+<p>我们可以使用 <strong>&quot;Critical path lite&quot;</strong> 按钮查看导致主线程状态更改的线程列表，而不必手动跟踪线程状态 track 中的各种 &quot;Woken by&quot; 标签：</p>
+<p><img src="/docs/images/sched-latency/critical_path.png" alt="Critical Path"></p>
+<p>现在这里有一些可疑的地方，让我们回顾一下：</p>
+<ul>
+<li>主线程被阻塞 1.5 ms</li>
+<li>我们在 ScheduledThreadPoolExecutor 锁上被阻塞</li>
+<li>唤醒我们的线程非常短(150us)</li>
+<li>剩余的 1.35 ms 发生了什么？</li>
+<li>大约在同一时间还有一堆其他 BG 线程活动</li>
+<li>在这一点上我们怀疑这是一种优先级反转（在优先级反转的更一般和宽松意义上）。</li>
+</ul>
+<p><img src="/docs/images/sched-latency/comic.png" alt="Comic"></p>
+<p>这是正在发生的事情：</p>
+<ul>
+<li>主线程正在尝试获取锁。</li>
+<li>锁被一个 bg 线程持有（到目前为止，这很正常）。</li>
+<li>同时其他 BG 线程正在尝试获取锁，并加入锁的等待者列表。</li>
+<li>当 BG 线程完成时，另一个 BG 线程赢得竞争，而不是主线程，主线程具有更高的调度优先级。</li>
+</ul>
+<p>不幸的是，我们还看不到(还)BG 线程的调用栈，因为我们只过滤了 sysui 主线程（及其唤醒者）。我们将不得不再次调整配置。</p>
+<h2><a name="-trace" class="anchor" href="#-trace"></a>重新捕获 trace</h2><p>让我们稍微调整一下配置并添加 BG 线程：</p>
+<code class="hljs code-block"> tracepoint {
+ name: <span class="hljs-string">&quot;sched/sched_switch&quot;</span>
+ filter: <span class="hljs-string">&quot;prev_comm ~ \&quot;*systemui*\&quot; || next_comm ~ \&quot;*systemui*\&quot; || prev_comm ~ \&quot;SystemUIBg-*\&quot; || next_comm ~ \&quot;SystemUIBg-*\&quot;&quot;</span>
+ }</code><p>新的 trace 看起来像这样。你会注意到现在我们有更多的 V 形，因为我们还有 SystemUiBG* 线程的每个调度事件的调用栈。点击它们确认了我们的理论。所有这些 BG 线程都在获取和释放 ScheduledThreadPoolExecutor 锁。</p>
+<p><img src="/docs/images/sched-latency/bg_callstacks.png" alt="BG thread callstacks"></p>
+<p>此时我们可以重建完整的事件序列。</p>
+<p>ScheduledThreadPoolExecutor 中的每个工作线程执行以下操作：</p>
+<ol>
+<li>获取锁</li>
+<li>从队列中提取任务</li>
+<li>释放锁</li>
+<li>运行任务</li>
+</ol>
+<p>(3) 导致唤醒另一个等待锁的线程。</p>
+<p>不幸的是，这里有一些问题出错：</p>
+<ul>
+<li><p>由于大量 BG coroutines，有大量 BG 线程在锁上排队，尝试提取任务。
+ 底层的 ReentrantLock 实现将按排队顺序通知它们，增加主线程的阻塞时间。</p>
+</li>
+<li><p>ReentrantLock 实现与标准的 <code>synchronized (x) {...}</code> 监视器不同。虽然监视器由标准内核 futex 支持，但 ReentrantLock 在 Java 中 <a href="https://cs.android.com/android/platform/superproject/main/+/main:libcore/ojluni/src/main/java/java/util/concurrent/locks/AbstractQueuedSynchronizer.java;drc=61197364367c9e404c7da6900658f1b16c42d0da;l=670">有自己的重新实现</a> 的等待者列表，它手动停放/取消停放线程，某种程度上遮蔽了内核会做的工作。
+ 不幸的是，此实现不知道线程的 CPU 亲和性，并且可能在 unlock() 时在唤醒等待者时导致次优决策。
+ 实际上，它可能取消停放一个绑定到当前相同 CPU 的线程。</p>
+</li>
+<li><p>在使用默认的 SCHED_OTHER 策略时，Linux/Android CFS 调度程序不是 <a href="https://en.wikipedia.org/wiki/Work-conserving_scheduler">工作保守</a> 的，并且不会积极地跨核心迁移线程以最小化调度延迟（它这样做是为了平衡功耗与延迟）。因此，被唤醒的线程最终等待当前线程完成其任务，即使锁已释放。最终结果是两个线程最终在同一 CPU 上以线性顺序执行，尽管互斥锁大部分时间已解锁。这种 BG 工作负载的序列化进一步放大了主线程的阻塞时间。你可能会注意到上面的截图中 SystemUIBg-* 线程缺乏真正的并行化。</p>
+</li>
+</ul>
+<h2><a name="-trace-" class="anchor" href="#-trace-"></a>附录：使用的最终 trace 配置</h2><code class="hljs code-block">duration_ms: <span class="hljs-number">10000</span>
+
+buffers: {
+ size_kb: <span class="hljs-number">102400</span>
+ fill_policy: DISCARD
+}
+
+data_sources {
+ config {
+ name: <span class="hljs-string">&quot;linux.perf&quot;</span>
+ perf_event_config {
+ timebase {
+ period: <span class="hljs-number">1</span>
+ tracepoint {
+ name: <span class="hljs-string">&quot;sched/sched_switch&quot;</span>
+ filter: <span class="hljs-string">&quot;prev_comm ~ \&quot;*systemui*\&quot; || next_comm ~ \&quot;*systemui*\&quot; || prev_comm ~ \&quot;SystemUIBg-*\&quot; || next_comm ~ \&quot;SystemUIBg-*\&quot;&quot;</span>
+ }
+ timestamp_clock: PERF_CLOCK_MONOTONIC
+ }
+ callstack_sampling {
+ kernel_frames: <span class="hljs-literal">true</span>
+ }
+ ring_buffer_pages: <span class="hljs-number">2048</span>
+ }
+ }
+}
+
+data_sources {
+ config {
+ name: <span class="hljs-string">&quot;linux.perf&quot;</span>
+ perf_event_config {
+ timebase {
+ period: <span class="hljs-number">1</span>
+ tracepoint {
+ name: <span class="hljs-string">&quot;sched/sched_waking&quot;</span>
+ filter: <span class="hljs-string">&quot;comm ~ \&quot;*systemui*\&quot; || comm ~ \&quot;SystemUIBg-*\&quot;&quot;</span>
+ }
+ timestamp_clock: PERF_CLOCK_MONOTONIC
+ }
+ callstack_sampling {
+ kernel_frames: <span class="hljs-literal">true</span>
+ }
+ ring_buffer_pages: <span class="hljs-number">2048</span>
+ }
+ }
+}
+
+# 通过 ftrace 包含调度数据
+data_sources: {
+ config: {
+ name: <span class="hljs-string">&quot;linux.ftrace&quot;</span>
+ ftrace_config: {
+ ftrace_events: <span class="hljs-string">&quot;sched/sched_switch&quot;</span>
+ ftrace_events: <span class="hljs-string">&quot;sched/sched_waking&quot;</span>
+ atrace_categories: <span class="hljs-string">&quot;dalvik&quot;</span>
+ atrace_categories: <span class="hljs-string">&quot;gfx&quot;</span>
+ atrace_categories: <span class="hljs-string">&quot;view&quot;</span>
+ }
+ }
+}
+
+# 通过 procfs 包含进程名称和分组
+data_sources: {
+ config: {
+ name: <span class="hljs-string">&quot;linux.process_stats&quot;</span>
+ process_stats_config {
+ scan_all_processes_on_start: <span class="hljs-literal">true</span>
+ }
+ }
+}</code><h2><a name="-syscall-tracing" class="anchor" href="#-syscall-tracing"></a>附录：添加 syscall tracing</h2><p>作为进一步的说明，事后看来，trace 可以通过 syscall tracing 增强，添加 <code>sys_futex</code> 调用的插桩。</p>
+<p>这只是将以下行添加到 ftrace 配置的问题：<code>syscall_events: &quot;sys_futex&quot;</code> 如下：</p>
+<code class="hljs code-block">data_sources: {
+ config: {
+ name: <span class="hljs-string">&quot;linux.ftrace&quot;</span>
+ ftrace_config: {
+ syscall_events: <span class="hljs-string">&quot;sys_futex&quot;</span>
+ ftrace_events: <span class="hljs-string">&quot;sched/sched_switch&quot;</span>
+ ftrace_events: <span class="hljs-string">&quot;sched/sched_waking&quot;</span>
+ atrace_categories: <span class="hljs-string">&quot;dalvik&quot;</span>
+ atrace_categories: <span class="hljs-string">&quot;gfx&quot;</span>
+ atrace_categories: <span class="hljs-string">&quot;view&quot;</span>
+ }
+ }
+}</code><p>生成的 trace 看起来像这样：</p>
+<p><img src="/docs/images/sched-latency/sys_futex.png" alt="With sys_futex instrumentation"></p>
+
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>
