@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Perfetto UI - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="Perfetto UI - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/visualization/perfetto-ui">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/assets/favicon.png" />
+  <script type="text/javascript" src="/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/">
+      <img src="/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/docs/">Docs</a>
+  <a href="/docs/contributing/getting-started#community">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/docs/tracing-101">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/docs/getting-started/start-using-perfetto">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/docs/getting-started/system-tracing">系统 Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/in-app-tracing">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/memory-profiling">Memory Profiling</a></p>
+</li>
+<li><p><a href="/docs/getting-started/cpu-profiling">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/docs/getting-started/atrace">Android atrace</a></p>
+</li>
+<li><p><a href="/docs/getting-started/ftrace">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/getting-started/other-formats">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/docs/getting-started/converting">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/docs/getting-started/android-trace-analysis">分析 Android Trace</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/docs/case-studies/memory">Android 内存使用</a></p>
+</li>
+<li><p><a href="/docs/case-studies/scheduling-blockages">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/docs/concepts/config">Trace 配置</a></p>
+</li>
+<li><p><a href="/docs/concepts/buffers">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/docs/concepts/service-model">服务模型</a></p>
+</li>
+<li><p><a href="/docs/concepts/clock-sync">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/docs/learning-more/tracing-in-background">后台 Tracing</a></p>
+</li>
+<li><p><a href="/docs/learning-more/android">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/chrome-tracing">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/tracing-sdk">Tracing SDK</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/track-events">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/getting-started">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/analysis/stdlib-docs">标准库</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-syntax">语法</a></p>
+</li>
+<li><p><a href="/docs/analysis/style-guide">样式指南</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-backcompat">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-processor">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-processor-python">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-summary">Trace 汇总</a></p>
+</li>
+<li><p><a href="/docs/quickstart/traceconv">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/docs/visualization/perfetto-ui">Perfetto UI</a></p>
+</li>
+<li><p><a href="/docs/visualization/large-traces">打开大型 trace</a></p>
+</li>
+<li><p><a href="/docs/visualization/deep-linking-to-perfetto-ui">深度链接</a></p>
+</li>
+<li><p><a href="/docs/analysis/debug-tracks">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/docs/visualization/extending-the-ui">概述</a></p>
+</li>
+<li><p><a href="/docs/visualization/ui-automation">命令和宏</a></p>
+</li>
+<li><p><a href="/docs/visualization/extension-servers">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/docs/contributing/getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/contributing/common-tasks">常见任务</a></p>
+</li>
+<li><p><a href="/docs/contributing/become-a-committer">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/docs/contributing/ui-getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/contributing/ui-plugins">插件</a></p>
+</li>
+<li><p><a href="/docs/faq">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/native-heap-profiler">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/docs/data-sources/java-heap-profiler">Java 堆转储</a></p>
+</li>
+<li><p><a href="/docs/data-sources/memory-counters">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/cpu-scheduling">调度事件</a></p>
+</li>
+<li><p><a href="/docs/data-sources/syscalls">系统调用</a></p>
+</li>
+<li><p><a href="/docs/data-sources/cpu-freq">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/atrace">Atrace</a></p>
+</li>
+<li><p><a href="/docs/data-sources/android-log">Logcat</a></p>
+</li>
+<li><p><a href="/docs/data-sources/frametimeline">Frame Timeline</a></p>
+</li>
+<li><p><a href="/docs/data-sources/battery-counters">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/docs/data-sources/android-game-intervention-list">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/docs/reference/trace-packet-proto">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/docs/reference/synthetic-track-event">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/docs/reference/trace-config-proto">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/docs/concepts/concurrent-tracing-sessions">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/docs/concepts/detached-mode">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/docs/case-studies/android-boot-tracing">开机 Tracing</a></p>
+</li>
+<li><p><a href="/docs/case-studies/android-outofmemoryerror">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/docs/reference/android-version-notes">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/docs/reference/kernel-track-event">内核 track 事件</a></p>
+</li>
+<li><p><a href="/docs/data-sources/previous-boot-trace">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/docs/reference/perfetto-cli">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/docs/reference/traced">traced</a></p>
+</li>
+<li><p><a href="/docs/reference/traced_probes">traced_probes</a></p>
+</li>
+<li><p><a href="/docs/reference/heap_profile-cli">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/docs/reference/tracebox">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/docs/analysis/sql-tables">Prelude 表</a></p>
+</li>
+<li><p><a href="/docs/analysis/builtin">内置函数</a></p>
+</li>
+<li><p><a href="/docs/analysis/sql-stats">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/metrics">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/batch-trace-processor">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/deployment/deploying-bigtrace-on-a-single-machine">Bigtrace</a></p>
+</li>
+<li><p><a href="/docs/deployment/deploying-bigtrace-on-kubernetes">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/interceptors">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/docs/visualization/commands-automation-reference">命令自动化参考</a></p>
+</li>
+<li><p><a href="/docs/visualization/extension-server-protocol">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/docs/contributing/build-instructions">构建</a></p>
+</li>
+<li><p><a href="/docs/contributing/testing">测试</a></p>
+</li>
+<li><p><a href="/docs/contributing/developer-tools">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/docs/contributing/sdk-releasing">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/docs/contributing/python-releasing">Python 发布流程</a></p>
+</li>
+<li><p><a href="/docs/visualization/perfetto-ui-release-process">UI 发布流程</a></p>
+</li>
+<li><p><a href="/docs/contributing/chrome-branches">Chrome 分支</a></p>
+</li>
+<li><p><a href="/docs/contributing/sqlite-upgrade-guide">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/docs/design-docs/api-and-abi">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/docs/design-docs/life-of-a-tracing-session">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/docs/design-docs/protozero">ProtoZero</a></p>
+</li>
+<li><p><a href="/docs/design-docs/security-model">安全模型</a></p>
+</li>
+<li><p><a href="/docs/design-docs/checkpoint-atoms">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/docs/design-docs/batch-trace-processor">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/design-docs/trace-processor-architecture">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-design">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-wire-protocol">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-sampling">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/docs/design-docs/continuous-integration">Perfetto CI</a></p>
+</li>
+<li><p><a href="/docs/design-docs/lock-free-task-runner">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/visualization/perfetto-ui">
+    <h1>Perfetto UI</h1><p><a href="https://ui.perfetto.dev">Perfetto UI</a> 使你能够在浏览器中查看和分析 trace。
+它支持几种不同的 tracing 格式，包括 perfetto proto trace 格式和传统的 json trace 格式。</p>
+<h2><a name="-trace" class="anchor" href="#-trace"></a>加载 Trace</h2><p>单击任务栏&quot;示例 Traces&quot;部分中的一个示例以开始。</p>
+<p>从文件资源管理器拖放 trace，或单击侧边栏中的&quot;打开 trace 文件&quot;以打开本地 trace 文件。</p>
+<h2><a name="-" class="anchor" href="#-"></a>导航时间轴</h2><p>使用 WASD 组合键缩放和平移时间轴。W 和 S 分别放大和缩小，A 和 D 分别向左和向右平移。</p>
+<video width="800" controls>
+ <source src="https://storage.googleapis.com/perfetto-misc/keyboard-nav.webm" type="video/webm">
+</video>
+
+<p>或者，你可以使用 Shift+拖动使用鼠标平移。Ctrl+鼠标滚轮放大和缩小。</p>
+<video width="800" controls>
+ <source src="https://storage.googleapis.com/perfetto-misc/mouse-nav.webm" type="video/webm">
+</video>
+
+<h2><a name="track-event-" class="anchor" href="#track-event-"></a>Track event 选择</h2><p>在 trace 上选择实体是深入分析 trace 事件并显示这些事件的更多数据的主要方式。</p>
+<p>通过单击选择 Track event。有关所选事件的详细信息将显示在选项卡抽屉中的&quot;当前选择&quot;选项卡中。</p>
+<video width="800" controls>
+ <source src="https://storage.googleapis.com/perfetto-misc/select-event.webm" type="video/webm">
+</video>
+
+<p>使用 &#39;.&#39; 和 &#39;,&#39; 在同一 Track 上的相邻 Slice 之间导航。</p>
+<video width="800" controls>
+ <source src="https://storage.googleapis.com/perfetto-misc/next-prev-events.webm" type="video/webm">
+</video>
+
+<p>按 &#39;F&#39; 将所选实体在视口中居中，再次按 &#39;F&#39; 将该 Slice 适合视口。
+这对于当前缩放级别下无法清晰看到的非常短的事件很有用。</p>
+<video width="800" controls>
+ <source src="https://storage.googleapis.com/perfetto-misc/focus-event.webm" type="video/webm">
+</video>
+
+<p>在任何时候，按 &#39;escape&#39; 或单击时间轴中的某个空白空间以清除选择。</p>
+<h2><a name="-" class="anchor" href="#-"></a>区域选择</h2><p>在时间轴上单击并拖动以进行区域选择。区域选择由开始+结束时间和 Track 列表组成。
+在标记上单击+拖动以移动开始和结束时间。选中或取消选中 Track 外壳中的复选框以修改选择中的 Track 列表。</p>
+<video width="800" controls>
+ <source src="https://storage.googleapis.com/perfetto-misc/area-selection.webm" type="video/webm">
+</video>
+
+<p>你还可以使用 &#39;R&#39; 热键将单个选择转换为区域选择。这将使用所选事件的边界将当前选中的 Track event 转换为区域选择。</p>
+<h2><a name="-" class="anchor" href="#-"></a>命令</h2><p>命令提供了一种在整个 UI 中运行常见任务的快速方法。
+按 &#39;Ctrl+Shift+P&#39;（Mac 上为 &#39;Cmd+Shift+P&#39;）打开命令面板，或在 omnibox 中输入 &#39;&gt;&#39;。
+Omnibox 转换为命令面板。可以使用模糊匹配搜索命令。
+按向上或向下突出显示命令，按 Enter 运行它。</p>
+<video width="800" controls>
+ <source src="https://storage.googleapis.com/perfetto-misc/commands.webm" type="video/webm">
+</video>
+
+<p>有关使用命令、启动命令和宏自动执行 UI 的全面文档，请参阅
+<a href="/docs/visualization/ui-automation">命令和宏</a>。有关所有扩展机制概述，请参阅
+<a href="/docs/visualization/extending-the-ui">扩展 UI</a>。</p>
+<h2><a name="-" class="anchor" href="#-"></a>显示/隐藏选项卡抽屉</h2><p>按 &#39;Q&#39; 切换选项卡抽屉。</p>
+<h2><a name="-track" class="anchor" href="#-track"></a>查找 Track</h2><p>按 &#39;Ctrl+P&#39;（Mac 上为 &#39;Cmd+Shift+P&#39;）打开 Track 查找器并开始输入以模糊查找 Track。</p>
+<video width="800" controls>
+ <source src="https://storage.googleapis.com/perfetto-misc/finding-tracks.webm" type="video/webm">
+</video>
+
+<h2><a name="-track" class="anchor" href="#-track"></a>固定 Track</h2><p>单击 track 外壳中的&quot;固定&quot;图标将 track 固定到时间轴顶部。此操作会将 track 移动到工作区的顶部。如果你想在滚动主时间轴时保持重要 track 在视图中，这会很有用。</p>
+<video width="800" controls>
+ <source src="https://storage.googleapis.com/perfetto-misc/pinning-tracks.webm" type="video/webm">
+</video>
+
+<h2><a name="-" class="anchor" href="#-"></a>热键</h2><p>热键绑定显示在命令面板中命令的右侧，或按 &#39;?&#39; 热键显示所有配置的热键。</p>
+<h2><a name="-" class="anchor" href="#-"></a>下一步</h2><p>一旦你对基本 UI 交互感到舒适，你可以自定义和扩展 UI 以加快分析工作流程：</p>
+<ul>
+<li><strong>自动化重复任务：</strong> 使用[命令和宏](/docs/visualization/ui-automation.md）配置启动命令，每次打开 trace 时自动固定 track 或创建 debug track，并为你偶尔运行的特定分析工作流创建宏。</li>
+<li><strong>与团队共享工作流：</strong> 使用[扩展服务器](/docs/visualization/extension-servers.md）向你的团队分发宏、SQL 模块和 proto 描述符。</li>
+<li><strong>查看所有扩展选项：</strong> <a href="/docs/visualization/extending-the-ui">扩展 UI</a> 涵盖了所有自定义 Perfetto 的方式，从简单的宏到插件。</li>
+</ul>
+
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

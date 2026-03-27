@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Track events (Tracing SDK) - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="Track events (Tracing SDK) - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/instrumentation/track-events">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/assets/favicon.png" />
+  <script type="text/javascript" src="/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/">
+      <img src="/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/docs/">Docs</a>
+  <a href="/docs/contributing/getting-started#community">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/docs/tracing-101">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/docs/getting-started/start-using-perfetto">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/docs/getting-started/system-tracing">系统 Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/in-app-tracing">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/memory-profiling">Memory Profiling</a></p>
+</li>
+<li><p><a href="/docs/getting-started/cpu-profiling">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/docs/getting-started/atrace">Android atrace</a></p>
+</li>
+<li><p><a href="/docs/getting-started/ftrace">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/getting-started/other-formats">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/docs/getting-started/converting">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/docs/getting-started/android-trace-analysis">分析 Android Trace</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/docs/case-studies/memory">Android 内存使用</a></p>
+</li>
+<li><p><a href="/docs/case-studies/scheduling-blockages">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/docs/concepts/config">Trace 配置</a></p>
+</li>
+<li><p><a href="/docs/concepts/buffers">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/docs/concepts/service-model">服务模型</a></p>
+</li>
+<li><p><a href="/docs/concepts/clock-sync">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/docs/learning-more/tracing-in-background">后台 Tracing</a></p>
+</li>
+<li><p><a href="/docs/learning-more/android">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/chrome-tracing">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/tracing-sdk">Tracing SDK</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/track-events">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/getting-started">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/analysis/stdlib-docs">标准库</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-syntax">语法</a></p>
+</li>
+<li><p><a href="/docs/analysis/style-guide">样式指南</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-backcompat">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-processor">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-processor-python">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-summary">Trace 汇总</a></p>
+</li>
+<li><p><a href="/docs/quickstart/traceconv">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/docs/visualization/perfetto-ui">Perfetto UI</a></p>
+</li>
+<li><p><a href="/docs/visualization/large-traces">打开大型 trace</a></p>
+</li>
+<li><p><a href="/docs/visualization/deep-linking-to-perfetto-ui">深度链接</a></p>
+</li>
+<li><p><a href="/docs/analysis/debug-tracks">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/docs/visualization/extending-the-ui">概述</a></p>
+</li>
+<li><p><a href="/docs/visualization/ui-automation">命令和宏</a></p>
+</li>
+<li><p><a href="/docs/visualization/extension-servers">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/docs/contributing/getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/contributing/common-tasks">常见任务</a></p>
+</li>
+<li><p><a href="/docs/contributing/become-a-committer">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/docs/contributing/ui-getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/contributing/ui-plugins">插件</a></p>
+</li>
+<li><p><a href="/docs/faq">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/native-heap-profiler">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/docs/data-sources/java-heap-profiler">Java 堆转储</a></p>
+</li>
+<li><p><a href="/docs/data-sources/memory-counters">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/cpu-scheduling">调度事件</a></p>
+</li>
+<li><p><a href="/docs/data-sources/syscalls">系统调用</a></p>
+</li>
+<li><p><a href="/docs/data-sources/cpu-freq">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/atrace">Atrace</a></p>
+</li>
+<li><p><a href="/docs/data-sources/android-log">Logcat</a></p>
+</li>
+<li><p><a href="/docs/data-sources/frametimeline">Frame Timeline</a></p>
+</li>
+<li><p><a href="/docs/data-sources/battery-counters">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/docs/data-sources/android-game-intervention-list">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/docs/reference/trace-packet-proto">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/docs/reference/synthetic-track-event">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/docs/reference/trace-config-proto">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/docs/concepts/concurrent-tracing-sessions">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/docs/concepts/detached-mode">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/docs/case-studies/android-boot-tracing">开机 Tracing</a></p>
+</li>
+<li><p><a href="/docs/case-studies/android-outofmemoryerror">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/docs/reference/android-version-notes">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/docs/reference/kernel-track-event">内核 track 事件</a></p>
+</li>
+<li><p><a href="/docs/data-sources/previous-boot-trace">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/docs/reference/perfetto-cli">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/docs/reference/traced">traced</a></p>
+</li>
+<li><p><a href="/docs/reference/traced_probes">traced_probes</a></p>
+</li>
+<li><p><a href="/docs/reference/heap_profile-cli">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/docs/reference/tracebox">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/docs/analysis/sql-tables">Prelude 表</a></p>
+</li>
+<li><p><a href="/docs/analysis/builtin">内置函数</a></p>
+</li>
+<li><p><a href="/docs/analysis/sql-stats">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/metrics">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/batch-trace-processor">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/deployment/deploying-bigtrace-on-a-single-machine">Bigtrace</a></p>
+</li>
+<li><p><a href="/docs/deployment/deploying-bigtrace-on-kubernetes">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/interceptors">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/docs/visualization/commands-automation-reference">命令自动化参考</a></p>
+</li>
+<li><p><a href="/docs/visualization/extension-server-protocol">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/docs/contributing/build-instructions">构建</a></p>
+</li>
+<li><p><a href="/docs/contributing/testing">测试</a></p>
+</li>
+<li><p><a href="/docs/contributing/developer-tools">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/docs/contributing/sdk-releasing">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/docs/contributing/python-releasing">Python 发布流程</a></p>
+</li>
+<li><p><a href="/docs/visualization/perfetto-ui-release-process">UI 发布流程</a></p>
+</li>
+<li><p><a href="/docs/contributing/chrome-branches">Chrome 分支</a></p>
+</li>
+<li><p><a href="/docs/contributing/sqlite-upgrade-guide">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/docs/design-docs/api-and-abi">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/docs/design-docs/life-of-a-tracing-session">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/docs/design-docs/protozero">ProtoZero</a></p>
+</li>
+<li><p><a href="/docs/design-docs/security-model">安全模型</a></p>
+</li>
+<li><p><a href="/docs/design-docs/checkpoint-atoms">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/docs/design-docs/batch-trace-processor">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/design-docs/trace-processor-architecture">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-design">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-wire-protocol">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-sampling">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/docs/design-docs/continuous-integration">Perfetto CI</a></p>
+</li>
+<li><p><a href="/docs/design-docs/lock-free-task-runner">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/instrumentation/track-events">
+    <h1>Track events (Tracing SDK)</h1><p>Track events 是 <a href="/docs/instrumentation/tracing-sdk">Perfetto Tracing SDK</a> 的一部分。</p>
+<p><em>Track events</em> 是应用程序特定的、有界的事件，在应用程序运行时记录到 <em>trace</em> 中。Track events 始终与 <em>track</em> 关联，track 是单调递增时间的 Timeline。track 对应于独立的执行序列，例如进程中的单个线程。</p>
+<p><img src="/docs/images/track-events.png" alt="Track events shown in the Perfetto UI" title="Track events in the Perfetto UI"></p>
+<p>有关如何检出和构建 SDK 的说明，请参阅 Tracing SDK 页面的 <a href="/docs/instrumentation/tracing-sdk#getting-started">快速入门</a> 部分。</p>
+<p class="callout tip">TIP: 这些示例中的代码也可在[仓库中](/examples/sdk/README.md）找到。</p>
+<p>有几种主要的 Track event 类型：</p>
+<ul>
+<li><p><strong>Slice</strong>，表示嵌套的、有界的操作。例如，Slice 可以覆盖函数开始执行到返回的时间段、从网络加载文件所花费的时间或完成用户旅程的时间。</p>
+</li>
+<li><p><strong>Counter</strong>，是随时间变化的数值的快照。例如，Track event 可以记录进程在执行过程中的瞬时内存使用情况。</p>
+</li>
+<li><p><strong>Flow</strong>，用于连接跨越不同 track 的相关 slice。例如，如果图像文件首先从网络加载，然后在线程池上解码，可以使用 flow event 来突出显示其在系统中的路径。</p>
+</li>
+</ul>
+<p><a href="https://ui.perfetto.dev">Perfetto UI</a> 内置了对 Track events 的支持，这提供了一种快速可视化应用程序内部处理的有用方法。例如，<a href="https://www.chromium.org/developers/how-tos/trace-event-profiling-tool">Chrome 浏览器</a> 深度使用 Track events 进行插桩，以辅助调试、开发和性能分析。</p>
+<p>要开始使用 Track events，首先定义事件所属的类别集。每个类别可以单独启用或禁用 tracing（请参阅<a href="#category-configuration">类别配置</a>）。</p>
+<p>将类别列表添加到头文件中（例如，<code>my_app_tracing_categories.h</code>），如下所示：</p>
+<code class="hljs code-block"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;perfetto.h&gt;</span></span>
+
+<span class="hljs-built_in">PERFETTO_DEFINE_CATEGORIES</span>(
+ perfetto::<span class="hljs-built_in">Category</span>(<span class="hljs-string">&quot;rendering&quot;</span>)
+ .<span class="hljs-built_in">SetDescription</span>(<span class="hljs-string">&quot;Events from the graphics subsystem&quot;</span>),
+ perfetto::<span class="hljs-built_in">Category</span>(<span class="hljs-string">&quot;network&quot;</span>)
+ .<span class="hljs-built_in">SetDescription</span>(<span class="hljs-string">&quot;Network upload and download statistics&quot;</span>));</code><p>然后，在 cc 文件（例如，<code>my_app_tracing_categories.cc</code>）中为类别声明静态存储：</p>
+<code class="hljs code-block"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;my_app_tracing_categories.h&quot;</span></span>
+
+<span class="hljs-built_in">PERFETTO_TRACK_EVENT_STATIC_STORAGE</span>();</code><p>最后，在客户端库启动后初始化 Track events：</p>
+<code class="hljs code-block"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span> </span>{
+ ...
+ perfetto::Tracing::<span class="hljs-built_in">Initialize</span>(args);
+ perfetto::TrackEvent::<span class="hljs-built_in">Register</span>(); <span class="hljs-comment">// 添加此行。</span>
+}</code><p>现在你可以像这样向现有函数添加 Track events：</p>
+<code class="hljs code-block"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;my_app_tracing_categories.h&quot;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DrawPlayer</span><span class="hljs-params">()</span> </span>{
+ <span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;rendering&quot;</span>, <span class="hljs-string">&quot;DrawPlayer&quot;</span>); <span class="hljs-comment">// 开始 &quot;DrawPlayer&quot; slice。</span>
+ ...
+ <span class="hljs-comment">// 结束 &quot;DrawPlayer&quot; slice。</span>
+}</code><p>这种类型的 trace event 是有作用域的，在底层使用 C++ <a href="https://en.cppreference.com/w/cpp/language/raii">RAII</a>。事件将覆盖从遇到 <code>TRACE_EVENT</code> 注释到块结束（在上面的示例中，直到函数返回）的时间。</p>
+<p>对于不遵循函数作用域的事件，使用 <code>TRACE_EVENT_BEGIN</code> 和 <code>TRACE_EVENT_END</code>：</p>
+<code class="hljs code-block"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LoadGame</span><span class="hljs-params">()</span> </span>{
+ <span class="hljs-built_in">DisplayLoadingScreen</span>();
+
+ <span class="hljs-built_in">TRACE_EVENT_BEGIN</span>(<span class="hljs-string">&quot;io&quot;</span>, <span class="hljs-string">&quot;Loading&quot;</span>); <span class="hljs-comment">// 开始 &quot;Loading&quot; slice。</span>
+ <span class="hljs-built_in">LoadCollectibles</span>();
+ <span class="hljs-built_in">LoadVehicles</span>();
+ <span class="hljs-built_in">LoadPlayers</span>();
+ <span class="hljs-built_in">TRACE_EVENT_END</span>(<span class="hljs-string">&quot;io&quot;</span>); <span class="hljs-comment">// 结束 &quot;Loading&quot; slice。</span>
+
+ <span class="hljs-built_in">StartGame</span>();
+}</code><p>请注意，你不需要为 <code>TRACE_EVENT_END</code> 提供名称，因为它会自动关闭在同一线程上开始的最近事件。换句话说，给定线程上的所有事件共享同一个堆栈。这意味着不建议在单独的函数中使用匹配的 <code>TRACE_EVENT_BEGIN</code> 和 <code>TRACE_EVENT_END</code> 标记对，因为无关的事件可能会意外终止原始事件；对于跨越函数边界的事件，通常最好在[单独的 track](#tracks）上发出它们。</p>
+<p>你还可以与事件一起提供（最多两个）debug 注解。</p>
+<code class="hljs code-block"><span class="hljs-keyword">int</span> player_number = <span class="hljs-number">1</span>;
+<span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;rendering&quot;</span>, <span class="hljs-string">&quot;DrawPlayer&quot;</span>, <span class="hljs-string">&quot;player_number&quot;</span>, player_number);</code><p>有关其他类型的支持 Track event 参数，请参阅<a href="#track-event-arguments">下文</a>。对于更复杂的参数，你可以定义<a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/trace/track_event/track_event.proto">自己的 protobuf 消息</a>，并将它们作为事件的参数发出。</p>
+<p class="callout note">NOTE: 目前自定义 protobuf 消息需要直接添加到 Perfetto 仓库的 <code>protos/perfetto/trace</code> 下，
+ 并且 Perfetto 本身也必须重新构建。我们正在<a href="https://github.com/google/perfetto/issues/11">努力消除此限制</a>。</p>
+<p>作为自定义 Track event 参数类型的示例，将以下内容保存为 <code>protos/perfetto/trace/track_event/player_info.proto</code>：</p>
+<code class="hljs code-block"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">PlayerInfo</span> </span>{
+ <span class="hljs-keyword">optional</span> <span class="hljs-built_in">string</span> name = <span class="hljs-number">1</span>;
+ <span class="hljs-keyword">optional</span> <span class="hljs-built_in">uint64</span> score = <span class="hljs-number">2</span>;
+}</code><p>这个新文件也应该添加到 <code>protos/perfetto/trace/track_event/BUILD.gn</code>：</p>
+<code class="hljs code-block">sources = [
+ ...
+ &quot;player_info.proto&quot;
+]</code><p>此外，应该在 <code>protos/perfetto/trace/track_event/track_event.proto</code> 中的 Track event 消息定义中添加匹配的参数：</p>
+<code class="hljs code-block"><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;protos/perfetto/trace/track_event/player_info.proto&quot;</span>;
+
+...
+
+<span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">TrackEvent</span> </span>{
+ ...
+ <span class="hljs-comment">// 新参数类型放在这里。</span>
+ <span class="hljs-keyword">optional</span> PlayerInfo player_info = <span class="hljs-number">1000</span>;
+}</code><p>相应的 trace 点可能如下所示：</p>
+<code class="hljs code-block">Player my_player;
+<span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;MyEvent&quot;</span>, [&amp;](perfetto::EventContext ctx) {
+ <span class="hljs-keyword">auto</span> player = ctx.<span class="hljs-built_in">event</span>()-&gt;<span class="hljs-built_in">set_player_info</span>();
+ player-&gt;<span class="hljs-built_in">set_name</span>(my_player.<span class="hljs-built_in">name</span>());
+ player-&gt;<span class="hljs-built_in">set_player_score</span>(my_player.<span class="hljs-built_in">score</span>());
+});</code><p>传递给宏的 lambda 函数仅在给定类别的 tracing 已启用时才会被调用。它总是被同步调用，并且如果有多个并发 tracing 会话处于活动状态，可能会被多次调用。</p>
+<p>现在你已经使用 Track events 为你的应用程序进行了插桩，你准备好开始[采集 Trace](tracing-sdk.md#recording）了。</p>
+<h2><a name="-" class="anchor" href="#-"></a>类别配置</h2><p>所有 Track events 都被分配到一个或多个 trace 类别。例如：</p>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;rendering&quot;</span>, ...); <span class="hljs-comment">// &quot;rendering&quot; 类别中的事件。</span></code><p>默认情况下，所有非调试和非慢速 Track event 类别都启用了 tracing。<em>Debug</em> 和 <em>slow</em> 类别是具有特殊标记的类别：</p>
+<ul>
+<li><code>&quot;debug&quot;</code> 类别可以为特定子系统提供更详细的调试输出。</li>
+<li><code>&quot;slow&quot;</code> 类别记录足够多的数据，可能会影响你应用程序的交互性能。</li>
+</ul>
+<p>类别标记可以像这样定义：</p>
+<code class="hljs code-block">perfetto::<span class="hljs-built_in">Category</span>(<span class="hljs-string">&quot;rendering.debug&quot;</span>)
+ .<span class="hljs-built_in">SetDescription</span>(<span class="hljs-string">&quot;Debug events from the graphics subsystem&quot;</span>)
+ .<span class="hljs-built_in">SetTags</span>(<span class="hljs-string">&quot;debug&quot;</span>, <span class="hljs-string">&quot;my_custom_tag&quot;</span>)</code><p>单个 trace event 也可以属于多个类别：</p>
+<code class="hljs code-block"><span class="hljs-comment">// &quot;rendering&quot; 和 &quot;benchmark&quot; 类别中的事件。</span>
+<span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;rendering,benchmark&quot;</span>, ...);</code><p>必须在类别注册表中添加相应的类别组条目：</p>
+<code class="hljs code-block">perfetto::Category::<span class="hljs-built_in">Group</span>(<span class="hljs-string">&quot;rendering,benchmark&quot;</span>)</code><p>还可以有效地查询是否为 tracing 启用了给定类别：</p>
+<code class="hljs code-block"><span class="hljs-keyword">if</span> (<span class="hljs-built_in">TRACE_EVENT_CATEGORY_ENABLED</span>(<span class="hljs-string">&quot;rendering&quot;</span>)) {
+ <span class="hljs-comment">// ...</span>
+}</code><p>Perfetto 的 <code>TraceConfig</code> 中的 <code>TrackEventConfig</code> 字段可用于选择为 tracing 启用哪些类别：</p>
+<code class="hljs code-block"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">TrackEventConfig</span> </span>{
+ <span class="hljs-comment">// 每个列表项都是一个 glob。每个类别按照下面的说明与列表进行匹配。</span>
+ <span class="hljs-keyword">repeated</span> <span class="hljs-built_in">string</span> disabled_categories = <span class="hljs-number">1</span>; <span class="hljs-comment">// 默认值：[]</span>
+ <span class="hljs-keyword">repeated</span> <span class="hljs-built_in">string</span> enabled_categories = <span class="hljs-number">2</span>; <span class="hljs-comment">// 默认值：[]</span>
+ <span class="hljs-keyword">repeated</span> <span class="hljs-built_in">string</span> disabled_tags = <span class="hljs-number">3</span>; <span class="hljs-comment">// 默认值：[&quot;slow&quot;, &quot;debug&quot;]</span>
+ <span class="hljs-keyword">repeated</span> <span class="hljs-built_in">string</span> enabled_tags = <span class="hljs-number">4</span>; <span class="hljs-comment">// 默认值：[]</span>
+}</code><p>要确定是否启用了类别，它将按照以下顺序对照过滤器进行检查：</p>
+<ol>
+<li>已启用类别中的精确匹配。</li>
+<li>已启用标记中的精确匹配。</li>
+<li>已禁用类别中的精确匹配。</li>
+<li>已禁用标记中的精确匹配。</li>
+<li>已启用类别中的模式匹配。</li>
+<li>已启用标记中的模式匹配。</li>
+<li>已禁用类别中的模式匹配。</li>
+<li>已禁用标记中的模式匹配。</li>
+</ol>
+<p>如果没有任何步骤产生匹配，则类别：</p>
+<ul>
+<li>在 C+- API 中默认启用</li>
+<li>在 C API 中默认禁用</li>
+</ul>
+<p>指定 <code>enabled_categories: &quot;*&quot;</code> 或 <code>disabled_categories: &quot;*&quot;</code> 有助于显式实现一致的行为。</p>
+<p>例如：</p>
+<table>
+<thead>
+<tr>
+<th>设置</th>
+<th>所需配置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>仅启用特定类别</td>
+<td><code>enabled_categories = [&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>disabled_categories = [&quot;*&quot;]</code></td>
+</tr>
+<tr>
+<td>启用所有非慢速类别</td>
+<td><code>enabled_categories = [&quot;*&quot;] </code></td>
+</tr>
+<tr>
+<td>启用特定标记</td>
+<td><code>disabled_tags = [&quot;*&quot;]</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>enabled_tags = [&quot;foo&quot;, &quot;bar&quot;]</code></td>
+</tr>
+</tbody></table>
+<h2><a name="-" class="anchor" href="#-"></a>动态和仅测试类别</h2><p>理想情况下，所有 trace 类别都应该在编译时定义，如上所示，因为这可以确保 trace 点具有最小的运行时和二进制大小开销。然而，在某些情况下，trace 类别只能在运行时确定（例如，它们来自在 WebView 或 NodeJS 引擎中运行的动态加载 JavaScript 的插桩）。这些可以由 trace 点使用，如下所示：</p>
+<code class="hljs code-block">perfetto::DynamicCategory dynamic_category{<span class="hljs-string">&quot;nodejs.something&quot;</span>};
+<span class="hljs-built_in">TRACE_EVENT_BEGIN</span>(dynamic_category, <span class="hljs-string">&quot;SomeEvent&quot;</span>, ...);</code><p class="callout tip">TIP: 也可以通过将 <code>nullptr</code> 作为名称传递并手动填充 <code>TrackEvent::name</code> 字段来使用动态事件名称。</p>
+<p>一些 trace 类别仅对测试有用，它们不应进入生产二进制文件。这些类型的类别可以用前缀字符串列表定义：</p>
+<code class="hljs code-block"><span class="hljs-built_in">PERFETTO_DEFINE_TEST_CATEGORY_PREFIXES</span>(
+ <span class="hljs-string">&quot;test&quot;</span>, <span class="hljs-comment">// 适用于 test.*</span>
+ <span class="hljs-string">&quot;dontship&quot;</span> <span class="hljs-comment">// 适用于 dontship.*.</span>
+);</code><h2><a name="-" class="anchor" href="#-"></a>动态事件名称</h2><p>理想情况下，所有事件名称都应该是编译时字符串常量。例如：</p>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_EVENT_BEGIN</span>(<span class="hljs-string">&quot;rendering&quot;</span>, <span class="hljs-string">&quot;DrawGame&quot;</span>);</code><p>这里 <code>&quot;DrawGame&quot;</code> 是编译时字符串。如果这里传递动态字符串，我们将得到编译时 static_assert 失败。例如：</p>
+<code class="hljs code-block"><span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* name = <span class="hljs-string">&quot;DrawGame&quot;</span>;
+<span class="hljs-built_in">TRACE_EVENT_BEGIN</span>(<span class="hljs-string">&quot;rendering&quot;</span>, name); <span class="hljs-comment">// 错误。事件名称不是静态的。</span></code><p>有两种使用动态事件名称的方法：</p>
+<ol>
+<li>如果事件名称实际上是动态的（例如，std::string），使用 <code>perfetto::DynamicString</code> 编写它：</li>
+</ol>
+<code class="hljs code-block"> <span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, perfetto::DynamicString{dynamic_name});</code><p>DANGER: <code>perfetto::DynamicString</code> 必须作为纯右值（临时对象）传递。
+ 这是为了确保底层字符串在记录事件之前保持有效。</p>
+<p class="callout note">NOTE: 以下是使用动态事件名称的旧方法。不再推荐使用。</p>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-literal">nullptr</span>, [&amp;](perfetto::EventContext ctx) {
+ ctx.<span class="hljs-built_in">event</span>()-&gt;<span class="hljs-built_in">set_name</span>(dynamic_name);
+});</code><ol start="2">
+<li>如果名称是静态的，但指针在运行时计算，用 perfetto::StaticString 包装它：</li>
+</ol>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, perfetto::StaticString{name});
+<span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, perfetto::StaticString{i % <span class="hljs-number">2</span> == <span class="hljs-number">0</span> ? <span class="hljs-string">&quot;A&quot;</span> : <span class="hljs-string">&quot;B&quot;</span>});</code><p>DANGER: 对内容动态变化的字符串使用 perfetto::StaticString 可能会导致静默的 trace 数据损坏。</p>
+<h2><a name="-" class="anchor" href="#-"></a>高级主题</h2><h3><a name="track-event-" class="anchor" href="#track-event-"></a>Track event 参数</h3><p>可以将以下可选参数传递给 <code>TRACE_EVENT</code> 以向事件添加额外信息：</p>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;cat&quot;</span>, <span class="hljs-string">&quot;name&quot;</span>[, track][, timestamp]
+ (, <span class="hljs-string">&quot;debug_name&quot;</span>, debug_value |, TrackEvent::kFieldName, value)*
+ [, lambda]);</code><p>有效组合的一些示例：</p>
+<ol>
+<li>用于编写自定义 TrackEvent 字段的 lambda：</li>
+</ol>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;Name&quot;</span>, [&amp;](perfetto::EventContext ctx) {
+<span class="hljs-keyword">auto</span>* debug_annotation = ctx.<span class="hljs-built_in">event</span>()-&gt;<span class="hljs-built_in">add_debug_annotations</span>();
+debug_annotation-&gt;<span class="hljs-built_in">set_name</span>(<span class="hljs-string">&quot;key&quot;</span>);
+debug_annotation-&gt;<span class="hljs-built_in">set_string_value</span>(<span class="hljs-string">&quot;value&quot;</span>);
+});</code><ol start="2">
+<li>时间戳和 lambda：</li>
+</ol>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;Name&quot;</span>, time_in_nanoseconds,
+[&amp;](perfetto::EventContext ctx) {
+<span class="hljs-keyword">auto</span>* debug_annotation = ctx.<span class="hljs-built_in">event</span>()-&gt;<span class="hljs-built_in">add_debug_annotations</span>();
+debug_annotation-&gt;<span class="hljs-built_in">set_name</span>(<span class="hljs-string">&quot;key&quot;</span>);
+debug_annotation-&gt;<span class="hljs-built_in">set_string_value</span>(<span class="hljs-string">&quot;value&quot;</span>);
+});</code><p> |time_in_nanoseconds| 默认应为 uint64_t。要支持自定义时间戳类型，
+ 应该定义 |perfetto::TraceTimestampTraits<MyTimestamp>::ConvertTimestampToTraceTimeNs|。
+ 有关更多详细信息，请参阅 |ConvertTimestampToTraceTimeNs|。</p>
+<ol start="3">
+<li>任意数量的 debug 注解：</li>
+</ol>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;Name&quot;</span>, <span class="hljs-string">&quot;arg&quot;</span>, value);
+<span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;Name&quot;</span>, <span class="hljs-string">&quot;arg&quot;</span>, value, <span class="hljs-string">&quot;arg2&quot;</span>, value2);
+<span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;Name&quot;</span>, <span class="hljs-string">&quot;arg&quot;</span>, value, <span class="hljs-string">&quot;arg2&quot;</span>, value2,
+<span class="hljs-string">&quot;arg3&quot;</span>, value3);</code><p> 有关将自定义类型采集为 debug 注解，请参阅 |TracedValue|。</p>
+<ol start="4">
+<li>任意数量的 TrackEvent 字段（包括扩展）：</li>
+</ol>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;Name&quot;</span>,
+perfetto::protos::pbzero::TrackEvent::kFieldName, value);</code><ol start="5">
+<li>debug 注解和 TrackEvent 字段的任意组合：</li>
+</ol>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;Name&quot;</span>,
+perfetto::protos::pbzero::TrackEvent::kFieldName, value1,
+<span class="hljs-string">&quot;arg&quot;</span>, value2);</code><ol start="6">
+<li>debug 注解 / TrackEvent 字段和 lambda 的任意组合：</li>
+</ol>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;Name&quot;</span>, <span class="hljs-string">&quot;arg&quot;</span>, value1,
+pbzero::TrackEvent::kFieldName, value2,
+[&amp;](perfetto::EventContext ctx) {
+<span class="hljs-keyword">auto</span>* debug_annotation = ctx.<span class="hljs-built_in">event</span>()-&gt;<span class="hljs-built_in">add_debug_annotations</span>();
+debug_annotation-&gt;<span class="hljs-built_in">set_name</span>(<span class="hljs-string">&quot;key&quot;</span>);
+debug_annotation-&gt;<span class="hljs-built_in">set_string_value</span>(<span class="hljs-string">&quot;value&quot;</span>);
+});</code><ol start="7">
+<li>覆盖的 track：</li>
+</ol>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;Name&quot;</span>, perfetto::<span class="hljs-built_in">Track</span>(<span class="hljs-number">1234</span>));</code><p> 有关可能使用的其他 track 类型，请参阅 |Track|。</p>
+<ol start="8">
+<li>track 和 lambda：</li>
+</ol>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;Name&quot;</span>, perfetto::<span class="hljs-built_in">Track</span>(<span class="hljs-number">1234</span>),
+[&amp;](perfetto::EventContext ctx) {
+<span class="hljs-keyword">auto</span>* debug_annotation = ctx.<span class="hljs-built_in">event</span>()-&gt;<span class="hljs-built_in">add_debug_annotations</span>();
+debug_annotation-&gt;<span class="hljs-built_in">set_name</span>(<span class="hljs-string">&quot;key&quot;</span>);
+debug_annotation-&gt;<span class="hljs-built_in">set_string_value</span>(<span class="hljs-string">&quot;value&quot;</span>);
+});</code><ol start="9">
+<li>track 和时间戳：</li>
+</ol>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;Name&quot;</span>, perfetto::<span class="hljs-built_in">Track</span>(<span class="hljs-number">1234</span>),
+time_in_nanoseconds);</code><ol start="10">
+<li>track、时间戳和 lambda：</li>
+</ol>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;Name&quot;</span>, perfetto::<span class="hljs-built_in">Track</span>(<span class="hljs-number">1234</span>),
+time_in_nanoseconds, [&amp;](perfetto::EventContext ctx) {
+<span class="hljs-keyword">auto</span>* debug_annotation = ctx.<span class="hljs-built_in">event</span>()-&gt;<span class="hljs-built_in">add_debug_annotations</span>();
+debug_annotation-&gt;<span class="hljs-built_in">set_name</span>(<span class="hljs-string">&quot;key&quot;</span>);
+debug_annotation-&gt;<span class="hljs-built_in">set_string_value</span>(<span class="hljs-string">&quot;value&quot;</span>);
+});</code><ol start="11">
+<li>track 和 debug 注解及 TrackEvent 字段的任意组合：</li>
+</ol>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;Name&quot;</span>, perfetto::<span class="hljs-built_in">Track</span>(<span class="hljs-number">1234</span>),
+<span class="hljs-string">&quot;arg&quot;</span>, value);
+<span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;Name&quot;</span>, perfetto::<span class="hljs-built_in">Track</span>(<span class="hljs-number">1234</span>),
+<span class="hljs-string">&quot;arg&quot;</span>, value, <span class="hljs-string">&quot;arg2&quot;</span>, value2);
+<span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;Name&quot;</span>, perfetto::<span class="hljs-built_in">Track</span>(<span class="hljs-number">1234</span>),
+<span class="hljs-string">&quot;arg&quot;</span>, value, <span class="hljs-string">&quot;arg2&quot;</span>, value2,
+pbzero::TrackEvent::kFieldName, value3);</code><h3><a name="track" class="anchor" href="#track"></a>Track</h3><p>每个 Track event 都与 track 关联，track 指定事件所属的 Timeline。在大多数情况下，track 对应于 Perfetto UI 中的视觉水平 track，如下所示：</p>
+<p><img src="/docs/images/track-timeline.png" alt="Track timelines shown in the Perfetto UI" title="Track timelines in the Perfetto UI"></p>
+<p>描述并行序列的事件（例如，单独的线程）应该使用单独的 track，而顺序事件（例如，嵌套函数调用）通常属于同一个 track。</p>
+<p>Perfetto 支持三种类型的 track：</p>
+<ul>
+<li><p><code>Track</code> – 基本 Timeline。</p>
+</li>
+<li><p><code>ProcessTrack</code> – 表示系统中单个进程的 Timeline。</p>
+</li>
+<li><p><code>ThreadTrack</code> – 表示系统中单个线程的 Timeline。</p>
+</li>
+</ul>
+<p>Track 可以有父 track，父 track 用于将相关的 track 分组在一起。例如，<code>ThreadTrack</code> 的父 track 是该线程所属进程的 <code>ProcessTrack</code>。默认情况下，track 被分组在当前进程的 <code>ProcessTrack</code> 下。</p>
+<p>track 由 uuid 标识，uuid 在整个采集的 trace 中必须是唯一的。为了最大限度地减少意外冲突的机会，子 track 的 uuid 与其父 track 的 uuid 组合，每个 <code>ProcessTrack</code> 都有一个随机的、每个进程的 uuid。</p>
+<p>默认情况下，Track events（例如，<code>TRACE_EVENT</code>）使用调用线程的 <code>ThreadTrack</code>。可以覆盖它，例如，标记在不同线程上开始和结束的事件：</p>
+<code class="hljs code-block"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnNewRequest</span><span class="hljs-params">(<span class="hljs-keyword">size_t</span> request_id)</span> </span>{
+ <span class="hljs-comment">// 在请求进入时打开 slice。</span>
+ <span class="hljs-built_in">TRACE_EVENT_BEGIN</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;HandleRequest&quot;</span>, perfetto::<span class="hljs-built_in">Track</span>(request_id));
+
+ <span class="hljs-comment">// 启动线程来处理请求。</span>
+ <span class="hljs-function">std::thread <span class="hljs-title">worker_thread</span><span class="hljs-params">([=] {
+ <span class="hljs-comment">// ... 生成响应 ...</span>
+
+ <span class="hljs-comment">// 现在关闭请求的 slice，因为我们完成了处理。</span>
+ TRACE_EVENT_END(<span class="hljs-string">&quot;category&quot;</span>, perfetto::Track(request_id));
+ })</span></span>;</code><p>track 还可以选择用元数据注解：</p>
+<code class="hljs code-block"><span class="hljs-keyword">auto</span> desc = track.<span class="hljs-built_in">Serialize</span>();
+desc.<span class="hljs-built_in">set_name</span>(<span class="hljs-string">&quot;MyTrack&quot;</span>);
+perfetto::TrackEvent::<span class="hljs-built_in">SetTrackDescriptor</span>(track, desc);</code><p>线程和进程也可以以类似的方式命名，例如：</p>
+<code class="hljs code-block"><span class="hljs-keyword">auto</span> desc = perfetto::ProcessTrack::<span class="hljs-built_in">Current</span>().<span class="hljs-built_in">Serialize</span>();
+desc.<span class="hljs-built_in">mutable_process</span>()-&gt;<span class="hljs-built_in">set_process_name</span>(<span class="hljs-string">&quot;MyProcess&quot;</span>);
+perfetto::TrackEvent::<span class="hljs-built_in">SetTrackDescriptor</span>(
+ perfetto::ProcessTrack::<span class="hljs-built_in">Current</span>(), desc);</code><p>元数据在 tracing 会话之间保持有效。要释放 track 的数据，调用 EraseTrackDescriptor：</p>
+<code class="hljs code-block">perfetto::TrackEvent::<span class="hljs-built_in">EraseTrackDescriptor</span>(track);</code><h3><a name="flow" class="anchor" href="#flow"></a>Flow</h3><p>Flow 可用于链接两个（或更多）事件（slice 或 instant），将它们标记为相关。</p>
+<p>当选择其中一个事件时，链接在 UI 中显示为箭头：</p>
+<p><img src="/docs/images/flows.png" alt="A flow between two slices in the Perfetto UI" title="A flow between two slices in the Perfetto UI"></p>
+<code class="hljs code-block"><span class="hljs-comment">// 在相关的 slice 中使用相同的标识符。</span>
+<span class="hljs-keyword">uint64_t</span> request_id = <span class="hljs-built_in">GetRequestId</span>();
+
+{
+ <span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;rendering&quot;</span>, <span class="hljs-string">&quot;HandleRequestPhase1&quot;</span>,
+ perfetto::Flow::<span class="hljs-built_in">ProcessScoped</span>(request_id));
+ <span class="hljs-comment">//...</span>
+}
+
+<span class="hljs-function">std::thread <span class="hljs-title">t1</span><span class="hljs-params">([&amp;] {
+ TRACE_EVENT(<span class="hljs-string">&quot;rendering&quot;</span>, <span class="hljs-string">&quot;HandleRequestPhase2&quot;</span>,
+ perfetto::TerminatingFlow::ProcessScoped(request_id));
+ <span class="hljs-comment">//...</span>
+})</span></span>;</code><h3><a name="counter" class="anchor" href="#counter"></a>Counter</h3><p>时变数值数据可以使用 <code>TRACE_COUNTER</code> 宏记录：</p>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_COUNTER</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;MyCounter&quot;</span>, <span class="hljs-number">1234.5</span>);</code><p>此数据在 Perfetto UI 中显示为 counter track：</p>
+<p><img src="/docs/images/counter-events.png" alt="A counter track shown in the Perfetto UI" title="A counter track shown in the Perfetto UI"></p>
+<p>支持整数和浮点 counter 值。Counter 还可以用其他信息注解，例如单位，用于跟踪以每秒帧数或 &quot;fps&quot; 表示的渲染帧率：</p>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_COUNTER</span>(<span class="hljs-string">&quot;category&quot;</span>, perfetto::<span class="hljs-built_in">CounterTrack</span>(<span class="hljs-string">&quot;Framerate&quot;</span>, <span class="hljs-string">&quot;fps&quot;</span>), <span class="hljs-number">120</span>);</code><p>作为另一个示例，采集字节但接受千字节作为样本（以减少 trace 二进制大小）的内存 counter 可以这样定义：</p>
+<code class="hljs code-block">perfetto::CounterTrack memory_track = perfetto::<span class="hljs-built_in">CounterTrack</span>(<span class="hljs-string">&quot;Memory&quot;</span>)
+ .<span class="hljs-built_in">set_unit</span>(<span class="hljs-string">&quot;bytes&quot;</span>)
+ .<span class="hljs-built_in">set_multiplier</span>(<span class="hljs-number">1024</span>);
+<span class="hljs-built_in">TRACE_COUNTER</span>(<span class="hljs-string">&quot;category&quot;</span>, memory_track, <span class="hljs-number">4</span> <span class="hljs-comment">/* = 4096 bytes */</span>);</code><p>有关 counter track 的完整属性集，请参阅<a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/trace/track_event/counter_descriptor.proto">counter_descriptor.proto</a>。</p>
+<p>要在特定时间点（而不是当前时间）记录 counter 值，可以传递自定义时间戳：</p>
+<code class="hljs code-block"><span class="hljs-comment">// 首先记录当前时间和 counter 值。</span>
+<span class="hljs-keyword">uint64_t</span> timestamp = perfetto::TrackEvent::<span class="hljs-built_in">GetTraceTimeNs</span>();
+<span class="hljs-keyword">int64_t</span> value = <span class="hljs-number">1234</span>;
+
+<span class="hljs-comment">// 稍后，在该时间点发出样本。</span>
+<span class="hljs-built_in">TRACE_COUNTER</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;MyCounter&quot;</span>, timestamp, value);</code><h3><a name="interning" class="anchor" href="#interning"></a>Interning</h3><p>Interning 可用于避免在整个 trace 中重复相同的常量数据（例如，事件名称）。Perfetto 自动为传递给 <code>TRACE_EVENT</code> 的大多数字符串执行 interning，但也可以定义自己的类型 interning 数据。</p>
+<p>首先，为你的类型定义 interning 索引。它应该映射到<a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/trace/interned_data/interned_data.proto">interned_data.proto</a>的特定字段，并指定在第一次看到时如何将 interning 数据写入该消息。</p>
+<code class="hljs code-block"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">MyInternedData</span>
+ :</span> <span class="hljs-keyword">public</span> perfetto::TrackEventInternedDataIndex&lt;
+ MyInternedData,
+ perfetto::protos::pbzero::InternedData::kMyInternedDataFieldNumber,
+ <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>*&gt; {
+ <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Add</span><span class="hljs-params">(perfetto::protos::pbzero::InternedData* interned_data,
+ <span class="hljs-keyword">size_t</span> iid,
+ <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* value)</span> </span>{
+ <span class="hljs-keyword">auto</span> my_data = interned_data-&gt;<span class="hljs-built_in">add_my_interned_data</span>();
+ my_data-&gt;<span class="hljs-built_in">set_iid</span>(iid);
+ my_data-&gt;<span class="hljs-built_in">set_value</span>(value);
+ }
+};</code><p>接下来，如下所示在 trace 点中使用你的 interning 数据。仅在第一次命中 trace 点时才会发出 interning 字符串（除非 trace 缓冲区已环绕）。</p>
+<code class="hljs code-block"><span class="hljs-built_in">TRACE_EVENT</span>(
+ <span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-string">&quot;Event&quot;</span>, [&amp;](perfetto::EventContext ctx) {
+ <span class="hljs-keyword">auto</span> my_message = ctx.<span class="hljs-built_in">event</span>()-&gt;<span class="hljs-built_in">set_my_message</span>();
+ <span class="hljs-keyword">size_t</span> iid = MyInternedData::<span class="hljs-built_in">Get</span>(&amp;ctx, <span class="hljs-string">&quot;Repeated data to be interned&quot;</span>);
+ my_message-&gt;<span class="hljs-built_in">set_iid</span>(iid);
+ });</code><p>请注意，interning 数据是强类型的，即每类 interning 数据使用标识符的单独命名空间。</p>
+<h3><a name="tracing-" class="anchor" href="#tracing-"></a>Tracing 会话观察者</h3><p>会话观察者接口允许在 Track event tracing 开始和停止时通知应用程序：</p>
+<code class="hljs code-block"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Observer</span> :</span> <span class="hljs-keyword">public</span> perfetto::TrackEventSessionObserver {
+ <span class="hljs-keyword">public</span>:
+ ~<span class="hljs-built_in">Observer</span>() <span class="hljs-keyword">override</span> = <span class="hljs-keyword">default</span>;
+
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnSetup</span><span class="hljs-params">(<span class="hljs-keyword">const</span> perfetto::DataSourceBase::SetupArgs&amp;)</span> <span class="hljs-keyword">override</span> </span>{
+ <span class="hljs-comment">// 配置 tracing 会话时调用。注意 tracing 尚未激活，</span>
+ <span class="hljs-comment">// 所以这里发出的 Track events 不会被记录。</span>
+ }
+
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnStart</span><span class="hljs-params">(<span class="hljs-keyword">const</span> perfetto::DataSourceBase::StartArgs&amp;)</span> <span class="hljs-keyword">override</span> </span>{
+ <span class="hljs-comment">// 启动 tracing 会话时调用。可以从此回调发出 Track events。</span>
+ }
+
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnStop</span><span class="hljs-params">(<span class="hljs-keyword">const</span> perfetto::DataSourceBase::StopArgs&amp;)</span> <span class="hljs-keyword">override</span> </span>{
+ <span class="hljs-comment">// 停止 tracing 会话时调用。仍然可以从此回调发出 Track events。</span>
+ }
+};</code><p>请注意，接口的所有方法都在内部 Perfetto 线程上调用。</p>
+<p>例如，以下是等待任何 tracing 会话启动的方法：</p>
+<code class="hljs code-block"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Observer</span> :</span> <span class="hljs-keyword">public</span> perfetto::TrackEventSessionObserver {
+ <span class="hljs-keyword">public</span>:
+ <span class="hljs-built_in">Observer</span>() { perfetto::TrackEvent::<span class="hljs-built_in">AddSessionObserver</span>(<span class="hljs-keyword">this</span>); }
+ ~<span class="hljs-built_in">Observer</span>() { perfetto::TrackEvent::<span class="hljs-built_in">RemoveSessionObserver</span>(<span class="hljs-keyword">this</span>); }
+
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnStart</span><span class="hljs-params">(<span class="hljs-keyword">const</span> perfetto::DataSourceBase::StartArgs&amp;)</span> <span class="hljs-keyword">override</span> </span>{
+ <span class="hljs-function">std::unique_lock&lt;std::mutex&gt; <span class="hljs-title">lock</span><span class="hljs-params">(mutex)</span></span>;
+ cv.<span class="hljs-built_in">notify_one</span>();
+ }
+
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">WaitForTracingStart</span><span class="hljs-params">()</span> </span>{
+ <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Waiting for tracing to start...\n&quot;</span>);
+ <span class="hljs-function">std::unique_lock&lt;std::mutex&gt; <span class="hljs-title">lock</span><span class="hljs-params">(mutex)</span></span>;
+ cv.<span class="hljs-built_in">wait</span>(lock, [] { <span class="hljs-keyword">return</span> perfetto::TrackEvent::<span class="hljs-built_in">IsEnabled</span>(); });
+ <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Tracing started\n&quot;</span>);
+ }
+
+ std::mutex mutex;
+ std::condition_variable cv;
+};
+
+Observer observer;
+observer.<span class="hljs-built_in">WaitForTracingToStart</span>();</code>
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

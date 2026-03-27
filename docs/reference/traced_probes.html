@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TRACED_PROBES(8) - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="TRACED_PROBES(8) - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/reference/traced_probes">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/assets/favicon.png" />
+  <script type="text/javascript" src="/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/">
+      <img src="/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/docs/">Docs</a>
+  <a href="/docs/contributing/getting-started#community">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/docs/tracing-101">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/docs/getting-started/start-using-perfetto">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/docs/getting-started/system-tracing">系统 Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/in-app-tracing">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/memory-profiling">Memory Profiling</a></p>
+</li>
+<li><p><a href="/docs/getting-started/cpu-profiling">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/docs/getting-started/atrace">Android atrace</a></p>
+</li>
+<li><p><a href="/docs/getting-started/ftrace">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/getting-started/other-formats">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/docs/getting-started/converting">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/docs/getting-started/android-trace-analysis">分析 Android Trace</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/docs/case-studies/memory">Android 内存使用</a></p>
+</li>
+<li><p><a href="/docs/case-studies/scheduling-blockages">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/docs/concepts/config">Trace 配置</a></p>
+</li>
+<li><p><a href="/docs/concepts/buffers">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/docs/concepts/service-model">服务模型</a></p>
+</li>
+<li><p><a href="/docs/concepts/clock-sync">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/docs/learning-more/tracing-in-background">后台 Tracing</a></p>
+</li>
+<li><p><a href="/docs/learning-more/android">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/chrome-tracing">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/tracing-sdk">Tracing SDK</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/track-events">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/getting-started">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/analysis/stdlib-docs">标准库</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-syntax">语法</a></p>
+</li>
+<li><p><a href="/docs/analysis/style-guide">样式指南</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-backcompat">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-processor">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-processor-python">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-summary">Trace 汇总</a></p>
+</li>
+<li><p><a href="/docs/quickstart/traceconv">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/docs/visualization/perfetto-ui">Perfetto UI</a></p>
+</li>
+<li><p><a href="/docs/visualization/large-traces">打开大型 trace</a></p>
+</li>
+<li><p><a href="/docs/visualization/deep-linking-to-perfetto-ui">深度链接</a></p>
+</li>
+<li><p><a href="/docs/analysis/debug-tracks">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/docs/visualization/extending-the-ui">概述</a></p>
+</li>
+<li><p><a href="/docs/visualization/ui-automation">命令和宏</a></p>
+</li>
+<li><p><a href="/docs/visualization/extension-servers">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/docs/contributing/getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/contributing/common-tasks">常见任务</a></p>
+</li>
+<li><p><a href="/docs/contributing/become-a-committer">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/docs/contributing/ui-getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/contributing/ui-plugins">插件</a></p>
+</li>
+<li><p><a href="/docs/faq">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/native-heap-profiler">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/docs/data-sources/java-heap-profiler">Java 堆转储</a></p>
+</li>
+<li><p><a href="/docs/data-sources/memory-counters">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/cpu-scheduling">调度事件</a></p>
+</li>
+<li><p><a href="/docs/data-sources/syscalls">系统调用</a></p>
+</li>
+<li><p><a href="/docs/data-sources/cpu-freq">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/atrace">Atrace</a></p>
+</li>
+<li><p><a href="/docs/data-sources/android-log">Logcat</a></p>
+</li>
+<li><p><a href="/docs/data-sources/frametimeline">Frame Timeline</a></p>
+</li>
+<li><p><a href="/docs/data-sources/battery-counters">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/docs/data-sources/android-game-intervention-list">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/docs/reference/trace-packet-proto">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/docs/reference/synthetic-track-event">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/docs/reference/trace-config-proto">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/docs/concepts/concurrent-tracing-sessions">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/docs/concepts/detached-mode">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/docs/case-studies/android-boot-tracing">开机 Tracing</a></p>
+</li>
+<li><p><a href="/docs/case-studies/android-outofmemoryerror">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/docs/reference/android-version-notes">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/docs/reference/kernel-track-event">内核 track 事件</a></p>
+</li>
+<li><p><a href="/docs/data-sources/previous-boot-trace">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/docs/reference/perfetto-cli">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/docs/reference/traced">traced</a></p>
+</li>
+<li><p><a href="/docs/reference/traced_probes">traced_probes</a></p>
+</li>
+<li><p><a href="/docs/reference/heap_profile-cli">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/docs/reference/tracebox">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/docs/analysis/sql-tables">Prelude 表</a></p>
+</li>
+<li><p><a href="/docs/analysis/builtin">内置函数</a></p>
+</li>
+<li><p><a href="/docs/analysis/sql-stats">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/metrics">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/batch-trace-processor">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/deployment/deploying-bigtrace-on-a-single-machine">Bigtrace</a></p>
+</li>
+<li><p><a href="/docs/deployment/deploying-bigtrace-on-kubernetes">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/interceptors">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/docs/visualization/commands-automation-reference">命令自动化参考</a></p>
+</li>
+<li><p><a href="/docs/visualization/extension-server-protocol">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/docs/contributing/build-instructions">构建</a></p>
+</li>
+<li><p><a href="/docs/contributing/testing">测试</a></p>
+</li>
+<li><p><a href="/docs/contributing/developer-tools">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/docs/contributing/sdk-releasing">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/docs/contributing/python-releasing">Python 发布流程</a></p>
+</li>
+<li><p><a href="/docs/visualization/perfetto-ui-release-process">UI 发布流程</a></p>
+</li>
+<li><p><a href="/docs/contributing/chrome-branches">Chrome 分支</a></p>
+</li>
+<li><p><a href="/docs/contributing/sqlite-upgrade-guide">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/docs/design-docs/api-and-abi">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/docs/design-docs/life-of-a-tracing-session">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/docs/design-docs/protozero">ProtoZero</a></p>
+</li>
+<li><p><a href="/docs/design-docs/security-model">安全模型</a></p>
+</li>
+<li><p><a href="/docs/design-docs/checkpoint-atoms">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/docs/design-docs/batch-trace-processor">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/design-docs/trace-processor-architecture">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-design">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-wire-protocol">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-sampling">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/docs/design-docs/continuous-integration">Perfetto CI</a></p>
+</li>
+<li><p><a href="/docs/design-docs/lock-free-task-runner">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/reference/traced_probes">
+    <h1>TRACED_PROBES(8)</h1><h2><a name="-" class="anchor" href="#-"></a>名称</h2><p>traced_probes - 系统和操作系统探针</p>
+<h2><a name="-" class="anchor" href="#-"></a>描述</h2><p><code>traced_probes</code> 是一个专门的守护程序，充当 Perfetto
+架构中特权化的 <a href="/docs/concepts/service-model#producer">Producer</a>。虽然任何应用程序都可以作为生产者来贡献自己的 trace 数据，但 <code>traced_probes</code> 专门负责收集通常需要提升权限的系统和内核级别的数据。</p>
+<h2><a name="-code-traced-code-" class="anchor" href="#-code-traced-code-"></a>与 <code>traced</code> 的关系</h2><p><code>traced_probes</code> 是 <a href="/docs/reference/traced"><code>traced</code></a>
+服务的客户端。它连接到 <code>traced</code> 的生产者套接字并注册一组数据源。然后，<code>traced</code> 向 <code>traced_probes</code> 发送请求以启动或停止这些数据源，作为 Tracing Session 的一部分。</p>
+<p>这种关注点分离是 Perfetto 设计的关键部分。<code>traced</code> 是中央管理器，而 <code>traced_probes</code> 是专门的数据提供者。这种解耦架构允许多个独立的生产者和消费者同时与 tracing 系统交互而不会相互干扰。</p>
+<p><img src="/docs/images/platform-tracing.png" alt="traced_probes and traced"></p>
+<h2><a name="-" class="anchor" href="#-"></a>安全和权限</h2><p><code>traced_probes</code> 通常需要以提升的权限（例如，Android 上的 <code>root</code> 或 <code>system</code> 用户）运行以访问内核接口，如 <code>debugfs</code> 或 <code>/proc</code>。将这些高权限探针分离到自己的守护程序中是 Perfetto 安全模型的关键部分。它确保只有最少的代码以高权限运行，遵循最小权限原则。</p>
+<h2><a name="-" class="anchor" href="#-"></a>配置</h2><p><code>traced_probes</code> 提供的数据源在发送到 <code>traced</code> 的主 trace 配置 protobuf 中配置。例如，要启用 ftrace，你将在 <code>linux.ftrace</code> 数据源的 <code>DataSourceConfig</code> 中包含一个 <code>FtraceConfig</code>。</p>
+<h2><a name="-" class="anchor" href="#-"></a>数据源</h2><p><code>traced_probes</code> 提供广泛的数据源，收集系统和内核级别的数据。这些数据源的配置在整体 trace 配置的 <code>data_sources</code> 部分中指定。每个数据源在 <code>data_source_config</code> 块中都有自己的配置消息。</p>
+<p>以下是总体结构的示例：</p>
+<code class="hljs code-block">data_sources: {
+    config {
+        name: <span class="hljs-string">&quot;linux.ftrace&quot;</span>
+        ftrace_config {
+            # ... ftrace 特定设置
+        }
+    }
+}
+data_sources: {
+    config {
+        name: <span class="hljs-string">&quot;linux.process_stats&quot;</span>
+        process_stats_config {
+            # ... process_stats 特定设置
+        }
+    }
+}</code><p>以下是 <code>traced_probes</code> 提供的主要数据源的详细列表，按平台分隔。</p>
+<h2><a name="linux-" class="anchor" href="#linux-"></a>Linux 数据源</h2><p>这些数据源在基于 Linux 的系统上可用，包括 Android。</p>
+<p>以下是启用几个 Linux 数据源的 trace 配置示例：</p>
+<code class="hljs code-block"># 启用几个 Linux 数据源的 trace 配置示例。
+data_sources: {
+ config {
+ name: <span class="hljs-string">&quot;linux.ftrace&quot;</span>
+ ftrace_config {
+ ftrace_events: <span class="hljs-string">&quot;sched/sched_switch&quot;</span>
+ ftrace_events: <span class="hljs-string">&quot;power/cpu_idle&quot;</span>
+ }
+ }
+}
+data_sources: {
+ config {
+ name: <span class="hljs-string">&quot;linux.process_stats&quot;</span>
+ process_stats_config {
+ scan_all_processes_on_start: <span class="hljs-literal">true</span>
+ proc_stats_poll_ms: <span class="hljs-number">1000</span>
+ }
+ }
+}
+data_sources: {
+ config {
+ name: <span class="hljs-string">&quot;linux.sys_stats&quot;</span>
+ sys_stats_config {
+ meminfo_period_ms: <span class="hljs-number">1000</span>
+ vmstat_period_ms: <span class="hljs-number">1000</span>
+ }
+ }
+}</code><h3><a name="-code-linux-ftrace-code-tracing-" class="anchor" href="#-code-linux-ftrace-code-tracing-"></a><code>linux.ftrace</code>(内核 tracing)</h3><ul>
+<li><strong>描述</strong>：这是高频内核事件的主要数据源。它从 Linux 内核的 ftrace 接口启用和读取原始 ftrace 数据，提供对进程调度、系统调用、中断和其他内核活动的洞察。</li>
+<li><strong>配置示例</strong>：</li>
+</ul>
+<code class="hljs code-block">data_sources: {
+config {
+name: <span class="hljs-string">&quot;linux.ftrace&quot;</span>
+ftrace_config {
+ftrace_events: <span class="hljs-string">&quot;sched/sched_switch&quot;</span>
+ftrace_events: <span class="hljs-string">&quot;power/cpu_idle&quot;</span>
+ftrace_events: <span class="hljs-string">&quot;sched/sched_waking&quot;</span>
+}
+}
+}</code><ul>
+<li><strong>配置</strong>：通过 <code>DataSourceConfig</code> 中的 <code>FtraceConfig</code> 配置。主要选项包括：<ul>
+<li><code>ftrace_events</code>：要启用的 ftrace 事件列表(例如，
+ <code>sched/sched_switch</code>)。</li>
+<li><code>atrace_categories</code>, <code>atrace_apps</code>：对于 Android，启用用户空间
+ Atrace 类别和应用程序。</li>
+<li><code>syscall_events</code>：要追踪的特定系统调用。</li>
+<li><code>enable_function_graph</code>：启用内核函数图 tracing。</li>
+<li><code>compact_sched</code>：启用调度器事件的紧凑编码。</li>
+<li><code>symbolize_ksyms</code>：启用内核符号化。</li>
+<li><code>print_filter</code>：根据内容过滤 <code>ftrace/print</code> 事件。</li>
+</ul>
+</li>
+</ul>
+<h3><a name="-code-linux-process_stats-code-" class="anchor" href="#-code-linux-process_stats-code-"></a><code>linux.process_stats</code>(进程和线程统计)</h3><ul>
+<li><strong>描述</strong>：从 <code>/proc</code> 文件系统收集详细的进程和线程级别的统计信息。它提供进程树的快照和周期性内存/CPU Counters。</li>
+<li><strong>配置示例</strong>：</li>
+</ul>
+<code class="hljs code-block">data_sources: {
+config {
+name: <span class="hljs-string">&quot;linux.process_stats&quot;</span>
+process_stats_config {
+scan_all_processes_on_start: <span class="hljs-literal">true</span>
+proc_stats_poll_ms: <span class="hljs-number">1000</span>
+}
+}
+}</code><ul>
+<li><strong>配置</strong>：通过 <code>ProcessStatsConfig</code> 配置。主要选项包括：<ul>
+<li><code>record_thread_names</code>：记录线程名称。</li>
+<li><code>scan_all_processes_on_start</code>：在开始时转储整个进程树。</li>
+<li><code>resolve_process_fds</code>：解析文件描述符路径。</li>
+<li><code>scan_smaps_rollup</code>：读取 <code>/proc/[pid]/smaps_rollup</code>。</li>
+<li><code>record_process_age</code>：记录进程开始时间。</li>
+<li><code>record_process_runtime</code>：记录用户和内核模式 CPU 时间。</li>
+<li><code>record_process_dmabuf_rss</code>：记录 DMA 缓冲区 RSS。</li>
+<li><code>proc_stats_poll_ms</code>：周期性统计的轮询间隔。</li>
+<li><code>proc_stats_cache_ttl_ms</code>：缓存统计的生存时间。</li>
+<li><code>quirks</code>：特殊行为（例如，<code>DISABLE_ON_DEMAND</code>）。</li>
+</ul>
+</li>
+</ul>
+<h3><a name="-code-linux-sys_stats-code-" class="anchor" href="#-code-linux-sys_stats-code-"></a><code>linux.sys_stats</code>(系统范围统计)</h3><ul>
+<li><strong>描述</strong>：通过定期轮询 <code>/proc</code> 和 <code>/sys</code> 中的各种文件来收集系统范围的统计信息。</li>
+<li><strong>配置示例</strong>：</li>
+</ul>
+<code class="hljs code-block">data_sources: {
+config {
+name: <span class="hljs-string">&quot;linux.sys_stats&quot;</span>
+sys_stats_config {
+meminfo_period_ms: <span class="hljs-number">1000</span>
+vmstat_period_ms: <span class="hljs-number">1000</span>
+stat_period_ms: <span class="hljs-number">1000</span>
+}
+}
+}</code><ul>
+<li><strong>配置</strong>：通过 <code>SysStatsConfig</code> 配置。允许对要收集的 Counters 及其轮询频率进行精细控制（例如，
+ <code>meminfo_period_ms</code>、<code>vmstat_period_ms</code>、<code>stat_counters</code>)。</li>
+</ul>
+<h3><a name="-code-linux-sysfs_power-code-" class="anchor" href="#-code-linux-sysfs_power-code-"></a><code>linux.sysfs_power</code>(电源和电池信息)</h3><ul>
+<li><strong>描述</strong>：使用 Linux sysfs 接口收集电源和电池统计信息。</li>
+<li><strong>配置示例</strong>：</li>
+</ul>
+<code class="hljs code-block">data_sources: {
+config {
+name: <span class="hljs-string">&quot;linux.sysfs_power&quot;</span>
+}
+}</code><ul>
+<li><strong>配置</strong>：此数据源没有特定的配置 proto。</li>
+</ul>
+<h3><a name="-code-linux-inode_file_map-code-inode-" class="anchor" href="#-code-linux-inode_file_map-code-inode-"></a><code>linux.inode_file_map</code>(Inode 到文件路径映射)</h3><ul>
+<li><strong>描述</strong>：将 inode 编号映射到文件路径，这对于将 I/O 事件与正在访问的文件相关联很有用。</li>
+<li><strong>配置示例</strong>：</li>
+</ul>
+<code class="hljs code-block">data_sources: {
+config {
+name: <span class="hljs-string">&quot;linux.inode_file_map&quot;</span>
+inode_file_config {
+scan_interval_ms: <span class="hljs-number">10000</span>
+scan_delay_ms: <span class="hljs-number">5000</span>
+scan_batch_size: <span class="hljs-number">1000</span>
+}
+}
+}</code><ul>
+<li><strong>配置</strong>：<code>InodeFileConfig</code> 允许指定 <code>scan_mount_points</code>、<code>mount_point_mapping</code>（以重新映射扫描根）、<code>scan_interval_ms</code>、<code>scan_delay_ms</code>、<code>scan_batch_size</code> 和 <code>do_not_scan</code>。</li>
+</ul>
+<h3><a name="-code-metatrace-code-perfetto-tracing-" class="anchor" href="#-code-metatrace-code-perfetto-tracing-"></a><code>metatrace</code>(Perfetto 自 tracing)</h3><ul>
+<li><strong>描述</strong>： 自trace data源，记录 Perfetto 本身内的事件，用于调试和分析tracing system的性能。</li>
+<li><strong>配置示例</strong>：</li>
+</ul>
+<code class="hljs code-block">data_sources: {
+config {
+name: <span class="hljs-string">&quot;metatrace&quot;</span>
+}
+}</code><ul>
+<li><strong>配置</strong>： <code>DataSourceConfig</code> 中没有特定配置。</li>
+</ul>
+<h3><a name="-code-linux-system_info-code-" class="anchor" href="#-code-linux-system_info-code-"></a><code>linux.system_info</code>(系统信息)</h3><ul>
+<li><strong>描述</strong>：记录有关系统的一般信息，例如 CPU 详细信息和内核版本。</li>
+<li><strong>配置示例</strong>：</li>
+</ul>
+<code class="hljs code-block">data_sources: {
+config {
+name: <span class="hljs-string">&quot;linux.system_info&quot;</span>
+}
+}</code><ul>
+<li><strong>配置</strong>： <code>DataSourceConfig</code> 中没有特定配置。</li>
+</ul>
+<h2><a name="android-" class="anchor" href="#android-"></a>Android 数据源</h2><p>这些数据源仅在 Android 上可用。</p>
+<p>以下是启用几个 Android 数据源的 trace 配置示例：</p>
+<code class="hljs code-block"># 启用几个 Android 数据源的 trace 配置示例。
+data_sources: {
+ config {
+ name: <span class="hljs-string">&quot;android.power&quot;</span>
+ android_power_config {
+ battery_poll_ms: <span class="hljs-number">1000</span>
+ battery_counters: BATTERY_COUNTER_CHARGE
+ collect_power_rails: <span class="hljs-literal">true</span>
+ }
+ }
+}
+data_sources: {
+ config {
+ name: <span class="hljs-string">&quot;android.log&quot;</span>
+ android_log_config {
+ log_ids: LID_DEFAULT
+ log_ids: LID_SYSTEM
+ }
+ }
+}
+data_sources: {
+ config {
+ name: <span class="hljs-string">&quot;android.packages_list&quot;</span>
+ }
+}</code><h3><a name="-code-android-power-code-" class="anchor" href="#-code-android-power-code-"></a><code>android.power</code>(电源和电池信息)</h3><ul>
+<li><strong>描述</strong>： 使用 Android 特定的 HAL 收集电源和电池统计信息。</li>
+<li><strong>配置示例</strong>：</li>
+</ul>
+<code class="hljs code-block">data_sources: {
+config {
+name: <span class="hljs-string">&quot;android.power&quot;</span>
+android_power_config {
+battery_poll_ms: <span class="hljs-number">1000</span>
+battery_counters: BATTERY_COUNTER_CHARGE
+battery_counters: BATTERY_COUNTER_CAPACITY_PERCENT
+collect_power_rails: <span class="hljs-literal">true</span>
+}
+}
+}</code><ul>
+<li><strong>配置</strong>：<code>AndroidPowerConfig</code> 允许启用特定的电池 Counters（<code>battery_counters</code>）、电源轨（<code>collect_power_rails</code>）、能量估算细分（<code>collect_energy_estimation_breakdown</code>）和实体状态驻留（<code>collect_entity_state_residency</code>）。</li>
+</ul>
+<h3><a name="-code-android-log-code-android-logcat-" class="anchor" href="#-code-android-log-code-android-logcat-"></a><code>android.log</code>(Android Logcat)</h3><ul>
+<li><strong>描述</strong>：将来自 Android 的 logcat 缓冲区的 Log message 流式传输到 trace 中。</li>
+<li><strong>配置示例</strong>：</li>
+</ul>
+<code class="hljs code-block">data_sources: {
+config {
+name: <span class="hljs-string">&quot;android.log&quot;</span>
+android_log_config {
+log_ids: LID_DEFAULT
+log_ids: LID_SYSTEM
+min_prio: PRIO_INFO
+filter_tags: <span class="hljs-string">&quot;ActivityManager&quot;</span>
+}
+}
+}</code><ul>
+<li><strong>配置</strong>： <code>AndroidLogConfig</code> 允许按 Log ID
+ (<code>log_ids</code>) 和标签（<code>filter_tags</code>）进行过滤，并设置最小优先级
+ (<code>min_prio</code>)。</li>
+</ul>
+<h3><a name="-code-android-system_property-code-android-" class="anchor" href="#-code-android-system_property-code-android-"></a><code>android.system_property</code>(Android 系统属性)</h3><ul>
+<li><strong>描述</strong>：收集 Android 系统属性的状态。</li>
+<li><strong>配置示例</strong>：</li>
+</ul>
+<code class="hljs code-block">data_sources: {
+config {
+name: <span class="hljs-string">&quot;android.system_property&quot;</span>
+android_system_property_config {
+poll_ms: <span class="hljs-number">1000</span>
+property_name: <span class="hljs-string">&quot;debug.tracing.screen_state&quot;</span>
+}
+}
+}</code><ul>
+<li><strong>配置</strong>： <code>AndroidSystemPropertyConfig</code> 允许指定
+ 要监视的 <code>property_name</code>s 和 <code>poll_ms</code> 间隔。</li>
+</ul>
+<h3><a name="-code-android-packages_list-code-android-" class="anchor" href="#-code-android-packages_list-code-android-"></a><code>android.packages_list</code>(Android 包信息)</h3><ul>
+<li><strong>描述</strong>： 转储有关 Android 上已安装包的信息。</li>
+<li><strong>配置示例</strong>：</li>
+</ul>
+<code class="hljs code-block">data_sources: {
+config {
+name: <span class="hljs-string">&quot;android.packages_list&quot;</span>
+packages_list_config {
+package_name_filter: <span class="hljs-string">&quot;com.android.systemui&quot;</span>
+package_name_filter: <span class="hljs-string">&quot;com.google.android.apps.nexuslauncher&quot;</span>
+}
+}
+}</code><ul>
+<li><strong>配置</strong>：<code>PackagesListConfig</code> 允许按 <code>package_name_filter</code> 进行过滤，并可以配置为 <code>only_write_on_cpu_use_every_ms</code>（轮询模式）或在开始时全部转储。</li>
+</ul>
+<h3><a name="-code-android-game_interventions-code-android-" class="anchor" href="#-code-android-game_interventions-code-android-"></a><code>android.game_interventions</code>(Android 游戏干预列表)</h3><ul>
+<li><strong>描述</strong>：从 Android 上的包管理器转储游戏干预列表。</li>
+<li><strong>配置示例</strong>：</li>
+</ul>
+<code class="hljs code-block">data_sources: {
+config {
+name: <span class="hljs-string">&quot;android.game_interventions&quot;</span>
+android_game_intervention_list_config {
+package_name_filter: <span class="hljs-string">&quot;com.example.mygame&quot;</span>
+}
+}
+}</code><ul>
+<li><strong>配置</strong>： <code>AndroidGameInterventionListConfig</code> 允许按
+ <code>package_name_filter</code> 进行过滤。</li>
+</ul>
+<h3><a name="-code-android-cpu-uid-code-uid-cpu-" class="anchor" href="#-code-android-cpu-uid-code-uid-cpu-"></a><code>android.cpu.uid</code>(每 UID CPU 时间)</h3><ul>
+<li><strong>描述</strong>： 从内核收集每 UID CPU 时间。</li>
+<li><strong>配置示例</strong>：</li>
+</ul>
+<code class="hljs code-block">data_sources: {
+config {
+name: <span class="hljs-string">&quot;android.cpu.uid&quot;</span>
+cpu_per_uid_config {
+poll_ms: <span class="hljs-number">1000</span>
+}
+}
+}</code><ul>
+<li><strong>配置</strong>： <code>CpuPerUidConfig</code> 允许设置 <code>poll_ms</code> 间隔。</li>
+</ul>
+<h3><a name="-code-android-kernel_wakelocks-code-" class="anchor" href="#-code-android-kernel_wakelocks-code-"></a><code>android.kernel_wakelocks</code>(内核唤醒锁)</h3><ul>
+<li><strong>描述</strong>：收集内核唤醒锁信息。</li>
+<li><strong>配置示例</strong>：</li>
+</ul>
+<code class="hljs code-block">data_sources: {
+config {
+name: <span class="hljs-string">&quot;android.kernel_wakelocks&quot;</span>
+kernel_wakelocks_config {
+poll_ms: <span class="hljs-number">1000</span>
+}
+}
+}</code><ul>
+<li><strong>配置</strong>：<code>KernelWakelocksConfig</code> 允许设置 <code>poll_ms</code> 间隔。</li>
+</ul>
+<h3><a name="-code-android-polled_state-code-android-" class="anchor" href="#-code-android-polled_state-code-android-"></a><code>android.polled_state</code>(Android 初始显示状态)</h3><ul>
+<li><strong>描述</strong>： 在 Android 上记录初始显示状态(例如，屏幕开/关，
+ 亮度)。</li>
+<li><strong>配置示例</strong>：</li>
+</ul>
+<code class="hljs code-block">data_sources: {
+config {
+name: <span class="hljs-string">&quot;android.polled_state&quot;</span>
+android_polled_state_config {
+poll_ms: <span class="hljs-number">500</span>
+}
+}
+}</code><ul>
+<li><strong>配置</strong>： <code>AndroidPolledStateConfig</code> 允许设置 <code>poll_ms</code>
+ 间隔。</li>
+</ul>
+<h3><a name="-code-android-statsd-code-android-statsd-" class="anchor" href="#-code-android-statsd-code-android-statsd-"></a><code>android.statsd</code>(Android StatsD 原子)</h3><ul>
+<li><strong>描述</strong>：从 Android 上的 binder 接口收集 StatsD 原子。</li>
+<li><strong>配置示例</strong>：</li>
+</ul>
+<code class="hljs code-block">data_sources: {
+config {
+name: <span class="hljs-string">&quot;android.statsd&quot;</span>
+statsd_tracing_config {
+pull_config {
+pull_atom_id: <span class="hljs-number">10000</span> # 示例拉取原子
+pull_frequency_ms: <span class="hljs-number">1000</span>
+}
+push_atom_id: <span class="hljs-number">10037</span> # 示例推送原子
+}
+}
+}</code><ul>
+<li><strong>配置</strong>：<code>StatsdTracingConfig</code> 允许指定 <code>pull_config</code>（对于具有频率和包的拉取原子）和 <code>push_atom_id</code>（对于推送原子）。</li>
+</ul>
+
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

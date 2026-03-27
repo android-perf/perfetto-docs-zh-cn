@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LockFreeTaskRunner 设计文档 - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="LockFreeTaskRunner 设计文档 - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/design-docs/lock-free-task-runner">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/assets/favicon.png" />
+  <script type="text/javascript" src="/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/">
+      <img src="/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/docs/">Docs</a>
+  <a href="/docs/contributing/getting-started#community">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/docs/tracing-101">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/docs/getting-started/start-using-perfetto">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/docs/getting-started/system-tracing">系统 Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/in-app-tracing">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/memory-profiling">Memory Profiling</a></p>
+</li>
+<li><p><a href="/docs/getting-started/cpu-profiling">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/docs/getting-started/atrace">Android atrace</a></p>
+</li>
+<li><p><a href="/docs/getting-started/ftrace">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/getting-started/other-formats">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/docs/getting-started/converting">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/docs/getting-started/android-trace-analysis">分析 Android Trace</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/docs/case-studies/memory">Android 内存使用</a></p>
+</li>
+<li><p><a href="/docs/case-studies/scheduling-blockages">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/docs/concepts/config">Trace 配置</a></p>
+</li>
+<li><p><a href="/docs/concepts/buffers">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/docs/concepts/service-model">服务模型</a></p>
+</li>
+<li><p><a href="/docs/concepts/clock-sync">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/docs/learning-more/tracing-in-background">后台 Tracing</a></p>
+</li>
+<li><p><a href="/docs/learning-more/android">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/chrome-tracing">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/tracing-sdk">Tracing SDK</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/track-events">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/getting-started">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/analysis/stdlib-docs">标准库</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-syntax">语法</a></p>
+</li>
+<li><p><a href="/docs/analysis/style-guide">样式指南</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-backcompat">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-processor">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-processor-python">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-summary">Trace 汇总</a></p>
+</li>
+<li><p><a href="/docs/quickstart/traceconv">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/docs/visualization/perfetto-ui">Perfetto UI</a></p>
+</li>
+<li><p><a href="/docs/visualization/large-traces">打开大型 trace</a></p>
+</li>
+<li><p><a href="/docs/visualization/deep-linking-to-perfetto-ui">深度链接</a></p>
+</li>
+<li><p><a href="/docs/analysis/debug-tracks">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/docs/visualization/extending-the-ui">概述</a></p>
+</li>
+<li><p><a href="/docs/visualization/ui-automation">命令和宏</a></p>
+</li>
+<li><p><a href="/docs/visualization/extension-servers">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/docs/contributing/getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/contributing/common-tasks">常见任务</a></p>
+</li>
+<li><p><a href="/docs/contributing/become-a-committer">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/docs/contributing/ui-getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/contributing/ui-plugins">插件</a></p>
+</li>
+<li><p><a href="/docs/faq">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/native-heap-profiler">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/docs/data-sources/java-heap-profiler">Java 堆转储</a></p>
+</li>
+<li><p><a href="/docs/data-sources/memory-counters">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/cpu-scheduling">调度事件</a></p>
+</li>
+<li><p><a href="/docs/data-sources/syscalls">系统调用</a></p>
+</li>
+<li><p><a href="/docs/data-sources/cpu-freq">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/atrace">Atrace</a></p>
+</li>
+<li><p><a href="/docs/data-sources/android-log">Logcat</a></p>
+</li>
+<li><p><a href="/docs/data-sources/frametimeline">Frame Timeline</a></p>
+</li>
+<li><p><a href="/docs/data-sources/battery-counters">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/docs/data-sources/android-game-intervention-list">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/docs/reference/trace-packet-proto">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/docs/reference/synthetic-track-event">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/docs/reference/trace-config-proto">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/docs/concepts/concurrent-tracing-sessions">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/docs/concepts/detached-mode">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/docs/case-studies/android-boot-tracing">开机 Tracing</a></p>
+</li>
+<li><p><a href="/docs/case-studies/android-outofmemoryerror">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/docs/reference/android-version-notes">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/docs/reference/kernel-track-event">内核 track 事件</a></p>
+</li>
+<li><p><a href="/docs/data-sources/previous-boot-trace">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/docs/reference/perfetto-cli">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/docs/reference/traced">traced</a></p>
+</li>
+<li><p><a href="/docs/reference/traced_probes">traced_probes</a></p>
+</li>
+<li><p><a href="/docs/reference/heap_profile-cli">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/docs/reference/tracebox">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/docs/analysis/sql-tables">Prelude 表</a></p>
+</li>
+<li><p><a href="/docs/analysis/builtin">内置函数</a></p>
+</li>
+<li><p><a href="/docs/analysis/sql-stats">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/metrics">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/batch-trace-processor">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/deployment/deploying-bigtrace-on-a-single-machine">Bigtrace</a></p>
+</li>
+<li><p><a href="/docs/deployment/deploying-bigtrace-on-kubernetes">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/interceptors">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/docs/visualization/commands-automation-reference">命令自动化参考</a></p>
+</li>
+<li><p><a href="/docs/visualization/extension-server-protocol">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/docs/contributing/build-instructions">构建</a></p>
+</li>
+<li><p><a href="/docs/contributing/testing">测试</a></p>
+</li>
+<li><p><a href="/docs/contributing/developer-tools">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/docs/contributing/sdk-releasing">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/docs/contributing/python-releasing">Python 发布流程</a></p>
+</li>
+<li><p><a href="/docs/visualization/perfetto-ui-release-process">UI 发布流程</a></p>
+</li>
+<li><p><a href="/docs/contributing/chrome-branches">Chrome 分支</a></p>
+</li>
+<li><p><a href="/docs/contributing/sqlite-upgrade-guide">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/docs/design-docs/api-and-abi">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/docs/design-docs/life-of-a-tracing-session">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/docs/design-docs/protozero">ProtoZero</a></p>
+</li>
+<li><p><a href="/docs/design-docs/security-model">安全模型</a></p>
+</li>
+<li><p><a href="/docs/design-docs/checkpoint-atoms">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/docs/design-docs/batch-trace-processor">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/design-docs/trace-processor-architecture">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-design">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-wire-protocol">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-sampling">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/docs/design-docs/continuous-integration">Perfetto CI</a></p>
+</li>
+<li><p><a href="/docs/design-docs/lock-free-task-runner">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/design-docs/lock-free-task-runner">
+    <h1>LockFreeTaskRunner 设计文档</h1><h2><a name="-" class="anchor" href="#-"></a>概述</h2><p><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//include/perfetto/ext/base/lock_free_task_runner.h"><code>base::LockFreeTaskRunner</code></a> 是一个跨平台的无锁多生产者单消费者任务执行引擎，是 Perfetto 大部分代码的基础，包括 SDK 和设备上的服务。</p>
+<p>它提供从多个线程进行线程安全任务发布，同时确保所有任务执行发生在单个指定线程上，消除了对传统的基于互斥锁的同步的需求。</p>
+<p>关键属性：</p>
+<ul>
+<li>无互斥锁或自旋锁：PostTask() 和 Run() 的时间有界。</li>
+<li>在没有突发的情况下（即不超过 2 x 512 = 1024 个待处理任务），除了复制非平凡的 <code>std::function&lt;void()&gt;</code> 所需的内容外，不执行任何分配。</li>
+<li>与传统的 UnixTaskRunner 兼容的行为：任务以相同的顺序提取和处理。</li>
+</ul>
+<p>在避免锁争用方面，这个新的任务运行器比我们传统的 UnixTaskRunner 快约 2 倍：</p>
+<code class="hljs code-block">$ out/rel/perfetto<span class="hljs-emphasis">_benchmarks --benchmark_</span>filter=&#x27;.<span class="hljs-emphasis">*BM_TaskRunner.*</span>&#x27;
+<span class="hljs-section">...
+-------------------------------------------------------------------------------------------</span>
+<span class="hljs-section">Benchmark Time CPU Iterations
+-------------------------------------------------------------------------------------------</span>
+BM<span class="hljs-emphasis">_TaskRunner_</span>SingleThreaded<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">UnixTaskRunner</span>&gt;</span></span> 27778190 ns 27772029 ns 25
+BM<span class="hljs-emphasis">_TaskRunner_</span>SingleThreaded<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">LockFreeTaskRunner</span>&gt;</span></span> 10381056 ns 10375656 ns 67
+BM<span class="hljs-emphasis">_TaskRunner_</span>MultiThreaded<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">UnixTaskRunner</span>&gt;</span></span> 567794 ns 344625 ns 2033
+BM<span class="hljs-emphasis">_TaskRunner_</span>MultiThreaded<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">LockFreeTaskRunner</span>&gt;</span></span> 265943 ns 265754 ns 2749</code><h2><a name="-" class="anchor" href="#-"></a>架构</h2><p>在本文档的其余部分，我们将把线程称为：</p>
+<ul>
+<li><strong>写入者</strong> 调用 <code>PostTask()</code> 的 N 个线程。</li>
+<li><strong>读取者</strong> 在 <code>Run()</code> 循环中运行任务的线程。</li>
+</ul>
+<p>本文档仅关注 PostTask() 的设计，完全不讨论 PostDelayedTask() 或 Add/RemoveFileDescriptorWatch()。这些函数的逻辑与传统 UnixTaskRunner 保持不变，它们只是通过首先跳转到任务运行者线程来实现，然后在主线程上操作延迟任务列表和 FD 集。
+这涉及与传统 UnixTaskRunner 相比的额外跳转（如果从其他线程调用）。然而：(1) 在实践中，我们代码库中对 PostDelayedTask() 和 Add/RemoveFileDescriptorWatch() 的大多数调用都发生在主线程上;（2）它们几乎不是热路径。</p>
+<h3><a name="-slab-" class="anchor" href="#-slab-"></a>基于 Slab 的架构</h3><p>LockFreeTaskRunner 使用基于 slab 的方法实现 <strong>多生产者单消费者(MPSC)</strong> 队列。</p>
+<p>Slab 包含：</p>
+<ul>
+<li><p><strong>任务数组</strong>： 512 个任务槽的固定大小数组（<code>kSlabSize</code>）。
+ 这些由写入者线程写入，由读取者线程消费。</p>
+</li>
+<li><p><strong>槽 Counter</strong>： 用于保留槽的原子 Counter <code>next_task_slot</code>。
+ 这用于确定写入者应该获取数组中的哪个槽（或者确定 slab 已满）。
+ 这仅由写入者线程访问，从不由读取者访问。
+ 当 slab 已满时，这可能在竞争情况下增长 &gt; <code>kSlabSize</code>(没关系，一旦所有槽都满了，<code>next_task_slot</code> 的值就变得无用)。</p>
+</li>
+<li><p><strong>发布位图</strong>： <code>tasks_written</code>。一个 512 位的固定位图，每个任务一个。位由写入者线程通过原子释放-OR 操作翻转，以指示第 i 个槽中的任务准备好并且可以消费。读取者线程从不改变此位图。最终它变为 0xff..ff 并在整个 Slab 的生命周期中保持那样。</p>
+</li>
+<li><p><strong>消费位图</strong>： <code>tasks_read</code>。与上述类似，但这仅由读取者线程访问。当任务被消费时，位翻转为 1。写入者线程从不访问此位图。最终这也变为 0xff..ff。
+ Slab 只能在两个位图都已填充时被删除（所有任务槽都已被写入者写入并被读取者消费）。</p>
+</li>
+<li><p><strong>链表指针</strong>： <code>prev</code> 指向前一个 Slab。
+ 这仅由读取者线程遍历。写入者只查看最新的 slab，从不访问 prev 指针（除了在构建新 Slab 时）。</p>
+</li>
+</ul>
+<p>Slabs 排列为单向链表。</p>
+<p>请注意，此列表不是原子的，只有 <code>tail_</code> 指针是。读取者线程是遍历列表的唯一线程，写入者只访问最新的 Slab，并最终追加新的 Slabs，替换 <code>tail_</code>。</p>
+<code class="hljs code-block"> tail_ (atomic_shared_ptr)
+ |<span class="hljs-string">
+ ▼
+ +-----------------+ +-----------------+ +-----------------+
+ </span>|<span class="hljs-string"> Slab N </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> Slab N-1 </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> Slab 0 </span>|
+ |<span class="hljs-string"> tasks: [....] </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> tasks: [....] </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> tasks: [....] </span>|
+ |<span class="hljs-string"> next_task_slot </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> next_task_slot </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> next_task_slot </span>|
+ |<span class="hljs-string"> prev (sptr) ----+-----&gt;</span>|<span class="hljs-string"> prev (sptr) ----+-----&gt;</span>|<span class="hljs-string"> prev = nullptr </span>|
+ +-----------------+ +-----------------+ +-----------------+</code><ol>
+<li><strong>单向访问</strong>： Producer 线程只访问 <code>tail</code> slab，从不向后遍历。</li>
+<li><strong>消费者所有权</strong>：只有主线程遵循 <code>prev</code> 指针并排空任务。</li>
+<li><strong>突发处理</strong>：新 slab 在当前 slab 已满时由写入者自动分配。</li>
+</ol>
+<p>在正常条件下（即没有数千个任务的突发），我们只有两个 slab。大小为 1 的空闲列表（<code>free_slab_</code>）避免了对分配器的压力，有效地在两个 slab 之间翻转而无需 new/delete。</p>
+<p>只有尾指针的单向链表表明读取者具有 O(N) 的最坏情况复杂度，因为它必须遍历整个列表才能到达第一个任务（它必须 FIFO 运行任务）。然而，在实践中我们期望总是只有两个 slab(如果我们有 10k-100k 个任务的队列，遍历列表是我们最后的问题)。</p>
+<p>此设计的主要缺点是它在大量任务时扩展性差，因为 Run() 变得更慢（以遍历列表）并且堆栈贪婪（它在堆栈上使用递归来遍历列表而不使用堆）。我们不期望在 Perfetto 中有大量待处理任务（已知问题 b/330580374 等除外，无论如何都应该修复）。</p>
+<h2><a name="-" class="anchor" href="#-"></a>线程考虑</h2><h3><a name="-" class="anchor" href="#-"></a>生产者线程工作流程</h3><p><code>PostTask()</code> 操作遵循此无锁协议：</p>
+<ol>
+<li><strong>加载尾部</strong>： 原子加载当前 <code>tail_</code> slab 指针</li>
+<li><strong>获取引用计数</strong>： 为此 Slab 增加引用计数桶(稍后讨论)</li>
+<li><strong>保留槽</strong>： 原子递增 <code>next_task_slot</code> 以保留位置</li>
+<li><strong>处理溢出</strong>： 如果 slab 已满，分配新 slab 并尝试原子更新 <code>tail_</code></li>
+<li><strong>写入任务</strong>： 在保留的槽中存储任务</li>
+<li><strong>发布</strong>： 使用释放语义在 <code>tasks_written</code> 位掩码中设置相应的位</li>
+<li><strong>释放引用计数</strong>： 在 <code>ScopedRefcount</code> 析构函数运行时自动递减</li>
+</ol>
+<h4>溢出处理</h4><p>当 slab 变满时(<code>slot &gt;= kSlabSize</code>):</p>
+<code class="hljs code-block">Slab* new_slab = <span class="hljs-built_in">AllocNewSlab</span>();
+new_slab-&gt;prev = slab;
+new_slab-&gt;next_task_slot.<span class="hljs-built_in">store</span>(<span class="hljs-number">1</span>, std::memory_order_relaxed);
+slot = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">if</span> (!tail_.<span class="hljs-built_in">compare_exchange_strong</span>(slab, new_slab)) {
+ <span class="hljs-comment">// 另一个线程赢得了竞争，使用他们的 slab 重试</span>
+ new_slab-&gt;prev = <span class="hljs-literal">nullptr</span>;
+ <span class="hljs-built_in">DeleteSlab</span>(new_slab);
+ <span class="hljs-keyword">continue</span>;
+}</code><h3><a name="-" class="anchor" href="#-"></a>消费者线程工作流程</h3><p><code>Run()</code> 中的主线程执行：</p>
+<ol>
+<li><strong>任务排空</strong>： <code>PopNextImmediateTask()</code> 获取下一个任务</li>
+<li><strong>延迟任务处理</strong>： 检查过期的延迟任务</li>
+<li><strong>文件描述符轮询</strong>： 处理 I/O 事件并确保公平性</li>
+<li><strong>任务执行</strong>： 带看门狗保护运行任务</li>
+</ol>
+<p>在当前设计中，运行循环对每个任务执行一次 poll()。这可以说是可优化的：如果我们知道有突发的任务，我们可以背靠背地运行它们，而不在 poll(timeout=0) 上浪费系统调用时间。</p>
+<p>当然，这需要一些限制，以防止 livelocks，在那种情况下，（设计糟糕的）函数不断重新发布自己，直到 socket 收到数据（这将需要 FD watch 任务触发）。</p>
+<p>然而，多年来我们的测试已经累积了对传统 UnixTaskRunner 的严格公平性的依赖。它们期望能够通过 <code>IsIdleForTesting()</code> 告知事件地平线上是否有任何即将到来的 FD watch。正如 Hyrum 定律所教导的，这现在是我们的 TaskRunner 的一个 API，并将持续到几个测试被重写和去抖动之前。</p>
+<h4>任务消费算法</h4><p><code>PopTaskRecursive()</code> 实现消费逻辑：</p>
+<ul>
+<li>它使用递归遍历回 Slabs 列表（在正常条件下实际上只回退一个 Slab）。</li>
+<li>它扫描 <code>task_written</code> 位图中的所有位，并将它们与 <code>task_read</code> 位图与运算以按顺序提取未消费的任务。</li>
+<li>如果所有任务都被读取，则进行 Slab 的删除（稍后更多）。</li>
+</ul>
+<code class="hljs code-block"><span class="hljs-function">std::function&lt;<span class="hljs-title">void</span><span class="hljs-params">()</span>&gt; <span class="hljs-title">PopTaskRecursive</span><span class="hljs-params">(Slab* slab, Slab* next_slab)</span> </span>{
+ <span class="hljs-comment">// 首先,递归检查较旧的 slabs(FIFO 顺序)</span>
+ Slab* prev = slab-&gt;prev;
+ <span class="hljs-keyword">if</span> (prev) {
+ <span class="hljs-keyword">auto</span> task = <span class="hljs-built_in">PopTaskRecursive</span>(prev, slab);
+ <span class="hljs-keyword">if</span> (task) <span class="hljs-keyword">return</span> task;
+ }
+ 
+ <span class="hljs-comment">// 然后检查当前 slab 的已发布任务</span>
+ <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> w = <span class="hljs-number">0</span>; w &lt; Slab::kNumWords; ++w) {
+ BitWord wr_word = slab-&gt;tasks_written[w].<span class="hljs-built_in">load</span>(std::memory_order_acquire);
+ BitWord rd_word = slab-&gt;tasks_read[w];
+ BitWord unread_word = wr_word &amp; ~rd_word;
+ <span class="hljs-comment">// 查找并消费第一个未读任务...</span>
+ }
+ 
+ <span class="hljs-comment">// 安全的 slab 删除逻辑...</span>
+}</code><h3><a name="-" class="anchor" href="#-"></a>引用计数系统</h3><p>乍一看，写入者只访问尾部 Slab 并且从不回退列表的简单访问模式极大地简化了对复杂同步原语的需求。然而，有一个微妙的竞争需要考虑，这需要一些复杂性。</p>
+<p>考虑以下场景，其中两个写入者线程正在调用 <code>PostTask()</code>，而读取者同时运行并删除一个 slab。</p>
+<p><strong>初始条件</strong>：</p>
+<p>任务运行器只包含一个 Slab S0，恰好是满的：
+<code>tail_ -&gt; S0 (full) -&gt; nullptr</code></p>
+<p><strong>竞争</strong>：</p>
+<ul>
+<li>线程 A 读取 <code>tail_</code> 指针并读取 S0 的地址。在继续进行 <code>next_task_slot</code> 的原子递增（这将揭示 Slab 已满）之前，它被抢占，暂停一会儿。</li>
+</ul>
+<code class="hljs code-block">slab = tail_.<span class="hljs-built_in">load</span>();
+<span class="hljs-comment">// 抢占发生在这里</span>
+slab-&gt;next_task_slot.<span class="hljs-built_in">fetch_add</span>(<span class="hljs-number">1</span>);
+...</code><ul>
+<li><p>线程 B 做同样的事情，但没有被抢占。所以它读取 S0，发现它已满，分配一个新的 Slab S1 并替换尾部。
+ 线程 B 很高兴，现在：
+ <code>tail_ -&gt; S1 -&gt; S0 -&gt; nullptr</code></p>
+</li>
+<li><p>Run() 线程开始循环。它注意到有两个 slabs，注意到 S0 已满，不是尾部并且因此安全（!）可以删除。</p>
+</li>
+<li><p>此时线程 A 恢复其执行，尝试递增 S0-&gt;<code>next_task_slot</code>，但 S0 已被删除，导致 use-after-free。</p>
+</li>
+</ul>
+<p><strong>是什么导致了这种竞争？</strong></p>
+<p>确实，删除非尾部 Slab 是安全的，因为写入者不遍历链表。但是，线程可能在它恰好是尾部时观察到了非尾部 Slab，并且读取者线程没有办法知道。</p>
+<p>向 Slab 本身添加引用计数（或任何其他属性）是无用的，因为它不解决关键问题，即 Slab 可能消失了。缓解需要在 Slab 之外发生。</p>
+<p>在 LockFreeTaskRunner 的中间设计中，使用 <code>shared_ptr&lt;Slab&gt;</code> 来缓解此问题。非侵入式 STL <code>shared_ptr</code> 引入了中间控制块，该控制块将 Slab 与其引用计数解耦。不幸的是，libcxx 实现对 shared_ptr（需要从不同线程交换 <code>shared_ptr&lt;Slab&gt; tail_</code>）的原子访问使用 32 个互斥锁的哈希池，实际上打破了我们的无锁意图（请参阅 <a href="https://github.com/llvm/llvm-project/blob/249167a8982afc3f55237baf1532c5c8ebd850b3/libcxx/src/memory.cpp#L123"><code>__get_sp_mut</code></a>）。</p>
+<p><strong>最初的简单缓解方法</strong>：</p>
+<p>最初的简单缓解方法如下：想象每个写入者在开始之前增加一个全局引用计数（例如 <code>task_runner.num_writers_active</code>），并在完成其 PostTask() 后减少它。这将允许读取者知道在任何时间点是否有任何写入者处于活动状态。</p>
+<p>在读取者侧，如果 <code>num_writers_active &gt; 0</code>，我们可以跳过删除 slab - 并在下一个任务时再试。请注意，这不是互斥锁，也不是自旋锁，因为没有人等待其他人。它基于以下原则：</p>
+<ul>
+<li>写入者只能通过 <code>tail_</code> 指针观察 Slab。</li>
+<li>当读取者决定删除 slab 时，它只删除非尾部 Slabs，因此它知道 <code>tail_</code> 指向与正在删除的 slab 不同的 slab。</li>
+<li>如果没有写入者处于活动状态，没有人可能观察到任何 Slab，更不用说正在被删除的 Slab。</li>
+<li>如果写入者在 <code>num_writers_active &gt; 0</code> 检查后立即变为活动状态，它必然会观察到新的尾部 Slab(假设 <em>顺序一致性</em>)，并且无法观察正在被删除的较旧 Slab。</li>
+</ul>
+<p>现在，虽然这将解决我们的竞争，但它会使我们暴露于一个有问题的场景：如果写入者线程恰好每次 Run() 到达该检查时都在发布任务，我们可能永远无法删除 slabs。</p>
+<p>诚然，此场景相当不现实：如果写入者始终处于活动状态，我们可能会爆炸任务运行器，假设任务运行需要比调用 PostTask() 更多的时间。</p>
+<p><strong>当前的缓解方法</strong>：</p>
+<p>原则上，我们希望每个 Slab 有一个引用计数。但是，如前所述，引用计数不能存在于 Slab 本身上，因为它用于控制对 slab 的访问。</p>
+<p>我们可以在任务运行器中使用 <code>map&lt;Slab*, atomic&lt;int&gt;&gt;</code> 持有每个 slab 的引用计数，但这会导致堆开销，并且还需要一个无锁映射。</p>
+<p>我们选择的是一种折衷解决方案：我们有一个固定数量（32）的引用计数桶，并通过哈希函数将每个 Slab 映射到一个桶。</p>
+<p>当然，两个 slabs 可能最终共享相同的引用计数，创建误报：由于哈希冲突，我们可能认为 Slab 被引用计数，即使它没有。</p>
+<p>但是，在此上下文中，误报是无害的。在绝对最坏的情况下，我们退化为上述描述的简单缓解方法，这在竞争视角下仍然是正确的。</p>
+<p>在实践中，我们将延迟 Slab 删除的概率除以了 32 倍。</p>
+<p>这是支持 <code>LockFreeTaskRunner.refcounts_</code> 原子整数数组和写入者使用的 <code>ScopedRefCount</code> 类的逻辑。</p>
+<h3><a name="-" class="anchor" href="#-"></a>延迟任务处理</h3><p>延迟任务使用单独的 <code>FlatSet&lt;DelayedTask&gt;</code> 容器。这需要一些成本来维护条目排序（我们期望只有少数延迟任务，因为它们主要用于超时），但避免了大多数情况下的分配（FlatSet 基于向量，并且仅在必要时分配）。</p>
+<p>另一方面，反向排序允许 Run 以 O(1) 提取任务。</p>
+
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

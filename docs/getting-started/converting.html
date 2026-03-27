@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>将任意时间戳数据转换为 Perfetto - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="将任意时间戳数据转换为 Perfetto - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/getting-started/converting">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/assets/favicon.png" />
+  <script type="text/javascript" src="/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/">
+      <img src="/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/docs/">Docs</a>
+  <a href="/docs/contributing/getting-started#community">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/docs/tracing-101">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/docs/getting-started/start-using-perfetto">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/docs/getting-started/system-tracing">系统 Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/in-app-tracing">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/memory-profiling">Memory Profiling</a></p>
+</li>
+<li><p><a href="/docs/getting-started/cpu-profiling">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/docs/getting-started/atrace">Android atrace</a></p>
+</li>
+<li><p><a href="/docs/getting-started/ftrace">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/getting-started/other-formats">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/docs/getting-started/converting">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/docs/getting-started/android-trace-analysis">分析 Android Trace</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/docs/case-studies/memory">Android 内存使用</a></p>
+</li>
+<li><p><a href="/docs/case-studies/scheduling-blockages">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/docs/concepts/config">Trace 配置</a></p>
+</li>
+<li><p><a href="/docs/concepts/buffers">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/docs/concepts/service-model">服务模型</a></p>
+</li>
+<li><p><a href="/docs/concepts/clock-sync">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/docs/learning-more/tracing-in-background">后台 Tracing</a></p>
+</li>
+<li><p><a href="/docs/learning-more/android">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/chrome-tracing">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/tracing-sdk">Tracing SDK</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/track-events">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/getting-started">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/analysis/stdlib-docs">标准库</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-syntax">语法</a></p>
+</li>
+<li><p><a href="/docs/analysis/style-guide">样式指南</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-backcompat">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-processor">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-processor-python">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-summary">Trace 汇总</a></p>
+</li>
+<li><p><a href="/docs/quickstart/traceconv">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/docs/visualization/perfetto-ui">Perfetto UI</a></p>
+</li>
+<li><p><a href="/docs/visualization/large-traces">打开大型 trace</a></p>
+</li>
+<li><p><a href="/docs/visualization/deep-linking-to-perfetto-ui">深度链接</a></p>
+</li>
+<li><p><a href="/docs/analysis/debug-tracks">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/docs/visualization/extending-the-ui">概述</a></p>
+</li>
+<li><p><a href="/docs/visualization/ui-automation">命令和宏</a></p>
+</li>
+<li><p><a href="/docs/visualization/extension-servers">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/docs/contributing/getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/contributing/common-tasks">常见任务</a></p>
+</li>
+<li><p><a href="/docs/contributing/become-a-committer">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/docs/contributing/ui-getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/contributing/ui-plugins">插件</a></p>
+</li>
+<li><p><a href="/docs/faq">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/native-heap-profiler">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/docs/data-sources/java-heap-profiler">Java 堆转储</a></p>
+</li>
+<li><p><a href="/docs/data-sources/memory-counters">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/cpu-scheduling">调度事件</a></p>
+</li>
+<li><p><a href="/docs/data-sources/syscalls">系统调用</a></p>
+</li>
+<li><p><a href="/docs/data-sources/cpu-freq">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/atrace">Atrace</a></p>
+</li>
+<li><p><a href="/docs/data-sources/android-log">Logcat</a></p>
+</li>
+<li><p><a href="/docs/data-sources/frametimeline">Frame Timeline</a></p>
+</li>
+<li><p><a href="/docs/data-sources/battery-counters">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/docs/data-sources/android-game-intervention-list">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/docs/reference/trace-packet-proto">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/docs/reference/synthetic-track-event">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/docs/reference/trace-config-proto">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/docs/concepts/concurrent-tracing-sessions">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/docs/concepts/detached-mode">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/docs/case-studies/android-boot-tracing">开机 Tracing</a></p>
+</li>
+<li><p><a href="/docs/case-studies/android-outofmemoryerror">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/docs/reference/android-version-notes">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/docs/reference/kernel-track-event">内核 track 事件</a></p>
+</li>
+<li><p><a href="/docs/data-sources/previous-boot-trace">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/docs/reference/perfetto-cli">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/docs/reference/traced">traced</a></p>
+</li>
+<li><p><a href="/docs/reference/traced_probes">traced_probes</a></p>
+</li>
+<li><p><a href="/docs/reference/heap_profile-cli">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/docs/reference/tracebox">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/docs/analysis/sql-tables">Prelude 表</a></p>
+</li>
+<li><p><a href="/docs/analysis/builtin">内置函数</a></p>
+</li>
+<li><p><a href="/docs/analysis/sql-stats">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/metrics">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/batch-trace-processor">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/deployment/deploying-bigtrace-on-a-single-machine">Bigtrace</a></p>
+</li>
+<li><p><a href="/docs/deployment/deploying-bigtrace-on-kubernetes">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/interceptors">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/docs/visualization/commands-automation-reference">命令自动化参考</a></p>
+</li>
+<li><p><a href="/docs/visualization/extension-server-protocol">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/docs/contributing/build-instructions">构建</a></p>
+</li>
+<li><p><a href="/docs/contributing/testing">测试</a></p>
+</li>
+<li><p><a href="/docs/contributing/developer-tools">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/docs/contributing/sdk-releasing">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/docs/contributing/python-releasing">Python 发布流程</a></p>
+</li>
+<li><p><a href="/docs/visualization/perfetto-ui-release-process">UI 发布流程</a></p>
+</li>
+<li><p><a href="/docs/contributing/chrome-branches">Chrome 分支</a></p>
+</li>
+<li><p><a href="/docs/contributing/sqlite-upgrade-guide">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/docs/design-docs/api-and-abi">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/docs/design-docs/life-of-a-tracing-session">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/docs/design-docs/protozero">ProtoZero</a></p>
+</li>
+<li><p><a href="/docs/design-docs/security-model">安全模型</a></p>
+</li>
+<li><p><a href="/docs/design-docs/checkpoint-atoms">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/docs/design-docs/batch-trace-processor">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/design-docs/trace-processor-architecture">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-design">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-wire-protocol">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-sampling">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/docs/design-docs/continuous-integration">Perfetto CI</a></p>
+</li>
+<li><p><a href="/docs/design-docs/lock-free-task-runner">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/getting-started/converting">
+    <h1>将任意时间戳数据转换为 Perfetto</h1><p>在本指南中，你将学习如何：</p>
+<ul>
+<li>将你自己的时间戳数据转换为 Perfetto trace 格式。</li>
+<li>创建自定义 tracks、slices 和 counters。</li>
+<li>在 Perfetto UI 中可视化你的自定义数据。</li>
+</ul>
+<p>如果你有来自自己系统的现有日志或时间戳数据，你不需要错过 Perfetto 强大的可视化和 profile 功能。通过将你的数据转换为 Perfetto 的原生基于 protobuf 的 trace 格式，你可以创建可以在 Perfetto UI 中打开并使用 Trace Processor 查询的合成 traces。</p>
+<p>本页面提供了如何以编程方式生成这些合成 traces 的指南。</p>
+<h2><a name="-perfetto-trace-" class="anchor" href="#-perfetto-trace-"></a>基础：Perfetto 的 Trace 格式</h2><p>Perfetto trace 文件（<code>.pftrace</code> 或 <code>.perfetto-trace</code>）是一系列 <a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/trace/trace_packet.proto">TracePacket</a> 消息，包装在根 <a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/trace/trace.proto">Trace</a> 消息中。每个 <code>TracePacket</code> 可以包含各种类型的数据。</p>
+<p>对于从自定义数据生成 traces，在 <code>TracePacket</code> 中最常用和最灵活的负载是 <a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/trace/track_event/track_event.proto">TrackEvent</a>。<code>TrackEvent</code> 允许你定义：</p>
+<ul>
+<li><strong>Tracks</strong>：一段时间内事件的单一序列（slices 或 counter）。对应于 Perfetto UI 中的单个&quot;泳道&quot;。</li>
+<li><strong>Slices</strong>：具有名称、开始时间戳和持续时间的事件（例如，函数调用、任务）。</li>
+<li><strong>Counters</strong>：随时间变化的数值（例如，内存使用、自定义 metrics）。</li>
+<li><strong>Flows</strong>：连接不同 tracks 上相关 slices 的箭头。</li>
+</ul>
+<h2><a name="-traces" class="anchor" href="#-traces"></a>以编程方式生成 Traces</h2><p>本指南中的示例使用 Python 和 <code>perfetto</code> Python 库中的帮助器类来演示如何构造这些 protobuf 消息。但是，底层原理和 protobuf 定义与语言无关。你可以在任何具有 Protocol Buffer 支持的编程语言中生成 Perfetto traces。</p>
+<ul>
+<li><strong>官方 Protobuf 库：</strong> Google 为以下语言提供官方 protobuf 编译器和运行时库：
+<a href="https://protobuf.dev/reference/java/java-generated/">Java</a>、
+<a href="https://protobuf.dev/reference/cpp/cpp-generated/">C++</a>、
+<a href="https://protobuf.dev/reference/python/python-generated/">Python</a>、
+<a href="https://protobuf.dev/reference/go/go-generated/">Go</a> 和
+<a href="https://protobuf.dev/reference/">更多</a>。</li>
+<li><strong>第三方库：</strong> 许多第三方库也为广泛的语言提供 protobuf 支持。</li>
+</ul>
+<p>无论使用什么语言，核心任务都是根据 Perfetto <a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto/protos/perfetto/trace/">protobuf schemas</a> 构造 <code>TracePacket</code> 消息并将它们序列化为二进制文件。</p>
+<h3><a name="python-" class="anchor" href="#python-"></a>Python 脚本模板</h3><p>对于以下部分中的 Python 示例，我们将使用脚本模板。此脚本处理创建 trace 文件和序列化 <code>TracePacket</code> 消息的基础知识。你将使用要创建的 trace 数据类型的特定逻辑填充 <code>populate_packets</code> 函数。</p>
+<p>首先，确保你已安装 <code>perfetto</code> 库，它提供了必要的 protobuf 类，可能还有一个构建器实用程序（如你设计的 <code>TraceProtoBuilder</code> 类或库中的等效项）。</p>
+<code class="hljs code-block">pip install perfetto</code><p>这是 Python 脚本模板。将此保存为 <code>trace_converter_template.py</code> 或类似名称。每个后续示例将向你展示在 <code>populate_packets</code> 函数中放置什么代码。</p>
+<details>
+<summary><b>点击展开/折叠 Python 代码</b></summary>
+
+<code class="hljs code-block"><span class="hljs-comment">#!/usr/bin/env python3</span>
+<span class="hljs-keyword">import</span> uuid
+
+<span class="hljs-keyword">from</span> perfetto.trace_builder.proto_builder <span class="hljs-keyword">import</span> TraceProtoBuilder
+<span class="hljs-keyword">from</span> perfetto.protos.perfetto.trace.perfetto_trace_pb2 <span class="hljs-keyword">import</span> TrackEvent, TrackDescriptor, ProcessDescriptor, ThreadDescriptor
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">populate_packets</span>(<span class="hljs-params">builder: TraceProtoBuilder</span>):</span>
+    <span class="hljs-string">&quot;&quot;&quot;
+    在这里，你将定义并将 TracePackets 添加到 trace。
+    以下部分中的示例将提供要在此处插入的特定代码。
+
+    参数:
+        builder: 一个 TraceProtoBuilder 实例，用于添加 packets。
+    &quot;&quot;&quot;</span>
+    <span class="hljs-comment"># ======== 在此处开始你的数据包创建代码 ========</span>
+    <span class="hljs-comment"># 示例(稍后将由特定示例替换)：</span>
+    <span class="hljs-comment">#</span>
+    <span class="hljs-comment"># packet = builder.add_packet()</span>
+    <span class="hljs-comment"># packet.timestamp = 1000</span>
+    <span class="hljs-comment"># packet.track_event.type = TrackEvent.TYPE_SLICE_BEGIN</span>
+    <span class="hljs-comment"># packet.track_event.name = &quot;My Example Event&quot;</span>
+    <span class="hljs-comment"># packet.track_event.track_uuid = 12345</span>
+    <span class="hljs-comment">#</span>
+    <span class="hljs-comment"># packet2 = builder.add_packet()</span>
+    <span class="hljs-comment"># packet2.timestamp = 2000</span>
+    <span class="hljs-comment"># packet2.track_event.type = TrackEvent.TYPE_SLICE_END</span>
+    <span class="hljs-comment"># packet2.track_event.track_uuid = 12345</span>
+    <span class="hljs-comment">#</span>
+    <span class="hljs-comment"># ========  在此处结束你的数据包创建代码  ========</span>
+
+    <span class="hljs-comment"># 添加代码时删除此 &#x27;pass&#x27;</span>
+    <span class="hljs-keyword">pass</span>
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>():</span>
+    <span class="hljs-string">&quot;&quot;&quot;
+    初始化 TraceProtoBuilder，调用 populate_packets 填充它，
+    然后将生成的 trace 写入文件。
+    &quot;&quot;&quot;</span>
+    builder = TraceProtoBuilder()
+    populate_packets(builder)
+
+    output_filename = <span class="hljs-string">&quot;my_custom_trace.pftrace&quot;</span>
+    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(output_filename, <span class="hljs-string">&#x27;wb&#x27;</span>) <span class="hljs-keyword">as</span> f:
+      f.write(builder.serialize())
+
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Trace written to <span class="hljs-subst">{output_filename}</span>&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Open with [https://ui.perfetto.dev](https://ui.perfetto.dev).&quot;</span>)
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    main()</code></details>
+
+<p><strong>使用此模板：</strong></p>
+<ol>
+<li>将上面的代码保存为 Python 文件（例如 <code>trace_converter_template.py</code>）。</li>
+<li>对于以下部分中的每个示例（例如，&quot;Thread-scoped slices&quot;、&quot;Counters&quot;），复制该部分提供的 Python 代码并将其粘贴到 <code>trace_converter_template.py</code> 文件中的 <code>populate_packets</code> 函数中，替换示例占位符内容。</li>
+<li>运行脚本：<code>python trace_converter_template.py</code>。这将生成 <code>my_custom_trace.pftrace</code>。</li>
+</ol>
+<p>TraceProtoBuilder 类（从 <code>perfetto</code> pip 包导入）帮助管理构成 <code>Trace</code> 的 <code>TracePacket</code> 消息列表。<code>populate_packets</code> 函数是你根据特定数据定义这些 packets 内容的地方。</p>
+<h2><a name="-timeline-slices" class="anchor" href="#-timeline-slices"></a>创建基本 Timeline Slices</h2><p>在 Perfetto 中表示活动的最基本方式是&quot;slice&quot;。slice 只是一个具有开始时间和持续时间的命名事件。Slices 存在于&quot;tracks&quot;上，tracks 是 Perfetto UI 中的可视 Timeline。本质上，slices 用于任何你想说&quot;一个命名活动发生在特定时间间隔内&quot;的情况。</p>
+<p>Slices 可以表示的常见示例包括：</p>
+<ul>
+<li>特定<strong>函数正在执行</strong>的时间间隔。</li>
+<li>等待服务器响应网络请求的<strong>时间间隔</strong>。</li>
+<li><strong>资源（如图像、脚本或数据文件）加载</strong>所需的时间。</li>
+<li>应用生命周期中特定阶段的持续时间，如&quot;解析数据&quot;或&quot;渲染帧&quot;。</li>
+</ul>
+<p>要从自定义数据创建 slices，你通常需要：</p>
+<ol>
+<li>定义一个 <strong>track</strong>，你的 slices 将出现在其中。这是使用 <code>TrackDescriptor</code> 数据包完成的。对于基本自定义数据，你可以创建一个不绑定到特定进程或线程的通用 track。</li>
+<li>对于数据中的每个事件，发出 <code>TrackEvent</code> 数据包以标记 slice 的开始和结束。</li>
+</ol>
+<h3><a name="python-" class="anchor" href="#python-"></a>Python 示例</h3><p>假设你有表示任务的数据，具有名称、开始时间和结束时间。以下是如何将它们转换为自定义 track 上的 Perfetto slices。此第一个示例将显示不同的、非嵌套的 slices 和单个 instant 事件。</p>
+<p>将以下 Python 代码复制到 <code>trace_converter_template.py</code> 脚本中的 <code>populate_packets(builder)</code> 函数。</p>
+<details>
+<summary><b>点击展开/折叠 Python 代码</b></summary>
+
+<code class="hljs code-block">    <span class="hljs-comment"># 定义此 packets 序列的唯一 ID(每个 trace 生产者生成一次)</span>
+    TRUSTED_PACKET_SEQUENCE_ID = <span class="hljs-number">1001</span> <span class="hljs-comment"># 选择任何唯一的整数</span>
+
+    <span class="hljs-comment"># 为你的自定义 track 定义唯一的 UUID(生成一个 64 位随机数)</span>
+    CUSTOM_TRACK_UUID = <span class="hljs-number">12345678</span> <span class="hljs-comment"># 示例 UUID</span>
+
+    <span class="hljs-comment"># 1. 定义自定义 Track</span>
+    <span class="hljs-comment"># 此数据包描述将显示事件的 track。</span>
+    <span class="hljs-comment"># 在 trace 开始时发出一次。</span>
+    packet = builder.add_packet()
+    packet.track_descriptor.uuid = CUSTOM_TRACK_UUID
+    packet.track_descriptor.name = <span class="hljs-string">&quot;My Custom Data Timeline&quot;</span>
+
+    <span class="hljs-comment"># 2. 为此自定义 track 发出事件</span>
+    <span class="hljs-comment"># 示例事件 1：&quot;Task A&quot;</span>
+    packet = builder.add_packet()
+    packet.timestamp = <span class="hljs-number">1000</span>  <span class="hljs-comment"># 开始时间(纳秒)</span>
+    packet.track_event.<span class="hljs-built_in">type</span> = TrackEvent.TYPE_SLICE_BEGIN
+    packet.track_event.track_uuid = CUSTOM_TRACK_UUID <span class="hljs-comment"># 与 track 关联</span>
+    packet.track_event.name = <span class="hljs-string">&quot;Task A&quot;</span>
+    packet.trusted_packet_sequence_id = TRUSTED_PACKET_SEQUENCE_ID
+
+    packet = builder.add_packet()
+    packet.timestamp = <span class="hljs-number">1500</span>  <span class="hljs-comment"># 结束时间(纳秒)</span>
+    packet.track_event.<span class="hljs-built_in">type</span> = TrackEvent.TYPE_SLICE_END
+    packet.track_event.track_uuid = CUSTOM_TRACK_UUID
+    packet.trusted_packet_sequence_id = TRUSTED_PACKET_SEQUENCE_ID
+
+    <span class="hljs-comment"># 示例事件 2：&quot;Task B&quot; - 稍后发生的单独、非嵌套任务</span>
+    packet = builder.add_packet()
+    packet.timestamp = <span class="hljs-number">1600</span>  <span class="hljs-comment"># 开始时间(纳秒)</span>
+    packet.track_event.<span class="hljs-built_in">type</span> = TrackEvent.TYPE_SLICE_BEGIN
+    packet.track_event.track_uuid = CUSTOM_TRACK_UUID
+    packet.track_event.name = <span class="hljs-string">&quot;Task B&quot;</span>
+    packet.trusted_packet_sequence_id = TRUSTED_PACKET_SEQUENCE_ID
+
+    packet = builder.add_packet()
+    packet.timestamp = <span class="hljs-number">1800</span>  <span class="hljs-comment"># 结束时间(纳秒)</span>
+    packet.track_event.<span class="hljs-built_in">type</span> = TrackEvent.TYPE_SLICE_END
+    packet.track_event.track_uuid = CUSTOM_TRACK_UUID
+    packet.trusted_packet_sequence_id = TRUSTED_PACKET_SEQUENCE_ID
+
+    <span class="hljs-comment"># 示例事件 3：瞬时事件</span>
+    packet = builder.add_packet()
+    packet.timestamp = <span class="hljs-number">1900</span> <span class="hljs-comment"># 时间戳(纳秒)</span>
+    packet.track_event.<span class="hljs-built_in">type</span> = TrackEvent.TYPE_INSTANT
+    packet.track_event.track_uuid = CUSTOM_TRACK_UUID
+    packet.track_event.name = <span class="hljs-string">&quot;Milestone Y&quot;</span>
+    packet.trusted_packet_sequence_id = TRUSTED_PACKET_SEQUENCE_ID</code></details>
+
+<p>运行脚本后，在 <a href="https://ui.perfetto.dev">Perfetto UI</a> 中打开生成的 <code>my_custom_trace.pftrace</code> 将显示以下输出：</p>
+<p><img src="/docs/images/converting-basic-slices.png" alt="Basic Timeline Slices"></p>
+<p>你可以在 Perfetto UI 的 Query 标签页中使用 SQL 或使用 <a href="/docs/analysis/getting-started">Trace Processor</a> 查询这些 slices：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> ts, dur, name <span class="hljs-keyword">FROM</span> slice 
+<span class="hljs-keyword">JOIN</span> track <span class="hljs-keyword">ON</span> slice.track_id <span class="hljs-operator">=</span> track.id 
+<span class="hljs-keyword">WHERE</span> track.name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;My Custom Data Timeline&#x27;</span>;</code><h2><a name="-slices-" class="anchor" href="#-slices-"></a>嵌套 Slices(分层活动)</h2><p>通常，一个活动或操作由几个子活动组成，这些子活动必须在主活动完成之前完成。嵌套 slices 非常适合表示这些分层关系。关键规则是子 slices 必须在父 slice 开始之后开始，并在父 slice 结束之前结束。</p>
+<p>这在以下情况非常常见：</p>
+<ul>
+<li><strong>函数执行：</strong> 函数调用（父 slice）包含对其他函数的调用（子 slices）。</li>
+<li><strong>结构化并发：</strong> 诸如 Kotlin Coroutines 之类的操作，其中子 coroutines 在父 coroutine 的范围内启动，并且必须在父级完成之前完成。</li>
+<li><strong>较大操作的阶段：</strong> 诸如&quot;编译模块&quot;（父级）之类的复杂任务可能有不同的阶段，如&quot;词法分析&quot;、&quot;解析&quot;、&quot;优化&quot;和&quot;代码生成&quot;作为嵌套的子 slices。</li>
+<li><strong>UI 渲染管道：</strong> &quot;RenderFrame&quot; slice 可能包含&quot;Measure Pass&quot;、&quot;Layout Pass&quot;和&quot;Draw Pass&quot;作为子 slices。</li>
+<li><strong>带有子操作的请求处理：</strong> 处理&quot;ProcessHTTPRequest&quot;（父级）的 Web 服务器可能有嵌套的 slices，如&quot;ParseHeaders&quot;、&quot;AuthenticateUser&quot;、&quot;FetchDataFromDB&quot;和&quot;RenderResponse&quot;。</li>
+</ul>
+<p>Perfetto UI 将直观地嵌套这些 slices，使层次结构清晰。</p>
+<h3><a name="python-" class="anchor" href="#python-"></a>Python 示例</h3><p>此示例演示在自定义 track 上创建多个嵌套 slices 堆栈。packets 按时间戳顺序发出以正确表示嵌套。我们将在 <code>populate_packets</code> 中定义一个小的帮助函数 <code>add_event</code> 以减少样板代码。</p>
+<p>将以下 Python 代码复制到 <code>trace_converter_template.py</code> 脚本中的 <code>populate_packets(builder)</code> 函数。</p>
+<details>
+<summary><b>点击展开/折叠 Python 代码</b></summary>
+
+<code class="hljs code-block">    <span class="hljs-comment"># 定义此 packets 序列的唯一 ID</span>
+    TRUSTED_PACKET_SEQUENCE_ID = <span class="hljs-number">2002</span> <span class="hljs-comment"># 为此示例使用新的 ID</span>
+
+    <span class="hljs-comment"># 为此示例的自定义 track 定义唯一的 UUID</span>
+    NESTED_SLICE_TRACK_UUID = <span class="hljs-number">987654321</span> <span class="hljs-comment"># 示例 UUID</span>
+
+    <span class="hljs-comment"># 1. 定义用于嵌套 Slices 的自定义 Track</span>
+    <span class="hljs-comment"># 开始时发出一次。</span>
+    packet = builder.add_packet()
+    packet.track_descriptor.uuid = NESTED_SLICE_TRACK_UUID
+    packet.track_descriptor.name = <span class="hljs-string">&quot;My Nested Operations Timeline&quot;</span>
+
+    <span class="hljs-comment"># 添加 TrackEvent 数据包的帮助函数</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_event</span>(<span class="hljs-params">ts, event_type, name=<span class="hljs-literal">None</span></span>):</span>
+        packet = builder.add_packet()
+        packet.timestamp = ts
+        packet.track_event.<span class="hljs-built_in">type</span> = event_type
+        packet.track_event.track_uuid = NESTED_SLICE_TRACK_UUID
+        <span class="hljs-keyword">if</span> name:
+            packet.track_event.name = name
+        packet.trusted_packet_sequence_id = TRUSTED_PACKET_SEQUENCE_ID
+
+    <span class="hljs-comment"># --- 堆栈 1：Operation Alpha ---</span>
+    add_event(ts=<span class="hljs-number">2000</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN, name=<span class="hljs-string">&quot;Operation Alpha&quot;</span>)
+    add_event(ts=<span class="hljs-number">2050</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN, name=<span class="hljs-string">&quot;Alpha.LoadConfig&quot;</span>)
+    add_event(ts=<span class="hljs-number">2150</span>, event_type=TrackEvent.TYPE_SLICE_END) <span class="hljs-comment"># 关闭 Alpha.LoadConfig</span>
+    add_event(ts=<span class="hljs-number">2200</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN, name=<span class="hljs-string">&quot;Alpha.Execute&quot;</span>)
+    add_event(ts=<span class="hljs-number">2250</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN, name=<span class="hljs-string">&quot;Alpha.Execute.SubX&quot;</span>)
+    add_event(ts=<span class="hljs-number">2350</span>, event_type=TrackEvent.TYPE_SLICE_END) <span class="hljs-comment"># 关闭 Alpha.Execute.SubX</span>
+    add_event(ts=<span class="hljs-number">2400</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN, name=<span class="hljs-string">&quot;Alpha.Execute.SubY&quot;</span>)
+    add_event(ts=<span class="hljs-number">2500</span>, event_type=TrackEvent.TYPE_SLICE_END) <span class="hljs-comment"># 关闭 Alpha.Execute.SubY</span>
+    add_event(ts=<span class="hljs-number">2800</span>, event_type=TrackEvent.TYPE_SLICE_END) <span class="hljs-comment"># 关闭 Alpha.Execute</span>
+    add_event(ts=<span class="hljs-number">3000</span>, event_type=TrackEvent.TYPE_SLICE_END) <span class="hljs-comment"># 关闭 Operation Alpha</span>
+
+    <span class="hljs-comment"># --- 堆栈 2：Operation Beta(在同一 track 上) ---</span>
+    add_event(ts=<span class="hljs-number">3200</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN, name=<span class="hljs-string">&quot;Operation Beta&quot;</span>)
+    add_event(ts=<span class="hljs-number">3250</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN, name=<span class="hljs-string">&quot;Beta.Initialize&quot;</span>)
+    add_event(ts=<span class="hljs-number">3350</span>, event_type=TrackEvent.TYPE_SLICE_END) <span class="hljs-comment"># 关闭 Beta.Initialize</span>
+    add_event(ts=<span class="hljs-number">3400</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN, name=<span class="hljs-string">&quot;Beta.Process&quot;</span>)
+    add_event(ts=<span class="hljs-number">3700</span>, event_type=TrackEvent.TYPE_SLICE_END) <span class="hljs-comment"># 关闭 Beta.Process</span>
+    add_event(ts=<span class="hljs-number">3800</span>, event_type=TrackEvent.TYPE_SLICE_END) <span class="hljs-comment"># 关闭 Operation Beta</span>
+
+    <span class="hljs-comment"># --- 所有堆栈后的独立 slice ---</span>
+    add_event(ts=<span class="hljs-number">4000</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN, name=<span class="hljs-string">&quot;Cleanup&quot;</span>)
+    add_event(ts=<span class="hljs-number">4100</span>, event_type=TrackEvent.TYPE_SLICE_END) <span class="hljs-comment"># 关闭 Cleanup</span></code></details>
+
+<p>运行脚本后，在 <a href="https://ui.perfetto.dev">Perfetto UI</a> 中打开生成的 <code>my_custom_trace.pftrace</code> 将显示以下输出：</p>
+<p><img src="/docs/images/converting-nested.png" alt="Nested Slices"></p>
+<p>你可以在 Perfetto UI 的 Query 标签页中使用 SQL 或使用 <a href="/docs/analysis/getting-started">Trace Processor</a> 查询这些嵌套 slices 并查看它们的层次结构：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> ts, dur, name, depth <span class="hljs-keyword">FROM</span> slice
+<span class="hljs-keyword">JOIN</span> track <span class="hljs-keyword">ON</span> slice.track_id <span class="hljs-operator">=</span> track.id
+<span class="hljs-keyword">WHERE</span> track.name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;My Nested Operations Timeline&#x27;</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> ts;</code><h2><a name="-slices-" class="anchor" href="#-slices-"></a>异步 Slices 和重叠事件</h2><p>许多系统处理异步操作，其中多个活动可以同时进行，并且它们的生命周期可以重叠而无需严格嵌套。示例包括：</p>
+<ul>
+<li><strong>网络请求：</strong> 进程可能并发发出多个网络请求。</li>
+<li><strong>广播接收器(Android)：</strong> 应用可以接收多个广播 intents。每个的处理可以重叠。</li>
+<li><strong>Wakelocks(Android/Linux)：</strong> 多个组件可以同时持有 wakelocks。</li>
+<li><strong>文件 I/O 操作：</strong> 程序可能启动多个对不同文件的异步读取或写入操作。</li>
+</ul>
+<p>在这些场景中，如果你使用的是开始/结束 slice 语义，则无法将所有这些重叠事件表示在单个 track 上，因为 <code>TYPE_SLICE_END</code> 总是关闭该特定 track 上最近打开的 slice。</p>
+<p>Perfetto 对此进行建模的方式是将每个并发的、可能重叠的操作分配到其<strong>自己的唯一 track(具有唯一的 UUID)<strong>。为了在 Perfetto UI 中实现这些相关异步操作的视觉分组，你可以给这些单独的操作 tracks 的每个 <code>TrackDescriptor</code> 指定</strong>相同的 <code>name</code></strong>(例如，&quot;Network Connections&quot;或&quot;File I/O&quot;)。slices 本身在这些 tracks 上可以有不同的名称（例如，&quot;GET :/api/data&quot;、&quot;Read /config.txt&quot;）。</p>
+<p>Perfetto UI 将组合或视觉上合并具有相同名称的 tracks。这是约定，可以由用户控制。有关更多详细信息，请参阅有关控制合并的部分：
+<a href="/docs/reference/synthetic-track-event#controlling-track-merging">synthetic track event reference docs</a>。</p>
+<h3><a name="python-" class="anchor" href="#python-"></a>Python 示例</h3><p>假设我们正在跟踪活动网络连接。每个连接都是一个独立的异步事件。我们将给所有连接 tracks 相同的名称以鼓励 UI 对它们进行分组。我们将使用帮助函数来定义 tracks 和添加事件。</p>
+<p>将以下 Python 代码复制到 <code>trace_converter_template.py</code> 脚本中的 <code>populate_packets(builder)</code> 函数：</p>
+<details>
+<summary><b>点击展开/折叠 Python 代码</b></summary>
+
+<code class="hljs code-block">    TRUSTED_PACKET_SEQUENCE_ID = <span class="hljs-number">3003</span>
+    <span class="hljs-comment"># 用于 UI 分组的所有单个连接 tracks 的通用名称</span>
+    ASYNC_TRACK_GROUP_NAME = <span class="hljs-string">&quot;HTTP Connections&quot;</span>
+
+    <span class="hljs-comment"># 使用唯一 UUID 定义新 track 的帮助函数</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">define_track</span>(<span class="hljs-params">group_name</span>):</span>
+        track_uuid = uuid.uuid4().<span class="hljs-built_in">int</span> &amp; ((<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">63</span>) - <span class="hljs-number">1</span>)
+        packet = builder.add_packet()
+        packet.track_descriptor.uuid = track_uuid
+        packet.track_descriptor.name = group_name
+        <span class="hljs-keyword">return</span> track_uuid
+
+    <span class="hljs-comment"># 向特定 track 添加开始或结束 slice 事件的帮助函数</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_slice_event</span>(<span class="hljs-params">ts, event_type, event_track_uuid, name=<span class="hljs-literal">None</span></span>):</span>
+        packet = builder.add_packet()
+        packet.timestamp = ts
+        packet.track_event.<span class="hljs-built_in">type</span> = event_type
+        packet.track_event.track_uuid = event_track_uuid
+        <span class="hljs-keyword">if</span> name:
+            packet.track_event.name = name
+        packet.trusted_packet_sequence_id = TRUSTED_PACKET_SEQUENCE_ID
+
+    <span class="hljs-comment"># --- 网络连接 1 ---</span>
+    conn1_track_uuid = define_track(ASYNC_TRACK_GROUP_NAME)
+    add_slice_event(ts=<span class="hljs-number">1000</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN, event_track_uuid=conn1_track_uuid, name=<span class="hljs-string">&quot;GET /data/config&quot;</span>)
+    add_slice_event(ts=<span class="hljs-number">1500</span>, event_type=TrackEvent.TYPE_SLICE_END, event_track_uuid=conn1_track_uuid)
+
+    <span class="hljs-comment"># --- 网络连接 2(与连接 1 重叠) ---</span>
+    conn2_track_uuid = define_track(ASYNC_TRACK_GROUP_NAME)
+    add_slice_event(ts=<span class="hljs-number">1100</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN, event_track_uuid=conn2_track_uuid, name=<span class="hljs-string">&quot;POST /submit/form&quot;</span>)
+    add_slice_event(ts=<span class="hljs-number">2000</span>, event_type=TrackEvent.TYPE_SLICE_END, event_track_uuid=conn2_track_uuid)
+
+    <span class="hljs-comment"># --- 网络连接 3(在 1 结束后开始，与 2 重叠) ---</span>
+    conn3_track_uuid = define_track(ASYNC_TRACK_GROUP_NAME)
+    add_slice_event(ts=<span class="hljs-number">1600</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN, event_track_uuid=conn3_track_uuid, name=<span class="hljs-string">&quot;GET /status/check&quot;</span>)
+    add_slice_event(ts=<span class="hljs-number">2200</span>, event_type=TrackEvent.TYPE_SLICE_END, event_track_uuid=conn3_track_uuid)</code></details>
+
+<p>运行脚本后，在 <a href="https://ui.perfetto.dev">Perfetto UI</a> 中打开生成的 <code>my_custom_trace.pftrace</code> 将显示以下输出：</p>
+<p><img src="/docs/images/converting-async-slices.png" alt="Asynchronous Slices"></p>
+<p>你可以在 Perfetto UI 的 Query 标签页中使用 SQL 或使用 <a href="/docs/analysis/getting-started">Trace Processor</a> 查询跨所有 HTTP 连接 tracks 的这些重叠 slices：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> ts, dur, name <span class="hljs-keyword">FROM</span> slice
+<span class="hljs-keyword">JOIN</span> track <span class="hljs-keyword">ON</span> slice.track_id <span class="hljs-operator">=</span> track.id
+<span class="hljs-keyword">WHERE</span> track.name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;HTTP Connections&#x27;</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> ts;</code><h2><a name="counters-" class="anchor" href="#counters-"></a>Counters(随时间变化的值)</h2><p>Counters 用于表示随时间变化的数值。它们非常适合跟踪非基于事件的 metrics 或状态，而是反映连续或采样数量的 metrics 或状态。</p>
+<p>Counters 可以表示的常见示例包括：</p>
+<ul>
+<li><strong>内存使用：</strong> 进程消耗的总内存，或特定的内存池。</li>
+<li><strong>CPU 频率：</strong> CPU 核心的当前运行频率。</li>
+<li><strong>队列大小：</strong> 网络队列或工作队列中未完成请求的数量。</li>
+<li><strong>电池百分比：</strong> 剩余的电池电量。</li>
+<li><strong>资源限制：</strong> 资源（如文件描述符或正在利用的网络带宽）的当前值。</li>
+</ul>
+<p>要创建 counter track，你需要：</p>
+<ol>
+<li>为你的 counter 定义一个 <code>TrackDescriptor</code>。此 track 需要一个 <code>uuid</code>、一个 <code>name</code>，重要的是，它的 <code>counter</code> 字段应该被填充。这告诉 Perfetto 将此 track 视为 counter。</li>
+<li>发出带有 <code>type: TYPE_COUNTER</code> 的 <code>TrackEvent</code> packets。每个这样的 packet 应该有一个 <code>timestamp</code> 和一个 <code>counter_value</code>(可以是整数或双精度浮点数)。</li>
+</ol>
+<h3><a name="python-" class="anchor" href="#python-"></a>Python 示例</h3><p>假设我们想要跟踪随时间变化的未完成网络请求的数量。</p>
+<p>将以下 Python 代码复制到 <code>trace_converter_template.py</code> 脚本中的 <code>populate_packets(builder)</code> 函数。</p>
+<details>
+<summary><b>点击展开/折叠 Python 代码</b></summary>
+
+<code class="hljs code-block">    TRUSTED_PACKET_SEQUENCE_ID = <span class="hljs-number">4004</span>
+    <span class="hljs-comment"># Counter track 的 UUID</span>
+    OUTSTANDING_REQUESTS_TRACK_UUID = uuid.uuid4().<span class="hljs-built_in">int</span> &amp; ((<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">63</span>) - <span class="hljs-number">1</span>)
+
+    <span class="hljs-comment"># 1. 定义 Counter Track</span>
+    packet = builder.add_packet()
+    track_desc = packet.track_descriptor
+    track_desc.uuid = OUTSTANDING_REQUESTS_TRACK_UUID
+    track_desc.name = <span class="hljs-string">&quot;Outstanding Network Requests&quot;</span>
+    <span class="hljs-comment"># 要将此标记为 counter track，请设置 &#x27;counter&#x27; 字段为存在。</span>
+    track_desc.counter.SetInParent()
+
+    <span class="hljs-comment"># 添加 counter 事件的帮助函数</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_counter_event</span>(<span class="hljs-params">ts, value</span>):</span>
+        packet = builder.add_packet()
+        packet.timestamp = ts
+        packet.track_event.<span class="hljs-built_in">type</span> = TrackEvent.TYPE_COUNTER
+        packet.track_event.track_uuid = OUTSTANDING_REQUESTS_TRACK_UUID
+        packet.track_event.counter_value = value
+        packet.trusted_packet_sequence_id = TRUSTED_PACKET_SEQUENCE_ID
+
+    <span class="hljs-comment"># 2. 随时间发出 counter 值</span>
+    add_counter_event(ts=<span class="hljs-number">1000</span>, value=<span class="hljs-number">0</span>)
+    add_counter_event(ts=<span class="hljs-number">1100</span>, value=<span class="hljs-number">1</span>) <span class="hljs-comment"># 一个请求开始</span>
+    add_counter_event(ts=<span class="hljs-number">1200</span>, value=<span class="hljs-number">2</span>) <span class="hljs-comment"># 第二个请求开始</span>
+    add_counter_event(ts=<span class="hljs-number">1300</span>, value=<span class="hljs-number">3</span>) <span class="hljs-comment"># 第三个请求开始</span>
+    add_counter_event(ts=<span class="hljs-number">1400</span>, value=<span class="hljs-number">2</span>) <span class="hljs-comment"># 第一个请求完成</span>
+    add_counter_event(ts=<span class="hljs-number">1500</span>, value=<span class="hljs-number">2</span>) <span class="hljs-comment"># 无变化</span>
+    add_counter_event(ts=<span class="hljs-number">1600</span>, value=<span class="hljs-number">1</span>) <span class="hljs-comment"># 第二个请求完成</span>
+    add_counter_event(ts=<span class="hljs-number">1700</span>, value=<span class="hljs-number">0</span>) <span class="hljs-comment"># 第三个请求完成</span>
+    add_counter_event(ts=<span class="hljs-number">1800</span>, value=<span class="hljs-number">1</span>) <span class="hljs-comment"># 新请求开始</span>
+    add_counter_event(ts=<span class="hljs-number">1900</span>, value=<span class="hljs-number">0</span>) <span class="hljs-comment"># 最后一个请求完成</span></code></details>
+
+<p>运行脚本后，在 <a href="https://ui.perfetto.dev">Perfetto UI</a> 中打开生成的 <code>my_custom_trace.pftrace</code> 将显示以下输出：</p>
+<p><img src="/docs/images/converting-counters.png" alt="Counters"></p>
+<p>你可以在 Perfetto UI 的 Query 标签页中使用 SQL 或使用 <a href="/docs/analysis/getting-started">Trace Processor</a> 查询 counter 值：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> ts, <span class="hljs-keyword">value</span> <span class="hljs-keyword">FROM</span> counter
+<span class="hljs-keyword">JOIN</span> track <span class="hljs-keyword">ON</span> counter.track_id <span class="hljs-operator">=</span> track.id
+<span class="hljs-keyword">WHERE</span> track.name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;Outstanding Network Requests&#x27;</span>;</code><h2><a name="flows-" class="anchor" href="#flows-"></a>Flows(连接因果关系事件)</h2><p>Flows 用于在视觉上连接具有显式因果或依赖关系的 slices，特别是当这些 slices 发生在不同的 tracks 上时（如不同的线程甚至不同的进程）。它们对于理解系统一个部分中的操作如何触发或启用另一个部分中的操作至关重要。</p>
+<p>将 flows 视为从&quot;原因&quot;或&quot;调度&quot;事件到&quot;结果&quot;或&quot;处理&quot;事件绘制箭头。常见场景包括：</p>
+<ul>
+<li>UI 线程将任务调度到工作线程：flow 将调度 slice 连接到工作线程上的执行 slice。</li>
+<li>服务对另一个服务进行 RPC/IPC 调用：flow 可以将客户端调用启动链接到服务器端请求处理。</li>
+<li>事件被发布到消息队列并稍后处理：flow 可以显示从发布到处理的链接。</li>
+</ul>
+<p>在 Perfetto 的 <code>TrackEvent</code> 模型中，你通过以下方式建立 flow：</p>
+<ol>
+<li>将一个或多个唯一的 64 位 <code>flow_id</code> 分配给属于 flow 的 <code>TrackEvent</code>。此 ID 充当链接。</li>
+<li>通常，<code>flow_id</code> 被添加到 <code>TYPE_SLICE_BEGIN</code> 或 <code>TYPE_SLICE_END</code> 事件，以标记从/到该 slice 的因果链接的起点或终点。</li>
+<li>然后将相同的 <code>flow_id</code> 添加到另一个 <code>TrackEvent</code>(通常是不同 track 上的 <code>TYPE_SLICE_BEGIN</code>)，以显示该因果链接操作的继续或处理。</li>
+</ol>
+<p>Perfetto UI 将绘制箭头连接共享共同 <code>flow_id</code> 的 slices，使依赖链显式化。</p>
+<p><strong>替代方案：Correlation IDs</strong> 对于属于相同逻辑操作但不是因果连接的事件，请考虑使用 correlation IDs 代替或除了 flows。Correlation IDs 将相关事件视觉上分组（例如，使用一致的颜色）而不暗示因果关系。有关详细信息，请参阅高级指南中的
+[Linking Related Events with Correlation IDs](/docs/reference/synthetic-track-event.md#linking-related-events-with-correlation-ids）部分。</p>
+<h3><a name="python-" class="anchor" href="#python-"></a>Python 示例</h3><p>让我们建模一个简单的系统，其中&quot;Request Handler&quot; track 将工作调度到&quot;Data Processor&quot; track。我们将使用 flows 将请求调度链接到其处理，然后将处理完成链接回处理程序确认完成。</p>
+<p>将以下 Python 代码复制到 <code>trace_converter_template.py</code> 脚本中的 <code>populate_packets(builder)</code> 函数。</p>
+<details>
+<summary><b>点击展开/折叠 Python 代码</b></summary>
+
+<code class="hljs code-block">    TRUSTED_PACKET_SEQUENCE_ID = <span class="hljs-number">5005</span>
+
+    <span class="hljs-comment"># --- 定义自定义 Tracks ---</span>
+    REQUEST_HANDLER_TRACK_UUID = uuid.uuid4().<span class="hljs-built_in">int</span> &amp; ((<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">63</span>) - <span class="hljs-number">1</span>)
+    DATA_PROCESSOR_TRACK_UUID = uuid.uuid4().<span class="hljs-built_in">int</span> &amp; ((<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">63</span>) - <span class="hljs-number">1</span>)
+
+    <span class="hljs-comment"># Request Handler Track</span>
+    packet = builder.add_packet()
+    packet.track_descriptor.uuid = REQUEST_HANDLER_TRACK_UUID
+    packet.track_descriptor.name = <span class="hljs-string">&quot;Request Handler&quot;</span>
+
+    <span class="hljs-comment"># Data Processor Track</span>
+    packet = builder.add_packet()
+    packet.track_descriptor.uuid = DATA_PROCESSOR_TRACK_UUID
+    packet.track_descriptor.name = <span class="hljs-string">&quot;Data Processor&quot;</span>
+
+    <span class="hljs-comment"># 添加 slice 事件(BEGIN 或 END)的帮助函数</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_slice_event</span>(<span class="hljs-params">ts, event_type, event_track_uuid, name=<span class="hljs-literal">None</span>, flow_ids=<span class="hljs-literal">None</span></span>):</span>
+        packet = builder.add_packet()
+        packet.timestamp = ts
+        packet.track_event.<span class="hljs-built_in">type</span> = event_type
+        packet.track_event.track_uuid = event_track_uuid
+        <span class="hljs-keyword">if</span> name:
+            packet.track_event.name = name
+        <span class="hljs-keyword">if</span> flow_ids:
+            <span class="hljs-keyword">for</span> flow_id <span class="hljs-keyword">in</span> flow_ids:
+                packet.track_event.flow_ids.append(flow_id)
+        packet.trusted_packet_sequence_id = TRUSTED_PACKET_SEQUENCE_ID
+
+    <span class="hljs-comment"># --- 为因果链接定义唯一的 flow IDs ---</span>
+    DISPATCH_TO_PROCESS_FLOW_ID = uuid.uuid4().<span class="hljs-built_in">int</span> &amp; ((<span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">63</span>)-<span class="hljs-number">1</span>)
+    PROCESS_COMPLETION_FLOW_ID = uuid.uuid4().<span class="hljs-built_in">int</span> &amp; ((<span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">63</span>)-<span class="hljs-number">1</span>)
+
+    <span class="hljs-comment"># 1. Request Handler：调度数据处理(第一个 flow 的起点)</span>
+    add_slice_event(ts=<span class="hljs-number">1000</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN,
+                    event_track_uuid=REQUEST_HANDLER_TRACK_UUID, name=<span class="hljs-string">&quot;DispatchProcessing&quot;</span>,
+                    flow_ids=[DISPATCH_TO_PROCESS_FLOW_ID])
+    add_slice_event(ts=<span class="hljs-number">1050</span>, event_type=TrackEvent.TYPE_SLICE_END,
+                    event_track_uuid=REQUEST_HANDLER_TRACK_UUID)
+
+    <span class="hljs-comment"># 2. Data Processor：处理数据(来自处理程序的调度的 flow)</span>
+    <span class="hljs-comment"># 此 slice 的 BEGIN 事件包含 DISPATCH_TO_PROCESS_FLOW_ID，链接它。</span>
+    <span class="hljs-comment"># 它也从其 BEGIN 事件开始 PROCESS_COMPLETION_FLOW_ID。</span>
+    add_slice_event(ts=<span class="hljs-number">1100</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN,
+                    event_track_uuid=DATA_PROCESSOR_TRACK_UUID, name=<span class="hljs-string">&quot;ProcessDataItem&quot;</span>,
+                    flow_ids=[DISPATCH_TO_PROCESS_FLOW_ID, PROCESS_COMPLETION_FLOW_ID])
+    add_slice_event(ts=<span class="hljs-number">1300</span>, event_type=TrackEvent.TYPE_SLICE_END,
+                    event_track_uuid=DATA_PROCESSOR_TRACK_UUID)
+
+    <span class="hljs-comment"># 3. Request Handler：确认完成(PROCESS_COMPLETION_FLOW_ID 在此结束)</span>
+    add_slice_event(ts=<span class="hljs-number">1350</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN,
+                    event_track_uuid=REQUEST_HANDLER_TRACK_UUID, name=<span class="hljs-string">&quot;AcknowledgeCompletion&quot;</span>,
+                    flow_ids=[PROCESS_COMPLETION_FLOW_ID])
+    add_slice_event(ts=<span class="hljs-number">1400</span>, event_type=TrackEvent.TYPE_SLICE_END,
+                    event_track_uuid=REQUEST_HANDLER_TRACK_UUID)</code></details>
+
+<p>运行脚本后，在 <a href="https://ui.perfetto.dev">Perfetto UI</a> 中打开生成的 <code>my_custom_trace.pftrace</code> 将显示以下输出：</p>
+<p><img src="/docs/images/converting-flows.png" alt="Flows"></p>
+<p>你可以在 Perfetto UI 的 Query 标签页中使用 SQL 或使用 <a href="/docs/analysis/getting-started">Trace Processor</a> 查询 slices 之间的 flow 连接：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> slice_out.name <span class="hljs-keyword">AS</span> source_slice, slice_in.name <span class="hljs-keyword">AS</span> dest_slice
+<span class="hljs-keyword">FROM</span> flow
+<span class="hljs-keyword">JOIN</span> slice <span class="hljs-keyword">AS</span> slice_out <span class="hljs-keyword">ON</span> flow.slice_out <span class="hljs-operator">=</span> slice_out.id
+<span class="hljs-keyword">JOIN</span> slice <span class="hljs-keyword">AS</span> slice_in <span class="hljs-keyword">ON</span> flow.slice_in <span class="hljs-operator">=</span> slice_in.id;</code><h2><a name="-tracks-" class="anchor" href="#-tracks-"></a>使用层次结构对 Tracks 进行分组</h2><p>随着 traces 变得更加复杂，你可能希望将相关的 tracks 组合在一起，以创建更有组织且易于理解的可视化。Perfetto 允许你使用 <code>TrackDescriptor</code> 中的 <code>parent_uuid</code> 字段定义 tracks 之间的父子关系。</p>
+<p>这在以下情况下很有用：</p>
+<ul>
+<li>你有一个高级组件（父 track），包含几个子组件（子 tracks），并且你希望在 UI 中看到它们分组。</li>
+<li>你想要为不同类型的异步事件或不同的 counters 集创建逻辑分组。</li>
+<li>你正在表示具有固有层次结构的系统（例如，具有多个 GPU 的机器，每个 GPU 具有多个引擎）。</li>
+</ul>
+<p>父 track 可以服务于两个主要目的：</p>
+<ul>
+<li><strong>纯分组：</strong> 父 track 本身可能没有任何直接事件（slices 或 counters），但仅作为将其子 tracks 分组在 UI 中的容器。</li>
+<li><strong>摘要 Track：</strong> 父 track 也可以有自己的 slices 或 counters。这些可以代表其子 tracks 中详细活动的概述或摘要，或与其自身相关的独立事件集。</li>
+</ul>
+<p>Perfetto UI 通常会将这些渲染为可展开的树。</p>
+<h3><a name="python-" class="anchor" href="#python-"></a>Python 示例</h3><p>让我们创建一个层次结构：</p>
+<ul>
+<li>一个&quot;Main System&quot; track，它也将有自己的 summary slice。</li>
+<li>&quot;Main System&quot; 的两个子 tracks：&quot;Subsystem A&quot;和&quot;Subsystem B&quot;。</li>
+<li>&quot;Subsystem A&quot; 将进一步拥有自己的子 track，&quot;Detail A.1&quot;。</li>
+<li>然后我们将在父&quot;Main System&quot; track、&quot;Subsystem B&quot;和最深的子 track &quot;Detail A.1&quot;上放置 slices。</li>
+</ul>
+<p>将以下 Python 代码复制到 <code>trace_converter_template.py</code> 脚本中的 <code>populate_packets(builder)</code> 函数。</p>
+<details>
+<summary><b>点击展开/折叠 Python 代码</b></summary>
+
+<code class="hljs code-block">    TRUSTED_PACKET_SEQUENCE_ID = <span class="hljs-number">6006</span>
+
+    <span class="hljs-comment"># --- 定义 Track UUIDs ---</span>
+    main_system_track_uuid = uuid.uuid4().<span class="hljs-built_in">int</span> &amp; ((<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">63</span>) - <span class="hljs-number">1</span>)
+    subsystem_a_track_uuid = uuid.uuid4().<span class="hljs-built_in">int</span> &amp; ((<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">63</span>) - <span class="hljs-number">1</span>)
+    subsystem_b_track_uuid = uuid.uuid4().<span class="hljs-built_in">int</span> &amp; ((<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">63</span>) - <span class="hljs-number">1</span>)
+    detail_a1_track_uuid = uuid.uuid4().<span class="hljs-built_in">int</span> &amp; ((<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">63</span>) - <span class="hljs-number">1</span>)
+
+    <span class="hljs-comment"># 定义 TrackDescriptor 的帮助函数</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">define_custom_track</span>(<span class="hljs-params">track_uuid, name, parent_track_uuid=<span class="hljs-literal">None</span></span>):</span>
+        packet = builder.add_packet()
+        desc = packet.track_descriptor
+        desc.uuid = track_uuid
+        desc.name = name
+        <span class="hljs-keyword">if</span> parent_track_uuid:
+            desc.parent_uuid = parent_track_uuid
+
+    <span class="hljs-comment"># 添加 slice 事件的帮助函数</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_slice_event</span>(<span class="hljs-params">ts, event_type, event_track_uuid, name=<span class="hljs-literal">None</span></span>):</span>
+        packet = builder.add_packet()
+        packet.timestamp = ts
+        packet.track_event.<span class="hljs-built_in">type</span> = event_type
+        packet.track_event.track_uuid = event_track_uuid
+        <span class="hljs-keyword">if</span> name:
+            packet.track_event.name = name
+        packet.trusted_packet_sequence_id = TRUSTED_PACKET_SEQUENCE_ID
+
+    <span class="hljs-comment"># 1. 定义 Track 层次结构</span>
+    define_custom_track(main_system_track_uuid, <span class="hljs-string">&quot;Main System&quot;</span>)
+    define_custom_track(subsystem_a_track_uuid, <span class="hljs-string">&quot;Subsystem A&quot;</span>, parent_track_uuid=main_system_track_uuid)
+    define_custom_track(subsystem_b_track_uuid, <span class="hljs-string">&quot;Subsystem B&quot;</span>, parent_track_uuid=main_system_track_uuid)
+    define_custom_track(detail_a1_track_uuid, <span class="hljs-string">&quot;Detail A.1&quot;</span>, parent_track_uuid=subsystem_a_track_uuid)
+
+    <span class="hljs-comment"># 2. 在层次结构中的各种 tracks 上发出 slices</span>
+
+    <span class="hljs-comment"># 在父&quot;Main System&quot; track 上的 slice(摘要/总体活动)</span>
+    add_slice_event(ts=<span class="hljs-number">4800</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN,
+                    event_track_uuid=main_system_track_uuid, name=<span class="hljs-string">&quot;System Initialization Phase&quot;</span>)
+    add_slice_event(ts=<span class="hljs-number">7000</span>, event_type=TrackEvent.TYPE_SLICE_END,
+                    event_track_uuid=main_system_track_uuid)
+
+    <span class="hljs-comment"># 在&quot;Detail A.1&quot;(子&quot;Subsystem A&quot;)上的 slice</span>
+    add_slice_event(ts=<span class="hljs-number">5000</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN,
+                    event_track_uuid=detail_a1_track_uuid, name=<span class="hljs-string">&quot;Activity in A.1&quot;</span>)
+    add_slice_event(ts=<span class="hljs-number">5500</span>, event_type=TrackEvent.TYPE_SLICE_END,
+                    event_track_uuid=detail_a1_track_uuid)
+
+    <span class="hljs-comment"># 在&quot;Subsystem B&quot;上的 slice</span>
+    add_slice_event(ts=<span class="hljs-number">6000</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN,
+                    event_track_uuid=subsystem_b_track_uuid, name=<span class="hljs-string">&quot;Work in Subsystem B&quot;</span>)
+    add_slice_event(ts=<span class="hljs-number">6200</span>, event_type=TrackEvent.TYPE_SLICE_END,
+                    event_track_uuid=subsystem_b_track_uuid)
+
+    <span class="hljs-comment"># 在&quot;Detail A.1&quot;上的另一个 slice</span>
+    add_slice_event(ts=<span class="hljs-number">5600</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN,
+                    event_track_uuid=detail_a1_track_uuid, name=<span class="hljs-string">&quot;Further Activity in A.1&quot;</span>)
+    add_slice_event(ts=<span class="hljs-number">5800</span>, event_type=TrackEvent.TYPE_SLICE_END,
+                    event_track_uuid=detail_a1_track_uuid)</code></details>
+
+<p>运行脚本后，在 <a href="https://ui.perfetto.dev">Perfetto UI</a> 中打开生成的 <code>my_custom_trace.pftrace</code> 将显示以下输出：</p>
+<p><img src="/docs/images/converting-track-groups.png" alt="Grouping Tracks with Hierarchies"></p>
+<p>你可以在 Perfetto UI 的 Query 标签页中使用 SQL 或使用 <a href="/docs/analysis/getting-started">Trace Processor</a> 查询跨 track 层次结构的 slices：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> slice.ts, slice.dur, slice.name, track.name <span class="hljs-keyword">AS</span> track_name
+<span class="hljs-keyword">FROM</span> slice 
+<span class="hljs-keyword">JOIN</span> track <span class="hljs-keyword">ON</span> slice.track_id <span class="hljs-operator">=</span> track.id 
+<span class="hljs-keyword">WHERE</span> track.name <span class="hljs-keyword">IN</span> (<span class="hljs-string">&#x27;Main System&#x27;</span>, <span class="hljs-string">&#x27;Subsystem A&#x27;</span>, <span class="hljs-string">&#x27;Subsystem B&#x27;</span>, <span class="hljs-string">&#x27;Detail A.1&#x27;</span>)
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> slice.ts;</code><h2><a name="-trace-track-" class="anchor" href="#-trace-track-"></a>用于瀑布图 / Trace 视图的 Track 层次结构</h2><p>Track 层次结构的另一个强大用途是可视化复杂操作或请求的分解，类似于分布式 tracing 系统中显示&quot;trace 视图&quot;或&quot;span 视图&quot;的方式。这在操作涉及跨不同逻辑组件的顺序或并行步骤时非常有用，并且你希望以瀑布图或甘特图样式查看这些步骤的时间和关系。</p>
+<p>在此模型中：</p>
+<ul>
+<li><strong>根 track</strong> 代表整个端到端请求或操作。</li>
+<li>该操作中的每个<strong>主要步骤、函数调用或 RPC 调用</strong>都表示为<strong>父在根 track 下的子 track</strong>(或如果它是子子步骤，则在另一个步骤下)。</li>
+<li>每个子 track 上的<strong>slice</strong>显示该特定步骤的持续时间。</li>
+<li><code>parent_uuid</code> 字段创建层次结构。UI 通常会将这些渲染为可展开的树，这些层次结构排列的 tracks 上 slices 的开始/结束时间创建&quot;瀑布&quot;效果。</li>
+</ul>
+<h3><a name="python-" class="anchor" href="#python-"></a>Python 示例：服务请求分解</h3><p>假设前端服务发出一个请求，涉及调用两个后端服务：Authentication Service 和 Data Service。只有在 Authentication Service 调用完成后才能进行 Data Service 调用。</p>
+<p>将以下 Python 代码复制到 <code>trace_converter_template.py</code> 脚本中的 <code>populate_packets(builder)</code> 函数。</p>
+<details>
+<summary><b>点击展开/折叠 Python 代码</b></summary>
+
+<code class="hljs code-block">    TRUSTED_PACKET_SEQUENCE_ID = <span class="hljs-number">7007</span>
+
+    <span class="hljs-comment"># --- 定义 Track UUIDs ---</span>
+    root_request_track_uuid = uuid.uuid4().<span class="hljs-built_in">int</span> &amp; ((<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">63</span>) - <span class="hljs-number">1</span>)
+    auth_service_call_track_uuid = uuid.uuid4().<span class="hljs-built_in">int</span> &amp; ((<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">63</span>) - <span class="hljs-number">1</span>)
+    data_service_call_track_uuid = uuid.uuid4().<span class="hljs-built_in">int</span> &amp; ((<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">63</span>) - <span class="hljs-number">1</span>)
+    <span class="hljs-comment"># data_service_call 中的内部步骤的 UUID</span>
+    data_service_internal_step_track_uuid = uuid.uuid4().<span class="hljs-built_in">int</span> &amp; ((<span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">63</span>)-<span class="hljs-number">1</span>)
+
+    <span class="hljs-comment"># 定义 TrackDescriptor 的帮助函数</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">define_custom_track</span>(<span class="hljs-params">track_uuid, name, parent_track_uuid=<span class="hljs-literal">None</span></span>):</span>
+        packet = builder.add_packet()
+        desc = packet.track_descriptor
+        desc.uuid = track_uuid
+        desc.name = name
+        <span class="hljs-keyword">if</span> parent_track_uuid:
+            desc.parent_uuid = parent_track_uuid
+
+    <span class="hljs-comment"># 添加 slice 事件的帮助函数</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_slice_event</span>(<span class="hljs-params">ts, event_type, event_track_uuid, name=<span class="hljs-literal">None</span></span>):</span>
+        packet = builder.add_packet()
+        packet.timestamp = ts
+        packet.track_event.<span class="hljs-built_in">type</span> = event_type
+        packet.track_event.track_uuid = event_track_uuid
+        <span class="hljs-keyword">if</span> name:
+            packet.track_event.name = name
+        packet.trusted_packet_sequence_id = TRUSTED_PACKET_SEQUENCE_ID
+
+    <span class="hljs-comment"># 1. 定义整体请求的根 Track</span>
+    define_custom_track(root_request_track_uuid, <span class="hljs-string">&quot;Frontend Request: /api/user/profile&quot;</span>)
+
+    <span class="hljs-comment"># 在其自己的 track 上为前端请求的总持续时间添加 slice</span>
+    add_slice_event(ts=<span class="hljs-number">10000</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN,
+                    event_track_uuid=root_request_track_uuid, name=<span class="hljs-string">&quot;Total Request Duration&quot;</span>)
+
+    <span class="hljs-comment"># 2. 将每个服务调用(span)的子 tracks 定义为根请求的子项</span>
+    define_custom_track(auth_service_call_track_uuid, <span class="hljs-string">&quot;Call: AuthService.AuthenticateUser&quot;</span>,
+                        parent_track_uuid=root_request_track_uuid)
+    define_custom_track(data_service_call_track_uuid, <span class="hljs-string">&quot;Call: DataService.GetUserData&quot;</span>,
+                        parent_track_uuid=root_request_track_uuid)
+
+    <span class="hljs-comment"># 3. 在这些服务调用 tracks 上发出 slices</span>
+    <span class="hljs-comment"># Auth Service Call</span>
+    add_slice_event(ts=<span class="hljs-number">10100</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN,
+                    event_track_uuid=auth_service_call_track_uuid, name=<span class="hljs-string">&quot;AuthService.AuthenticateUser&quot;</span>)
+    add_slice_event(ts=<span class="hljs-number">10300</span>, event_type=TrackEvent.TYPE_SLICE_END,
+                    event_track_uuid=auth_service_call_track_uuid)
+
+    <span class="hljs-comment"># Data Service Call(在 Auth 完成后开始)</span>
+    add_slice_event(ts=<span class="hljs-number">10350</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN,
+                    event_track_uuid=data_service_call_track_uuid, name=<span class="hljs-string">&quot;DataService.GetUserData&quot;</span>)
+
+    <span class="hljs-comment"># 模拟 DataService.GetUserData 内的内部步骤，显示在其自己的子 track 上</span>
+    <span class="hljs-comment"># 此 track 将是&quot;Call: DataService.GetUserData&quot; track 的子项。</span>
+    define_custom_track(data_service_internal_step_track_uuid, <span class="hljs-string">&quot;Internal: QueryDatabase&quot;</span>,
+                        parent_track_uuid=data_service_call_track_uuid)
+
+    add_slice_event(ts=<span class="hljs-number">10400</span>, event_type=TrackEvent.TYPE_SLICE_BEGIN,
+                    event_track_uuid=data_service_internal_step_track_uuid, name=<span class="hljs-string">&quot;QueryDatabase&quot;</span>)
+    add_slice_event(ts=<span class="hljs-number">10550</span>, event_type=TrackEvent.TYPE_SLICE_END,
+                    event_track_uuid=data_service_internal_step_track_uuid)
+
+    add_slice_event(ts=<span class="hljs-number">10600</span>, event_type=TrackEvent.TYPE_SLICE_END, <span class="hljs-comment"># DataService.GetUserData 的结束</span>
+                    event_track_uuid=data_service_call_track_uuid)
+
+    <span class="hljs-comment"># 前端请求总计的结束</span>
+    add_slice_event(ts=<span class="hljs-number">10700</span>, event_type=TrackEvent.TYPE_SLICE_END,
+                    event_track_uuid=root_request_track_uuid)</code></details>
+
+<p>运行脚本后，在 <a href="https://ui.perfetto.dev">Perfetto UI</a> 中打开生成的 <code>my_custom_trace.pftrace</code> 将显示以下输出：</p>
+<p><img src="/docs/images/converting-waterfall.png" alt="Track Hierarchies for Waterfall / Trace Views"></p>
+<p>你可以在 Perfetto UI 的 Query 标签页中使用 SQL 或使用 <a href="/docs/analysis/getting-started">Trace Processor</a> 查询此请求分解以分析时间：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> slice.ts, slice.dur, slice.name, track.name <span class="hljs-keyword">AS</span> service
+<span class="hljs-keyword">FROM</span> slice 
+<span class="hljs-keyword">JOIN</span> track <span class="hljs-keyword">ON</span> slice.track_id <span class="hljs-operator">=</span> track.id 
+<span class="hljs-keyword">WHERE</span> track.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">&#x27;%Request%&#x27;</span> <span class="hljs-keyword">OR</span> track.name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">&#x27;%Service%&#x27;</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> slice.ts;</code><h2><a name="-" class="anchor" href="#-"></a>向事件添加调试注解</h2><p>调试注解允许你将任意键值数据附加到任何 <code>TrackEvent</code>。它们在你检查 Perfetto UI 中的各个事件时出现，对于提供关于特定 slices 或 instants 期间发生情况的额外上下文非常有用。</p>
+<p>调试注解可用于：</p>
+<ul>
+<li>添加对象 IDs、请求 IDs 或其他标识符</li>
+<li>包括配置值或状态信息</li>
+<li>附加错误消息或状态码</li>
+<li>提供结构化数据，如数组或嵌套对象</li>
+<li>任何丰富你的 trace 事件的上下文数据</li>
+</ul>
+<p>调试注解支持各种数据类型，包括基本值（字符串、整数、布尔值、双精度浮点数）、嵌套字典和数组。它们使用 <code>DebugAnnotation</code> protobuf 消息，可以表示复杂的嵌套结构。</p>
+<h3><a name="python-" class="anchor" href="#python-"></a>Python 示例：基本调试注解</h3><p>此示例演示如何向 track 事件添加简单的键值调试注解。这对于附加附加信息（如对象 IDs、状态值或其他上下文数据）很有用。</p>
+<p>将以下 Python 代码复制到 <code>trace_converter_template.py</code> 脚本中的 <code>populate_packets(builder)</code> 函数。</p>
+<details>
+<summary><b>点击展开/折叠 Python 代码</b></summary>
+
+<code class="hljs code-block">    <span class="hljs-comment"># 定义此 packets 序列的唯一 ID</span>
+    TRUSTED_PACKET_SEQUENCE_ID = <span class="hljs-number">6001</span>
+
+    <span class="hljs-comment"># 为你的自定义 track 定义唯一的 UUID</span>
+    DEBUG_TRACK_UUID = <span class="hljs-number">87654321</span>
+
+    <span class="hljs-comment"># 1. 定义自定义 Track</span>
+    packet = builder.add_packet()
+    packet.track_descriptor.uuid = DEBUG_TRACK_UUID
+    packet.track_descriptor.name = <span class="hljs-string">&quot;Debug Annotations Example&quot;</span>
+
+    <span class="hljs-comment"># 添加带有调试注解的 slice 事件的帮助函数</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_slice_with_debug_annotations</span>(<span class="hljs-params">ts, event_type, name=<span class="hljs-literal">None</span>, debug_annotations=<span class="hljs-literal">None</span></span>):</span>
+        packet = builder.add_packet()
+        packet.timestamp = ts
+        packet.track_event.<span class="hljs-built_in">type</span> = event_type
+        packet.track_event.track_uuid = DEBUG_TRACK_UUID
+        <span class="hljs-keyword">if</span> name:
+            packet.track_event.name = name
+
+        <span class="hljs-comment"># 添加调试注解</span>
+        <span class="hljs-keyword">if</span> debug_annotations:
+            <span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> debug_annotations.items():
+                annotation = packet.track_event.debug_annotations.add()
+                annotation.name = key
+
+                <span class="hljs-comment"># 根据类型设置适当的值字段</span>
+                <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(value, <span class="hljs-built_in">bool</span>):
+                    annotation.bool_value = value
+                <span class="hljs-keyword">elif</span> <span class="hljs-built_in">isinstance</span>(value, <span class="hljs-built_in">int</span>):
+                    annotation.int_value = value
+                <span class="hljs-keyword">elif</span> <span class="hljs-built_in">isinstance</span>(value, <span class="hljs-built_in">float</span>):
+                    annotation.double_value = value
+                <span class="hljs-keyword">elif</span> <span class="hljs-built_in">isinstance</span>(value, <span class="hljs-built_in">str</span>):
+                    annotation.string_value = value
+
+        packet.trusted_packet_sequence_id = TRUSTED_PACKET_SEQUENCE_ID
+
+    <span class="hljs-comment"># 2. 创建带有各种调试注解的 slices</span>
+    add_slice_with_debug_annotations(
+        ts=<span class="hljs-number">1000</span>,
+        event_type=TrackEvent.TYPE_SLICE_BEGIN,
+        name=<span class="hljs-string">&quot;Database Query&quot;</span>,
+        debug_annotations={
+            <span class="hljs-string">&quot;query_id&quot;</span>: <span class="hljs-number">12345</span>,
+            <span class="hljs-string">&quot;table_name&quot;</span>: <span class="hljs-string">&quot;users&quot;</span>,
+            <span class="hljs-string">&quot;is_cached&quot;</span>: <span class="hljs-literal">False</span>,
+            <span class="hljs-string">&quot;timeout_ms&quot;</span>: <span class="hljs-number">5000.0</span>
+        }
+    )
+
+    add_slice_with_debug_annotations(
+        ts=<span class="hljs-number">1200</span>,
+        event_type=TrackEvent.TYPE_SLICE_END
+    )
+
+    <span class="hljs-comment"># 另一个带有不同类型注解的示例</span>
+    add_slice_with_debug_annotations(
+        ts=<span class="hljs-number">1500</span>,
+        event_type=TrackEvent.TYPE_SLICE_BEGIN,
+        name=<span class="hljs-string">&quot;HTTP Request&quot;</span>,
+        debug_annotations={
+            <span class="hljs-string">&quot;method&quot;</span>: <span class="hljs-string">&quot;POST&quot;</span>,
+            <span class="hljs-string">&quot;url&quot;</span>: <span class="hljs-string">&quot;/api/users/create&quot;</span>,
+            <span class="hljs-string">&quot;content_length&quot;</span>: <span class="hljs-number">2048</span>,
+            <span class="hljs-string">&quot;keep_alive&quot;</span>: <span class="hljs-literal">True</span>
+        }
+    )
+
+    add_slice_with_debug_annotations(
+        ts=<span class="hljs-number">1800</span>,
+        event_type=TrackEvent.TYPE_SLICE_END
+    )</code></details>
+
+<p>运行脚本后，在 <a href="https://ui.perfetto.dev">Perfetto UI</a> 中打开生成的 <code>my_custom_trace.pftrace</code> 将显示以下输出：</p>
+<p><img src="/docs/images/converting-debug-basic.png" alt="Adding Debug Annotations"></p>
+<p>你可以在 Perfetto UI 的 Query 标签页中使用 SQL 或使用 <a href="/docs/analysis/getting-started">Trace Processor</a> 查询调试注解：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> slice.name, EXTRACT_ARG(slice.arg_set_id, <span class="hljs-string">&#x27;debug.query_id&#x27;</span>) <span class="hljs-keyword">AS</span> query_id
+<span class="hljs-keyword">FROM</span> slice 
+<span class="hljs-keyword">JOIN</span> track <span class="hljs-keyword">ON</span> slice.track_id <span class="hljs-operator">=</span> track.id 
+<span class="hljs-keyword">WHERE</span> track.name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;Debug Annotations Example&#x27;</span>;</code><h3><a name="python-" class="anchor" href="#python-"></a>Python 示例：嵌套调试注解</h3><p>调试注解可以表示复杂的嵌套数据结构，包括字典和数组。这在需要附加结构化信息（如配置对象、值数组或层次数据）时非常有用。</p>
+<p>将以下 Python 代码复制到 <code>trace_converter_template.py</code> 脚本中的 <code>populate_packets(builder)</code> 函数。</p>
+<details>
+<summary><b>点击展开/折叠 Python 代码</b></summary>
+
+<code class="hljs code-block">    <span class="hljs-comment"># 定义此 packets 序列的唯一 ID</span>
+    TRUSTED_PACKET_SEQUENCE_ID = <span class="hljs-number">6002</span>
+
+    <span class="hljs-comment"># 为你的自定义 track 定义唯一的 UUID</span>
+    NESTED_DEBUG_TRACK_UUID = <span class="hljs-number">87654322</span>
+
+    <span class="hljs-comment"># 1. 定义自定义 Track</span>
+    packet = builder.add_packet()
+    packet.track_descriptor.uuid = NESTED_DEBUG_TRACK_UUID
+    packet.track_descriptor.name = <span class="hljs-string">&quot;Nested Debug Annotations&quot;</span>
+
+    <span class="hljs-comment"># 2. 创建带有嵌套调试注解的 slice</span>
+    packet = builder.add_packet()
+    packet.timestamp = <span class="hljs-number">2000</span>
+    packet.track_event.<span class="hljs-built_in">type</span> = TrackEvent.TYPE_SLICE_BEGIN
+    packet.track_event.track_uuid = NESTED_DEBUG_TRACK_UUID
+    packet.track_event.name = <span class="hljs-string">&quot;Complex Operation&quot;</span>
+
+    <span class="hljs-comment"># 添加带有嵌套结构的字典注解</span>
+    config_annotation = packet.track_event.debug_annotations.add()
+    config_annotation.name = <span class="hljs-string">&quot;config&quot;</span>
+
+    <span class="hljs-comment"># 添加字典条目</span>
+    db_entry = config_annotation.dict_entries.add()
+    db_entry.name = <span class="hljs-string">&quot;database&quot;</span>
+    db_entry.string_value = <span class="hljs-string">&quot;postgres://localhost:5432/mydb&quot;</span>
+
+    timeout_entry = config_annotation.dict_entries.add()
+    timeout_entry.name = <span class="hljs-string">&quot;timeout_ms&quot;</span>
+    timeout_entry.int_value = <span class="hljs-number">30000</span>
+
+    retry_entry = config_annotation.dict_entries.add()
+    retry_entry.name = <span class="hljs-string">&quot;retry_enabled&quot;</span>
+    retry_entry.bool_value = <span class="hljs-literal">True</span>
+
+    <span class="hljs-comment"># 添加数组注解</span>
+    servers_annotation = packet.track_event.debug_annotations.add()
+    servers_annotation.name = <span class="hljs-string">&quot;server_list&quot;</span>
+
+    <span class="hljs-comment"># 添加数组值</span>
+    server1 = servers_annotation.array_values.add()
+    server1.string_value = <span class="hljs-string">&quot;server-1.example.com&quot;</span>
+
+    server2 = servers_annotation.array_values.add()
+    server2.string_value = <span class="hljs-string">&quot;server-2.example.com&quot;</span>
+
+    server3 = servers_annotation.array_values.add()
+    server3.string_value = <span class="hljs-string">&quot;server-3.example.com&quot;</span>
+
+    packet.trusted_packet_sequence_id = TRUSTED_PACKET_SEQUENCE_ID
+
+    <span class="hljs-comment"># 结束 slice</span>
+    packet = builder.add_packet()
+    packet.timestamp = <span class="hljs-number">2500</span>
+    packet.track_event.<span class="hljs-built_in">type</span> = TrackEvent.TYPE_SLICE_END
+    packet.track_event.track_uuid = NESTED_DEBUG_TRACK_UUID
+    packet.trusted_packet_sequence_id = TRUSTED_PACKET_SEQUENCE_ID</code></details>
+
+<p>运行脚本后，在 <a href="https://ui.perfetto.dev">Perfetto UI</a> 中打开生成的 <code>my_custom_trace.pftrace</code> 将显示以下输出：</p>
+<p><img src="/docs/images/converting-debug-nested.png" alt="Nested Debug Annotations"></p>
+<p>你可以在 Perfetto UI 的 Query 标签页中使用 SQL 或使用 <a href="/docs/analysis/getting-started">Trace Processor</a> 查询嵌套调试注解：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> slice.name, 
+       EXTRACT_ARG(slice.arg_set_id, <span class="hljs-string">&#x27;debug.config.database&#x27;</span>) <span class="hljs-keyword">AS</span> database,
+       EXTRACT_ARG(slice.arg_set_id, <span class="hljs-string">&#x27;debug.server_list[0]&#x27;</span>) <span class="hljs-keyword">AS</span> first_server
+<span class="hljs-keyword">FROM</span> slice 
+<span class="hljs-keyword">JOIN</span> track <span class="hljs-keyword">ON</span> slice.track_id <span class="hljs-operator">=</span> track.id 
+<span class="hljs-keyword">WHERE</span> track.name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;Nested Debug Annotations&#x27;</span>;</code><h2><a name="callstacks" class="anchor" href="#callstacks"></a> 将调用栈附加到事件</h2><p>调用栈（也称为堆栈跟踪或回溯）显示导致特定事件的函数调用序列。将调用栈添加到你的 trace 事件对于理解触发特定操作的代码路径非常宝贵。</p>
+<p>有两种不同的方式将调用栈与事件关联：</p>
+<ol>
+<li><strong>内联调用栈</strong>：将堆栈帧直接嵌入每个事件中，包含函数名称和可选的源位置。这很简单，不需要设置，当 trace 大小不是问题或调用栈是唯一的时非常理想。</li>
+<li><strong>Interned 调用栈</strong>：定义一次调用栈结构并从多个事件中通过 ID 引用它。当调用栈频繁重复或需要二进制/映射信息以进行符号化时，这要高效得多。</li>
+</ol>
+<p>本指南涵盖内联调用栈，非常适合入门。对于重复的调用栈或需要二进制映射信息时，请改用
+<a href="/docs/reference/synthetic-track-event#callstacks">interned callstacks</a>。</p>
+<h3><a name="python-" class="anchor" href="#python-"></a>Python 示例</h3><p>每个帧包括函数名称，以及可选的源文件和行号。</p>
+<p>将以下 Python 代码复制到 <code>trace_converter_template.py</code> 脚本中的 <code>populate_packets(builder)</code> 函数。</p>
+<details>
+<summary><b>点击展开/折叠 Python 代码</b></summary>
+
+<code class="hljs code-block">    <span class="hljs-comment"># 定义此 packets 序列的唯一 ID</span>
+    TRUSTED_PACKET_SEQUENCE_ID = <span class="hljs-number">7001</span>
+
+    <span class="hljs-comment"># 为你的自定义 track 定义唯一的 UUID</span>
+    CALLSTACK_TRACK_UUID = <span class="hljs-number">98765432</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">emit_track_event</span>(<span class="hljs-params">
+        ts,
+        event_type,
+        name=<span class="hljs-literal">None</span>,
+        frames=<span class="hljs-literal">None</span>,
+    </span>):</span>
+        <span class="hljs-string">&quot;&quot;&quot;用于写入带有可选内联调用栈的 TrackEvent 的帮助函数。&quot;&quot;&quot;</span>
+        packet = builder.add_packet()
+        packet.timestamp = ts
+        packet.track_event.<span class="hljs-built_in">type</span> = event_type
+        packet.track_event.track_uuid = CALLSTACK_TRACK_UUID
+        <span class="hljs-keyword">if</span> name <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+            packet.track_event.name = name
+        <span class="hljs-keyword">if</span> frames:
+            <span class="hljs-keyword">for</span> function, source, line <span class="hljs-keyword">in</span> frames:
+                frame = packet.track_event.callstack.frames.add()
+                frame.function_name = function
+                <span class="hljs-keyword">if</span> source:
+                    frame.source_file = source
+                <span class="hljs-keyword">if</span> line <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+                    frame.line_number = line
+        packet.trusted_packet_sequence_id = TRUSTED_PACKET_SEQUENCE_ID
+
+    <span class="hljs-comment"># 1. 定义自定义 Track</span>
+    packet = builder.add_packet()
+    packet.track_descriptor.uuid = CALLSTACK_TRACK_UUID
+    packet.track_descriptor.name = <span class="hljs-string">&quot;Operations with Callstacks&quot;</span>
+
+    <span class="hljs-comment"># 2. 创建带有内联调用栈的 slice</span>
+    emit_track_event(
+        ts=<span class="hljs-number">3000</span>,
+        event_type=TrackEvent.TYPE_SLICE_BEGIN,
+        name=<span class="hljs-string">&quot;ProcessRequest&quot;</span>,
+        frames=[
+            (<span class="hljs-string">&quot;main&quot;</span>, <span class="hljs-string">&quot;/src/app.cc&quot;</span>, <span class="hljs-number">42</span>),
+            (<span class="hljs-string">&quot;HandleIncomingRequests&quot;</span>, <span class="hljs-string">&quot;/src/server.cc&quot;</span>, <span class="hljs-number">128</span>),
+            (<span class="hljs-string">&quot;ProcessRequest&quot;</span>, <span class="hljs-string">&quot;/src/request_handler.cc&quot;</span>, <span class="hljs-number">256</span>),
+        ],
+    )
+
+    <span class="hljs-comment"># 在 slice 完成时结束带有调用栈捕获的 slice</span>
+    emit_track_event(
+        ts=<span class="hljs-number">3500</span>,
+        event_type=TrackEvent.TYPE_SLICE_END,
+        frames=[
+            (<span class="hljs-string">&quot;main&quot;</span>, <span class="hljs-literal">None</span>, <span class="hljs-literal">None</span>),
+            (<span class="hljs-string">&quot;HandleIncomingRequests&quot;</span>, <span class="hljs-literal">None</span>, <span class="hljs-literal">None</span>),
+            (<span class="hljs-string">&quot;FinalizeRequest&quot;</span>, <span class="hljs-string">&quot;/src/request_handler.cc&quot;</span>, <span class="hljs-number">512</span>),
+        ],
+    )
+
+    <span class="hljs-comment"># 3. 另一个带有最小调用栈的 slice(仅函数名称)</span>
+    emit_track_event(
+        ts=<span class="hljs-number">4000</span>,
+        event_type=TrackEvent.TYPE_SLICE_BEGIN,
+        name=<span class="hljs-string">&quot;AllocateMemory&quot;</span>,
+        frames=[
+            (<span class="hljs-string">&quot;main&quot;</span>, <span class="hljs-literal">None</span>, <span class="hljs-literal">None</span>),
+            (<span class="hljs-string">&quot;HandleIncomingRequests&quot;</span>, <span class="hljs-literal">None</span>, <span class="hljs-literal">None</span>),
+            (<span class="hljs-string">&quot;AllocateMemory&quot;</span>, <span class="hljs-literal">None</span>, <span class="hljs-literal">None</span>),
+        ],
+    )
+
+    <span class="hljs-comment"># 结束 slice</span>
+    emit_track_event(
+        ts=<span class="hljs-number">4200</span>,
+        event_type=TrackEvent.TYPE_SLICE_END,
+    )</code></details>
+
+<p class="callout note">NOTE: 帧从最外层(堆栈底部，例如 <code>main()</code>)到最内层（堆栈顶部，事件发生的地方）排序。</p>
+<p>当你在 slice 结束事件上提供调用栈时，Trace Processor 会将其与开始调用栈分开存储（在 <code>slice</code> 表中的 <code>end_callsite_id</code> 参数下）。这对于快速比较进入/退出堆栈非常方便。</p>
+<p>运行脚本后，在 <a href="https://ui.perfetto.dev">Perfetto UI</a> 中打开生成的 <code>my_custom_trace.pftrace</code> 将显示以下输出：</p>
+<p><img src="/docs/images/converting-inline-callstacks.png" alt="Inline Callstacks"></p>
+<p>请注意，你还可以进行&quot;区域选择&quot;（又称框选）以获取调用栈的火焰图：</p>
+<p><img src="/docs/images/inline-callstacks-flamegraph.png" alt="Inline Callstacks Area Select"></p>
+<h2><a name="-" class="anchor" href="#-"></a>下一步</h2><p>你现在了解了如何使用 Python 和 <code>TrackEvent</code> 将自定义时间戳数据转换为 Perfetto traces。通过这些技术，你可以表示 slices、counters、flows、track 层次结构、调试注解和调用栈。</p>
+<p>一旦你将自定义数据转换为 Perfetto trace 格式（<code>.pftrace</code> 文件），你可以：</p>
+<ul>
+<li><strong>探索高级的 <code>TrackEvent</code> 功能：</strong> 有关对 track 和事件外观、interning 和其他高级功能的更详细控制，请参阅
+<a href="/docs/reference/synthetic-track-event">Writing synthetic traces using TrackEvent protobufs</a>
+参考页面。</li>
+<li><strong>可视化你的 trace：</strong> 在 <a href="https://ui.perfetto.dev">Perfetto UI</a> 中打开生成的 <code>.pftrace</code> 文件以在交互式 Timeline 上探索你的数据。</li>
+<li><strong>使用 SQL 分析：</strong> 使用
+<a href="/docs/analysis/getting-started">Trace Processor</a> 查询你的自定义
+trace 数据。你的自定义 tracks 和事件将填充标准表，如
+<code>slice</code>、<code>track</code>、<code>counter</code> 等。</li>
+<li><strong>处理大型数据集：</strong> 如果你正在生成非常大的 traces 并且想要避免高内存使用，请在
+<a href="/docs/reference/synthetic-track-event#handling-large-traces-with-streaming">Advanced Guide&#39;s section on streaming</a> 中了解如何直接将数据流式传输到文件。</li>
+</ul>
+
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

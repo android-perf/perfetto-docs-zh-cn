@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>使用 ftrace 插桩 Linux 内核 - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="使用 ftrace 插桩 Linux 内核 - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/getting-started/ftrace">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/assets/favicon.png" />
+  <script type="text/javascript" src="/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/">
+      <img src="/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/docs/">Docs</a>
+  <a href="/docs/contributing/getting-started#community">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/docs/tracing-101">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/docs/getting-started/start-using-perfetto">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/docs/getting-started/system-tracing">系统 Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/in-app-tracing">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/memory-profiling">Memory Profiling</a></p>
+</li>
+<li><p><a href="/docs/getting-started/cpu-profiling">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/docs/getting-started/atrace">Android atrace</a></p>
+</li>
+<li><p><a href="/docs/getting-started/ftrace">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/getting-started/other-formats">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/docs/getting-started/converting">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/docs/getting-started/android-trace-analysis">分析 Android Trace</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/docs/case-studies/memory">Android 内存使用</a></p>
+</li>
+<li><p><a href="/docs/case-studies/scheduling-blockages">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/docs/concepts/config">Trace 配置</a></p>
+</li>
+<li><p><a href="/docs/concepts/buffers">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/docs/concepts/service-model">服务模型</a></p>
+</li>
+<li><p><a href="/docs/concepts/clock-sync">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/docs/learning-more/tracing-in-background">后台 Tracing</a></p>
+</li>
+<li><p><a href="/docs/learning-more/android">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/docs/getting-started/chrome-tracing">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/tracing-sdk">Tracing SDK</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/track-events">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/getting-started">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/analysis/stdlib-docs">标准库</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-syntax">语法</a></p>
+</li>
+<li><p><a href="/docs/analysis/style-guide">样式指南</a></p>
+</li>
+<li><p><a href="/docs/analysis/perfetto-sql-backcompat">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-processor">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-processor-python">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/docs/analysis/trace-summary">Trace 汇总</a></p>
+</li>
+<li><p><a href="/docs/quickstart/traceconv">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/docs/visualization/perfetto-ui">Perfetto UI</a></p>
+</li>
+<li><p><a href="/docs/visualization/large-traces">打开大型 trace</a></p>
+</li>
+<li><p><a href="/docs/visualization/deep-linking-to-perfetto-ui">深度链接</a></p>
+</li>
+<li><p><a href="/docs/analysis/debug-tracks">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/docs/visualization/extending-the-ui">概述</a></p>
+</li>
+<li><p><a href="/docs/visualization/ui-automation">命令和宏</a></p>
+</li>
+<li><p><a href="/docs/visualization/extension-servers">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/docs/contributing/getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/contributing/common-tasks">常见任务</a></p>
+</li>
+<li><p><a href="/docs/contributing/become-a-committer">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/docs/contributing/ui-getting-started">快速入门</a></p>
+</li>
+<li><p><a href="/docs/contributing/ui-plugins">插件</a></p>
+</li>
+<li><p><a href="/docs/faq">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/native-heap-profiler">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/docs/data-sources/java-heap-profiler">Java 堆转储</a></p>
+</li>
+<li><p><a href="/docs/data-sources/memory-counters">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/cpu-scheduling">调度事件</a></p>
+</li>
+<li><p><a href="/docs/data-sources/syscalls">系统调用</a></p>
+</li>
+<li><p><a href="/docs/data-sources/cpu-freq">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/docs/data-sources/atrace">Atrace</a></p>
+</li>
+<li><p><a href="/docs/data-sources/android-log">Logcat</a></p>
+</li>
+<li><p><a href="/docs/data-sources/frametimeline">Frame Timeline</a></p>
+</li>
+<li><p><a href="/docs/data-sources/battery-counters">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/docs/data-sources/android-game-intervention-list">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/docs/reference/trace-packet-proto">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/docs/reference/synthetic-track-event">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/docs/reference/trace-config-proto">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/docs/concepts/concurrent-tracing-sessions">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/docs/concepts/detached-mode">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/docs/case-studies/android-boot-tracing">开机 Tracing</a></p>
+</li>
+<li><p><a href="/docs/case-studies/android-outofmemoryerror">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/docs/reference/android-version-notes">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/docs/reference/kernel-track-event">内核 track 事件</a></p>
+</li>
+<li><p><a href="/docs/data-sources/previous-boot-trace">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/docs/reference/perfetto-cli">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/docs/reference/traced">traced</a></p>
+</li>
+<li><p><a href="/docs/reference/traced_probes">traced_probes</a></p>
+</li>
+<li><p><a href="/docs/reference/heap_profile-cli">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/docs/reference/tracebox">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/docs/analysis/sql-tables">Prelude 表</a></p>
+</li>
+<li><p><a href="/docs/analysis/builtin">内置函数</a></p>
+</li>
+<li><p><a href="/docs/analysis/sql-stats">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/metrics">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/docs/analysis/batch-trace-processor">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/deployment/deploying-bigtrace-on-a-single-machine">Bigtrace</a></p>
+</li>
+<li><p><a href="/docs/deployment/deploying-bigtrace-on-kubernetes">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/docs/instrumentation/interceptors">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/docs/visualization/commands-automation-reference">命令自动化参考</a></p>
+</li>
+<li><p><a href="/docs/visualization/extension-server-protocol">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/docs/contributing/build-instructions">构建</a></p>
+</li>
+<li><p><a href="/docs/contributing/testing">测试</a></p>
+</li>
+<li><p><a href="/docs/contributing/developer-tools">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/docs/contributing/sdk-releasing">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/docs/contributing/python-releasing">Python 发布流程</a></p>
+</li>
+<li><p><a href="/docs/visualization/perfetto-ui-release-process">UI 发布流程</a></p>
+</li>
+<li><p><a href="/docs/contributing/chrome-branches">Chrome 分支</a></p>
+</li>
+<li><p><a href="/docs/contributing/sqlite-upgrade-guide">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/docs/design-docs/api-and-abi">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/docs/design-docs/life-of-a-tracing-session">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/docs/design-docs/protozero">ProtoZero</a></p>
+</li>
+<li><p><a href="/docs/design-docs/security-model">安全模型</a></p>
+</li>
+<li><p><a href="/docs/design-docs/checkpoint-atoms">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/docs/design-docs/batch-trace-processor">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/docs/design-docs/trace-processor-architecture">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-design">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-wire-protocol">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/docs/design-docs/heapprofd-sampling">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/docs/design-docs/continuous-integration">Perfetto CI</a></p>
+</li>
+<li><p><a href="/docs/design-docs/lock-free-task-runner">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/getting-started/ftrace">
+    <h1>使用 ftrace 插桩 Linux 内核</h1><p>在本指南中，你将学习如何：</p>
+<ul>
+<li>使用 ftrace 事件插桩你的内核代码。</li>
+<li>使用 <code>tracebox</code> 采集 ftrace 事件。</li>
+<li>在 <code>trace_processor</code> 中将 ftrace 事件解释为 tracks。</li>
+<li>在 Perfetto UI 中查看原始事件和解释的 tracks。</li>
+</ul>
+<p>本指南适用于想要向 Linux 内核添加自定义插桩并将其与 perfetto 集成的<strong>内核和系统开发者</strong>。</p>
+<p>在本地内核上试验并希望简单的 track 可视化而不接触 perfetto 代码的人可以浏览<a href="#part-c-simple-slice-counter-visualisations-without-modifying-perfetto-code-kernel-track-events-">C部分</a>。</p>
+<h2><a name="-" class="anchor" href="#-"></a>介绍</h2><p><a href="https://www.kernel.org/doc/html/latest/trace/ftrace.html">Ftrace</a> 是内置于 Linux 内核中的可配置 tracing 框架。它允许开发者使用 tracepoints 和 probes 插桩内核，这些 probes 可以在运行时动态启用以记录事件（例如，在给定 CPU 上从一个线程到另一个线程的上下文切换）。用户空间配置要记录的内容，并通过 <code>tracefs</code> 文件系统读取生成的 traces，通常挂载在 <code>/sys/kernel/tracing</code>。内核预先插桩了数百个可用于理解调度、内存和其他子系统的 tracepoints。</p>
+<p>Perfetto 可以<a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto/protos/perfetto/config/ftrace/ftrace_config.proto?q=FtraceConfig">配置</a>将一组 ftrace 事件记录为 perfetto trace 的一部分。系统采集实现（内置于 traced_probes 或 tracebox 中）配置 tracefs 并将生成的事件流转换为 perfetto 的 protobuf trace 格式。</p>
+<p>查询引擎和 UI 依次具有 ftrace 事件的特定于域的解析。例如，原始上下文切换和唤醒事件在 UI 中转换为每个 CPU 和每个线程的调度 tracks，并由可查询的 SQL 表支持。</p>
+<p class="callout tip">TIP: 如果你只是想可视化内核函数的执行，perfetto 对 ftrace 内置的 <code>function_graph</code> tracer 具有内置的可视化，不需要任何额外的插桩。有关更多详细信息，请参阅<a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto/protos/perfetto/config/ftrace/ftrace_config.proto?q=enable_function_graph">这些配置选项</a>。</p>
+<p>本页面分为三个部分：</p>
+<ul>
+<li><a href="#part-a-instrumenting-the-kernel-and-recording-tracepoints">A部分</a>：涵盖创建一个带有静态 tracepoint 的示例内核模块，使用 perfetto 记录事件，以及在 perfetto UI 中查看基本事件数据。</li>
+<li><a href="#part-b-integrating-new-tracepoints-with-perfetto">B部分</a>(高级)：涵盖通过修改 perfetto 源代码为 tracepoint 添加专用解析。这让你可以充分利用将事件转换为结构化的 SQL 表和 UI tracks。</li>
+<li><a href="#part-c-simple-slice-counter-visualisations-without-modifying-perfetto-code-kernel-track-events-">C部分</a>：作为上述内容的替代，描述了构建 tracepoints 的约定，以便 perfetto 可以自动将它们转换为 slices/instants/counters，<strong>而无需修改 perfetto 源代码</strong>。</li>
+</ul>
+<h2><a name="a-tracepoints" class="anchor" href="#a-tracepoints"></a>A部分：插桩内核并采集 tracepoints</h2><h3><a name="-" class="anchor" href="#-"></a>创建内核模块源文件</h3><p>对于这个示例，我们将创建一个名为 <code>ticker</code> 的内核模块，它包含一个名为 <code>ticker_tick</code> 的 tracepoint，每秒调用一次，并以递增的 Counter 作为参数。</p>
+<p>创建一个新目录并将以下文件内容复制到以下目录结构：</p>
+<code class="hljs code-block">.
+├── Makefile
+├── ticker.c
+└── <span class="hljs-keyword">trace</span>
+    └── events
+        └── ticker.h</code><p>主要源代码：</p>
+<code class="hljs code-block"><span class="hljs-comment">// ticker.c</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/kernel.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/timer.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/version.h&gt;</span></span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> CREATE_TRACE_POINTS</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;trace/events/ticker.h&quot;</span></span>
+
+MODULE_LICENSE(<span class="hljs-string">&quot;GPL&quot;</span>);
+MODULE_AUTHOR(<span class="hljs-string">&quot;Perfetto&quot;</span>);
+MODULE_DESCRIPTION(<span class="hljs-string">&quot;Ticker: A kernel module emitting example static tracepoint events.&quot;</span>);
+MODULE_VERSION(<span class="hljs-string">&quot;0.1&quot;</span>);
+
+<span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">timer_list</span> <span class="hljs-title">my_timer</span>;</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> tick_count = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> timer_interval_ms = <span class="hljs-number">1000</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">my_timer_callback</span><span class="hljs-params">(struct timer_list *timer)</span>
+</span>{
+    <span class="hljs-comment">// 触发 tracepoint，每次递增 tick 计数。</span>
+    <span class="hljs-comment">// 函数名是头文件中的 trace_&lt;event_name&gt;。</span>
+    trace_ticker_tick(tick_count++);
+
+    <span class="hljs-comment">// 重新设置定时器。</span>
+    mod_timer(&amp;my_timer, jiffies + msecs_to_jiffies(timer_interval_ms));
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> __init <span class="hljs-title">ticker_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    pr_info(<span class="hljs-string">&quot;Ticker: Initializing...\n&quot;</span>);
+
+    timer_setup(&amp;my_timer, my_timer_callback, <span class="hljs-number">0</span>);
+    mod_timer(&amp;my_timer, jiffies + msecs_to_jiffies(timer_interval_ms));
+
+    pr_info(<span class="hljs-string">&quot;Ticker: Timer started.\n&quot;</span>);
+    pr_info(<span class="hljs-string">&quot;Ticker: View events under /sys/kernel/tracing/events/ticker/\n&quot;</span>);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> __exit <span class="hljs-title">ticker_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    pr_info(<span class="hljs-string">&quot;Ticker: Exiting...\n&quot;</span>);
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> LINUX_VERSION_CODE &gt;= KERNEL_VERSION(6, 15, 0)</span>
+    timer_delete_sync(&amp;my_timer);
+<span class="hljs-meta">#<span class="hljs-meta-keyword">else</span></span>
+    del_timer_sync(&amp;my_timer);
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+
+    pr_info(<span class="hljs-string">&quot;Ticker: Timer stopped and module unloaded.\n&quot;</span>);
+}
+
+module_init(ticker_init);
+module_exit(ticker_exit);</code><p>定义 tracepoints 的头文件。注意，头文件必须位于 <code>trace/events/</code> 下，而不是目录的根目录。否则内核宏将无法正确展开：</p>
+<code class="hljs code-block"><span class="hljs-comment">// trace/events/ticker.h</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">undef</span> TRACE_SYSTEM</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> TRACE_SYSTEM ticker</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> !defined(_TRACE_TICKER_H_) || defined(TRACE_HEADER_MULTI_READ)</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> _TRACE_TICKER_H_</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/tracepoint.h&gt;</span></span>
+
+TRACE_EVENT(ticker_tick,
+
+    TP_PROTO(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> count),
+
+    TP_ARGS(count),
+
+    TP_STRUCT__entry(
+        __field(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>, count)
+    ),
+
+    TP_fast_assign(
+        __entry-&gt;count = count;
+    ),
+
+    TP_printk(<span class="hljs-string">&quot;count=%u&quot;</span>,
+        __entry-&gt;count
+    )
+);
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span> <span class="hljs-comment">/* _TRACE_TICKER_H_ */</span></span>
+
+<span class="hljs-comment">/* 这部分必须在保护之外 */</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;trace/define_trace.h&gt;</span></span></code><p>最后，用于构建模块的 makefile：</p>
+<code class="hljs code-block"><span class="hljs-comment"># Makefile</span>
+
+obj-m += ticker.o
+ccflags-y += -I<span class="hljs-variable">$(src)</span>
+KDIR ?= /lib/modules/<span class="hljs-variable">$(<span class="hljs-built_in">shell</span> uname -r)</span>/build
+PWD := <span class="hljs-variable">$(<span class="hljs-built_in">shell</span> pwd)</span>
+
+<span class="hljs-section">all:</span>
+    <span class="hljs-variable">$(MAKE)</span> -C <span class="hljs-variable">$(KDIR)</span> M=<span class="hljs-variable">$(PWD)</span> modules
+
+<span class="hljs-section">clean:</span>
+    <span class="hljs-variable">$(MAKE)</span> -C <span class="hljs-variable">$(KDIR)</span> M=<span class="hljs-variable">$(PWD)</span> clean
+
+<span class="hljs-meta"><span class="hljs-meta-keyword">.PHONY</span>: all clean</span></code><h3><a name="-" class="anchor" href="#-"></a>构建和加载模块</h3><p>确保你的内核头文件已安装并运行 <code>make</code> 来构建内核模块。</p>
+<p>你现在可以使用以下命令安装内核模块：</p>
+<code class="hljs code-block">sudo insmod ticker.ko</code><p class="callout note">NOTE: 你可以随时使用以下命令卸载内核模块：</p>
+<code class="hljs code-block">sudo rmmod ticker.ko</code><h3><a name="-tracepoint" class="anchor" href="#-tracepoint"></a>（可选）手动验证 tracepoint</h3><p>我们可以使用 <code>tracefs</code> 文件系统查看事件的文本表示来手动验证 tracepoint。</p>
+<p>首先，确认事件存在于 tracefs 中：</p>
+<code class="hljs code-block">ls /sys/kernel/tracing/events/ticker/ticker_tick</code><p>启用我们的 ticker 事件和 tracing：</p>
+<code class="hljs code-block"><span class="hljs-built_in">echo</span> 1 | sudo tee /sys/kernel/tracing/events/ticker/ticker_tick/<span class="hljs-built_in">enable</span>
+<span class="hljs-built_in">echo</span> 1 | sudo tee /sys/kernel/tracing/tracing_on</code><p>使用以下命令监听 ftrace 事件流：</p>
+<code class="hljs code-block">sudo cat /sys/kernel/tracing/trace_pipe</code><p>你应该会看到 ticker 事件大约每秒触发一次，并带有递增的 &quot;count&quot; 字段。文本事件表示使用上面 tracepoint 定义中的 <code>TP_printk(...)</code> 部分打印。</p>
+<code class="hljs code-block"><span class="hljs-comment"># cat /sys/kernel/tracing/trace_pipe</span>
+          &lt;idle&gt;-0       [011] <span class="hljs-built_in">..</span>s1. 850584.176058: ticker_tick: <span class="hljs-attribute">count</span>=38
+          &lt;idle&gt;-0       [011] <span class="hljs-built_in">..</span>s1. 850585.200042: ticker_tick: <span class="hljs-attribute">count</span>=39
+           &lt;<span class="hljs-built_in">..</span>.&gt;-2904431 [015] <span class="hljs-built_in">..</span>s1. 850586.224031: ticker_tick: <span class="hljs-attribute">count</span>=40
+          puppet-2904431 [015] <span class="hljs-built_in">..</span>s<span class="hljs-built_in">..</span> 850587.248080: ticker_tick: <span class="hljs-attribute">count</span>=41
+          &lt;idle&gt;-0       [011] <span class="hljs-built_in">..</span>s1. 850588.272137: ticker_tick: <span class="hljs-attribute">count</span>=42
+          &lt;idle&gt;-0       [011] <span class="hljs-built_in">..</span>s1. 850589.296040: ticker_tick: <span class="hljs-attribute">count</span>=43
+          &lt;idle&gt;-0       [011] <span class="hljs-built_in">..</span>s1. 850590.320049: ticker_tick: <span class="hljs-attribute">count</span>=44
+          &lt;idle&gt;-0       [011] <span class="hljs-built_in">..</span>s1. 850591.344048: ticker_tick: <span class="hljs-attribute">count</span>=45
+          &lt;idle&gt;-0       [011] <span class="hljs-built_in">..</span>s1. 850592.372038: ticker_tick: <span class="hljs-attribute">count</span>=46
+          &lt;idle&gt;-0       [011] <span class="hljs-built_in">..</span>s1. 850593.392033: ticker_tick: <span class="hljs-attribute">count</span>=47
+          &lt;idle&gt;-0       [003] <span class="hljs-built_in">..</span>s1. 850594.416049: ticker_tick: <span class="hljs-attribute">count</span>=48
+          &lt;idle&gt;-0       [011] <span class="hljs-built_in">..</span>s1. 850595.440054: ticker_tick: <span class="hljs-attribute">count</span>=49</code><h3><a name="-tracebox-perfetto-trace" class="anchor" href="#-tracebox-perfetto-trace"></a>使用 tracebox 采集 perfetto trace</h3><p>为了记录我们的 ticker 事件，我们将使用 <code>tracebox</code> 记录系统 trace。首先，我们需要创建一个配置为执行此操作的记录配置文件：</p>
+<code class="hljs code-block"><span class="hljs-meta"># ticker.cfg</span>
+
+<span class="hljs-class">buffers </span>{
+<span class="hljs-symbol">  size_kb:</span> <span class="hljs-number">20480</span>
+<span class="hljs-symbol">  fill_policy:</span> DISCARD
+}
+
+<span class="hljs-meta"># 仅记录我们的 ticker 事件。</span>
+<span class="hljs-class">data_sources </span>{
+  <span class="hljs-class">config </span>{
+<span class="hljs-symbol">    name:</span> <span class="hljs-string">&quot;linux.ftrace&quot;</span>
+<span class="hljs-symbol">    target_buffer:</span> <span class="hljs-number">0</span>
+    <span class="hljs-class">ftrace_config </span>{
+<span class="hljs-symbol">      ftrace_events:</span> <span class="hljs-string">&quot;ticker/ticker_tick&quot;</span>
+    }
+  }
+}
+
+<span class="hljs-meta"># 10s trace，但可以提前停止。</span>
+<span class="hljs-symbol">duration_ms:</span> <span class="hljs-number">10000</span></code><p>请参阅[系统 tracing 页面](/docs/getting-started/system-tracing.md）以设置 tracebox。对于此示例，我们将使用刚刚创建的配置文件从命令行采集 trace：</p>
+<code class="hljs code-block">./tracebox -c ticker.cfg --txt -o ticker.pftrace</code><p class="callout note">NOTE: tracebox 将负责启用 tracing 和 ticker 事件（如我们在前面的步骤中所做的）。</p>
+<p>这将向 <code>ticker.pftrace</code> 写入一个 perfetto protobuf trace。</p>
+<h3><a name="-ui-perfetto-trace" class="anchor" href="#-ui-perfetto-trace"></a>在 UI 中查看 perfetto trace</h3><p>我们现在可以在 perfetto UI 中探索采集的 trace。导航到 <a href="https://ui.perfetto.dev">https://ui.perfetto.dev</a> 并将文件拖放到窗口中（或按 <code>Ctrl+O</code> 打开文件对话框）。</p>
+<p>展开 &quot;Ftrace Events&quot; track 组以获取每个 CPU 的事件视图，可以选择这些事件以显示其字段。此外，<code>Ctrl+shift+P -&gt; &quot;Show Ftrace Tab&quot;</code> 会打开一个带有文本输出近似的标签页。但是请注意，由于 perfetto 记录事件的二进制表示，它不会根据 <code>TP_printk(..)</code> 说明符将事件文本化。</p>
+<p><img src="https://storage.googleapis.com/perfetto-misc/ticker-raw.gif" alt="Raw ticker events"></p>
+<p>事件也可以使用如下查询进行查询：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> ftrace_event <span class="hljs-keyword">JOIN</span> args <span class="hljs-keyword">USING</span> (arg_set_id)</code><h2><a name="b-tracepoints-perfetto-" class="anchor" href="#b-tracepoints-perfetto-"></a>B部分：将新的 tracepoints 与 perfetto 集成</h2><p>要为此新 tracepoint 在 Perfetto 中添加专用解析，我们需要：</p>
+<ul>
+<li>生成事件的 protobuf 描述，以便序列化代码（在 traced_probes 或 tracebox 中）可以将事件写入该 protobuf 类型，而不是上面隐式使用的通用回退编码。</li>
+<li>向 trace_processor（查询引擎）添加解码器，在解析 protobuf trace 时从事件中创建所需的 tracks。</li>
+</ul>
+<p>作为示例，我们将把 ticker 事件解析为全局 Counter track。</p>
+<p>(我们将修改 perfetto 源代码，因此如果你还没有这样做，请克隆仓库。其余的说明假设你当前的目录是仓库的根目录。)</p>
+<h3><a name="-perfetto-protobuf-" class="anchor" href="#-perfetto-protobuf-"></a>在 perfetto 中生成 protobuf 事件描述</h3><p>首先，将 tracefs 文件系统中描述事件的 &quot;format&quot; 文件复制到 perfetto：</p>
+<code class="hljs code-block">DEST=src/traced/probes/ftrace/<span class="hljs-built_in">test</span>/data/synthetic/events/ticker/ticker_tick; \
+mkdir -p <span class="hljs-variable">$DEST</span> &amp;&amp; \
+cp /sys/kernel/tracing/events/ticker/ticker_tick/format <span class="hljs-variable">$DEST</span>/format</code><p>然后将事件添加到以下列表：</p>
+<code class="hljs code-block"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;ticker/ticker_tick&quot;</span> &gt;&gt; src/tools/ftrace_proto_gen/event_list</code><p>然后运行生成器脚本为序列化和解码代码创建 protobuf 描述和其他编译时文件：</p>
+<code class="hljs code-block">tools/run_ftrace_proto_gen
+tools/gen_all out/YOUR_BUILD_DIRECTORY</code><p>这应该至少创建/修改以下文件：
+<code>protos/perfetto/trace/ftrace/ftrace_event.proto</code>、
+<code>protos/perfetto/trace/ftrace/ticker.proto</code>、
+<code>src/traced/probes/ftrace/event_info.cc</code>、
+<code>protos/perfetto/trace/perfetto_trace.proto</code>。</p>
+<p>这对于序列化逻辑开始使用专用 protobuf 类型处理你的事件已经足够。注意:记录时，perfetto 在运行时读取 tracefs 中事件的 format 文件，并且只序列化在 perfetto 编译时已知的字段。</p>
+<p>使用你的更改在本地重建 <code>tracebox</code> 并重新采集 trace。</p>
+<h3><a name="-trace_processor-" class="anchor" href="#-trace_processor-"></a>在 trace_processor 中解析事件</h3><p>现在我们可以向 trace_processor 中的 <a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto/src/trace_processor/importers/ftrace/ftrace_parser.cc?q=FtraceParser">ftrace_parser.cc</a> 添加解码和解析逻辑。</p>
+<p>作为示例，要为所有事件创建单个全局 Counter track：</p>
+<ul>
+<li>向大的 <code>ParseFtraceEvent</code> switch-case 添加一个 case。</li>
+<li>添加一个函数，用于 intern 一个 track 并附加所有带时间戳的值作为计数。</li>
+</ul>
+<p>示例添加(省略头文件更改)：</p>
+<code class="hljs code-block"><span class="hljs-comment">// ftrace_parser.cc</span>
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">constexpr</span> <span class="hljs-keyword">auto</span> kTickerCountBlueprint = tracks::<span class="hljs-built_in">CounterBlueprint</span>(
+      <span class="hljs-string">&quot;ticker&quot;</span>,
+      tracks::<span class="hljs-built_in">UnknownUnitBlueprint</span>(),
+      tracks::<span class="hljs-built_in">DimensionBlueprints</span>(),
+      tracks::<span class="hljs-built_in">StaticNameBlueprint</span>(<span class="hljs-string">&quot;Ticker&quot;</span>));
+
+<span class="hljs-comment">// ~~ 省略 ~~</span>
+
+      <span class="hljs-keyword">case</span> FtraceEvent::kTickerEventFieldNumber: {
+        <span class="hljs-built_in">ParseTickerEvent</span>(cpu, ts, fld_bytes);
+        <span class="hljs-keyword">break</span>;
+      }
+
+<span class="hljs-comment">// ~~ 省略 ~~</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">FtraceParser::ParseTickerEvent</span><span class="hljs-params">(<span class="hljs-keyword">uint32_t</span> cpu,
+                                    <span class="hljs-keyword">int64_t</span> timestamp,
+                                    protozero::ConstBytes data)</span> </span>{
+  protos::pbzero::<span class="hljs-function">TickerEventFtraceEvent::Decoder <span class="hljs-title">ticker_event</span><span class="hljs-params">(data)</span></span>;
+
+  <span class="hljs-built_in">PERFETTO_LOG</span>(<span class="hljs-string">&quot;Parsing ticker event: %&quot;</span> PRId64 <span class="hljs-string">&quot;, %&quot;</span> PRIu32 <span class="hljs-string">&quot;, %d&quot;</span>,
+               timestamp,
+               cpu,
+               <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">int</span>&gt;(ticker_event.<span class="hljs-built_in">count</span>()));
+
+  <span class="hljs-comment">// 推送全局 Counter。</span>
+  TrackId track = context_-&gt;track_tracker-&gt;<span class="hljs-built_in">InternTrack</span>(kTickerCountBlueprint);
+  context_-&gt;event_tracker-&gt;<span class="hljs-built_in">PushCounter</span>(
+      timestamp, <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">double</span>&gt;(ticker_event.<span class="hljs-built_in">count</span>()), track);
+}</code><p>重建 <code>trace_processor</code>（或整个 UI）后，可以从 Counter 表中查询数据：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> *
+<span class="hljs-keyword">FROM</span> counter
+<span class="hljs-keyword">JOIN</span> counter_track ct <span class="hljs-keyword">ON</span> ct.id = counter.track_id
+<span class="hljs-keyword">WHERE</span> ct.<span class="hljs-built_in">type</span> = <span class="hljs-string">&#x27;ticker&#x27;</span></code><h3><a name="-ui-track" class="anchor" href="#-ui-track"></a>在 UI 中可视化 track</h3><p>为了真正在 UI 中看到这个 track，它需要由一些 UI 代码添加（在 perfetto 中组织为插件）。我们将使用最简单的选项，<code>dev.perfetto.TraceProcessorTrack</code>。进行以下编辑以将所有类型为 &quot;ticker&quot; 的 Counter tracks 添加到 <code>SYSTEM</code> 顶级组：</p>
+<code class="hljs code-block"><span class="hljs-comment">// ui/src/plugins/dev.perfetto.TraceProcessorTrack/counter_tracks.ts</span>
+~~ 省略 ~~
+  {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;ticker&#x27;</span>,
+    <span class="hljs-attr">topLevelGroup</span>: <span class="hljs-string">&#x27;SYSTEM&#x27;</span>,
+    <span class="hljs-attr">group</span>: <span class="hljs-literal">undefined</span>,
+  },
+~~ 省略 ~~</code><p>重建本地 UI(<code>ui/run-dev-server</code>)。打开重新采集的 trace(使用具有事件编译时知识的 tracebox)。你现在应该看到一个专用 UI track 显示你事件的数据。</p>
+<p><img src="https://storage.googleapis.com/perfetto-misc/ticker-counter-track.gif" alt="Ticker counter track"></p>
+<p>这是将 ftrace 事件添加到 perfetto 栈的最完整方式。步骤相当多，需要上游你的更改，但这让你有能力在 trace_processor 代码中进行任意解析，并使结果可供所有 perfetto 用户使用。</p>
+<h2><a name="c-perfetto-slice-counter-track-" class="anchor" href="#c-perfetto-slice-counter-track-"></a>C部分：无需修改 perfetto 代码的简单 slice/counter 可视化(内核 track 事件)</h2><p>有一种更简单的方法可以让 perfetto 自动从事件创建基本的 slice 和 counter tracks，更适合在本地内核上试验或编写不会上游到主线内核的模块的人。这让你专注于插桩代码，而不是更改 perfetto 本身。</p>
+<p>考虑 slice 的情况，通常源自一对事件——一个表示 slice 的开始，另一个结束它。需要有一个约定让 perfetto 知道给定的 tracepoint 应该被这样解释。</p>
+<p>perfetto 所做的是查找具有特定名称的 tracepoint 字段(<code>TP_STRUCT__entry(..)</code> 定义部分)。如果你的 tracepoint 符合此约定，trace_processor 和 UI 将自动尝试将事件分组到 tracks 上。分组（范围）由进一步的约定控制。</p>
+<p>以下部分给出了几种常见情况的示例 tracepoint 模板及其预期的可视化：</p>
+<ul>
+<li>用于同步代码的 slice tracks，其中操作在与启动它们的同一线程上结束，例如在单个函数中的循环前后。</li>
+<li>用于在进程级别分组时最佳可视化的事件的进程范围 slice tracks。</li>
+<li>用于表示每 CPU Counters 的事件的 CPU 范围 counter tracks。</li>
+</ul>
+<p class="callout note">NOTE: 有关范围和 track 命名选项的详细信息，请参阅完整参考<a href="/docs/reference/kernel-track-event">&quot;Kernel track events: format and conventions&quot;</a>。</p>
+<h3><a name="-slice-tracks" class="anchor" href="#-slice-tracks"></a>线程范围 slice tracks</h3><p>如果你想要可视化（可能嵌套的）代码区域的持续时间，其中开始和结束发生在同一线程上，这是最简单的情况。</p>
+<p>Perfetto 可以通过在 tracepoint 的布局中具有两个具有&quot;众所周知&quot;的名称和类型的字段来提示你的 tracepoint 应该被解析为线程范围 slice tracks(<code>TP_STRUCT__entry(...</code>))：</p>
+<ul>
+<li><code>char track_event_type</code></li>
+<li><code>__string slice_name</code></li>
+</ul>
+<p>Perfetto 将根据实际带时间戳事件中的 <code>track_event_type</code> 值将事件解释为 slices 或 instants：</p>
+<ul>
+<li><code>&#39;B&#39;</code> 在活动线程上打开一个命名 slice(来自 <code>slice_name</code>)。</li>
+<li><code>&#39;E&#39;</code> 结束线程上最后打开的 slice(<code>slice_name</code> 被忽略)。</li>
+<li><code>&#39;I&#39;</code> 设置一个 instant（零持续时间）事件，名称取自 <code>slice_name</code>。</li>
+</ul>
+<p>线程 id 和时间戳已经隐式地是每个 ftrace 事件的一部分，不需要指定。</p>
+<p>Tracepoint 声明示例，名为 <code>trk_example/tid_track_example</code>：</p>
+<p><em>注意:在早于 v6.10 的内核上，__assign_str 需要两个参数，请参阅<a href="https://lore.kernel.org/linux-trace-kernel/20240516133454.681ba6a0@rorschach.local.home/">this patch</a>。</em></p>
+<code class="hljs code-block"><span class="hljs-comment">// trace/events/trk_example.h</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">undef</span> TRACE_SYSTEM</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> TRACE_SYSTEM trk_example</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> !defined(_TRACE_TRK_EXAMPLE_H_) || defined(TRACE_HEADER_MULTI_READ)</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> _TRACE_TRK_EXAMPLE_H_</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/tracepoint.h&gt;</span></span>
+
+TRACE_EVENT(tid_track_example,
+    TP_PROTO(
+        <span class="hljs-keyword">char</span> track_event_type,
+        <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *slice_name
+    ),
+    TP_ARGS(track_event_type, slice_name),
+    TP_STRUCT__entry(
+        __field(<span class="hljs-keyword">char</span>, track_event_type)
+        __string(slice_name, slice_name)
+    ),
+    TP_fast_assign(
+        __entry-&gt;track_event_type = track_event_type;
+        <span class="hljs-comment">/* v6.10 之前的内核：__assign_str(slice_name, slice_name) */</span>
+        __assign_str(slice_name);
+    ),
+    TP_printk(
+        <span class="hljs-string">&quot;type=%c slice_name=%s&quot;</span>,
+        __entry-&gt;track_event_type,
+        __get_str(slice_name)
+    )
+);
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+
+<span class="hljs-comment">/* 这部分必须在保护之外 */</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;trace/define_trace.h&gt;</span></span></code><p>注意，只有 <code>TP_STRUCT__entry</code> 的类型和名称很重要，对额外字段、printk 说明符甚至字段顺序没有限制。</p>
+<p>为方便起见，tracepoint 调用可以用宏包装：</p>
+<code class="hljs code-block"><span class="hljs-comment">// 便捷宏</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> TRACE_EX_BEGIN(name)   trace_tid_track_example(<span class="hljs-meta-string">&#x27;B&#x27;</span>, name)</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> TRACE_EX_END()         trace_tid_track_example(<span class="hljs-meta-string">&#x27;E&#x27;</span>, <span class="hljs-meta-string">&quot;&quot;</span>)</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> TRACE_EX_INSTANT(name) trace_tid_track_example(<span class="hljs-meta-string">&#x27;I&#x27;</span>, name)</span></code><p>插桩代码示例，演示嵌套 slices 和 instants：</p>
+<code class="hljs code-block">TRACE_EX_BEGIN(<span class="hljs-string">&quot;outer&quot;</span>);
+udelay(<span class="hljs-number">500</span>);
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; i++) {
+    TRACE_EX_BEGIN(<span class="hljs-string">&quot;nested&quot;</span>);
+    udelay(<span class="hljs-number">1000</span>);
+    TRACE_EX_INSTANT(<span class="hljs-string">&quot;instant&quot;</span>);
+    TRACE_EX_END();
+}
+TRACE_EX_END();</code><p>我们可以使用以下配置采集 trace(在撰写本文时，<code>denser_generic_event_encoding</code> 是必要的，但可能会成为默认值)：</p>
+<code class="hljs code-block"><span class="hljs-comment">// trace.txtpb</span>
+<span class="hljs-symbol">duration_ms:</span> <span class="hljs-number">10000</span>
+<span class="hljs-symbol">
+buffers:</span> {
+<span class="hljs-symbol">  size_kb:</span> <span class="hljs-number">40960</span>
+<span class="hljs-symbol">  fill_policy:</span> DISCARD
+}
+<span class="hljs-symbol">
+data_sources:</span> {
+<span class="hljs-symbol">  config:</span> {
+<span class="hljs-symbol">    name:</span> <span class="hljs-string">&quot;linux.ftrace&quot;</span>
+<span class="hljs-symbol">    ftrace_config:</span> {
+<span class="hljs-symbol">      denser_generic_event_encoding:</span> true
+<span class="hljs-symbol">      ftrace_events:</span> <span class="hljs-string">&quot;trk_example/*&quot;</span>
+    }
+  }
+}</code><p>由 perfetto trace_processor 和 UI 自动派生的结果 tracks。注意每个线程都有自己的独立 track，并且 tracks 自动嵌套在进程 track 组下：</p>
+<p><img src="/docs/images/kernel-trackevent-tid-slice.png" alt="thread scoped slice UI"></p>
+<h3><a name="-slice-tracks" class="anchor" href="#-slice-tracks"></a>进程范围 slice tracks</h3><p>与前面的示例类似，但 slice 事件在进程级别分组。注意:这允许从与启动操作不同的线程终止 slices，但分组的 slices <em>必须</em>具有严格的嵌套——所有 slices 必须在它们的父项之前终止（有关更多详细信息，请参阅 <a href="/docs/getting-started/converting#asynchronous-slices-and-overlapping-events">async slices</a> 的概念）。</p>
+<p>这种解析类型在 <code>TP_STRUCT__entry</code> 中的预期字段：</p>
+<ul>
+<li><code>char track_event_type</code></li>
+<li><code>__string slice_name</code></li>
+<li><code>int scope_tgid</code></li>
+</ul>
+<p>前两个字段的解释与前面的示例相同，而 <code>scope_tgid</code> 必须填充该特定事件应分组在下的进程 id(又名 TGID)。进程 id 应该是真实的（不要硬编码任意常量），但触发线程不必在该进程中。</p>
+<p>Tracepoint 声明示例，名为 <code>trk_example/tgid_track_example</code>：</p>
+<code class="hljs code-block"><span class="hljs-comment">// trace/events/trk_example.h</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">undef</span> TRACE_SYSTEM</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> TRACE_SYSTEM trk_example</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> !defined(_TRACE_TRK_EXAMPLE_H_) || defined(TRACE_HEADER_MULTI_READ)</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> _TRACE_TRK_EXAMPLE_H_</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/tracepoint.h&gt;</span></span>
+
+TRACE_EVENT(tgid_counter_example,
+    TP_PROTO(
+        u64 counter_value,
+        <span class="hljs-keyword">int</span> scope_tgid
+    ),
+    TP_ARGS(counter_value, scope_tgid),
+    TP_STRUCT__entry(
+        __field(u64, counter_value)
+        __field(<span class="hljs-keyword">int</span>, scope_tgid)
+    ),
+    TP_fast_assign(
+        __entry-&gt;counter_value = counter_value;
+        __entry-&gt;scope_tgid = scope_tgid;
+    ),
+    TP_printk(
+        <span class="hljs-string">&quot;counter_value=%llu tgid=%d&quot;</span>,
+        (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>)__entry-&gt;counter_value,
+        __entry-&gt;scope_tgid
+    )
+);
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+
+<span class="hljs-comment">/* 这部分必须在保护之外 */</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;trace/define_trace.h&gt;</span></span></code><p>示例便捷宏，使用当前进程上下文（<code>current-&gt;tgid</code>）对事件进行分组：</p>
+<code class="hljs code-block"><span class="hljs-comment">// 便捷宏</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> TRACE_EX_BEGIN(name)   trace_tgid_track_example(<span class="hljs-meta-string">&#x27;B&#x27;</span>, name, current-&gt;tgid)</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> TRACE_EX_END()         trace_tgid_track_example(<span class="hljs-meta-string">&#x27;E&#x27;</span>, <span class="hljs-meta-string">&quot;&quot;</span>, current-&gt;tgid)</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> TRACE_EX_INSTANT(name) trace_tgid_track_example(<span class="hljs-meta-string">&#x27;I&#x27;</span>, name, current-&gt;tgid)</span></code><p>插桩代码示例，与之前相同：</p>
+<code class="hljs code-block">TRACE_EX_BEGIN(<span class="hljs-string">&quot;outer&quot;</span>);
+udelay(<span class="hljs-number">500</span>);
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; i++) {
+    TRACE_EX_BEGIN(<span class="hljs-string">&quot;nested&quot;</span>);
+    udelay(<span class="hljs-number">1000</span>);
+    TRACE_EX_INSTANT(<span class="hljs-string">&quot;instant&quot;</span>);
+    TRACE_EX_END();
+}
+TRACE_EX_END();</code><p>使用前面示例中的配置采集时的结果可视化。所有 slice 堆栈都在进程级别聚合：</p>
+<p><img src="/docs/images/kernel-trackevent-tgid-slice.png" alt="process scoped slice UI"></p>
+<h3><a name="cpu-counter-tracks" class="anchor" href="#cpu-counter-tracks"></a>CPU 范围 counter tracks</h3><p>与 slices 和 instants 类似，tracepoints 有约定可以自动在 perfetto 中显示为 tracks。counters 也可以按线程/进程分组，但此示例演示每 CPU 分组。</p>
+<p>这种解析类型在 <code>TP_STRUCT__entry</code> 中的预期字段：</p>
+<ul>
+<li><code>u64 counter_value</code>(接受任何整数类型)</li>
+<li><code>int scope_cpu</code></li>
+</ul>
+<p>Tracepoint 声明示例，名为 <code>trk_example/cpu_counter_example</code>：</p>
+<code class="hljs code-block"><span class="hljs-comment">// trace/events/trk_example.h</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">undef</span> TRACE_SYSTEM</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> TRACE_SYSTEM trk_example</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> !defined(_TRACE_TRK_EXAMPLE_H_) || defined(TRACE_HEADER_MULTI_READ)</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> _TRACE_TRK_EXAMPLE_H_</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/tracepoint.h&gt;</span></span>
+
+TRACE_EVENT(cpu_counter_example,
+
+    TP_PROTO(
+        u64 counter_value,
+        <span class="hljs-keyword">int</span> scope_cpu
+    ),
+
+    TP_ARGS(counter_value, scope_cpu),
+    TP_STRUCT__entry(
+        __field(u64, counter_value)
+        __field(<span class="hljs-keyword">int</span>, scope_cpu)
+    ),
+    TP_fast_assign(
+        __entry-&gt;counter_value = counter_value;
+        __entry-&gt;scope_cpu = scope_cpu;
+    ),
+    TP_printk(
+        <span class="hljs-string">&quot;counter_value=%llu cpu=%d&quot;</span>,
+        (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>)__entry-&gt;counter_value,
+        __entry-&gt;scope_cpu
+    )
+);
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+
+<span class="hljs-comment">/* 这部分必须在保护之外 */</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;trace/define_trace.h&gt;</span></span></code><p>插桩代码示例：</p>
+<code class="hljs code-block"><span class="hljs-keyword">static</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> n = <span class="hljs-number">0</span>
+
+trace_cpu_counter_example(n++, smp_processor_id());</code><p>使用前面示例中的配置采集时的结果可视化。Counter 增量归因于执行 tracepoint 的 CPU(由于使用 <code>smp_processor_id()</code> 作为 CPU 索引，但如果对 tracepoint 更有意义，我们可以同样使用静态索引)：</p>
+<p><img src="/docs/images/kernel-trackevent-cpu-counter.png" alt="cpu scoped counter UI"></p>
+
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>
