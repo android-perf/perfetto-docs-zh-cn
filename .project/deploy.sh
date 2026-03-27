@@ -522,6 +522,20 @@ else
     exit 1
 fi
 
+# 步骤 2b: 修改首页配置（让首页显示README.md内容）
+print_step "2b" "修改首页配置"
+BUILD_GN_FILE="infra/perfetto.dev/BUILD.gn"
+
+print_info "备份原始 BUILD.gn..."
+cp "$BUILD_GN_FILE" "$BUILD_GN_FILE.bak"
+
+print_info "修改首页配置，使用 README.md 作为首页内容..."
+# 修改 gen_index 目标，让它渲染 README.md，并使用 markdown 模板
+sed -i '' 's/md_to_html("gen_index") {/md_to_html("gen_index") {\n  markdown = "${src_doc_dir}\/README.md"/' "$BUILD_GN_FILE"
+sed -i '' 's|html_template = "src/template_index.html"|html_template = "src/template_markdown.html"|' "$BUILD_GN_FILE"
+
+print_success "首页配置已修改"
+
 # 步骤 3: 清理项目管理文件
 print_step "3" "清理管理文件"
 
