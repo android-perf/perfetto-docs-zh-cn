@@ -93,11 +93,14 @@ sed -i '' "s|href=\"/\"|href=\"/$REPO_NAME/\"|g" index.html
 
 # 修复所有 docs/*.html
 print_info "  修复 docs/*.html..."
-find docs -name "*.html" -exec sed -i '' "s|href=\"/assets/|href=\"/$REPO_NAME/assets/|g" {} \;
-find docs -name "*.html" -exec sed -i '' "s|src=\"/assets/|src=\"/$REPO_NAME/assets/|g" {} \;
-find docs -name "*.html" -exec sed -i '' "s|href=\"/docs/|href=\"/$REPO_NAME/docs/|g" {} \;
-find docs -name "*.html" -exec sed -i '' "s|src=\"/docs/images/|src=\"/$REPO_NAME/docs/images/|g" {} \;
-find docs -name "*.html" -exec sed -i '' "s|href=\"/\"|href=\"/$REPO_NAME/\"|g" {} \;
+for file in $(find docs -name "*.html"); do
+    sed -i '' "s|href=\"/assets/|href=\"/$REPO_NAME/assets/|g" "$file"
+    sed -i '' "s|src=\"/assets/|src=\"/$REPO_NAME/assets/|g" "$file"
+    sed -i '' "s|href=\"/docs/|href=\"/$REPO_NAME/docs/|g" "$file"
+    sed -i '' "s|src=\"/docs/|src=\"/$REPO_NAME/docs/|g" "$file"
+    sed -i '' "s|data=\"/docs/|data=\"/$REPO_NAME/docs/|g" "$file"
+    sed -i '' "s|href=\"/\"|href=\"/$REPO_NAME/\"|g" "$file"
+done
 
 # 修复 assets/script.js（mermaid.js 路径）
 print_info "  修复 assets/script.js..."
