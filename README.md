@@ -12,7 +12,7 @@ Perfetto 是一个开源的 SDK、守护进程和工具套件，使用 **tracing
 - **完全本地的、基于浏览器的 UI**，用于在 Timeline 上可视化大量复杂的、相互关联的数据。我们的 UI 适用于所有主流浏览器，不需要任何安装，可以离线工作，并且可以打开由其他（非 Perfetto） tracing 工具采集的 trace。
 - **强大的、基于 SQL 的分析库**，用于以编程方式分析 Timeline 上的大量复杂的、相互关联的数据，即使这些数据不是用 Perfetto 记录工具收集的。
 
-![](images/perfetto-stack.svg)
+![](/docs/images/perfetto-stack.svg)
 
 ## 为什么使用 Perfetto?
 
