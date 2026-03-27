@@ -311,18 +311,22 @@ perfetto/out/perfetto.dev/site/
 
 ## GitHub Pages 部署指南
 
-将构建好的站点部署到 GitHub Pages，使用 `gh-pages` 分支。
-
 ### 前置要求
 
 1. 仓库已推送到 GitHub
 2. 已启用 GitHub Pages（Settings → Pages）
-3. 配置为从 `gh-pages` 分支的 `/(root)` 目录部署
+3. **配置为从 `gh-pages` 分支的 `/(root)` 目录部署**（不是 `/docs`）
 
-### 部署步骤
+### 快速部署
 
 ```bash
-# 1. 构建站点（按上面的本地部署步骤）
+./perfetto-docs-zh-cn/.project/deploy-gh-pages.sh
+```
+
+### 手动部署步骤
+
+```bash
+# 1. 构建站点
 ./perfetto-docs-zh-cn/.project/deploy.sh
 
 # 2. 切换到 gh-pages 分支
@@ -332,10 +336,10 @@ git checkout gh-pages
 # 3. 清空旧文件并复制新构建
 git rm -rf .
 cp -r ../perfetto/out/perfetto.dev/site/* .
-touch .nojekyll  # 禁用 Jekyll 处理
+touch .nojekyll
 
-# 4. 修复路径（GitHub Pages 子目录部署必需）
-# 见下方 "GitHub Pages 路径修复"
+# 4. 修复路径（见下方路径修复说明）
+# ...
 
 # 5. 提交并推送
 git add -A
@@ -343,197 +347,115 @@ git commit -m "deploy: 更新 GitHub Pages"
 git push origin gh-pages --force
 ```
 
-### GitHub Pages 路径修复（重要！）
+---
+
+## GitHub Pages 路径修复（核心！）
 
 Perfetto 构建系统使用绝对路径（如 `/assets/style.css`），但 GitHub Pages 项目站点部署在子目录（`username.github.io/repo-name/`），需要修复所有路径。
 
-**必须修复的路径：**
+### 修复原理
+
+| 原路径 | 修复后路径 | 说明 |
+|--------|-----------|------|
+| `/assets/...` | `/repo-name/assets/...` | CSS/JS/图片 |
+| `/docs/...` | `/repo-name/docs/...` | 文档链接 |
+| `/` | `/repo-name/` | 首页链接 |
+| `data="/docs/...` | `data="/repo-name/docs/...` | SVG 图片 |
+
+### 修复脚本
 
 ```bash
-# 修复 index.html
-sed -i '' 's|href="/assets/|href="/perfetto-docs-zh-cn/assets/|g' index.html
-sed -i '' 's|src="/assets/|src="/perfetto-docs-zh-cn/assets/|g' index.html
-sed -i '' 's|href="/docs/|href="/perfetto-docs-zh-cn/docs/|g' index.html
-sed -i '' 's|href="/"|href="/perfetto-docs-zh-cn/"|g' index.html
+REPO_NAME="perfetto-docs-zh-cn"
 
-# 修复所有 docs/*.html
-find docs -name "*.html" -exec sed -i '' 's|href="/assets/|href="/perfetto-docs-zh-cn/assets/|g' {} \;
-find docs -name "*.html" -exec sed -i '' 's|src="/assets/|src="/perfetto-docs-zh-cn/assets/|g' {} \;
-find docs -name "*.html" -exec sed -i '' 's|href="/docs/|href="/perfetto-docs-zh-cn/docs/|g' {} \;
-find docs -name "*.html" -exec sed -i '' 's|src="/docs/images/|src="/perfetto-docs-zh-cn/docs/images/|g' {} \;
-find docs -name "*.html" -exec sed -i '' 's|href="/"|href="/perfetto-docs-zh-cn/"|g' {} \;
-
-# 修复 assets/script.js（mermaid.js 路径）
-sed -i '' 's|"/assets/mermaid.min.js"|"/perfetto-docs-zh-cn/assets/mermaid.min.js"|g' assets/script.js
-
-# 修复 assets/style.css（sprite.png 路径）
-sed -i '' 's|"/assets/sprite.png"|"/perfetto-docs-zh-cn/assets/sprite.png"|g' assets/style.css
-
-# 为所有 docs 文件添加 .html 扩展名（GitHub Pages 需要）
+# 1. 先添加 .html 扩展名（必须先执行！）
+for file in docs/*; do
+    if [ -f "$file" ] && [[ ! "$file" =~ \. ]]; then
+        mv "$file" "$file.html"
+    fi
+done
 find docs -type f ! -name "*.png" ! -name "*.jpg" ! -name "*.gif" ! -name "*.svg" ! -name "*.ico" ! -name "*.html" -exec sh -c 'mv "$1" "$1.html"' _ {} \;
 
-# 为所有链接添加 .html 后缀
-find . -name "*.html" ! -path "./.git/*" -exec sed -i '' 's|href="/perfetto-docs-zh-cn/docs/\([^"]*\)"|href="/perfetto-docs-zh-cn/docs/\1.html"|g' {} \;
+# 2. 修复 index.html
+sed -i '' "s|href=\"/assets/|href=\"/$REPO_NAME/assets/|g" index.html
+sed -i '' "s|src=\"/assets/|src=\"/$REPO_NAME/assets/|g" index.html
+sed -i '' "s|href=\"/docs/|href=\"/$REPO_NAME/docs/|g" index.html
+sed -i '' "s|src=\"/docs/|src=\"/$REPO_NAME/docs/|g" index.html
+sed -i '' "s|data=\"/docs/|data=\"/$REPO_NAME/docs/|g" index.html
+sed -i '' "s|href=\"/\"|href=\"/$REPO_NAME/\"|g" index.html
 
-# 修复错误的 docs/.html 链接
-find . -name "*.html" ! -path "./.git/*" -exec sed -i '' 's|href="/perfetto-docs-zh-cn/docs/.html"|href="/perfetto-docs-zh-cn/docs/"|g' {} \;
+# 3. 修复 docs/*.html
+for file in $(find docs -name "*.html"); do
+    sed -i '' "s|href=\"/assets/|href=\"/$REPO_NAME/assets/|g" "$file"
+    sed -i '' "s|src=\"/assets/|src=\"/$REPO_NAME/assets/|g" "$file"
+    sed -i '' "s|href=\"/docs/|href=\"/$REPO_NAME/docs/|g" "$file"
+    sed -i '' "s|src=\"/docs/|src=\"/$REPO_NAME/docs/|g" "$file"
+    sed -i '' "s|data=\"/docs/|data=\"/$REPO_NAME/docs/|g" "$file"
+    sed -i '' "s|href=\"/\"|href=\"/$REPO_NAME/\"|g" "$file"
+done
+
+# 4. 修复 assets
+sed -i '' "s|\"\/assets\/mermaid.min.js\"|\"\/$REPO_NAME\/assets\/mermaid.min.js\"|g" assets/script.js
+sed -i '' "s|\"\/assets\/sprite.png\"|\"\/$REPO_NAME\/assets\/sprite.png\"|g" assets/style.css
+
+# 5. 为链接添加 .html 后缀
+find . -name "*.html" ! -path "./.git/*" -exec sed -i '' "s|href=\"\/$REPO_NAME\/docs\/\([^\"]*\)\"|href=\"\/$REPO_NAME\/docs\/\1.html\"|g" {} \;
+find . -name "*.html" ! -path "./.git/*" -exec sed -i '' "s|href=\"\/$REPO_NAME\/docs\/.html\"|href=\"\/$REPO_NAME\/docs\/\"|g" {} \;
 ```
 
 ---
 
-## GitHub Pages 部署踩坑记录
+## 常见问题与解决方案
 
-### 坑 1: 样式不生效（CSS 404）
-
-**现象**: 页面显示为纯文本，没有样式
-
-**原因**: CSS 路径是绝对路径 `/assets/style.css`，但 GitHub Pages 项目站点在子目录 `/repo-name/` 下
-
-**解决**: 将所有 `/assets/` 改为 `/repo-name/assets/`
-
-### 坑 2: 子页面 404
-
-**现象**: 点击侧边栏链接显示 404
-
-**原因**: 
-1. 文件没有 `.html` 扩展名
-2. 链接没有 `.html` 后缀
-
-**解决**: 
-1. 为所有文件添加 `.html` 扩展名
-2. 为所有链接添加 `.html` 后缀
-
-### 坑 3: 点击链接下载文件而不是打开页面
-
-**现象**: 点击链接弹出下载窗口
-
-**原因**: GitHub Pages 无法识别无扩展名文件为 HTML
-
-**解决**: 见坑 2 的解决方案
-
-### 坑 4: 图片不显示
-
-**现象**: 图片位置显示为空白或破碎图标
-
-**原因**: 图片路径是绝对路径 `/docs/images/xxx.png`
-
-**解决**: 改为 `/repo-name/docs/images/xxx.png`
-
-### 坑 5: Mermaid 图表不渲染
-
-**现象**: 关系图显示为代码块而不是图形
-
-**原因**: `script.js` 中加载 mermaid.js 的路径是绝对路径 `/assets/mermaid.min.js`
-
-**解决**: 改为 `/repo-name/assets/mermaid.min.js`
-
-### 坑 6: 首页链接错误
-
-**现象**: 点击 Logo 或 Docs 链接返回 404
-
-**原因**: 根路径 `/` 没有改为 `/repo-name/`
-
-**解决**: 将所有 `href="/"` 改为 `href="/repo-name/"`
-
-### 坑 7: GitHub Pages 配置错误
-
-**现象**: 整个站点 404
-
-**原因**: GitHub Pages 配置为从 `/docs` 文件夹部署，而不是 `/(root)`
-
-**解决**: Settings → Pages → Branch: gh-pages → Folder: `/(root)`
+| 问题 | 现象 | 原因 | 解决方案 |
+|------|------|------|----------|
+| **CSS/JS 404** | 页面无样式，纯文本显示 | 路径未添加 `/$REPO_NAME/` 前缀 | 修复所有 `/assets/` 路径 |
+| **子页面 404** | 点击链接显示 404 | 文件无 `.html` 扩展名 | 先执行添加 `.html` 扩展名 |
+| **子页面只显示导航栏** | 内容区域空白 | `find docs -name "*.html"` 在添加扩展名前执行 | **确保执行顺序**：先添加 `.html` → 再修复路径 |
+| **图片不显示** | 图片位置空白 | 图片路径是绝对路径 `/docs/images/xxx` | 改为 `/repo-name/docs/images/xxx` |
+| **SVG 图片不显示** | SVG 区域空白 | `<object>` 标签使用 `data` 属性，不是 `src` | 添加 `data="/docs/` → `data="/$REPO_NAME/docs/` 修复 |
+| **首页链接错误** | 点击 Logo 返回 404 | 根路径 `/` 未修改 | 将 `href="/"` 改为 `href="/repo-name/"` |
+| **整个站点 404** | 所有页面 404 | GitHub Pages 设置为 `/docs` 而非 `/(root)` | Settings → Pages → Folder: `/(root)` |
+| **下载而不是打开** | 点击链接下载文件 | 无 `.html` 扩展名 | 为所有文件添加 `.html` 扩展名 |
 
 ---
 
-## 首页配置
+## 首页配置（README.md 作为首页）
 
-### 使用 README.md 作为首页
+### 自动配置
 
-默认情况下，Perfetto 官方构建系统会生成一个英文的营销首页（"System profiling, app tracing..."）。
+`deploy.sh` 会自动修改 `infra/perfetto.dev/BUILD.gn`，让首页显示 README.md 内容：
 
-**要让首页显示中文文档的 README.md 内容**，部署脚本会自动进行以下修改：
-
-```
-# 修改 infra/perfetto.dev/BUILD.gn 中的 gen_index 目标
+```gn
 md_to_html("gen_index") {
-  markdown = "${src_doc_dir}/README.md"        # 使用 README.md 作为内容
-  html_template = "src/template_markdown.html" # 使用 Markdown 模板
-  deps = [ ":gen_toc" ]
+  markdown = "${src_doc_dir}/README.md"
+  html_template = "src/template_markdown.html"
   out_html = "index.html"
 }
 ```
 
-**效果**：
-- 访问 `http://localhost:8082/` 或 `https://your-username.github.io/repo-name/`
-- 首页直接显示 "什么是 Perfetto?" 文档内容
-- 保留官方渲染样式（左侧导航栏、右侧目录等）
+### 图片路径要求
 
-**注意**：此修改由 `deploy.sh` 自动完成，无需手动操作。
-
-**图片路径处理**：
-
-由于首页 `index.html` 位于根目录，而子页面位于 `docs/` 目录，为了确保图片在首页和子页面都能正常显示，README.md 中的图片路径需要使用绝对路径：
+README.md 中的图片**必须使用绝对路径**：
 
 ```markdown
-<!-- 正确：使用绝对路径 -->
+<!-- ✅ 正确：使用绝对路径 -->
 ![](/docs/images/perfetto-stack.svg)
 
-<!-- 错误：使用相对路径，首页无法显示 -->
+<!-- ❌ 错误：使用相对路径，首页无法显示 -->
 ![](images/perfetto-stack.svg)
 ```
 
+**原因**：首页 `index.html` 在根目录，而子页面在 `docs/` 目录，相对路径无法同时兼容两者。
+
 ---
 
-## GitHub Pages 部署关键要点
-
-### 部署前检查清单
+## 部署检查清单
 
 - [ ] 本地构建成功 (`./.project/deploy.sh`)
 - [ ] 本地预览正常 (http://localhost:8082/)
 - [ ] README.md 图片路径为绝对路径 (`/docs/images/xxx`)
 - [ ] GitHub Pages 设置为 `/(root)` 而非 `/docs`
-
-### 常见问题排查
-
-**问题1：首页图片不显示**
-- 原因：README.md 使用了相对路径 `![](images/xxx)`
-- 解决：改为绝对路径 `![](/docs/images/xxx)`
-
-**问题2：子页面无法渲染（只显示导航栏）**
-- 原因：`deploy-gh-pages.sh` 中 `find docs -name "*.html"` 在添加 `.html` 扩展名之前执行
-- 解决：确保执行顺序：先添加 `.html` 扩展名 → 再修复 docs/*.html 路径
-
-**问题3：CSS/JS 加载失败**
-- 原因：路径未正确添加 `/$REPO_NAME/` 前缀
-- 解决：检查 `deploy-gh-pages.sh` 中的 sed 替换是否生效
-
-**问题4：SVG 图片不显示**
-- 原因：`<object>` 标签使用 `data` 属性，不是 `src`
-- 解决：添加 `data="/docs/` → `data="/$REPO_NAME/docs/` 的修复
-
-### 部署脚本执行顺序
-
-正确的执行顺序至关重要：
-
-1. **添加 .html 扩展名**（必须先执行）
-   - 处理 docs/ 目录下的无扩展名文件
-   - 这样 `find docs -name "*.html"` 才能找到文件
-
-2. **修复 index.html 路径**
-   - `href="/assets/` → `href="/$REPO_NAME/assets/`
-   - `src="/docs/` → `src="/$REPO_NAME/docs/`
-   - `data="/docs/` → `data="/$REPO_NAME/docs/`（SVG 图片）
-
-3. **修复 docs/*.html 路径**
-   - 使用 `for` 循环遍历所有 HTML 文件
-   - 修复 `href`、`src`、`data` 属性
-
-4. **修复 assets 文件**
-   - `script.js` 中的 mermaid.js 路径
-   - `style.css` 中的 sprite.png 路径
-
-5. **为链接添加 .html 后缀**
-   - 确保导航链接指向 `.html` 文件
+- [ ] 部署后清空浏览器缓存验证
 
 ---
 
