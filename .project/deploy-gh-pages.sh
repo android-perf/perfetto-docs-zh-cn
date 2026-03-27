@@ -80,12 +80,25 @@ print_info ""
 print_info "修复 GitHub Pages 路径..."
 print_info "仓库名: $REPO_NAME"
 
+# 先为所有 docs 文件添加 .html 扩展名（必须在路径修复之前）
+print_info "  添加 .html 扩展名..."
+# 先处理根目录下的无扩展名文件（如 tracing-101）
+for file in docs/*; do
+    if [ -f "$file" ] && [[ ! "$file" =~ \. ]]; then
+        mv "$file" "$file.html"
+        print_info "    重命名: $(basename "$file") -> $(basename "$file").html"
+    fi
+done
+# 再处理子目录
+find docs -type f ! -name "*.png" ! -name "*.jpg" ! -name "*.gif" ! -name "*.svg" ! -name "*.ico" ! -name "*.html" -exec sh -c 'mv "$1" "$1.html"' _ {} \; 2>/dev/null || true
+
 # 修复 index.html
 print_info "  修复 index.html..."
 sed -i '' "s|href=\"/assets/|href=\"/$REPO_NAME/assets/|g" index.html
 sed -i '' "s|src=\"/assets/|src=\"/$REPO_NAME/assets/|g" index.html
 sed -i '' "s|href=\"/docs/|href=\"/$REPO_NAME/docs/|g" index.html
 sed -i '' "s|src=\"/docs/|src=\"/$REPO_NAME/docs/|g" index.html
+sed -i '' "s|data=\"/docs/|data=\"/$REPO_NAME/docs/|g" index.html
 sed -i '' "s|href=\"/\"|href=\"/$REPO_NAME/\"|g" index.html
 
 # 修复所有 docs/*.html
@@ -106,18 +119,6 @@ sed -i '' "s|\"\/assets\/mermaid.min.js\"|\"\/$REPO_NAME\/assets\/mermaid.min.js
 # 修复 assets/style.css（sprite.png 路径）
 print_info "  修复 assets/style.css..."
 sed -i '' "s|\"\/assets\/sprite.png\"|\"\/$REPO_NAME\/assets\/sprite.png\"|g" assets/style.css
-
-# 为所有 docs 文件添加 .html 扩展名
-print_info "  添加 .html 扩展名..."
-# 先处理根目录下的无扩展名文件（如 tracing-101）
-for file in docs/*; do
-    if [ -f "$file" ] && [[ ! "$file" =~ \. ]]; then
-        mv "$file" "$file.html"
-        print_info "    重命名: $(basename "$file") -> $(basename "$file").html"
-    fi
-done
-# 再处理子目录
-find docs -type f ! -name "*.png" ! -name "*.jpg" ! -name "*.gif" ! -name "*.svg" ! -name "*.ico" ! -name "*.html" -exec sh -c 'mv "$1" "$1.html"' _ {} \; 2>/dev/null || true
 
 # 为所有链接添加 .html 后缀
 print_info "  为链接添加 .html 后缀..."
