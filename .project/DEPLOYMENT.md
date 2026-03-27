@@ -470,6 +470,18 @@ md_to_html("gen_index") {
 
 **注意**：此修改由 `deploy.sh` 自动完成，无需手动操作。
 
+**图片路径处理**：
+
+由于首页 `index.html` 位于根目录，而子页面位于 `docs/` 目录，为了确保图片在首页和子页面都能正常显示，README.md 中的图片路径需要使用绝对路径：
+
+```markdown
+<!-- 正确：使用绝对路径 -->
+![](/docs/images/perfetto-stack.svg)
+
+<!-- 错误：使用相对路径，首页无法显示 -->
+![](images/perfetto-stack.svg)
+```
+
 ---
 
 ## 总结
