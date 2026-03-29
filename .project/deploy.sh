@@ -674,7 +674,60 @@ if monitor_build_progress "$BUILD_LOG"; then
         
         # 执行 GitHub Pages 部署
         cd "$DOCS_ZH_DIR"
-        bash "$SCRIPT_DIR/deploy-gh-pages.sh"
+        
+        # 获取仓库名用于路径修复
+        REPO_NAME=$(basename "$DOCS_ZH_DIR")
+        print_info "仓库名: $REPO_NAME"
+        
+        # 创建临时目录用于部署
+        DEPLOY_TEMP=$(mktemp -d)
+        print_info "创建临时部署目录: $DEPLOY_TEMP"
+        
+        # 复制构建输出到临时目录
+        cp -r "$PERFETTO_DIR/out/perfetto.dev"/* "$DEPLOY_TEMP/"
+        
+        # 修复 GitHub Pages 路径问题
+        print_info "修复 GitHub Pages 路径..."
+        
+        # 修复资源路径 (href="/assets/" -> href="/REPO_NAME/assets/")
+        find "$DEPLOY_TEMP" -name "*.html" -type f -exec sed -i '' \
+            -e "s|href=\"/assets/|href=\"/$REPO_NAME/assets/|g" \
+            -e "s|src=\"/assets/|src=\"/$REPO_NAME/assets/|g" \
+            -e "s|href=\"/docs/|href=\"/$REPO_NAME/docs/|g" \
+            -e "s|src=\"/docs/|src=\"/$REPO_NAME/docs/|g" \
+            -e "s|data=\"/docs/|data=\"/$REPO_NAME/docs/|g" \
+            {} \;
+        
+        # 为无扩展名的链接添加 .html
+        find "$DEPLOY_TEMP" -name "*.html" -type f -exec sed -i '' \
+            -e "s|href=\"/$REPO_NAME/docs/\([^\"]*\)\"|href=\"/$REPO_NAME/docs/\1.html\"|g" \
+            {} \;
+        
+        print_success "路径修复完成"
+        
+        # 创建 .nojekyll 文件
+        touch "$DEPLOY_TEMP/.nojekyll"
+        
+        # 部署到 gh-pages 分支
+        print_info "部署到 gh-pages 分支..."
+        cd "$DEPLOY_TEMP"
+        git init
+        git config user.email "deploy@perfetto-docs.local"
+        git config user.name "Deploy Bot"
+        git add -A
+        git commit -m "Deploy to GitHub Pages"
+        git push --force "$DOCS_ZH_DIR" main:gh-pages
+        
+        # 清理临时目录
+        rm -rf "$DEPLOY_TEMP"
+        
+        print_success "========================================"
+        print_success "GitHub Pages 部署成功！"
+        print_success "========================================"
+        print_info ""
+        print_info "访问地址: https://gugu-perf.github.io/$REPO_NAME/"
+        print_info ""
+        
         exit 0
     fi
     
