@@ -210,7 +210,7 @@ SMB 页面的大小由每个生产者在连接时通过 `InitializeConnectionReq
 
 只有当生产者中的数据源选择使用 [`BufferExhaustedPolicy.kStall`](/docs/concepts/buffers.md) 策略并且 SMB 已满时，才会在写入端（生产者）发生停滞。
 
-**[TracePacket][trace-packet-ref]**是 trace 的原子。撇开页面和块，trace 在概念上只是 TracePacket 的串联。TracePacket 可以很大（最多 64 MB），并且可以跨越多个块，因此跨越多个页面。因此，TracePacket 可以 >> 块大小，>> 页面大小，甚至 >> SMB 大小。块头带有用于处理 TracePacket 分割的元数据。
+**[TracePacket][trace-packet-ref]** 是 trace 的原子。撇开页面和块，trace 在概念上只是 TracePacket 的串联。TracePacket 可以很大（最多 64 MB），并且可以跨越多个块，因此跨越多个页面。因此，TracePacket 可以 >> 块大小，>> 页面大小，甚至 >> SMB 大小。块头带有用于处理 TracePacket 分割的元数据。
 
 页面、块、片段和数据包概念概述：<br>
 ![Shared Memory ABI concepts](/docs/images/shmem-abi-concepts.png)

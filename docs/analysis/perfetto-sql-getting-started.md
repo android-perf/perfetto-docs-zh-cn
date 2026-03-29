@@ -162,7 +162,7 @@ GROUP BY thread_name
 
 ## 使用标准库简化查询
 
-虽然总是可以通过连接原始表从头开始编写查询，但 PerfettoSQL 提供了丰富的**[标准库](stdlib-docs.autogen)** 预构建模块以简化常见分析任务。
+虽然总是可以通过连接原始表从头开始编写查询，但 PerfettoSQL 提供了丰富的 **[标准库](stdlib-docs.autogen)** 预构建模块以简化常见分析任务。
 
 要使用标准库中的模块，你需要使用 `INCLUDE PERFETTO MODULE` 语句导入它。例如，代替直接与线程和进程连接，你可以使用 `slices.with_context` 模块：
 
