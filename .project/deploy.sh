@@ -5,6 +5,11 @@ set -e
 # =============================================================================
 # Perfetto 中文文档部署脚本
 # 支持平台：macOS、Linux、Windows (Git Bash/WSL)
+#
+# 使用方法:
+#   bash deploy.sh              # 本地部署（默认）
+#   bash deploy.sh --gh-pages   # 部署到 GitHub Pages
+#   bash deploy.sh --help       # 显示帮助
 # =============================================================================
 
 # 颜色定义
@@ -24,6 +29,44 @@ TIMEOUT_COPY=60          # 复制文件超时
 
 # 日志文件
 LOG_FILE="/tmp/perfetto-deploy-$(date +%Y%m%d-%H%M%S).log"
+
+# 部署模式
+DEPLOY_MODE="${1:-local}"  # local 或 gh-pages
+AUTO_MODE="${2:-}"  # --auto 用于自动化环境
+
+# 显示帮助
+show_help() {
+    echo ""
+    echo "Perfetto 中文文档部署脚本"
+    echo ""
+    echo "使用方法:"
+    echo "  bash deploy.sh                    本地部署并启动服务器"
+    echo "  bash deploy.sh --gh-pages         部署到 GitHub Pages（交互式）"
+    echo "  bash deploy.sh --gh-pages --auto  部署到 GitHub Pages（自动模式，跳过确认）"
+    echo "  bash deploy.sh --help             显示此帮助信息"
+    echo ""
+    echo "选项:"
+    echo "  --gh-pages    部署到 GitHub Pages"
+    echo "  --auto        自动模式（不等待用户确认）"
+    echo "  --help, -h    显示帮助信息"
+    echo ""
+    echo "环境变量:"
+    echo "  DEBUG=true    开启调试模式"
+    echo ""
+}
+
+# 检查参数
+if [[ "$DEPLOY_MODE" == "--help" || "$DEPLOY_MODE" == "-h" ]]; then
+    show_help
+    exit 0
+fi
+
+if [[ "$DEPLOY_MODE" == "--gh-pages" ]]; then
+    DEPLOY_MODE="gh-pages"
+    if [[ "$AUTO_MODE" == "--auto" ]]; then
+        AUTO_CONFIRM=true
+    fi
+fi
 
 # 检测操作系统
  detect_os() {
@@ -597,6 +640,94 @@ if monitor_build_progress "$BUILD_LOG"; then
     fi
     
     rm -f "$BUILD_LOG"
+    
+    # =============================================================================
+    # 根据部署模式执行不同操作
+    # =============================================================================
+    
+    if [[ "$DEPLOY_MODE" == "gh-pages" ]]; then
+        # GitHub Pages 部署模式 - 构建完成直接部署
+        echo ""
+        print_success "========================================"
+        print_success "构建完成！准备部署到 GitHub Pages"
+        print_success "========================================"
+        echo ""
+        
+        # 执行 GitHub Pages 部署
+        cd "$DOCS_ZH_DIR"
+        bash "$SCRIPT_DIR/deploy-gh-pages.sh"
+        exit 0
+    fi
+    
+    # 本地部署模式 - 启动服务器
+    echo ""
+    print_info "启动 HTTP 服务器..."
+    print_info "使用命令: node infra/perfetto.dev/build.js --serve"
+    print_info "服务器将在后台运行"
+    echo ""
+    
+    # 创建服务器日志文件
+    SERVER_LOG="/tmp/perfetto-server-$(date +%Y%m%d-%H%M%S).log"
+    
+    # 在后台启动服务器
+    node infra/perfetto.dev/build.js --serve > "$SERVER_LOG" 2>&1 &
+    SERVER_PID=$!
+    
+    print_info "服务器进程 PID: $SERVER_PID"
+    print_info "服务器日志: $SERVER_LOG"
+    
+    # 等待服务器启动
+    print_info "等待服务器启动..."
+    sleep 5
+    
+    # 验证服务器是否真的在运行
+    retry_count=0
+    max_retries=6
+    
+    while [ $retry_count -lt $max_retries ]; do
+        if ! check_port 8082; then
+            print_success "服务器已正常启动（端口 8082 已被占用）"
+            break
+        fi
+        
+        retry_count=$((retry_count + 1))
+        if [ $retry_count -lt $max_retries ]; then
+            print_info "服务器启动中... (${retry_count}/${max_retries})"
+            sleep 2
+        fi
+    done
+    
+    if [ $retry_count -eq $max_retries ]; then
+        print_error "服务器未能正常启动（端口 8082 未被占用）"
+        print_info "检查服务器日志最后 30 行:"
+        tail -30 "$SERVER_LOG"
+        exit 1
+    fi
+    
+    # 本地部署成功提示
+    print_info ""
+    print_success "========================================"
+    print_success "本地部署成功！"
+    print_success "========================================"
+    print_info ""
+    print_info "访问地址: http://localhost:8082/docs/"
+    print_info ""
+    print_info "服务器在后台运行，PID: $SERVER_PID"
+    print_info "查看服务器日志: tail -f $SERVER_LOG"
+    print_info ""
+    print_info "停止服务器命令: kill $SERVER_PID"
+    print_info ""
+    print_info "日志文件保留在: $LOG_FILE"
+    print_info ""
+    print_info "========================================"
+    print_info "GitHub Pages 部署"
+    print_info "========================================"
+    print_info ""
+    print_info "如需部署到 GitHub Pages，请运行:"
+    print_info ""
+    print_info "  bash .project/deploy.sh --gh-pages"
+    print_info ""
+    
 else
     # 监控检测到卡住或错误
     print_error "构建过程出现问题"
@@ -609,89 +740,3 @@ else
     rm -f "$BUILD_LOG"
     exit 1
 fi
-
-# 步骤 4b: 启动服务器（后台运行）
-echo ""
-print_info "启动 HTTP 服务器..."
-print_info "使用命令: node infra/perfetto.dev/build.js --serve"
-print_info "服务器将在后台运行"
-echo ""
-
-# 创建服务器日志文件
-SERVER_LOG="/tmp/perfetto-server-$(date +%Y%m%d-%H%M%S).log"
-
-# 在后台启动服务器
-node infra/perfetto.dev/build.js --serve > "$SERVER_LOG" 2>&1 &
-SERVER_PID=$!
-
-print_info "服务器进程 PID: $SERVER_PID"
-print_info "服务器日志: $SERVER_LOG"
-
-# 等待服务器启动
-print_info "等待服务器启动..."
-sleep 5
-
-# 验证服务器是否真的在运行
-retry_count=0
-max_retries=6
-
-while [ $retry_count -lt $max_retries ]; do
-    if ! check_port 8082; then
-        print_success "服务器已正常启动（端口 8082 已被占用）"
-        break
-    fi
-    
-    retry_count=$((retry_count + 1))
-    if [ $retry_count -lt $max_retries ]; then
-        print_info "服务器启动中... (${retry_count}/${max_retries})"
-        sleep 2
-    fi
-done
-
-if [ $retry_count -eq $max_retries ]; then
-    print_error "服务器未能正常启动（端口 8082 未被占用）"
-    print_info "检查服务器日志最后 30 行:"
-    tail -30 "$SERVER_LOG"
-    exit 1
-fi
-
-print_success "服务器验证通过，正在运行"
-print_info ""
-print_success "========================================"
-print_success "本地部署成功！"
-print_success "========================================"
-print_info ""
-print_info "访问地址: http://localhost:8082/docs/"
-print_info ""
-print_info "服务器在后台运行，PID: $SERVER_PID"
-print_info "查看服务器日志: tail -f $SERVER_LOG"
-print_info ""
-print_info "停止服务器命令: kill $SERVER_PID"
-print_info ""
-print_info "日志文件保留在: $LOG_FILE"
-print_info ""
-
-# =============================================================================
-# GitHub Pages 部署提示
-# =============================================================================
-print_info ""
-print_info "========================================"
-print_info "GitHub Pages 部署"
-print_info "========================================"
-print_info ""
-print_info "如需部署到 GitHub Pages，请运行:"
-print_info ""
-print_info "  cd $DOCS_ZH_DIR"
-print_info "  ./.project/deploy-gh-pages.sh"
-print_info ""
-print_info "或手动执行以下步骤:"
-print_info ""
-print_info "  1. cd $DOCS_ZH_DIR"
-print_info "  2. git checkout gh-pages"
-print_info "  3. git rm -rf ."
-print_info "  4. cp -r $PERFETTO_DIR/out/perfetto.dev/site/* ."
-print_info "  5. touch .nojekyll"
-print_info "  6. # 修复路径 (见 DEPLOYMENT.md)"
-print_info "  7. git add -A && git commit -m 'deploy'"
-print_info "  8. git push origin gh-pages --force"
-print_info ""
