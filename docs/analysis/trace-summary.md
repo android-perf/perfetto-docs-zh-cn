@@ -561,6 +561,12 @@ Perfetto 以前有一个不同的系统来计算 metrics，通常称为"v1 metri
 - **易于使用** ：使用 trace 汇总，你不需要为输出编写或管理任何 `.proto` 文件。你只需要定义要计算的数据（查询）及其形状（维度和值）。Perfetto 处理其余部分。
 - **灵活性与工具** ：虽然旧系统在输出结构方面提供了更多的灵活性，但这是以可工具化为代价的。trace 汇总的标准化输出使构建用于分析、可视化和回归跟踪的可靠、长期工具变得容易得多。
 
+## 扩展
+
+`ValueColumnSpec` 消息允许供应商扩展，例如支持配置如何在 dashboard 中跨 trace 聚合。
+
+我们建议这仅用于 Perfetto "之上"的级别，即不用于配置如何从单个 trace 生成 metrics。
+
 ## 参考
 
 ### 运行汇总
@@ -660,7 +666,7 @@ TAB: Command-line shell
 - **`id_prefix` (string)** ：所有生成 metrics 的 ID 的前缀。
 - **`dimensions` (repeated string)** ：所有 metrics 的共享维度。
 - **`value_columns` (repeated string)** ：查询中的列列表。每列将使用 ID `<id_prefix>_<value_column>` 生成唯一的 metrics。
-- **`value_column_specs` (repeated `ValueColumnSpec`)** ：值列规范的列表，允许每个列具有唯一的 `unit` 和 `polarity`。
+- **`value_column_specs` (repeated `ValueColumnSpec`)** ：值列规范的列表，允许每个列具有唯一的 `unit` 和 `polarity`，以及任何必要的供应商扩展，配置如何管理跨 trace 的聚合。
 - **`query`
  ([`PerfettoSqlStructuredQuery`](/protos/perfetto/perfetto_sql/structured_query.proto))**:
  计算所有 metrics 数据的共享查询。

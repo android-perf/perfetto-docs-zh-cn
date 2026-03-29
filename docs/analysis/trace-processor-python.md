@@ -191,6 +191,33 @@ qr_df = qr_df.set_index('ts')['value'].plot()
 
 ![从查询结果创建的图表](/docs/images/example_pd_graph.png)
 
+或者，可以使用 `as_polars_dataframe()` 将结果转换为 [Polars](https://pola.rs/) DataFrame。Polars 是一个可选依赖。
+
+```python
+# 需要 polars
+# pip install perfetto[polars]
+qr_it = tp.query('SELECT ts, dur, name FROM slice')
+qr_df = qr_it.as_polars_dataframe()
+print(qr_df)
+```
+
+**输出**
+
+```
+shape: (5, 3)
+┌─────────────────────┬────────┬─────────────────────────────┐
+│ ts                  ┆ dur    ┆ name                        │
+│ ---                 ┆ ---    ┆ ---                         │
+│ i64                 ┆ i64    ┆ str                         │
+╞═════════════════════╪════════╪═════════════════════════════╡
+│  261187016624358    ┆ 488669 ┆ android.graphics.SurfaceT…  │
+│  261187016624358    ┆ 488669 ┆ android.graphics.SurfaceT…  │
+│  261187016624358    ┆ 488669 ┆ android.graphics.SurfaceT…  │
+│  261187016624358    ┆ 488669 ┆ android.graphics.SurfaceT…  │
+│  261187016624358    ┆ 488669 ┆ android.graphics.SurfaceT…  │
+└─────────────────────┴────────┴─────────────────────────────┘
+```
+
 ### Trace 汇总
 
 `trace_summary()` 函数计算 trace 的结构化汇总。这对于创建供其他工具使用的结构化 protobuf 消息很有用。此函数替换了已弃用的 `metric()` 函数。

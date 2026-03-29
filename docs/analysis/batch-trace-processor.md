@@ -86,6 +86,43 @@ with BatchTraceProcessor('foo:bar=1,baz=abc', config=config) as btp:
 2 121431
 ```
 
+[Polars](https://pola.rs/) DataFrames 也作为 Pandas 的替代方案受支持。`query_polars` 镜像 `query` 并返回 Polars DataFrames 列表（每个 trace 一个）；`query_and_flatten_polars` 镜像 `query_and_flatten` 并将它们连接成单个 DataFrame。Polars 支持需要一个可选依赖：
+
+```shell
+pip3 install perfetto[polars]
+```
+
+```python
+>>> btp.query_polars('select count(1) from slice')
+[shape: (1, 1)
+┌──────────┐
+│ count(1) │
+│ ---      │
+│ i64      │
+╞══════════╡
+│  2092592 │
+└──────────┘, shape: (1, 1)
+┌──────────┐
+│ count(1) │
+│ ---      │
+│ i64      │
+╞══════════╡
+│   156071 │
+└──────────┘, ...]
+
+>>> btp.query_and_flatten_polars('select count(1) from slice')
+shape: (3, 1)
+┌──────────┐
+│ count(1) │
+│ ---      │
+│ i64      │
+╞══════════╡
+│  2092592 │
+│   156071 │
+│   121431 │
+└──────────┘
+```
+
 `query_and_flatten` 还会隐式添加指示来源 trace 的列。添加的确切列取决于所使用的 resolver：请查阅你的 resolver 文档以获取更多信息。
 
 ## Trace URI

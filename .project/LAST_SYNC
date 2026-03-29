@@ -1,10 +1,9 @@
 # LAST_SYNC - 上游同步记录文件
 #
-# 格式: <short-hash> <date> <time> <tz> <message>
-#   对应命令: git log -1 --format="%h %ci %s"
+# 格式: git log --oneline 单行格式
+#   <short-hash> <date> <message>
 #
 # 更新方式:
-#   建议通过脚本自动更新，而非手动编辑：
 #   bash .project/sync-check.sh --update
 
-bf1d72c 2026-03-20 18:51:53 +0000 doc: updated the perfetto_cmd command line page (#5216)
+3a008d9f 2026-03-28 20:57:16 -0400 tp: Add SetGpuInfo and use GPU name in UI track labels (#5330)

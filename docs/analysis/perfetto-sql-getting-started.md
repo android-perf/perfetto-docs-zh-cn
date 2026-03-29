@@ -294,27 +294,6 @@ FROM
  ancestor_slice(interesting_slices.id) AS ancestor ON ancestor.depth = 0
 ```
 
-#### Ancestor slice by stack
-
-ancestor_slice_by_stack 是一个自定义运算符表，它接受[slice 表的 stack_id 列](/docs/analysis/sql-tables.autogen#slice)，查找具有该 stack_id 的所有 slice id，然后对于每个 id，计算所有祖先 slice，类似于[ancestor_slice](/docs/analysis/trace-processor#ancestor-slice)。
-
-返回的格式与[slice 表](/docs/analysis/sql-tables.autogen#slice）相同
-
-例如，以下查找具有给定名称的所有 slice 的顶层 slice。
-
-```sql
-CREATE VIEW interesting_stack_ids AS
-SELECT stack_id
-FROM slice WHERE name LIKE "%interesting slice name%";
-
-SELECT
- *
-FROM
- interesting_stack_ids LEFT JOIN
- ancestor_slice_by_stack(interesting_stack_ids.stack_id) AS ancestor
- ON ancestor.depth = 0
-```
-
 #### Descendant slice
 
 descendant_slice 是一个自定义运算符表，它接受[slice 表的 id 列](/docs/analysis/sql-tables.autogen#slice)，并计算同一 track 上嵌套在该 id 下的所有 slice(即同一 track 上在相同时间帧内深度大于给定 slice 的深度的所有 slice。
@@ -338,27 +317,6 @@ JOIN (
  FROM descendant_slice(interesting_slice.id)
  )
 FROM interesting_slices
-```
-
-#### Descendant slice by stack
-
-descendant_slice_by_stack 是一个自定义运算符表，它接受[slice 表的 stack_id 列](/docs/analysis/sql-tables.autogen#slice)，查找具有该 stack_id 的所有 slice id，然后对于每个 id，计算所有后代 slice，类似于[descendant_slice](/docs/analysis/trace-processor#descendant-slice)。
-
-返回的格式与[slice 表](/docs/analysis/sql-tables.autogen#slice）相同
-
-例如，以下查找具有给定名称的所有 slice 的下一级后代。
-
-```sql
-CREATE VIEW interesting_stacks AS
-SELECT stack_id, depth
-FROM slice WHERE name LIKE "%interesting slice name%";
-
-SELECT
- *
-FROM
- interesting_stacks LEFT JOIN
- descendant_slice_by_stack(interesting_stacks.stack_id) AS descendant
- ON descendant.depth = interesting_stacks.depth + 1
 ```
 
 #### Connected/Following/Preceding flows

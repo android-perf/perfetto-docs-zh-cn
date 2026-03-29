@@ -41,8 +41,9 @@ ui/src/
 
 ```sh
 # 从仓库根目录
-ui/build # 构建 UI
-ui/run-dev-server # 启动具有实时重新加载的开发服务器
+ui/build    # 构建 UI
+ui/build --typecheck # 运行 tsc --noEmit，不打包（更快）
+ui/run-dev-server    # 启动具有实时重新加载的开发服务器
 ```
 
 UI 使用：
@@ -53,6 +54,14 @@ UI 使用：
 - **pnpm** 用于包管理
 - **ESLint** 用于 linting(基于 Google 风格)
 - **Playwright** 用于集成测试
+
+## 构建运行时进行类型检查
+
+每个构建在工作时都会声明一个锁文件，除非传递了 --no-build 选项。如果你尝试运行构建但由于其中一个锁文件存在而遇到失败，你可以尝试仅使用以下命令检查类型，而不会干扰当前构建。
+
+```sh
+ui/build --typecheck --no-build
+```
 
 ## 插件架构
 

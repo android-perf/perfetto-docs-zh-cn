@@ -180,10 +180,6 @@ if [[ "$CHECK_MODE" == true ]]; then
         exit 1
     fi
 fi
-    echo ""
-    
-    exit 1
-fi
 
 # 更新模式：将 LAST_SYNC 更新为上游最新
 if [[ "$UPDATE_MODE" == true ]]; then
