@@ -30,20 +30,32 @@
 用于本地预览和调试：
 
 ```bash
-./perfetto-docs-zh-cn/.project/deploy.sh
+bash perfetto-docs-zh-cn/.project/deploy.sh
 ```
 
-访问 http://localhost:8082/ 预览效果。
+访问 http://localhost:8082/docs/ 预览效果。
 
 ### 方式二：GitHub Pages 部署
 
 用于发布到线上环境：
 
 ```bash
-./perfetto-docs-zh-cn/.project/deploy-gh-pages.sh
+bash perfetto-docs-zh-cn/.project/deploy.sh --gh-pages
 ```
 
 访问 https://your-username.github.io/perfetto-docs-zh-cn/ 查看线上站点。
+
+### 上游同步检查
+
+检查官方文档是否有更新：
+
+```bash
+# 检查更新
+bash perfetto-docs-zh-cn/.project/sync-check.sh --check
+
+# 更新同步记录（翻译完成后）
+bash perfetto-docs-zh-cn/.project/sync-check.sh --update
+```
 
 ---
 
@@ -135,17 +147,20 @@ node infra/perfetto.dev/build.js --serve
 
 ```
 workspace/
-├── perfetto/                    # Perfetto 官方仓库（自动克隆）
+├── perfetto/                    # Perfetto 官方仓库（自动克隆到平级目录）
 │   ├── docs/                    # 文档目录（会被中文文档替换）
 │   ├── infra/perfetto.dev/      # 构建系统
+│   │   └── node_modules/        # npm 依赖（自动安装）
 │   ├── out/perfetto.dev/site/   # 构建输出
 │   └── ...
 └── perfetto-docs-zh-cn/         # 中文文档仓库
     ├── .project/
     │   ├── DEPLOYMENT.md        # 本文件
-    │   └── deploy.sh            # 自动化脚本
+    │   ├── deploy.sh            # 部署脚本
+    │   ├── sync-check.sh        # 同步检测工具
+    │   └── LAST_SYNC            # 同步记录
+    ├── docs/                    # 翻译后的文档
     ├── README.md
-    ├── toc.md
     └── ...
 ```
 
@@ -219,6 +234,19 @@ Dependencies are out of date
 **解决方案**:
 ```bash
 ./tools/install-build-deps --ui
+```
+
+### 错误 5: 缺少 npm 模块
+
+**错误信息**:
+```
+Error: Cannot find module 'argparse'
+```
+
+**解决方案**:
+```bash
+cd perfetto/infra/perfetto.dev
+npm install
 ```
 
 ### 错误 5: Windows 上命令未找到
@@ -332,7 +360,7 @@ perfetto/out/perfetto.dev/site/
 ### 快速部署
 
 ```bash
-./perfetto-docs-zh-cn/.project/deploy-gh-pages.sh
+bash perfetto-docs-zh-cn/.project/deploy.sh --gh-pages
 ```
 
 ### 手动部署步骤

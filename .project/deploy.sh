@@ -599,6 +599,22 @@ else
     print_success "构建依赖已满足"
 fi
 
+# 检查并安装 npm 依赖（infra/perfetto.dev）
+print_info "检查 npm 依赖..."
+cd "$PERFETTO_DIR/infra/perfetto.dev"
+if [ ! -d "node_modules" ] || [ ! -d "node_modules/argparse" ]; then
+    print_warning "npm 依赖不完整，正在安装..."
+    if npm install 2>&1 | tee -a "$LOG_FILE"; then
+        print_success "npm 依赖安装完成"
+    else
+        print_error "npm 依赖安装失败"
+        print_info "请手动运行: cd perfetto/infra/perfetto.dev && npm install"
+        exit 1
+    fi
+else
+    print_success "npm 依赖已满足"
+fi
+
 # 检查端口
 if ! check_port 8082; then
     print_info "端口 8082 被占用，尝试清理..."
