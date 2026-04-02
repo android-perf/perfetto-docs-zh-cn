@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PerfettoSQL 入门指南 - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="PerfettoSQL 入门指南 - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/analysis/perfetto-sql-getting-started">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/style.css">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/perfetto-docs-zh-cn/assets/favicon.png" />
+  <script type="text/javascript" src="/perfetto-docs-zh-cn/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/perfetto-docs-zh-cn/">
+      <img src="/perfetto-docs-zh-cn/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/perfetto-docs-zh-cn/docs/">Docs</a>
+  <a href="/perfetto-docs-zh-cn/docs/contributing/getting-started#community.html">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/perfetto-docs-zh-cn/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/tracing-101.html">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/start-using-perfetto.html">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/system-tracing.html">系统 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/in-app-tracing.html">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/memory-profiling.html">Memory Profiling</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/cpu-profiling.html">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/atrace.html">Android atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/ftrace.html">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/other-formats.html">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/converting.html">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/android-trace-analysis.html">分析 Android Trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/periodic-trace-snapshots.html">周期性 Trace 快照</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/memory.html">Android 内存使用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/scheduling-blockages.html">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/config.html">Trace 配置</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/buffers.html">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/service-model.html">服务模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/clock-sync.html">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/tracing-in-background.html">后台 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/android.html">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/chrome-tracing.html">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/tracing-sdk.html">Tracing SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/track-events.html">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/stdlib-docs.html">标准库</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-syntax.html">语法</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/style-guide.html">样式指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-backcompat.html">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor.html">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor-python.html">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-summary.html">Trace 汇总</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/quickstart/traceconv.html">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui.html">Perfetto UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/large-traces.html">打开大型 trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/deep-linking-to-perfetto-ui.html">深度链接</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/debug-tracks.html">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extending-the-ui.html">概述</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">命令和宏</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-servers.html">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/common-tasks.html">常见任务</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/become-a-committer.html">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-plugins.html">插件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/faq.html">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/native-heap-profiler.html">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/java-heap-profiler.html">Java 堆转储</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/memory-counters.html">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-scheduling.html">调度事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/syscalls.html">系统调用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-freq.html">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/atrace.html">Atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-log.html">Logcat</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/frametimeline.html">Frame Timeline</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/battery-counters.html">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-game-intervention-list.html">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-packet-proto.html">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/synthetic-track-event.html">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-config-proto.html">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/concurrent-tracing-sessions.html">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/detached-mode.html">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-boot-tracing.html">开机 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-outofmemoryerror.html">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/android-version-notes.html">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/kernel-track-event.html">内核 track 事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/previous-boot-trace.html">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/perfetto-cli.html">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced.html">traced</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced_probes.html">traced_probes</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/heap_profile-cli.html">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/tracebox.html">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables.html">Prelude 表</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/builtin.html">内置函数</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-stats.html">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/metrics.html">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-a-single-machine.html">Bigtrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-kubernetes.html">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/interceptors.html">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/commands-automation-reference.html">命令自动化参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol.html">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/build-instructions.html">构建</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/testing.html">测试</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/developer-tools.html">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sdk-releasing.html">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/python-releasing.html">Python 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui-release-process.html">UI 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/chrome-branches.html">Chrome 分支</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sqlite-upgrade-guide.html">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/api-and-abi.html">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/life-of-a-tracing-session.html">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/protozero.html">ProtoZero</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/security-model.html">安全模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/checkpoint-atoms.html">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/trace-processor-architecture.html">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-design.html">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-wire-protocol.html">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-sampling.html">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/continuous-integration.html">Perfetto CI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/lock-free-task-runner.html">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/analysis/perfetto-sql-getting-started">
+    <h1>PerfettoSQL 入门指南</h1><p>PerfettoSQL 是 Perfetto 中 trace 分析的基础。它是一种 SQL 方言，允许你将 trace 内容作为数据库进行查询。本文介绍了使用 PerfettoSQL 进行 trace 查询的核心概念，并提供了如何编写查询的指导。</p>
+<h2><a name="trace-" class="anchor" href="#trace-"></a>Trace 查询概述</h2><p>Perfetto UI 是一个强大的可视化分析工具，提供调用栈、Timeline 视图、线程 track 和 slice。但它还包括一个强大的 SQL 查询语言（PerfettoSQL），由查询引擎（<a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor.html">TraceProcessor</a>）解释，使你能够以编程方式提取数据。</p>
+<p>虽然 UI 对于多种分析场景功能强大，但用户能够在 Perfetto UI 中编写和执行查询用于多种目的，例如：</p>
+<ul>
+<li>从 trace 中提取性能数据</li>
+<li>创建自定义可视化（Debug track）以执行更复杂的分析</li>
+<li>创建派生 metrics</li>
+<li>使用数据驱动的逻辑识别性能瓶颈</li>
+</ul>
+<p>除了 Perfetto UI 之外，你可以使用 <a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor-python.html">Python Trace Processor API</a> 或 <a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor.html">C++ Trace Processor</a> 以编程方式查询 trace。</p>
+<p>Perfetto 还支持通过 <a href="/perfetto-docs-zh-cn/docs/analysis/batch-trace-processor.html">Batch Trace Processor</a> 进行批量 trace 分析。此系统的一个关键优势是查询可重用性：用于单个 trace 的相同 PerfettoSQL 查询无需修改即可应用于大型数据集。</p>
+<h2><a name="-" class="anchor" href="#-"></a>核心概念</h2><p>在编写查询之前，了解 Perfetto 如何构造 trace 数据的基础概念很重要。</p>
+<h3><a name="-" class="anchor" href="#-"></a>事件</h3><p>在最一般的意义上，trace 只是一组带时间戳的&quot;事件&quot;。事件可以具有关联的元数据和上下文，使它们能够被解释和分析。时间戳以纳秒为单位；值本身取决于 TraceConfig 中选择的 <a href="https://cs.android.com/android/platform/superproject/main/+/main:external/perfetto/protos/perfetto/config/trace_config.proto;l=114;drc=c74c8cf69e20d7b3261fb8c5ab4d057e8badce3e">clock</a>。</p>
+<p>事件构成了 trace processor 的基础，并且有两种类型：slice 和 counter。</p>
+<h4>Slice</h4><p><img src="/perfetto-docs-zh-cn/docs/images/slices.png" alt="Slice 示例"></p>
+<p>Slice 指的是一段时间间隔，其中包含一些描述该期间内发生情况的数据。一些 slice 的示例包括：</p>
+<ul>
+<li>Android 上的 atrace slice</li>
+<li>来自 Chrome 的用户空间 slice</li>
+</ul>
+<h4>Counter</h4><p><img src="/perfetto-docs-zh-cn/docs/images/counters.png" alt="Counter 示例"></p>
+<p>Counter 是随时间变化的连续值。一些 counter 的示例包括：</p>
+<ul>
+<li>每个 CPU 核心的 CPU 频率</li>
+<li>RSS 内存事件 - 来自内核和从 /proc/stats 轮询</li>
+<li>Android 上的 atrace counter 事件</li>
+<li>Chrome counter 事件</li>
+</ul>
+<h3><a name="track" class="anchor" href="#track"></a>Track</h3><p>Track 是相同类型和相同关联上下文的事件的命名分区。Track 将事件与特定的上下文（如线程（<code>utid</code>）、进程（<code>upid</code>）或 CPU）关联起来。例如：</p>
+<ul>
+<li>同步用户空间 slice 每个发出事件的线程有一个 track</li>
+<li>异步用户空间 slice 每个链接一组异步事件的&quot;cookie&quot;有一个 track</li>
+</ul>
+<p>Track 可以根据它们包含的事件类型和它们关联的上下文分为各种类型。示例包括：</p>
+<ul>
+<li>全局 track 不与任何上下文关联并包含 slice</li>
+<li>线程 track 与单个线程关联并包含 slice</li>
+<li>Counter track 不与任何上下文关联并包含 counter</li>
+<li>CPU counter track 与单个 CPU 关联并包含 counter</li>
+</ul>
+<p>注意，Perfetto UI 也使用&quot;track&quot;一词来指代 timeline 上的可视行。这些是用于组织显示的 UI 层级概念，与 trace processor 的 track 并非一一对应。</p>
+<h3><a name="-" class="anchor" href="#-"></a>调度</h3><p>CPU 调度数据有自己的专用表，不通过 track 访问。<code>sched</code> 表包含每个线程在 CPU 上运行的时间间隔的行。关键列包括 <code>ts</code>、<code>dur</code>、<code>cpu</code>、<code>utid</code>、<code>end_state</code> 和 <code>priority</code>。</p>
+<p>例如，要查看 CPU 0 上正在运行哪些线程：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> ts, dur, utid
+<span class="hljs-keyword">FROM</span> sched
+<span class="hljs-keyword">WHERE</span> cpu <span class="hljs-operator">=</span> <span class="hljs-number">0</span>
+LIMIT <span class="hljs-number">10</span>;</code><p>与之互补的 <code>thread_state</code> 表显示了线程在_未_运行时正在做什么——无论它是在休眠、不可中断睡眠中阻塞、可运行并等待 CPU，等等。</p>
+<p>要查询带有线程和进程名称的调度数据，请使用 <code>sched.with_context</code> stdlib 模块，该模块提供了 <code>sched_with_thread_process</code> 视图：</p>
+<code class="hljs code-block">INCLUDE PERFETTO <span class="hljs-keyword">MODULE</span> sched.with_context;
+
+<span class="hljs-keyword">SELECT</span> ts, dur, cpu, thread_name, process_name
+<span class="hljs-keyword">FROM</span> sched_with_thread_process
+<span class="hljs-keyword">WHERE</span> thread_name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;RenderThread&#x27;</span>
+LIMIT <span class="hljs-number">10</span>;</code><h3><a name="-cpu-profiling-" class="anchor" href="#-cpu-profiling-"></a>栈采样 (CPU profiling)</h3><p>栈采样定期捕获代码执行的位置，提供 CPU 使用情况的统计视图。Perfetto 支持多种数据源，包括 Linux perf、simpleperf、macOS Instruments 和 Chrome CPU profiling。</p>
+<p>原始数据存在于特定来源的表中（<code>perf_sample</code>、<code>cpu_profile_stack_sample</code>）。每个样本都有一个 <code>callsite_id</code>，指向 <code>stack_profile_callsite</code> 表——这是一个由 frame 组成的链表，形成了调用栈。每个 callsite 行都有一个 <code>frame_id</code>，指向 <code>stack_profile_frame</code>（函数名和映射/二进制文件），以及一个 <code>parent_id</code>，指向栈中上一层的 frame。</p>
+<p>要将样本解析为其叶节点（最近的）frame，通过 callsite 连接到 frame：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span>
+  s.ts,
+  s.utid,
+  f.name <span class="hljs-keyword">AS</span> function_name,
+  m.name <span class="hljs-keyword">AS</span> binary_name
+<span class="hljs-keyword">FROM</span> perf_sample <span class="hljs-keyword">AS</span> s
+<span class="hljs-keyword">JOIN</span> stack_profile_callsite <span class="hljs-keyword">AS</span> c <span class="hljs-keyword">ON</span> s.callsite_id <span class="hljs-operator">=</span> c.id
+<span class="hljs-keyword">JOIN</span> stack_profile_frame <span class="hljs-keyword">AS</span> f <span class="hljs-keyword">ON</span> c.frame_id <span class="hljs-operator">=</span> f.id
+<span class="hljs-keyword">JOIN</span> stack_profile_mapping <span class="hljs-keyword">AS</span> m <span class="hljs-keyword">ON</span> f.mapping <span class="hljs-operator">=</span> m.id
+LIMIT <span class="hljs-number">10</span>;</code><p>对于完整调用栈的聚合和汇总，请使用 <code>stacks.cpu_profiling</code> stdlib 模块。它提供了一个跨所有数据源的统一 <code>cpu_profiling_samples</code> 表，以及一个 <code>cpu_profiling_summary_tree</code> 表，用于计算 self count（函数是叶节点的样本数）和 cumulative count（函数在调用栈中任何位置出现的样本数）：</p>
+<code class="hljs code-block">INCLUDE PERFETTO <span class="hljs-keyword">MODULE</span> stacks.cpu_profiling;
+
+<span class="hljs-comment">-- 跨所有 CPU profiling 数据源的统一样本：</span>
+<span class="hljs-keyword">SELECT</span> ts, thread_name, callsite_id
+<span class="hljs-keyword">FROM</span> cpu_profiling_samples
+LIMIT <span class="hljs-number">10</span>;
+
+<span class="hljs-comment">-- 带有 self 和 cumulative 计数的聚合调用栈树：</span>
+<span class="hljs-keyword">SELECT</span> name, mapping_name, self_count, cumulative_count
+<span class="hljs-keyword">FROM</span> cpu_profiling_summary_tree
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> cumulative_count <span class="hljs-keyword">DESC</span>
+LIMIT <span class="hljs-number">20</span>;</code><h3><a name="heap-profiling" class="anchor" href="#heap-profiling"></a>Heap Profiling</h3><p>Heap Profiling 捕获内存分配及其调用栈，显示内存在何时何地被分配（和释放）。这对于查找内存泄漏和理解分配模式很有用。</p>
+<p><code>heap_profile_allocation</code> 表包含每个分配或释放事件的行。关键列包括 <code>ts</code>、<code>upid</code>、<code>callsite_id</code>、<code>count</code> 和 <code>size</code>。<code>upid</code> 列可以与 <code>process</code> 表连接以获取完整的进程命令行（<code>cmdline</code>）和真实 pid。</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> ts, upid, size, count
+<span class="hljs-keyword">FROM</span> heap_profile_allocation
+<span class="hljs-keyword">WHERE</span> size <span class="hljs-operator">&gt;</span> <span class="hljs-number">0</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> size <span class="hljs-keyword">DESC</span>
+LIMIT <span class="hljs-number">10</span>;</code><p>与 CPU profiling 一样，每个分配都有一个 <code>callsite_id</code>，指向调用栈表。要将分配解析为其叶节点 frame：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span>
+  a.ts,
+  a.size,
+  f.name <span class="hljs-keyword">AS</span> function_name,
+  m.name <span class="hljs-keyword">AS</span> binary_name
+<span class="hljs-keyword">FROM</span> heap_profile_allocation <span class="hljs-keyword">AS</span> a
+<span class="hljs-keyword">JOIN</span> stack_profile_callsite <span class="hljs-keyword">AS</span> c <span class="hljs-keyword">ON</span> a.callsite_id <span class="hljs-operator">=</span> c.id
+<span class="hljs-keyword">JOIN</span> stack_profile_frame <span class="hljs-keyword">AS</span> f <span class="hljs-keyword">ON</span> c.frame_id <span class="hljs-operator">=</span> f.id
+<span class="hljs-keyword">JOIN</span> stack_profile_mapping <span class="hljs-keyword">AS</span> m <span class="hljs-keyword">ON</span> f.mapping <span class="hljs-operator">=</span> m.id
+<span class="hljs-keyword">WHERE</span> a.size <span class="hljs-operator">&gt;</span> <span class="hljs-number">0</span>
+LIMIT <span class="hljs-number">10</span>;</code><p>对于带有 self 和 cumulative 大小的完整调用栈聚合，请使用 <code>android.memory.heap_profile.summary_tree</code> stdlib 模块：</p>
+<code class="hljs code-block">INCLUDE PERFETTO <span class="hljs-keyword">MODULE</span> android.memory.heap_profile.summary_tree;
+
+<span class="hljs-keyword">SELECT</span> name, mapping_name, self_size, cumulative_size
+<span class="hljs-keyword">FROM</span> android_heap_profile_summary_tree
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> cumulative_size <span class="hljs-keyword">DESC</span>
+LIMIT <span class="hljs-number">20</span>;</code><h3><a name="-heap-dumps-" class="anchor" href="#-heap-dumps-"></a>堆图 (heap dumps)</h3><p>堆图数据捕获托管堆（例如 Android 上的 Java/ART）的快照，记录某个时间点的完整对象引用图。这对于理解内存保持和查找托管运行时中的泄漏很有用。</p>
+<p>关键表包括：</p>
+<ul>
+<li><code>heap_graph_object</code>：堆上的对象，包含其类型、大小和可达性信息。</li>
+<li><code>heap_graph_reference</code>：对象之间的引用（哪个对象指向哪个对象）。</li>
+<li><code>heap_graph_class</code>：类元数据（名称、父类、类加载器）。</li>
+</ul>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span>
+  c.name <span class="hljs-keyword">AS</span> class_name,
+  <span class="hljs-built_in">SUM</span>(o.self_size) <span class="hljs-keyword">AS</span> total_size,
+  <span class="hljs-built_in">COUNT</span>() <span class="hljs-keyword">AS</span> object_count
+<span class="hljs-keyword">FROM</span> heap_graph_object <span class="hljs-keyword">AS</span> o
+<span class="hljs-keyword">JOIN</span> heap_graph_class <span class="hljs-keyword">AS</span> c <span class="hljs-keyword">ON</span> o.type_id <span class="hljs-operator">=</span> c.id
+<span class="hljs-keyword">WHERE</span> o.reachable
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> c.name
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> total_size <span class="hljs-keyword">DESC</span>
+LIMIT <span class="hljs-number">10</span>;</code><h3><a name="-" class="anchor" href="#-"></a>线程和进程标识符</h3><p>在 trace 的上下文中考虑时，线程和进程的处理需要特别小心；线程和进程的标识符（例如 Android/macOS/Linux 中的 <code>pid</code>/<code>tgid</code> 和 <code>tid</code>）可以在 trace 过程中被操作系统重用。这意味着当查询 trace processor 中的表时，不能将它们作为唯一标识符依赖。</p>
+<p>为了解决此问题，trace processor 使用 <code>utid</code>（<em>unique</em> tid）表示线程，使用 <code>upid</code>（<em>unique</em> pid）表示进程。所有对线程和进程的引用（例如，在 CPU 调度数据、线程 track 中）都使用 <code>utid</code> 和 <code>upid</code> 而不是系统标识符。</p>
+<h3><a name="-perfetto-ui-trace" class="anchor" href="#-perfetto-ui-trace"></a>在 Perfetto UI 中查询 trace</h3><p>既然你了解了核心概念，就可以开始编写查询了。</p>
+<p>Perfetto 直接在 UI 中提供了两种探索 trace 数据的方式：</p>
+<ul>
+<li><strong>Data Explorer</strong> 页面让你无需编写 SQL 即可交互式浏览可用表。这对于发现 trace 中有哪些数据和理解表结构很有用。</li>
+<li><strong>Query (SQL)</strong> 标签提供了一个自由格式的 SQL 编辑器，用于编写和执行 PerfettoSQL 查询。</li>
+</ul>
+<p>要使用 Query 标签：</p>
+<ol>
+<li><p>在 <a href="https://ui.perfetto.dev/">Perfetto UI</a> 中打开 trace。</p>
+</li>
+<li><p>单击导航栏中的 <strong>Query (SQL)</strong> 标签（见下图）。</p>
+</li>
+</ol>
+<p><img src="/perfetto-docs-zh-cn/docs/images/perfettosql_query_tab.png" alt="Query (SQL) 标签"></p>
+<p>选择此标签后，查询 UI 将显示，你可以自由格式编写 PerfettoSQL 查询，该界面支持编写查询、显示查询结果和查询历史记录，如下图所示。</p>
+<p><img src="/perfetto-docs-zh-cn/docs/images/perfetto-sql-cli-description.png" alt="查询 UI"></p>
+<ol start="3">
+<li>在查询 UI 区域中输入你的查询，然后按 Ctrl + Enter（或 Cmd + Enter）执行。</li>
+</ol>
+<p>执行查询后，查询结果将在同一窗口中显示。</p>
+<p>当你对如何查询以及查询什么有一定了解时，这种查询方法很有用。</p>
+<p>为了了解如何编写查询，请参阅 <a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-syntax.html">语法指南</a>，然后为了查找可用的表、模块、函数等，请参阅 <a href="/perfetto-docs-zh-cn/docs/analysis/stdlib-docs.html">标准库</a>。</p>
+<p>很多时候，将查询结果转换为 track 对于在 UI 中执行复杂分析很有用，我们鼓励读者查看 <a href="/perfetto-docs-zh-cn/docs/analysis/debug-tracks.html">Debug Tracks</a> 以获取有关如何实现此操作的更多信息。</p>
+<h3><a name="-" class="anchor" href="#-"></a>示例：执行基本查询</h3><p>探索 trace 的最简单方法是从原始表中进行选择。例如，要查看 trace 中的前 10 个 slice，你可以运行：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> ts, dur, name <span class="hljs-keyword">FROM</span> slice LIMIT <span class="hljs-number">10</span>;</code><p>你可以通过在 PerfettoSQL 查询 UI 中单击 <strong>Run Query</strong> 来编写和执行它，下面是来自 trace 的示例。</p>
+<p><img src="/perfetto-docs-zh-cn/docs/images/perfetto-sql-basic-query.png" alt="基本查询"></p>
+<h3><a name="-slice-" class="anchor" href="#-slice-"></a>为 Slice 添加上下文</h3><p>查询 slice 时的一个常见问题是：&quot;我如何获取发出此 slice 的线程或进程？&quot;。最简单的方法是使用 <code>slices.with_context</code> 标准库模块，该模块提供了预连接的视图，直接包含线程和进程信息。</p>
+<code class="hljs code-block">INCLUDE PERFETTO <span class="hljs-keyword">MODULE</span> slices.with_context;</code><p>导入后，你可以访问三个视图：</p>
+<p><strong><code>thread_slice</code></strong> — 来自线程 track 的 slice，带有线程和进程上下文：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> ts, dur, name, thread_name, process_name, tid, pid
+<span class="hljs-keyword">FROM</span> thread_slice
+<span class="hljs-keyword">WHERE</span> name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;measure&#x27;</span>;</code><p><strong><code>process_slice</code></strong> — 来自进程 track 的 slice，带有进程上下文：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> ts, dur, name, process_name, pid
+<span class="hljs-keyword">FROM</span> process_slice
+<span class="hljs-keyword">WHERE</span> name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">&#x27;MyEvent%&#x27;</span>;</code><p><strong><code>thread_or_process_slice</code></strong> — 线程和进程 slice 的组合视图，当你想要搜索所有 slice 而不考虑 track 类型时很有用：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> ts, dur, name, thread_name, process_name
+<span class="hljs-keyword">FROM</span> thread_or_process_slice
+<span class="hljs-keyword">WHERE</span> dur <span class="hljs-operator">&gt;</span> <span class="hljs-number">1000000</span>;</code><p>这些视图是大多数 slice 查询的推荐方式。它们替你处理了连接操作，并公开了常用的列，如 <code>thread_name</code>、<code>process_name</code>、<code>tid</code>、<code>pid</code>、<code>utid</code> 和 <code>upid</code>。</p>
+<h4>手动 JOIN 以获得更多控制</h4><p>在底层，<code>thread_slice</code> 将 <code>slice</code> 与 <code>thread_track</code>、<code>thread</code> 和 <code>process</code> 进行连接。如果你需要 stdlib 视图未公开的列，或者你正在处理没有 stdlib 便捷视图的表（例如 counter track），你可以自己编写连接。</p>
+<p><code>thread</code> 和 <code>process</code> 表将 <code>utid</code> 和 <code>upid</code> 映射到系统级别的 <code>tid</code>、<code>pid</code> 和名称：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> tid, name
+<span class="hljs-keyword">FROM</span> thread
+<span class="hljs-keyword">WHERE</span> utid <span class="hljs-operator">=</span> <span class="hljs-number">10</span>;</code><p>例如，要获取值大于 1000 的 <code>mem.swap</code> counter 的所有进程的 <code>upid</code>：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> upid
+<span class="hljs-keyword">FROM</span> counter
+<span class="hljs-keyword">JOIN</span> process_counter_track <span class="hljs-keyword">ON</span> process_counter_track.id <span class="hljs-operator">=</span> counter.track_id
+<span class="hljs-keyword">WHERE</span> process_counter_track.name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;mem.swap&#x27;</span> <span class="hljs-keyword">AND</span> <span class="hljs-keyword">value</span> <span class="hljs-operator">&gt;</span> <span class="hljs-number">1000</span>;</code><p>或者手动将 slice 与线程信息连接：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> thread.name <span class="hljs-keyword">AS</span> thread_name
+<span class="hljs-keyword">FROM</span> slice
+<span class="hljs-keyword">JOIN</span> thread_track <span class="hljs-keyword">ON</span> slice.track_id <span class="hljs-operator">=</span> thread_track.id
+<span class="hljs-keyword">JOIN</span> thread <span class="hljs-keyword">USING</span>(utid)
+<span class="hljs-keyword">WHERE</span> slice.name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;measure&#x27;</span>
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> thread_name;</code><h2><a name="-" class="anchor" href="#-"></a>最佳实践</h2><h3><a name="-stdlib-join" class="anchor" href="#-stdlib-join"></a>优先使用 stdlib 视图而非手动 JOIN</h3><p>标准库为最常见的查询提供了预连接视图。使用 <code>thread_slice</code>、<code>process_slice</code>、<code>thread_or_process_slice</code> 和 <code>sched_with_thread_process</code> 可以节省样板代码，避免连接条件中的错误。</p>
+<h3><a name="-" class="anchor" href="#-"></a>尽早过滤</h3><p>始终将 <code>WHERE</code> 子句——尤其是对 <code>name</code> 的过滤——尽可能提前。这让 trace processor 可以跳过扫描不会对结果产生贡献的行。</p>
+<h3><a name="-limit" class="anchor" href="#-limit"></a>探索时使用 LIMIT</h3><p>当你不熟悉某个表时，先从小查询开始了解其结构，然后再编写复杂查询：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> slice LIMIT <span class="hljs-number">10</span>;</code><h3><a name="-" class="anchor" href="#-"></a>时间戳以纳秒为单位</h3><p>所有 <code>ts</code> 和 <code>dur</code> 值均以纳秒为单位。如需人类可读的输出，请使用 <code>time.conversion</code> stdlib 模块：</p>
+<code class="hljs code-block">INCLUDE PERFETTO <span class="hljs-keyword">MODULE</span> time.conversion;
+
+<span class="hljs-keyword">SELECT</span> name, time_to_ms(dur) <span class="hljs-keyword">AS</span> dur_ms
+<span class="hljs-keyword">FROM</span> slice
+<span class="hljs-keyword">WHERE</span> dur <span class="hljs-operator">&gt;</span> time_from_ms(<span class="hljs-number">10</span>);</code><h2><a name="-" class="anchor" href="#-"></a>高级查询</h2><p>对于需要超越标准库或构建自己的抽象的用户，PerfettoSQL 提供了几种高级功能。</p>
+<h3><a name="-" class="anchor" href="#-"></a>辅助函数</h3><p>辅助函数是内置在 C++ 中的函数，用于减少需要在 SQL 中编写的样板代码。</p>
+<h4>提取参数</h4><p><code>EXTRACT_ARG</code> 是一个辅助函数，用于从 <code>args</code> 表中检索事件（例如 slice 或 counter）的属性。</p>
+<p>它接受 <code>arg_set_id</code> 和 <code>key</code> 作为输入，并返回在 <code>args</code> 表中查找的值。</p>
+<p>例如，要从 <code>ftrace_event</code> 表中检索 <code>sched_switch</code> 事件的 <code>prev_comm</code> 字段。</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span> EXTRACT_ARG(arg_set_id, <span class="hljs-string">&#x27;prev_comm&#x27;</span>)
+<span class="hljs-keyword">FROM</span> ftrace_event
+<span class="hljs-keyword">WHERE</span> name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;sched_switch&#x27;</span></code><p>在幕后，上述查询将脱糖为以下内容：</p>
+<code class="hljs code-block"><span class="hljs-keyword">SELECT</span>
+  (
+    <span class="hljs-keyword">SELECT</span> string_value
+    <span class="hljs-keyword">FROM</span> args
+    <span class="hljs-keyword">WHERE</span> key <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;prev_comm&#x27;</span> <span class="hljs-keyword">AND</span> args.arg_set_id <span class="hljs-operator">=</span> raw.arg_set_id
+  )
+<span class="hljs-keyword">FROM</span> ftrace_event
+<span class="hljs-keyword">WHERE</span> name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;sched_switch&#x27;</span></code><h3><a name="-" class="anchor" href="#-"></a>运算符表</h3><p>SQL 查询通常足以从 trace processor 检索数据。但有时，某些构造很难用纯 SQL 表示。</p>
+<p>在这些情况下，trace processor 具有特殊的&quot;运算符表&quot;，它们用 C++ 解决特定问题，但公开 SQL 接口以供查询利用。</p>
+<h4>Span join</h4><p>Span join 是一个自定义运算符表，用于计算来自两个表或视图的时间段的交集。在此概念中，span 是表/视图中包含&quot;ts&quot;（时间戳）和&quot;dur&quot;（持续时间）列的一行。</p>
+<p>可以指定一个列（称为 _partition_），在计算交集之前将每个表的行划分为分区。</p>
+<p><img src="/perfetto-docs-zh-cn/docs/images/span-join.png" alt="Span join 框图"></p>
+<code class="hljs code-block"><span class="hljs-comment">-- 获取所有调度 slice</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">VIEW</span> sp_sched <span class="hljs-keyword">AS</span>
+<span class="hljs-keyword">SELECT</span> ts, dur, cpu, utid
+<span class="hljs-keyword">FROM</span> sched;
+
+<span class="hljs-comment">-- 获取所有 cpu frequency slice</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">VIEW</span> sp_frequency <span class="hljs-keyword">AS</span>
+<span class="hljs-keyword">SELECT</span>
+  ts,
+  <span class="hljs-built_in">lead</span>(ts) <span class="hljs-keyword">OVER</span> (<span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">BY</span> track_id <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> ts) <span class="hljs-operator">-</span> ts <span class="hljs-keyword">as</span> dur,
+  cpu,
+  <span class="hljs-keyword">value</span> <span class="hljs-keyword">as</span> freq
+<span class="hljs-keyword">FROM</span> counter
+<span class="hljs-keyword">JOIN</span> cpu_counter_track <span class="hljs-keyword">ON</span> counter.track_id <span class="hljs-operator">=</span> cpu_counter_track.id
+<span class="hljs-keyword">WHERE</span> cpu_counter_track.name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;cpufreq&#x27;</span>;
+
+<span class="hljs-comment">-- 创建将 cpu frequency 与</span>
+<span class="hljs-comment">-- 调度 slice 结合的 span joined 表。</span>
+<span class="hljs-keyword">CREATE</span> VIRTUAL <span class="hljs-keyword">TABLE</span> sched_with_frequency
+<span class="hljs-keyword">USING</span> SPAN_JOIN(sp_sched PARTITIONED cpu, sp_frequency PARTITIONED cpu);
+
+<span class="hljs-comment">-- 此 span joined 表可以正常查询，并具有来自两个表</span>
+<span class="hljs-comment">-- 的列。</span>
+<span class="hljs-keyword">SELECT</span> ts, dur, cpu, utid, freq
+<span class="hljs-keyword">FROM</span> sched_with_frequency;</code><p class="callout note">NOTE: 可以在两个表、一个表或都不表上指定分区。如果在两个表上指定，则必须在每个表上指定相同的列名称。</p>
+<p class="callout warning">WARNING: span joined 表的一个重要限制是，同一分区中同一表的 span _不能_重叠。出于性能原因，span join 不会尝试检测并在这种情况下出错；相反，将静默产生错误的行。</p>
+<p class="callout warning">WARNING: 分区必须是整数。重要的是，不支持字符串分区；请注意，可以通过将 <code>HASH</code> 函数应用于字符串列将字符串转换为整数。</p>
+<p>还支持左连接和外 span join；两者的功能类似于 SQL 中的左连接和外连接。</p>
+<code class="hljs code-block"><span class="hljs-comment">-- 左表分区 + 右表未分区。</span>
+<span class="hljs-keyword">CREATE</span> VIRTUAL <span class="hljs-keyword">TABLE</span> left_join
+<span class="hljs-keyword">USING</span> SPAN_LEFT_JOIN(table_a PARTITIONED a, table_b);
+
+<span class="hljs-comment">-- 两个表都未分区。</span>
+<span class="hljs-keyword">CREATE</span> VIRTUAL <span class="hljs-keyword">TABLE</span> outer_join
+<span class="hljs-keyword">USING</span> SPAN_OUTER_JOIN(table_x, table_y);</code><p class="callout note">NOTE: 如果分区表为空，并且是 a) 外连接的一部分 b) 左连接的右侧，则存在细微差别。在这种情况下，即使另一个表非空，也不会发出任何 slice。在考虑实际中如何使用 span join 之后，决定此方法是最自然的。</p>
+<h4>Ancestor slice</h4><p>给定一个 slice，<code>ancestor_slice</code> 返回同一 track 上在该 slice 上方的所有直接父 slice（即通过跟随 <code>parent_id</code> 链直到根节点（depth 0）可以找到的所有 slice）。</p>
+<code class="hljs code-block">+----------------------------+  depth 0  \
+|<span class="hljs-string"> A (id=1)                   </span>|<span class="hljs-string">            </span>|
+|<span class="hljs-string"> +------------+ +--------+  </span>|<span class="hljs-string">            </span>|<span class="hljs-string"> ancestor_slice(4)
+</span>|<span class="hljs-string"> </span>|<span class="hljs-string"> B (id=2)   </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> D      </span>|<span class="hljs-string">  </span>|<span class="hljs-string">  depth 1   &gt; 返回 A, B
+</span>|<span class="hljs-string"> </span>|<span class="hljs-string"> +--------+ </span>|<span class="hljs-string"> </span>|<span class="hljs-string">        </span>|<span class="hljs-string">  </span>|<span class="hljs-string">            </span>|
+|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string">C (id=4)</span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string">        </span>|<span class="hljs-string">  </span>|<span class="hljs-string">  depth 2  /
+</span>|<span class="hljs-string"> </span>|<span class="hljs-string"> +--------+ </span>|<span class="hljs-string"> </span>|<span class="hljs-string">        </span>|<span class="hljs-string">  </span>|
+|<span class="hljs-string"> +------------+ +--------+  </span>|
++----------------------------+</code><p>返回的格式与 <a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables#slice.html">slice 表</a> 相同。</p>
+<p>例如，以下查找给定一组感兴趣的 slice 的顶层 slice：</p>
+<code class="hljs code-block"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">VIEW</span> interesting_slices <span class="hljs-keyword">AS</span>
+<span class="hljs-keyword">SELECT</span> id, ts, dur, track_id
+<span class="hljs-keyword">FROM</span> slice <span class="hljs-keyword">WHERE</span> name <span class="hljs-keyword">LIKE</span> &quot;%interesting slice name%&quot;;
+
+<span class="hljs-keyword">SELECT</span>
+  <span class="hljs-operator">*</span>
+<span class="hljs-keyword">FROM</span>
+  interesting_slices <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span>
+  ancestor_slice(interesting_slices.id) <span class="hljs-keyword">AS</span> ancestor <span class="hljs-keyword">ON</span> ancestor.depth <span class="hljs-operator">=</span> <span class="hljs-number">0</span></code><p class="callout tip">TIP: 要检查一个 slice 是否是另一个 slice 的祖先而无需获取所有祖先，请使用 <code>slice_is_ancestor(ancestor_id, descendant_id)</code> 函数，该函数无需任何导入即可使用。</p>
+<h4>Descendant slice</h4><p>给定一个 slice，<code>descendant_slice</code> 返回同一 track 上嵌套在该 slice 下的所有 slice（即同一时间范围内深度大于给定 slice 深度的所有 slice）。</p>
+<code class="hljs code-block">+----------------------------+  depth 0
+|<span class="hljs-string"> A (id=1)                   </span>|
+|<span class="hljs-string"> +------------+ +--------+  </span>|<span class="hljs-string">           \
+</span>|<span class="hljs-string"> </span>|<span class="hljs-string"> B (id=2)   </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> D      </span>|<span class="hljs-string">  </span>|<span class="hljs-string">  depth 1   </span>|
+|<span class="hljs-string"> </span>|<span class="hljs-string"> +--------+ </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> +----+ </span>|<span class="hljs-string">  </span>|<span class="hljs-string">            </span>|<span class="hljs-string"> descendant_slice(1)
+</span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string">C (id=4)</span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> E  </span>|<span class="hljs-string"> </span>|<span class="hljs-string">  </span>|<span class="hljs-string">  depth 2   &gt; 返回 B, C, D, E
+</span>|<span class="hljs-string"> </span>|<span class="hljs-string"> +--------+ </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> +----+ </span>|<span class="hljs-string">  </span>|<span class="hljs-string">            </span>|
+|<span class="hljs-string"> +------------+ +--------+  </span>|<span class="hljs-string">           /
++----------------------------+</span></code><p>返回的格式与 <a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables#slice.html">slice 表</a> 相同。</p>
+<p>例如，以下查找每个感兴趣的 slice 下的 slice 数量：</p>
+<code class="hljs code-block"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">VIEW</span> interesting_slices <span class="hljs-keyword">AS</span>
+<span class="hljs-keyword">SELECT</span> id, ts, dur, track_id
+<span class="hljs-keyword">FROM</span> slice <span class="hljs-keyword">WHERE</span> name <span class="hljs-keyword">LIKE</span> &quot;%interesting slice name%&quot;;
+
+<span class="hljs-keyword">SELECT</span>
+  interesting_slices.<span class="hljs-operator">*</span>,
+  (
+    <span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>)
+    <span class="hljs-keyword">FROM</span> descendant_slice(interesting_slices.id)
+  ) <span class="hljs-keyword">AS</span> total_descendants
+<span class="hljs-keyword">FROM</span> interesting_slices</code><h4>Connected/Following/Preceding flows</h4><p>DIRECTLY_CONNECTED_FLOW、FOLLOWING_FLOW 和 PRECEDING_FLOW 是自定义运算符表，它们接受 <a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables#slice.html">slice 表的 id 列</a>，并收集 <a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables#flow.html">flow 表</a> 中与给定起始 slice 直接或间接连接的所有条目。</p>
+<p><code>DIRECTLY_CONNECTED_FLOW(start_slice_id)</code> — 包含 <a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables#flow.html">flow 表</a> 中存在于任何类型的链中的所有条目：<code>flow[0] -&gt; flow[1] -&gt; ... -&gt; flow[n]</code>，其中 <code>flow[i].slice_out = flow[i+1].slice_in</code> 且 <code>flow[0].slice_out = start_slice_id OR start_slice_id = flow[n].slice_in</code>。</p>
+<p class="callout note">NOTE: 与后续/前置流函数不同，此函数在从 slice 搜索流时不会包含连接到祖先或后代的流。它仅包含直接连接的链中的 slice。</p>
+<p><code>FOLLOWING_FLOW(start_slice_id)</code> — 包含所有可以通过从流的传出 slice 递归跟随到其传入 slice 以及从到达的 slice 到其子 slice 而从给定 slice 到达的流。返回表包含 <a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables#flow.html">flow 表</a> 中存在于任何类型的链中的所有条目：<code>flow[0] -&gt; flow[1] -&gt; ... -&gt; flow[n]</code>，其中 <code>flow[i+1].slice_out IN DESCENDANT_SLICE(flow[i].slice_in) OR flow[i+1].slice_out = flow[i].slice_in</code> 且 <code>flow[0].slice_out IN DESCENDANT_SLICE(start_slice_id) OR flow[0].slice_out = start_slice_id</code>。</p>
+<p><code>PRECEDING_FLOW(start_slice_id)</code> — 包含所有可以通过从流的传入 slice 递归跟随到其传出 slice 以及从到达的 slice 到其父 slice 而从给定 slice 到达的流。返回表包含 <a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables#flow.html">flow 表</a> 中存在于任何类型的链中的所有条目：<code>flow[n] -&gt; flow[n-1] -&gt; ... -&gt; flow[0]</code>，其中 <code>flow[i].slice_in IN ANCESTOR_SLICE(flow[i+1].slice_out) OR flow[i].slice_in = flow[i+1].slice_out</code> 且 <code>flow[0].slice_in IN ANCESTOR_SLICE(start_slice_id) OR flow[0].slice_in = start_slice_id</code>。</p>
+<code class="hljs code-block"><span class="hljs-comment">-- 每个 slice 的后续流数量</span>
+<span class="hljs-keyword">SELECT</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">FROM</span> FOLLOWING_FLOW(slice_id)) <span class="hljs-keyword">as</span> following <span class="hljs-keyword">FROM</span> slice;</code><h2><a name="-" class="anchor" href="#-"></a>下一步</h2><p>既然你对 PerfettoSQL 有了基础了解，你可以探索以下主题以加深你的知识：</p>
+<ul>
+<li>**<a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-syntax.html">PerfettoSQL 语法</a>**：了解 Perfetto 支持的 SQL 语法，包括用于创建函数、表和视图的特殊功能。</li>
+<li>**<a href="/perfetto-docs-zh-cn/docs/analysis/stdlib-docs.html">标准库</a>**：探索标准库中可用的丰富模块集，用于分析常见场景，如 CPU 使用率、内存和功耗。</li>
+<li>**<a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor.html">Trace Processor (C++)</a>**：了解如何使用交互式 shell 和底层 C++ 库。</li>
+<li>**<a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor-python.html">Trace Processor (Python)</a>**：利用 Python API 将 trace 分析与丰富的数据科学和可视化生态系统结合起来。</li>
+</ul>
+
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

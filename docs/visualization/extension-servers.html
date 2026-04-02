@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>扩展服务器 - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="扩展服务器 - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/visualization/extension-servers">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/style.css">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/perfetto-docs-zh-cn/assets/favicon.png" />
+  <script type="text/javascript" src="/perfetto-docs-zh-cn/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/perfetto-docs-zh-cn/">
+      <img src="/perfetto-docs-zh-cn/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/perfetto-docs-zh-cn/docs/">Docs</a>
+  <a href="/perfetto-docs-zh-cn/docs/contributing/getting-started#community.html">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/perfetto-docs-zh-cn/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/tracing-101.html">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/start-using-perfetto.html">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/system-tracing.html">系统 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/in-app-tracing.html">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/memory-profiling.html">Memory Profiling</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/cpu-profiling.html">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/atrace.html">Android atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/ftrace.html">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/other-formats.html">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/converting.html">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/android-trace-analysis.html">分析 Android Trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/periodic-trace-snapshots.html">周期性 Trace 快照</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/memory.html">Android 内存使用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/scheduling-blockages.html">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/config.html">Trace 配置</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/buffers.html">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/service-model.html">服务模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/clock-sync.html">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/tracing-in-background.html">后台 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/android.html">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/chrome-tracing.html">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/tracing-sdk.html">Tracing SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/track-events.html">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/stdlib-docs.html">标准库</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-syntax.html">语法</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/style-guide.html">样式指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-backcompat.html">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor.html">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor-python.html">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-summary.html">Trace 汇总</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/quickstart/traceconv.html">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui.html">Perfetto UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/large-traces.html">打开大型 trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/deep-linking-to-perfetto-ui.html">深度链接</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/debug-tracks.html">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extending-the-ui.html">概述</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">命令和宏</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-servers.html">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/common-tasks.html">常见任务</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/become-a-committer.html">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-plugins.html">插件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/faq.html">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/native-heap-profiler.html">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/java-heap-profiler.html">Java 堆转储</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/memory-counters.html">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-scheduling.html">调度事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/syscalls.html">系统调用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-freq.html">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/atrace.html">Atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-log.html">Logcat</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/frametimeline.html">Frame Timeline</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/battery-counters.html">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-game-intervention-list.html">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-packet-proto.html">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/synthetic-track-event.html">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-config-proto.html">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/concurrent-tracing-sessions.html">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/detached-mode.html">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-boot-tracing.html">开机 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-outofmemoryerror.html">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/android-version-notes.html">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/kernel-track-event.html">内核 track 事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/previous-boot-trace.html">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/perfetto-cli.html">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced.html">traced</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced_probes.html">traced_probes</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/heap_profile-cli.html">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/tracebox.html">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables.html">Prelude 表</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/builtin.html">内置函数</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-stats.html">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/metrics.html">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-a-single-machine.html">Bigtrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-kubernetes.html">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/interceptors.html">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/commands-automation-reference.html">命令自动化参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol.html">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/build-instructions.html">构建</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/testing.html">测试</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/developer-tools.html">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sdk-releasing.html">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/python-releasing.html">Python 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui-release-process.html">UI 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/chrome-branches.html">Chrome 分支</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sqlite-upgrade-guide.html">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/api-and-abi.html">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/life-of-a-tracing-session.html">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/protozero.html">ProtoZero</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/security-model.html">安全模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/checkpoint-atoms.html">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/trace-processor-architecture.html">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-design.html">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-wire-protocol.html">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-sampling.html">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/continuous-integration.html">Perfetto CI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/lock-free-task-runner.html">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/visualization/extension-servers">
+    <h1>扩展服务器</h1><p>Extension servers 是 HTTP(S) 端点，用于向 Perfetto UI 分发共享的
+<a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">macros</a>、SQL 模块和 proto
+descriptors。它们是团队和组织共享可重用 trace 分析工作流的推荐方式。</p>
+<h2><a name="-extension-servers-" class="anchor" href="#-extension-servers-"></a>为什么使用 extension servers？</h2><p>如果没有 extension servers，共享 macros 或 SQL 模块意味着在团队成员之间复制粘贴 JSON。这无法扩展：定义会过时，新团队成员会错过它们，而且没有单一的事实来源。Extension servers 通过让你在一个地方托管扩展并让每个人自动加载它们来解决这个问题。</p>
+<h2><a name="-" class="anchor" href="#-"></a>关键属性</h2><p>Extension servers 是<strong>可选且从不承载负载的</strong>。Perfetto UI 在没有任何配置服务器的情况下完全工作 —— 服务器只提供可选的增强功能。</p>
+<p>所有扩展都是<strong>声明式且安全的</strong>：</p>
+<ul>
+<li><strong>Macros</strong> 是 UI 命令的序列 —— 不执行 JavaScript。</li>
+<li><strong>SQL 模块</strong>在 trace processor 现有的沙箱中运行。</li>
+<li><strong>Proto descriptors</strong>是二进制类型定义（仅数据）。</li>
+</ul>
+<h2><a name="extension-servers-" class="anchor" href="#extension-servers-"></a>Extension servers 提供什么</h2><h3><a name="-" class="anchor" href="#-"></a>宏</h3><p>从 extension servers 加载的 macros 出现在命令面板
+(<code>Ctrl+Shift+P</code>) 中，与本地定义的 macros 一起。它们显示服务器和模块名称作为源标签，因此你可以知道每个 macro 来自哪里。</p>
+<p>请参阅 <a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">Commands and Macros</a> 了解 macros 的工作原理。</p>
+<h3><a name="sql-" class="anchor" href="#sql-"></a>SQL 模块</h3><p>SQL 模块可在查询编辑器和
+<a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">startup commands</a> 中使用。使用以下方式使用它们：</p>
+<code class="hljs code-block">INCLUDE PERFETTO <span class="hljs-keyword">MODULE</span> <span class="hljs-operator">&lt;</span>namespace<span class="hljs-operator">&gt;</span>.<span class="hljs-operator">&lt;</span>module_name<span class="hljs-operator">&gt;</span>;</code><p>例如，如果具有命名空间 <code>com.acme</code> 的服务器提供了一个名为
+<code>com.acme.startup</code> 的模块，你可以编写：</p>
+<code class="hljs code-block">INCLUDE PERFETTO <span class="hljs-keyword">MODULE</span> com.acme.startup;</code><p>请参阅
+<a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-getting-started.html">PerfettoSQL Getting Started</a>
+了解有关 SQL 模块的更多信息。</p>
+<h3><a name="proto-" class="anchor" href="#proto-"></a>Proto 描述符</h3><p>Proto descriptors 允许 UI 解码和显示嵌入在 traces 中的自定义 protobuf 消息，而无需将 <code>.proto</code> 文件编译到 UI 中。这些在 extension server 加载时自动注册。</p>
+<h2><a name="extension-servers-" class="anchor" href="#extension-servers-"></a>Extension servers 如何工作</h2><p>每个 extension server 托管一个<strong>manifest</strong>，声明：</p>
+<ul>
+<li>服务器的 <strong>name</strong> 和 <strong>namespace</strong>（例如，<code>com.acme</code>）</li>
+<li>它支持哪些 <strong>features</strong>（macros、SQL 模块、proto descriptors）</li>
+<li>哪些 <strong>modules</strong> 可用（扩展的命名集合）</li>
+</ul>
+<p>当 Perfetto UI 启动时，它从每个配置的服务器获取 manifest，然后从启用的模块加载扩展。如果服务器无法访问或返回错误，则跳过它 —— 其他服务器和 UI 的其余部分不受影响。</p>
+<h3><a name="-" class="anchor" href="#-"></a>模块</h3><p>Extension servers 将内容组织成 <strong>modules</strong>。例如，公司服务器可能提供：</p>
+<ul>
+<li><code>default</code> —— 通用 macros 和 SQL 模块</li>
+<li><code>android</code> —— Android 特定的分析工作流</li>
+<li><code>chrome</code> —— Chrome 渲染性能工具</li>
+</ul>
+<p>当你添加服务器时，会自动选择 <code>default</code> 模块。其他模块是可选的。</p>
+<h3><a name="-" class="anchor" href="#-"></a>命名空间</h3><p>来自服务器的所有 macro IDs 和 SQL 模块名称必须以服务器的
+namespace（例如，<code>com.acme.</code>）开头。这可以防止配置多个 extension servers 时的命名冲突。UI 强制执行此操作并拒绝违反约定的扩展。</p>
+<h3><a name="-" class="anchor" href="#-"></a>生命周期</h3><p>扩展在 <strong>UI 启动时加载一次</strong>。如果你更改 extension server 配置（添加/删除服务器、更改模块），你需要重新加载页面以使更改生效。</p>
+<h2><a name="-" class="anchor" href="#-"></a>服务器类型和认证</h2><p>Extension servers 有两种类型：</p>
+<ul>
+<li><strong>GitHub</strong> —— 托管在 GitHub 仓库中的扩展。UI 直接从 <code>raw.githubusercontent.com</code>（公共仓库）或 GitHub API（私有仓库）获取文件。这是最简单的选项 —— 不需要服务器基础设施。</li>
+<li><strong>HTTPS</strong> —— 托管在任何 HTTPS 端点上的扩展：静态文件主机
+（GCS、S3、nginx）、动态服务器（Flask、Express）或公司
+基础设施。服务器必须设置
+<a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol#cors-requirements.html">CORS headers</a>
+以允许 Perfetto UI 从中获取。</li>
+</ul>
+<p>每种服务器类型支持不同的认证方法：</p>
+<table>
+<thead>
+<tr>
+<th>服务器类型</th>
+<th>认证方法</th>
+<th>何时使用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GitHub</td>
+<td>无</td>
+<td>公共仓库</td>
+</tr>
+<tr>
+<td>GitHub</td>
+<td>Personal Access Token</td>
+<td>私有仓库</td>
+</tr>
+<tr>
+<td>HTTPS</td>
+<td>无</td>
+<td>公开可访问的服务器</td>
+</tr>
+<tr>
+<td>HTTPS</td>
+<td>Basic Auth</td>
+<td>受用户名/密码保护的服务器</td>
+</tr>
+<tr>
+<td>HTTPS</td>
+<td>API Key</td>
+<td>Bearer token、X-API-Key 或自定义 header</td>
+</tr>
+<tr>
+<td>HTTPS</td>
+<td>SSO</td>
+<td>基于 cookie 认证的公司 SSO</td>
+</tr>
+</tbody></table>
+<p>对于大多数用例（公共 GitHub 仓库 + 链接共享），不需要认证。请参阅
+<a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol#authentication-headers.html">protocol reference</a>
+了解 UI 为每种认证类型发送的确切 headers。</p>
+<h2><a name="-github-" class="anchor" href="#-github-"></a>使用 GitHub 创建扩展</h2><p>创建 extension server 的最简单方法是使用 GitHub 仓库 —— 不需要自定义服务器基础设施。</p>
+<h3><a name="fork-" class="anchor" href="#fork-"></a>Fork 模板仓库</h3><p>首先 fork（或导入，用于私有副本）
+<a href="https://github.com/LalitMaganti/perfetto-test-extensions">perfetto-test-extensions</a>
+GitHub 上的模板仓库。这为你提供了一个现成的结构，带有 GitHub Action，可在推送时自动构建端点文件。</p>
+<h3><a name="-" class="anchor" href="#-"></a>配置你的服务器</h3><p>编辑 <code>config.yaml</code> 以设置扩展的名称和命名空间：</p>
+<code class="hljs code-block"><span class="hljs-attr">name:</span> <span class="hljs-string">My</span> <span class="hljs-string">Team</span> <span class="hljs-string">Extensions</span>
+<span class="hljs-attr">namespace:</span> <span class="hljs-string">com.example.myteam</span></code><p><strong>namespace</strong> 必须对你的组织是唯一的，并遵循反向域名
+表示法。所有 macro IDs 和 SQL 模块名称必须以这个命名空间开头。</p>
+<p>你还可以配置服务器提供的模块。默认情况下，模板
+包括一个 <code>default</code> 模块。如果你想按团队组织扩展，可以添加更多
+或主题：</p>
+<code class="hljs code-block"><span class="hljs-attr">name:</span> <span class="hljs-string">My</span> <span class="hljs-string">Team</span> <span class="hljs-string">Extensions</span>
+<span class="hljs-attr">namespace:</span> <span class="hljs-string">com.example.myteam</span>
+<span class="hljs-attr">modules:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">id:</span> <span class="hljs-string">default</span>
+    <span class="hljs-attr">name:</span> <span class="hljs-string">Default</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">id:</span> <span class="hljs-string">android</span>
+    <span class="hljs-attr">name:</span> <span class="hljs-string">Android</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">id:</span> <span class="hljs-string">chrome</span>
+    <span class="hljs-attr">name:</span> <span class="hljs-string">Chrome</span></code><h3><a name="-sql-" class="anchor" href="#-sql-"></a>添加 SQL 模块</h3><p>在 <code>src/{module}/sql_modules/</code> 下添加 <code>.sql</code> 文件。文件名根据你的命名空间确定 SQL 模块名称：</p>
+<ul>
+<li><code>src/default/sql_modules/helpers.sql</code> 变为
+<code>INCLUDE PERFETTO MODULE com.example.myteam.helpers;</code></li>
+<li><code>src/default/sql_modules/foo/bar.sql</code> 变为
+<code>INCLUDE PERFETTO MODULE com.example.myteam.foo.bar;</code></li>
+</ul>
+<p>你可以将 SQL 文件组织到子目录中 —— 每个路径组件都成为模块名称的点分隔部分。</p>
+<p>请参阅
+<a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-getting-started.html">PerfettoSQL Getting Started</a>
+了解如何编写 SQL 模块。</p>
+<h3><a name="-macros" class="anchor" href="#-macros"></a>添加 macros</h3><p>在 <code>src/{module}/macros/</code> 下添加 <code>.yaml</code> 或 <code>.json</code> 文件。每个 macro 有一个
+<code>id</code>、一个显示 <code>name</code> 和一个 <code>run</code> 命令列表。</p>
+<p>YAML 示例 (<code>src/default/macros/show_long_tasks.yaml</code>)：</p>
+<code class="hljs code-block"><span class="hljs-attr">id:</span> <span class="hljs-string">com.example.myteam.ShowLongTasks</span>
+<span class="hljs-attr">name:</span> <span class="hljs-string">Show</span> <span class="hljs-string">Long</span> <span class="hljs-string">Tasks</span>
+<span class="hljs-attr">run:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">id:</span> <span class="hljs-string">dev.perfetto.RunQueryAndShowTab</span>
+    <span class="hljs-attr">args:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;SELECT * FROM slice WHERE dur &gt; 50000000&quot;</span></code><p>等效的 JSON (<code>src/default/macros/show_long_tasks.json</code>)：</p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;com.example.myteam.ShowLongTasks&quot;</span>,
+  <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;Show Long Tasks&quot;</span>,
+  <span class="hljs-attr">&quot;run&quot;</span>: [
+    {
+      <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.RunQueryAndShowTab&quot;</span>,
+      <span class="hljs-attr">&quot;args&quot;</span>: [<span class="hljs-string">&quot;SELECT * FROM slice WHERE dur &gt; 50000000&quot;</span>]
+    }
+  ]
+}</code><p>Macro IDs 必须以你的命名空间开头（例如，<code>com.example.myteam.</code>）。请参阅
+<a href="/perfetto-docs-zh-cn/docs/visualization/commands-automation-reference.html">Commands Automation Reference</a>
+了解 macros 中可用的完整命令列表。</p>
+<h3><a name="-" class="anchor" href="#-"></a>推送和部署</h3><p>将你的更改推送到 <code>main</code>。包含的 GitHub Action 构建生成的
+端点文件（<code>manifest</code>、<code>modules/*/macros</code> 等）并自动提交它们。</p>
+<h2><a name="-perfetto-ui-extension-server" class="anchor" href="#-perfetto-ui-extension-server"></a>在 Perfetto UI 中添加 extension server</h2><h3><a name="-github-" class="anchor" href="#-github-"></a>添加 GitHub 服务器</h3><ol>
+<li>转到 <strong>Settings</strong>（侧边栏中的齿轮图标）并滚动到 <strong>Extension
+Servers</strong>，或打开
+<a href="https://ui.perfetto.dev/#!/settings/dev.perfetto.ExtensionServers">the settings directly</a>。</li>
+<li>点击 <strong>Add Server</strong> 并选择 <strong>GitHub</strong>。</li>
+<li>以 <code>owner/repo</code> 格式输入仓库（例如，
+<code>my-org/perfetto-extensions</code>）。</li>
+<li>在 <strong>Ref</strong> 字段中输入分支或标签（例如，<code>main</code>）。</li>
+<li>UI 获取 manifest 并显示可用模块。<code>default</code> 模块
+自动选择；根据需要启用其他模块。</li>
+<li>点击 <strong>Save</strong> 并重新加载页面。</li>
+</ol>
+<p>对于 <strong>私有仓库</strong>，在认证下选择 **Personal Access Token (PAT)**：</p>
+<ol>
+<li>转到
+<a href="https://github.com/settings/personal-access-tokens">GitHub personal access tokens</a>
+并点击 <strong>Generate new token</strong>。</li>
+<li>在 <strong>Repository access</strong> 下，选择 <strong>Only select repositories</strong> 并选择
+你的扩展 repo。</li>
+<li>在 <strong>Permissions &gt; Repository permissions</strong> 下，将 <strong>Contents</strong> 设置为
+<strong>Read-only</strong>。</li>
+<li>生成 token 并在添加服务器时在 Perfetto UI 中输入它。</li>
+</ol>
+<h3><a name="-https-" class="anchor" href="#-https-"></a>添加 HTTPS 服务器</h3><ol>
+<li>点击 <strong>Add Server</strong> 并选择 <strong>HTTPS</strong>。</li>
+<li>输入服务器 URL（例如，<code>https://perfetto-ext.corp.example.com</code>）。如果省略，<code>https://</code> 前缀会自动添加。</li>
+<li>选择模块并配置认证（见下文）。</li>
+<li>点击 <strong>Save</strong> 并重新加载页面。</li>
+</ol>
+<h2><a name="-extension-servers" class="anchor" href="#-extension-servers"></a>共享 extension servers</h2><p>点击 Settings 中任何服务器上的 <strong>Share</strong> 按钮以复制可共享的 URL。
+当有人打开链接时：</p>
+<ul>
+<li>如果他们没有配置服务器，<strong>Add Server</strong> 对话框会打开
+预填充共享配置。</li>
+<li>如果他们已经有服务器，<strong>Edit</strong> 对话框会打开，共享的
+模块合并进来。</li>
+</ul>
+<p>Secrets（PATs、密码、API keys）会自动从共享 URL 中剥离。
+如果服务器需要认证，接收者输入他们自己的凭据。</p>
+<h2><a name="-" class="anchor" href="#-"></a>管理服务器</h2><p>在 Extension Servers 设置部分，使用操作按钮来：</p>
+<ul>
+<li><strong>Toggle</strong> —— 启用或禁用服务器而不删除它。</li>
+<li><strong>Edit</strong> —— 更改模块、认证或其他设置。</li>
+<li><strong>Share</strong> —— 将可共享的 URL 复制到剪贴板。</li>
+<li><strong>Delete</strong> —— 删除服务器。</li>
+</ul>
+<p>更改需要 <strong>页面重新加载</strong> 才能生效。</p>
+<h2><a name="-https-extension-server" class="anchor" href="#-https-extension-server"></a>创建 HTTPS extension server</h2><p>如果你需要比 GitHub 仓库提供的更多控制 —— 动态内容、
+公司 SSO 或与内部系统的集成 —— 你可以在任何 HTTPS 端点上托管 extension
+server。</p>
+<p>Extension server 是一组 JSON 端点。最少你需要：</p>
+<code class="hljs code-block">https:<span class="hljs-regexp">//y</span>our-server.example.com/manifest          → 服务器元数据
+https:<span class="hljs-regexp">//y</span>our-server.example.com<span class="hljs-regexp">/modules/</span>default/macros      → macros（可选）
+https:<span class="hljs-regexp">//y</span>our-server.example.com<span class="hljs-regexp">/modules/</span>default/sql_modules → SQL 模块（可选）</code><p>你可以将这些作为静态文件（nginx、GCS、S3）或从动态服务器
+（Flask、Express 等）提供。服务器必须设置 CORS headers 以允许 Perfetto
+UI 发出跨域请求。</p>
+<p>请参阅
+<a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol.html">Extension Server Protocol Reference</a>
+了解完整的端点规范、JSON schemas、CORS 要求和示例，包括最小的 Python/Flask 服务器。</p>
+<h2><a name="-" class="anchor" href="#-"></a>故障排除</h2><p>如果扩展加载失败，UI 会显示一个错误对话框，列出出错的地方。
+错误是非阻塞的 —— UI 正常工作，来自其他成功加载的服务器的扩展仍然可用。</p>
+<p>以下是可能看到的错误消息以及如何修复它们。</p>
+<h3><a name="-quot-failed-to-fetch-lt-url-gt-lt-error-gt-quot-" class="anchor" href="#-quot-failed-to-fetch-lt-url-gt-lt-error-gt-quot-"></a>&quot;Failed to fetch &lt;url&gt;: &lt;error&gt;&quot;</h3><p>UI 根本无法到达服务器。这通常是网络或 CORS
+问题。</p>
+<ul>
+<li><strong>检查 URL。</strong> 在新浏览器标签页中打开 URL。如果你无法访问它，
+服务器可能已关闭，URL 可能错误，或者你可能需要在 VPN 上。</li>
+<li><strong>检查 CORS headers。</strong> 如果 URL 在标签页中加载但 UI 显示 fetch
+错误，服务器可能没有设置 CORS headers。打开浏览器控制台
+(<code>F12</code>) 并查找 &quot;CORS policy&quot; 错误。请参阅
+<a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol#cors-requirements.html">CORS requirements</a>
+了解要设置哪些 headers。GitHub 托管的服务器不需要 CORS 配置。</li>
+<li><strong>检查混合内容。</strong> Perfetto UI 通过 HTTPS 提供，因此它
+无法从 <code>http://</code> URL 获取。为你的服务器使用 <code>https://</code>。</li>
+</ul>
+<h3><a name="-quot-fetch-failed-lt-url-gt-returned-lt-status-gt-quot-" class="anchor" href="#-quot-fetch-failed-lt-url-gt-returned-lt-status-gt-quot-"></a>&quot;Fetch failed: &lt;url&gt; returned &lt;status&gt;&quot;</h3><p>服务器可以访问但返回了 HTTP 错误。</p>
+<ul>
+<li><strong>401 或 403</strong> —— 认证失败。对于 GitHub PATs，检查 token
+是否未过期并具有对仓库的读取访问权限（Settings &gt; Personal
+access tokens）。对于带有 SSO 的 HTTPS 服务器，尝试在新标签页中直接登录服务器
+以刷新你的会话，然后重新加载 Perfetto UI。</li>
+<li><strong>404</strong> —— 端点不存在。检查服务器是否实现了
+预期的 <a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol#endpoints.html">endpoint paths</a>
+并且仓库/分支/路径是否正确。</li>
+</ul>
+<h3><a name="-quot-failed-to-parse-json-from-lt-url-gt-lt-error-gt-quot-" class="anchor" href="#-quot-failed-to-parse-json-from-lt-url-gt-lt-error-gt-quot-"></a>&quot;Failed to parse JSON from &lt;url&gt;: &lt;error&gt;&quot;</h3><p>服务器返回的响应不是有效的 JSON。</p>
+<ul>
+<li>检查端点是否返回 <code>Content-Type: application/json</code> 和有效的
+JSON。如果使用 GitHub 模板，请确保 GitHub Action 在你的最后一次推送后
+已成功运行 —— 检查仓库中的 Actions 标签页。</li>
+</ul>
+<h3><a name="-quot-invalid-response-from-lt-url-gt-lt-error-gt-quot-" class="anchor" href="#-quot-invalid-response-from-lt-url-gt-lt-error-gt-quot-"></a>&quot;Invalid response from &lt;url&gt;: &lt;error&gt;&quot;</h3><p>服务器返回了有效的 JSON，但不符合预期的 schema。</p>
+<ul>
+<li>将你的响应与
+<a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol.html">protocol reference</a> 中的预期格式进行比较。常见的错误包括缺少必需字段（<code>name</code>、<code>namespace</code>、<code>features</code>、
+manifest 中的 <code>modules</code>）或使用错误的字段名称。</li>
+</ul>
+<h3><a name="-quot-module-39-lt-name-gt-39-not-found-on-server-quot-" class="anchor" href="#-quot-module-39-lt-name-gt-39-not-found-on-server-quot-"></a>&quot;Module &#39;&lt;name&gt;&#39; not found on server&quot;</h3><p>你在设置中启用了服务器 manifest 未列出的模块。</p>
+<ul>
+<li>在 Settings 中编辑服务器并检查哪些模块已启用。如果模块
+从服务器重命名或删除，请取消选择它并保存。</li>
+</ul>
+<h3><a name="-quot-macro-id-39-lt-id-gt-39-must-start-with-namespace-39-lt-ns-gt-39-quot-" class="anchor" href="#-quot-macro-id-39-lt-id-gt-39-must-start-with-namespace-39-lt-ns-gt-39-quot-"></a>&quot;Macro ID &#39;&lt;id&gt;&#39; must start with namespace &#39;&lt;ns&gt;.&#39;&quot;</h3><p>Macro 的 <code>id</code> 字段与服务器的命名空间不匹配。</p>
+<ul>
+<li>如果你维护服务器：更新 macro ID 以你的命名空间开头
+（例如，将 <code>MyMacro</code> 更改为 <code>com.acme.Macro</code>）。请参阅
+<a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol#namespace-enforcement.html">namespace enforcement</a>。</li>
+<li>如果你不维护服务器：联系服务器维护者。</li>
+</ul>
+<h3><a name="-quot-sql-module-name-39-lt-name-gt-39-must-start-with-namespace-39-lt-ns-gt-39-quot-" class="anchor" href="#-quot-sql-module-name-39-lt-name-gt-39-must-start-with-namespace-39-lt-ns-gt-39-quot-"></a>&quot;SQL module name &#39;&lt;name&gt;&#39; must start with namespace &#39;&lt;ns&gt;.&#39;&quot;</h3><p>与上面相同，但针对 SQL 模块。模块的 <code>name</code> 字段必须以
+服务器的命名空间开头。</p>
+<h2><a name="-" class="anchor" href="#-"></a>另请参阅</h2><ul>
+<li><a href="/perfetto-docs-zh-cn/docs/visualization/extending-the-ui.html">Extending the UI</a> ——
+所有 Perfetto UI 扩展机制的概述</li>
+<li><a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol.html">扩展服务器协议参考</a> ——
+构建自定义服务器的完整规范</li>
+<li><a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">Commands and Macros</a> —— 如何创建
+macros 和 startup commands</li>
+</ul>
+
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

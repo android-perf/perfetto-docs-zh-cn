@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GPU - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="GPU - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/data-sources/gpu">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/style.css">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/perfetto-docs-zh-cn/assets/favicon.png" />
+  <script type="text/javascript" src="/perfetto-docs-zh-cn/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/perfetto-docs-zh-cn/">
+      <img src="/perfetto-docs-zh-cn/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/perfetto-docs-zh-cn/docs/">Docs</a>
+  <a href="/perfetto-docs-zh-cn/docs/contributing/getting-started#community.html">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/perfetto-docs-zh-cn/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/tracing-101.html">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/start-using-perfetto.html">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/system-tracing.html">系统 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/in-app-tracing.html">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/memory-profiling.html">Memory Profiling</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/cpu-profiling.html">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/atrace.html">Android atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/ftrace.html">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/other-formats.html">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/converting.html">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/android-trace-analysis.html">分析 Android Trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/periodic-trace-snapshots.html">周期性 Trace 快照</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/memory.html">Android 内存使用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/scheduling-blockages.html">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/config.html">Trace 配置</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/buffers.html">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/service-model.html">服务模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/clock-sync.html">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/tracing-in-background.html">后台 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/android.html">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/chrome-tracing.html">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/tracing-sdk.html">Tracing SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/track-events.html">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/stdlib-docs.html">标准库</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-syntax.html">语法</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/style-guide.html">样式指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-backcompat.html">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor.html">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor-python.html">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-summary.html">Trace 汇总</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/quickstart/traceconv.html">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui.html">Perfetto UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/large-traces.html">打开大型 trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/deep-linking-to-perfetto-ui.html">深度链接</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/debug-tracks.html">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extending-the-ui.html">概述</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">命令和宏</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-servers.html">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/common-tasks.html">常见任务</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/become-a-committer.html">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-plugins.html">插件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/faq.html">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/native-heap-profiler.html">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/java-heap-profiler.html">Java 堆转储</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/memory-counters.html">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-scheduling.html">调度事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/syscalls.html">系统调用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-freq.html">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/atrace.html">Atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-log.html">Logcat</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/frametimeline.html">Frame Timeline</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/battery-counters.html">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-game-intervention-list.html">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-packet-proto.html">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/synthetic-track-event.html">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-config-proto.html">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/concurrent-tracing-sessions.html">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/detached-mode.html">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-boot-tracing.html">开机 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-outofmemoryerror.html">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/android-version-notes.html">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/kernel-track-event.html">内核 track 事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/previous-boot-trace.html">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/perfetto-cli.html">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced.html">traced</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced_probes.html">traced_probes</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/heap_profile-cli.html">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/tracebox.html">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables.html">Prelude 表</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/builtin.html">内置函数</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-stats.html">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/metrics.html">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-a-single-machine.html">Bigtrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-kubernetes.html">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/interceptors.html">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/commands-automation-reference.html">命令自动化参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol.html">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/build-instructions.html">构建</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/testing.html">测试</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/developer-tools.html">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sdk-releasing.html">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/python-releasing.html">Python 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui-release-process.html">UI 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/chrome-branches.html">Chrome 分支</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sqlite-upgrade-guide.html">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/api-and-abi.html">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/life-of-a-tracing-session.html">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/protozero.html">ProtoZero</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/security-model.html">安全模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/checkpoint-atoms.html">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/trace-processor-architecture.html">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-design.html">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-wire-protocol.html">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-sampling.html">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/continuous-integration.html">Perfetto CI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/lock-free-task-runner.html">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/data-sources/gpu">
+    <h1>GPU</h1><p>Perfetto 支持在多种使用场景下 Tracing GPU 活动，从 Android 移动端图形处理到高端多 GPU 计算负载。</p>
+<p><img src="/perfetto-docs-zh-cn/docs/images/gpu-counters.png" alt=""></p>
+<h2><a name="-" class="anchor" href="#-"></a>数据源</h2><p>以下数据源可用于 GPU Tracing：</p>
+<table>
+<thead>
+<tr>
+<th>数据源</th>
+<th>配置</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>gpu.counters</code></td>
+<td><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/config/gpu/gpu_counter_config.proto">gpu_counter_config.proto</a></td>
+<td>周期性或插桩式 GPU Counter 采样</td>
+</tr>
+<tr>
+<td><code>gpu.renderstages</code></td>
+<td><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/config/gpu/gpu_renderstages_config.proto">gpu_renderstages_config.proto</a></td>
+<td>GPU 渲染阶段和计算活动时间线</td>
+</tr>
+<tr>
+<td><code>vulkan.memory_tracker</code></td>
+<td><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/config/gpu/vulkan_memory_config.proto">vulkan_memory_config.proto</a></td>
+<td>Vulkan 内存分配和绑定 Tracing</td>
+</tr>
+<tr>
+<td><code>gpu.log</code></td>
+<td><em>(无)</em></td>
+<td>GPU 调试日志消息</td>
+</tr>
+<tr>
+<td><code>linux.ftrace</code></td>
+<td><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/config/ftrace/ftrace_config.proto">ftrace_config.proto</a></td>
+<td>GPU 频率、内存总量、DRM 调度器事件</td>
+</tr>
+</tbody></table>
+<p>GPU 生产者通常会使用硬件特定的后缀注册数据源，例如 <code>gpu.counters.adreno</code> 或 <code>gpu.renderstages.mali</code>。Tracing 服务使用精确名称匹配，因此 trace 配置必须使用相同的带后缀名称。Trace Processor 根据 proto 字段类型解析 GPU 数据，因此所有带后缀的变体都会被相同处理。当针对特定 GPU 厂商的生产者时，请在 trace 配置中使用带后缀的名称：</p>
+<code class="hljs code-block"><span class="hljs-symbol">data_sources:</span> {
+    <span class="hljs-class">config </span>{
+<span class="hljs-symbol">        name:</span> <span class="hljs-string">&quot;gpu.counters&quot;</span>
+        <span class="hljs-class">gpu_counter_config </span>{
+<span class="hljs-symbol">            counter_period_ns:</span> <span class="hljs-number">1000000</span>
+<span class="hljs-symbol">            counter_ids:</span> <span class="hljs-number">1</span>
+        }
+    }
+}</code><p>Trace 包含 <code>gpu_id</code> 字段用于区分不同的 GPU，以及 <code>machine_id</code> 字段用于在多机环境中区分不同的机器。GPU 硬件元数据（名称、厂商、架构、UUID、PCI BDF）通过 <a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/trace/system_info/gpu_info.proto">GpuInfo</a> trace packet 记录。</p>
+<h2><a name="android" class="anchor" href="#android"></a>Android</h2><h3><a name="gpu-" class="anchor" href="#gpu-"></a>GPU 频率</h3><p>GPU 频率通过 ftrace 收集：</p>
+<code class="hljs code-block"><span class="hljs-symbol">data_sources:</span> {
+    <span class="hljs-class">config </span>{
+<span class="hljs-symbol">        name:</span> <span class="hljs-string">&quot;linux.ftrace&quot;</span>
+        <span class="hljs-class">ftrace_config </span>{
+<span class="hljs-symbol">            ftrace_events:</span> <span class="hljs-string">&quot;power/gpu_frequency&quot;</span>
+        }
+    }
+}</code><h3><a name="gpu-counter" class="anchor" href="#gpu-counter"></a>GPU Counter</h3><p>Android GPU 生产者必须使用 Counter 描述符模式 1：<code>GpuCounterDescriptor</code> 直接嵌入到会话的第一个 <code>GpuCounterEvent</code> packet 中，并且 Counter ID 是全局的。这是 CDD/CTS 合规性所要求的。</p>
+<p>GPU Counter 通过指定设备特定的 Counter ID 进行采样。可用的 Counter ID 在数据源描述符的 <code>GpuCounterSpec</code> 中描述。</p>
+<code class="hljs code-block"><span class="hljs-symbol">data_sources:</span> {
+    <span class="hljs-class">config </span>{
+<span class="hljs-symbol">        name:</span> <span class="hljs-string">&quot;gpu.counters&quot;</span>
+        <span class="hljs-class">gpu_counter_config </span>{
+<span class="hljs-symbol">            counter_period_ns:</span> <span class="hljs-number">1000000</span>
+<span class="hljs-symbol">            counter_ids:</span> <span class="hljs-number">1</span>
+<span class="hljs-symbol">            counter_ids:</span> <span class="hljs-number">3</span>
+<span class="hljs-symbol">            counter_ids:</span> <span class="hljs-number">106</span>
+<span class="hljs-symbol">            counter_ids:</span> <span class="hljs-number">107</span>
+<span class="hljs-symbol">            counter_ids:</span> <span class="hljs-number">109</span>
+        }
+    }
+}</code><p><code>counter_period_ns</code> 设置所需的采样间隔。</p>
+<h3><a name="gpu-" class="anchor" href="#gpu-"></a>GPU 内存</h3><p>每个进程的总 GPU 内存使用量通过 ftrace 收集：</p>
+<code class="hljs code-block"><span class="hljs-symbol">data_sources:</span> {
+    <span class="hljs-class">config </span>{
+<span class="hljs-symbol">        name:</span> <span class="hljs-string">&quot;linux.ftrace&quot;</span>
+        <span class="hljs-class">ftrace_config </span>{
+<span class="hljs-symbol">            ftrace_events:</span> <span class="hljs-string">&quot;gpu_mem/gpu_mem_total&quot;</span>
+        }
+    }
+}</code><h3><a name="gpu-" class="anchor" href="#gpu-"></a>GPU 渲染阶段</h3><p>渲染阶段 Tracing 提供 GPU 活动（图形和计算提交）的时间线：</p>
+<code class="hljs code-block"><span class="hljs-symbol">data_sources:</span> {
+    <span class="hljs-class">config </span>{
+<span class="hljs-symbol">        name:</span> <span class="hljs-string">&quot;gpu.renderstages&quot;</span>
+    }
+}</code><h3><a name="vulkan-" class="anchor" href="#vulkan-"></a>Vulkan 内存</h3><p>Vulkan 内存分配和绑定事件可以通过以下方式 Tracing：</p>
+<code class="hljs code-block"><span class="hljs-symbol">data_sources:</span> {
+    <span class="hljs-class">config </span>{
+<span class="hljs-symbol">        name:</span> <span class="hljs-string">&quot;vulkan.memory_tracker&quot;</span>
+        <span class="hljs-class">vulkan_memory_config </span>{
+<span class="hljs-symbol">            track_driver_memory_usage:</span> true
+<span class="hljs-symbol">            track_device_memory_usage:</span> true
+        }
+    }
+}</code><h3><a name="gpu-" class="anchor" href="#gpu-"></a>GPU 日志</h3><p>GPU 调试日志消息可以通过启用该数据源来收集：</p>
+<code class="hljs code-block"><span class="hljs-symbol">data_sources:</span> {
+    <span class="hljs-class">config </span>{
+<span class="hljs-symbol">        name:</span> <span class="hljs-string">&quot;gpu.log&quot;</span>
+    }
+}</code><h2><a name="-gpgpu" class="anchor" href="#-gpgpu"></a>高端 GPGPU</h2><p>对于高性能和数据中心 GPU 负载（CUDA、OpenCL、HIP），Perfetto 支持多 GPU 和多机 Tracing，并提供插桩式 Counter 采样。</p>
+<h3><a name="-counter-" class="anchor" href="#-counter-"></a>插桩式 Counter 采样</h3><p>除了全局采样外，还可以通过在 GPU 命令缓冲区中插桩来采样 Counter。这提供了每次提交级别的 Counter 值：</p>
+<code class="hljs code-block"><span class="hljs-symbol">data_sources:</span> {
+    <span class="hljs-class">config </span>{
+<span class="hljs-symbol">        name:</span> <span class="hljs-string">&quot;gpu.counters&quot;</span>
+        <span class="hljs-class">gpu_counter_config </span>{
+<span class="hljs-symbol">            counter_ids:</span> <span class="hljs-number">1</span>
+<span class="hljs-symbol">            counter_ids:</span> <span class="hljs-number">2</span>
+<span class="hljs-symbol">            instrumented_sampling:</span> true
+        }
+    }
+}</code><p>对于 GPGPU 使用场景，推荐使用 Counter 描述符模式 2：生产者发送通过 IID 引用的 <code>InternedGpuCounterDescriptor</code>，为每个可信序列提供独立的局部 Counter ID。这避免了模式 1 所需的全局协调，并自然地支持多个生产者和 GPU。有关两种模式的详细信息，请参阅 <a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/trace/gpu/gpu_counter_event.proto">gpu_counter_event.proto</a>。</p>
+<p>Counter 名称和 ID 由 GPU 生产者通过数据源描述符中的 <code>GpuCounterSpec</code> 发布。Counter 按组分类（SYSTEM、VERTICES、FRAGMENTS、PRIMITIVES、MEMORY、COMPUTE、RAY_TRACING），并包含度量单位和描述。</p>
+<h3><a name="-gpu" class="anchor" href="#-gpu"></a>多 GPU</h3><p>系统中的每个 GPU 都分配了一个 <code>gpu_id</code>。Counter 事件、渲染阶段和其他 GPU trace 数据都携带此 ID，以便 UI 可以按 GPU 对 Track 进行分组。GPU 硬件详细信息通过 <a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/trace/system_info/gpu_info.proto">GpuInfo</a> 消息记录，包括：</p>
+<ul>
+<li><code>name</code>、<code>vendor</code>、<code>model</code>、<code>architecture</code></li>
+<li><code>uuid</code>（16 字节标识符）</li>
+<li><code>pci_bdf</code>（PCI 总线/设备/功能）</li>
+</ul>
+<h3><a name="-" class="anchor" href="#-"></a>多机</h3><p>在跨多台机器进行 Tracing 时，每个 GPU trace 事件还携带 <code>machine_id</code>，用于区分该 GPU 属于哪台机器。Perfetto UI 在 GPU Track 旁显示机器标签。</p>
+
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

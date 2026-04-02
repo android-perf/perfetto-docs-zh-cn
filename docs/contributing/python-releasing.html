@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>制作新的 Python 库发布 - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="制作新的 Python 库发布 - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/contributing/python-releasing">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/style.css">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/perfetto-docs-zh-cn/assets/favicon.png" />
+  <script type="text/javascript" src="/perfetto-docs-zh-cn/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/perfetto-docs-zh-cn/">
+      <img src="/perfetto-docs-zh-cn/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/perfetto-docs-zh-cn/docs/">Docs</a>
+  <a href="/perfetto-docs-zh-cn/docs/contributing/getting-started#community.html">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/perfetto-docs-zh-cn/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/tracing-101.html">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/start-using-perfetto.html">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/system-tracing.html">系统 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/in-app-tracing.html">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/memory-profiling.html">Memory Profiling</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/cpu-profiling.html">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/atrace.html">Android atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/ftrace.html">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/other-formats.html">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/converting.html">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/android-trace-analysis.html">分析 Android Trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/periodic-trace-snapshots.html">周期性 Trace 快照</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/memory.html">Android 内存使用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/scheduling-blockages.html">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/config.html">Trace 配置</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/buffers.html">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/service-model.html">服务模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/clock-sync.html">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/tracing-in-background.html">后台 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/android.html">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/chrome-tracing.html">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/tracing-sdk.html">Tracing SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/track-events.html">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/stdlib-docs.html">标准库</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-syntax.html">语法</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/style-guide.html">样式指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-backcompat.html">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor.html">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor-python.html">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-summary.html">Trace 汇总</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/quickstart/traceconv.html">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui.html">Perfetto UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/large-traces.html">打开大型 trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/deep-linking-to-perfetto-ui.html">深度链接</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/debug-tracks.html">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extending-the-ui.html">概述</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">命令和宏</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-servers.html">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/common-tasks.html">常见任务</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/become-a-committer.html">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-plugins.html">插件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/faq.html">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/native-heap-profiler.html">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/java-heap-profiler.html">Java 堆转储</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/memory-counters.html">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-scheduling.html">调度事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/syscalls.html">系统调用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-freq.html">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/atrace.html">Atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-log.html">Logcat</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/frametimeline.html">Frame Timeline</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/battery-counters.html">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-game-intervention-list.html">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-packet-proto.html">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/synthetic-track-event.html">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-config-proto.html">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/concurrent-tracing-sessions.html">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/detached-mode.html">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-boot-tracing.html">开机 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-outofmemoryerror.html">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/android-version-notes.html">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/kernel-track-event.html">内核 track 事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/previous-boot-trace.html">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/perfetto-cli.html">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced.html">traced</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced_probes.html">traced_probes</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/heap_profile-cli.html">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/tracebox.html">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables.html">Prelude 表</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/builtin.html">内置函数</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-stats.html">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/metrics.html">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-a-single-machine.html">Bigtrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-kubernetes.html">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/interceptors.html">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/commands-automation-reference.html">命令自动化参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol.html">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/build-instructions.html">构建</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/testing.html">测试</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/developer-tools.html">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sdk-releasing.html">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/python-releasing.html">Python 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui-release-process.html">UI 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/chrome-branches.html">Chrome 分支</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sqlite-upgrade-guide.html">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/api-and-abi.html">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/life-of-a-tracing-session.html">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/protozero.html">ProtoZero</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/security-model.html">安全模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/checkpoint-atoms.html">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/trace-processor-architecture.html">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-design.html">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-wire-protocol.html">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-sampling.html">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/continuous-integration.html">Perfetto CI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/lock-free-task-runner.html">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/contributing/python-releasing">
+    <h1>制作新的 Python 库发布</h1><p>本指南展示如何向 PyPI 发布新的 Perfetto Python 库。</p>
+<p>发布过程分为两个阶段，都由
+<code>tools/release/release_python.py</code> 脚本编排。</p>
+<h2><a name="-1-" class="anchor" href="#-1-"></a>阶段 1： 提升版本</h2><p>第一阶段创建一个拉取请求以更新包版本。</p>
+<ol>
+<li>从仓库根目录运行发布脚本。</li>
+</ol>
+<code class="hljs code-block">tools/release/release_python.py --bump-version</code><p>脚本将引导你完成以下步骤：</p>
+<ul>
+<li><strong>版本控制</strong>：它将显示 <code>python/setup.py</code> 中的当前版本并提示你输入新版本。</li>
+<li><strong>分支</strong>：它将提示你输入新分支名称并创建它。</li>
+<li><strong>提交</strong>：它将更新 <code>python/setup.py</code> 中的 <code>version</code> 并创建提交。</li>
+</ul>
+<ol start="2">
+<li><p>脚本完成后，推送新分支并创建拉取请求。</p>
+</li>
+<li><p>拉取请求经过审查和合并后，进入阶段 2。</p>
+</li>
+</ol>
+<h2><a name="-2-url" class="anchor" href="#-2-url"></a>阶段 2： 发布发布和更新下载 URL</h2><p>第二阶段将包发布到 PyPI，然后创建第二个拉取请求以使用正确的下载 URL 更新源代码。</p>
+<ol>
+<li><p>找到来自阶段 1 的已合并版本提升 CL 的提交哈希。</p>
+</li>
+<li><p>再次运行发布脚本，提供已合并的提交哈希。</p>
+</li>
+</ol>
+<code class="hljs code-block">tools/release/release_python.py --publish --commit &lt;landed-commit-hash&gt;</code><p>脚本将执行以下步骤：</p>
+<ul>
+<li><strong>检出</strong>：它将检出指定的提交。</li>
+<li><strong>构建和发布</strong>：它将临时更新 <code>python/setup.py</code> 中的 <code>download_url</code>，构建包，并将其上传到 PyPI。系统将提示你输入 PyPI 凭据。对于用户名，使用 <code>__token__</code>。对于密码（API 令牌），在 <a href="http://go/valentine">http://go/valentine</a> 上查找&quot;Perfetto PyPi API Key&quot;。</li>
+<li><strong>清理</strong>：它将删除临时构建产物。</li>
+<li><strong>最终 URL 更新</strong>：发布后，脚本将提示你输入新分支名称。然后，它将在该分支上创建一个新提交，更新 <code>python/setup.py</code> 中的 <code>download_url</code> 以指向来自 <code>--commit</code> 参数的提交。</li>
+</ul>
+<ol start="3">
+<li>脚本完成后，为 <code>download_url</code> 更新推送新分支并创建第二个拉取请求。此最终 PR 合并后，发布完成。</li>
+</ol>
+
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

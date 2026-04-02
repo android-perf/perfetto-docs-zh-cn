@@ -1,0 +1,1762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UI 插件 - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="UI 插件 - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/contributing/ui-plugins">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/style.css">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/perfetto-docs-zh-cn/assets/favicon.png" />
+  <script type="text/javascript" src="/perfetto-docs-zh-cn/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/perfetto-docs-zh-cn/">
+      <img src="/perfetto-docs-zh-cn/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/perfetto-docs-zh-cn/docs/">Docs</a>
+  <a href="/perfetto-docs-zh-cn/docs/contributing/getting-started#community.html">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/perfetto-docs-zh-cn/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/tracing-101.html">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/start-using-perfetto.html">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/system-tracing.html">系统 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/in-app-tracing.html">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/memory-profiling.html">Memory Profiling</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/cpu-profiling.html">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/atrace.html">Android atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/ftrace.html">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/other-formats.html">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/converting.html">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/android-trace-analysis.html">分析 Android Trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/periodic-trace-snapshots.html">周期性 Trace 快照</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/memory.html">Android 内存使用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/scheduling-blockages.html">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/config.html">Trace 配置</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/buffers.html">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/service-model.html">服务模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/clock-sync.html">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/tracing-in-background.html">后台 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/android.html">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/chrome-tracing.html">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/tracing-sdk.html">Tracing SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/track-events.html">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/stdlib-docs.html">标准库</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-syntax.html">语法</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/style-guide.html">样式指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-backcompat.html">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor.html">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor-python.html">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-summary.html">Trace 汇总</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/quickstart/traceconv.html">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui.html">Perfetto UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/large-traces.html">打开大型 trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/deep-linking-to-perfetto-ui.html">深度链接</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/debug-tracks.html">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extending-the-ui.html">概述</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">命令和宏</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-servers.html">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/common-tasks.html">常见任务</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/become-a-committer.html">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-plugins.html">插件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/faq.html">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/native-heap-profiler.html">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/java-heap-profiler.html">Java 堆转储</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/memory-counters.html">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-scheduling.html">调度事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/syscalls.html">系统调用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-freq.html">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/atrace.html">Atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-log.html">Logcat</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/frametimeline.html">Frame Timeline</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/battery-counters.html">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-game-intervention-list.html">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-packet-proto.html">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/synthetic-track-event.html">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-config-proto.html">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/concurrent-tracing-sessions.html">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/detached-mode.html">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-boot-tracing.html">开机 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-outofmemoryerror.html">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/android-version-notes.html">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/kernel-track-event.html">内核 track 事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/previous-boot-trace.html">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/perfetto-cli.html">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced.html">traced</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced_probes.html">traced_probes</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/heap_profile-cli.html">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/tracebox.html">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables.html">Prelude 表</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/builtin.html">内置函数</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-stats.html">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/metrics.html">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-a-single-machine.html">Bigtrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-kubernetes.html">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/interceptors.html">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/commands-automation-reference.html">命令自动化参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol.html">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/build-instructions.html">构建</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/testing.html">测试</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/developer-tools.html">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sdk-releasing.html">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/python-releasing.html">Python 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui-release-process.html">UI 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/chrome-branches.html">Chrome 分支</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sqlite-upgrade-guide.html">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/api-and-abi.html">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/life-of-a-tracing-session.html">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/protozero.html">ProtoZero</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/security-model.html">安全模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/checkpoint-atoms.html">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/trace-processor-architecture.html">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-design.html">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-wire-protocol.html">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-sampling.html">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/continuous-integration.html">Perfetto CI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/lock-free-task-runner.html">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/contributing/ui-plugins">
+    <h1>UI 插件</h1><p>UI 插件允许开发者直接向 Perfetto 界面添加新的可视化和 profile 工具。通过利用丰富的扩展点，插件可以将 Perfetto 定制为特定的用例。</p>
+<p>本指南提供了关于如何创建和向 Perfetto 贡献 UI 插件的全面说明。</p>
+<p>如果这是你第一次向 Perfetto 贡献，请先遵循
+<a href="/perfetto-docs-zh-cn/docs/contributing/getting-started.html">Perfetto getting started</a>，然后
+<a href="/perfetto-docs-zh-cn/docs/contributing/ui-getting-started.html">UI getting started</a>。</p>
+<blockquote>
+<p>注意:所有插件目前都是树内（in-tree）的，即它们位于开源 Perfetto 代码库中，并与位于 <a href="https://ui.perfetto.dev">https://ui.perfetto.dev</a> 的 Perfetto 公共构建一起提供。如果你想添加闭源插件，你需要 fork 并托管你自己的 Perfetto 版本。目前，没有办法 sideload 闭源插件。</p>
+</blockquote>
+<p>以 &#39;com.example&#39; 开头的插件
+[这里](<a href="https://github.com/google/perfetto/tree/main/ui/src/plugins%EF%BC%89%E6%8F%90%E4%BE%9B%E4%BA%86%E6%9C%AC%E6%96%87%E6%A1%A3%E4%B8%AD%E5%88%97%E5%87%BA%E7%9A%84%E5%8A%9F%E8%83%BD%E7%9A%84%E5%AE%9E%E6%97%B6%E7%A4%BA%E4%BE%8B%EF%BC%8C%E5%9B%A0%E6%AD%A4%E5%A6%82%E6%9E%9C%E4%BD%A0%E7%9A%84%E7%89%B9%E5%AE%9A%E5%8A%9F%E8%83%BD%E6%9C%89%E7%A4%BA%E4%BE%8B%EF%BC%8C%E8%AF%B7%E4%B8%80%E5%AE%9A%E8%A6%81%E6%9F%A5%E7%9C%8B%E3%80%82">https://github.com/google/perfetto/tree/main/ui/src/plugins）提供了本文档中列出的功能的实时示例，因此如果你的特定功能有示例，请一定要查看。</a></p>
+<p>你将在这篇文档中使用的公共插件 API 可以在这里浏览
+<a href="https://github.com/google/perfetto/tree/main/ui/src/public">这里</a>。</p>
+<h2><a name="-" class="anchor" href="#-"></a>入门</h2><p>复制 skeleton 插件：</p>
+<code class="hljs code-block">cp -r ui/src/plugins/com.example.Skeleton ui/src/plugins/&lt;your-plugin-name&gt;</code><p>现在编辑 <code>ui/src/plugins/&lt;your-plugin-name&gt;/index.ts</code>。在文件中搜索所有
+<code>SKELETON: &lt;instruction&gt;</code> 的实例并遵循说明。</p>
+<p>命名注意事项：</p>
+<ul>
+<li>插件应该使用你控制的域名的反向组件作为前缀。例如，如果 <code>example.com</code> 是你的域名，你的插件应该命名为 <code>com.example.Foo</code>。</li>
+<li>避免在名称中包含 &#39;plugin&#39; 一词。</li>
+<li><code>pluginId</code> 和目录名称必须匹配。</li>
+<li>前缀 <code>dev.perfetto.</code> 保留给核心 Perfetto 团队维护的插件。</li>
+</ul>
+<h3><a name="-" class="anchor" href="#-"></a>启动开发服务器</h3><code class="hljs code-block">ui/run-dev-server</code><p>现在导航到 <a href="http://localhost:10000/">localhost:10000</a></p>
+<h3><a name="-" class="anchor" href="#-"></a>启用你的插件</h3><ul>
+<li>导航到插件页面：
+<a href="http://localhost:10000/#!/plugins">localhost:10000/#!/plugins</a>。</li>
+<li>Ctrl-F 搜索你的插件名称并启用它。</li>
+<li>启用/禁用插件需要重启 UI，因此刷新页面以启动你的插件。</li>
+</ul>
+<p>你可以请求你的插件默认启用。按照
+<a href="#default-plugins">默认插件</a> 部分进行操作。</p>
+<h3><a name="-" class="anchor" href="#-"></a>添加样式</h3><p>要为你的插件添加自定义样式，在你的插件目录中创建一个 <code>styles.scss</code> 文件，位于 <code>index.ts</code> 文件旁边。</p>
+<p><code>ui/src/plugins/&lt;your-plugin-name&gt;/styles.scss</code></p>
+<p>构建系统将自动检测此文件并将其包含在主样式表中。你可以在此文件中使用任何标准 SCSS 语法。</p>
+<p>例如，要更改插件中组件的背景颜色：</p>
+<code class="hljs code-block"><span class="hljs-selector-class">.pf-my-plugin-component</span> {
+  <span class="hljs-attribute">background-color</span>: blue;
+}</code><p>所有类名都应该以 <code>pf-</code> 为前缀，以避免与其他库冲突。</p>
+<p>建议将你的样式限定在你的插件范围内，以避免与其他插件或核心 UI 冲突。一个好的做法是用一个唯一的类名包裹你的插件 UI。</p>
+<h3><a name="-" class="anchor" href="#-"></a>上传你的插件进行审查</h3><ul>
+<li>更新 <code>ui/src/plugins/&lt;your-plugin-name&gt;/OWNERS</code> 以包含你的电子邮件。</li>
+<li>按照 <a href="/perfetto-docs-zh-cn/docs/contributing/getting-started#contributing.html">Contributing</a> 说明将你的 PR 上传到 GitHub。</li>
+<li>上传后，添加 <code>stevegolton@google.com</code> 作为你的 PR 的审查者。</li>
+</ul>
+<h2><a name="-" class="anchor" href="#-"></a>插件生命周期</h2><p><code>onActivate</code> 在应用首次启动时调用一次，传入 <code>App</code> 对象。此对象可用于注册核心扩展，如 pages、commands 和 sidebar links，这些将在 trace 加载之前可用。</p>
+<p>当用户加载 trace 时，plugin 类被实例化并调用 <code>onTraceLoad</code>，传入 <code>Trace</code> 对象。此对象可用于注册特定于该 trace 生命周期的扩展，如 tracks、tabs 和 workspaces。</p>
+<p>所有可以在 app 对象上注册的扩展也可以在 trace 对象上注册，但这些扩展只持续 trace 的生命周期。例如，在 trace 对象上注册的 command 只在该 trace 加载时可用，切换 traces 时会消失。通常，如果在 <code>onTraceLoad()</code> 钩子中完成此操作，则每次加载新 trace 时都会自动重新注册该扩展。</p>
+<blockquote>
+<p>注意:不要在插件文件的主体中放置任何代码，因为不能保证核心在那时已经设置好。相反，等待核心通过 <code>onActivate</code> 或 <code>onTraceLoad</code> 调用插件。</p>
+</blockquote>
+<p>为了演示插件的生命周期，让我们检查一个实现了关键生命周期钩子并记录到终端的极简插件：</p>
+<code class="hljs code-block"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">implements</span> <span class="hljs-title">PerfettoPlugin</span> </span>{
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> id = <span class="hljs-string">&#x27;com.example.MyPlugin&#x27;</span>;
+
+  <span class="hljs-keyword">static</span> onActivate(app: App): <span class="hljs-built_in">void</span> {
+    <span class="hljs-comment">// 在应用启动时调用一次</span>
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;MyPlugin::onActivate()&#x27;</span>, app.pluginId);
+    <span class="hljs-comment">// 注意：插件很少需要这个钩子，因为大多数插件对 trace 细节感兴趣。因此，这个函数通常可以省略。</span>
+  }
+
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">trace: Trace</span>)</span> {
+    <span class="hljs-comment">// 每次加载 trace 时调用</span>
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;MyPlugin::constructor()&#x27;</span>, trace.traceInfo.traceTitle);
+  }
+
+  <span class="hljs-keyword">async</span> onTraceLoad(trace: Trace): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt; {
+    <span class="hljs-comment">// 每次加载 trace 时调用</span>
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;MyPlugin::onTraceLoad()&#x27;</span>, trace.traceInfo.traceTitle);
+    <span class="hljs-comment">// 注意此函数返回一个 promise，因此任何异步调用都应该在此 promise 解决之前完成，因为应用使用此 promise 进行 timing 和插件同步。</span>
+  }
+}</code><p>使用 devtools 运行此插件以在控制台中查看日志消息，这会让你感受插件的生命周期。尝试一个接一个地打开几个 traces。</p>
+<h2><a name="-" class="anchor" href="#-"></a>性能</h2><p><code>onActivate()</code> 和 <code>onTraceLoad()</code> 通常应该尽快完成，但有时 <code>onTraceLoad()</code> 可能需要对 trace processor 执行异步操作，例如执行查询和/或创建 views 和 tables。因此，<code>onTraceLoad()</code> 应该返回一个 promise（或者你可以简单地将其设为 async 函数）。当此 promise 解决时，它告诉核心插件已完全初始化。</p>
+<blockquote>
+<p>注意:重要的是在 onTraceLoad() 中完成的任何异步操作都要被 await，以便在 promise 解决时所有异步操作都已完成。这是为了插件可以被正确地计时和同步。</p>
+</blockquote>
+<code class="hljs code-block"><span class="hljs-comment">// 好的</span>
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-title">onTraceLoad</span>(<span class="hljs-params">trace: Trace</span>)</span> {
+  <span class="hljs-keyword">await</span> trace.engine.query(...);
+}
+
+<span class="hljs-comment">// 不好的</span>
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-title">onTraceLoad</span>(<span class="hljs-params">trace: Trace</span>)</span> {
+  <span class="hljs-comment">// 注意缺少 await！</span>
+  trace.engine.query(...);
+}</code><h2><a name="-api" class="anchor" href="#-api"></a>插件 API</h2><p>有关更详细的信息和文档，请参阅 API 源代码
+<a href="https://github.com/google/perfetto/blob/main/ui/src/public">ui/src/public/</a> 或
+众多示例插件（以 <code>com.example.*</code> 开头）
+<a href="https://github.com/google/perfetto/blob/main/ui/src/plugins">ui/src/plugins/</a>。</p>
+<h3><a name="-app-trace-" class="anchor" href="#-app-trace-"></a>从 app 对象获取 trace 对象</h3><p>当加载 trace 时，<code>app.trace</code> 将返回当前的 trace 对象，或如果没有加载 trace 则返回 undefined。</p>
+<h3><a name="-trace" class="anchor" href="#-trace"></a>查询 trace</h3><p>一旦插件获得 trace，它就可以使用 trace 的 <code>engine</code> 属性对其执行查询。</p>
+<code class="hljs code-block"><span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> trace.engine.query(<span class="hljs-string">&#x27;select * from slice&#x27;</span>);
+<span class="hljs-keyword">const</span> schema = {<span class="hljs-attr">id</span>: NUM, <span class="hljs-attr">ts</span>: LONG, <span class="hljs-attr">dur</span>: LONG, <span class="hljs-attr">name</span>: STR};
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> iter = result.iter(schema); iter.valid(); iter.next()) {
+  <span class="hljs-built_in">console</span>.log(iter.id, iter.ts, iter.dur, iter.name);
+}</code><p>通常查询返回行列表，可以像示例中那样迭代。</p>
+<p>Schema：</p>
+<ul>
+<li>通知引擎我们期望列具有什么类型以及将每列转换为什么 JavaScript 类型。如果返回的类型无法强制转换为所需的类型，则会抛出错误。</li>
+<li>通知 typescript 在编译时期望什么类型，<code>iter</code> 对象假设与 schema 相同的类型。</li>
+</ul>
+<blockquote>
+<p>注意:JavaScript numbers 的问题。JavaScript number 类型实际上是双精度浮点数，因此只能表示最大为 2^53-1 的整数。Trace processor 可以表示 64 位整数，因此当转换为 js numbers 时，我们可能会丢失精度。这对于大数字（如 timestamps 和 durations）是个问题。</p>
+</blockquote>
+<p>可能的 schema 类型如下：</p>
+<ul>
+<li><code>NUM</code>：表示数值。转换为 JavaScript <code>number</code>。</li>
+<li><code>STR</code>：表示字符串值。转换为 JavaScript <code>string</code>。</li>
+<li><code>LONG</code>：表示大整数值（64位）。转换为 JavaScript <code>bigint</code>。</li>
+<li><code>BLOB</code>：表示二进制数据（Binary Large Object）。转换为 JavaScript <code>Uint8Array</code>。</li>
+<li><code>NUM_NULL</code>：表示也可以为 <code>null</code> 的数值。转换为 JavaScript <code>number | null</code>。</li>
+<li><code>STR_NULL</code>：表示也可以为 <code>null</code> 的字符串值。转换为 JavaScript <code>string | null</code>。</li>
+<li><code>LONG_NULL</code>：表示也可以为 <code>null</code> 的大整数值（64位）。转换为 JavaScript <code>bigint | null</code>。</li>
+<li><code>BLOB_NULL</code>：表示也可以为 <code>null</code> 的二进制数据。转换为 JavaScript <code>Uint8Array | null</code>。</li>
+<li><code>UNKNOWN</code>：表示特定类型未严格定义或可以为 <code>null</code> 的列。它通常用作 nullable 类型扩展的基础类型。未指定时，所有整数值都将转换为 bigint。</li>
+</ul>
+<h3><a name="-" class="anchor" href="#-"></a>选择</h3><p>插件可以以编程方式控制 Perfetto UI 中选择的内容。这主要使用 <code>trace.selection</code> 对象上可用的方法完成。</p>
+<p>你通常想要选择一个实体以查找有关该实体的更多信息，这些信息显示在当前选择面板中。Selections 通常由用户调用，但也可以以编程方式控制。</p>
+<p>你可以通过 <code>trace.selection.selection</code> 随时访问当前选择详细信息。此对象有一个 <code>kind</code> 属性（例如，&#39;track_event&#39;、&#39;area&#39;、&#39;note&#39;、&#39;empty&#39;）和特定于选择类型的其他属性。可以将可选的 <code>SelectionOpts</code> 对象传递给选择方法，以影响 UI 行为，如自动滚动到选择或切换到 &quot;Current Selection&quot; 标签页。</p>
+<h4>选择选项 (<code>SelectionOpts</code>)</h4><p><code>SelectionOpts</code> 对象可以传递给大多数选择方法以自定义 UI 对新选择的响应。它具有以下可选属性：</p>
+<ul>
+<li><code>switchToCurrentSelectionTab?: boolean</code>：如果为 <code>true</code>（默认值），UI 将自动切换到详细信息面板中的 &quot;Current Selection&quot; 标签页。设置为 <code>false</code> 以保持当前标签页活动。</li>
+<li><code>scrollToSelection?: boolean</code>：如果为 <code>true</code>，Timeline 将尝试滚动以将新选择的项目带入视图。默认为 <code>false</code>。</li>
+</ul>
+<h4>选择 Track Event（事件、slice、counter sample 等）</h4><p>要在 track 上选择单个事件：</p>
+<code class="hljs code-block">trace.selection.selectTrackEvent(<span class="hljs-string">&#x27;my.track&#x27;</span>, <span class="hljs-number">123</span>);</code><h4>选择 Area（时间范围）</h4><p>要选择特定时间范围，可能跨多个 tracks。<code>Area</code> 对象需要 <code>start</code>（时间）、<code>end</code>（时间）和 <code>trackUris</code> 数组（string[]）。</p>
+<code class="hljs code-block">trace.selection.selectArea({
+  <span class="hljs-attr">start</span>: Time.fromRaw(<span class="hljs-number">123n</span>), <span class="hljs-comment">// 时间（纳秒）</span>
+  <span class="hljs-attr">end</span>: Time.fromRaw(<span class="hljs-number">456n</span>), <span class="hljs-comment">// 时间（纳秒）</span>
+  <span class="hljs-attr">trackUris</span>: [<span class="hljs-string">&#x27;track.foo&#x27;</span>, <span class="hljs-string">&#x27;track.bar&#x27;</span>], <span class="hljs-comment">// 要包含的 track URI 数组</span>
+});</code><h4>选择整个 Track</h4><p>选择整个 track 会在 Timeline 中高亮显示它，并在 drawer 中显示 track 详细信息。</p>
+<code class="hljs code-block">trace.selection.selectTrack(<span class="hljs-string">&#x27;my.track&#x27;</span>);</code><h4>通过 SQL 表和 ID 选择事件</h4><p>如果你有来自特定 SQL 表（例如 <code>slice</code> 表）的事件 ID，但没有其直接的 track URI，Perfetto 可以尝试解析并选择它。某些 tracks 直接表示 well known 表中的行，但是否正确连接这些由插件开发者决定。</p>
+<code class="hljs code-block">trace.selection.selectSqlEvent(<span class="hljs-string">&#x27;slice&#x27;</span>, <span class="hljs-number">123</span>);</code><h4>清除当前选择</h4><p>要取消选择 UI 中当前选择的任何内容：</p>
+<code class="hljs code-block">trace.selection.clearSelection();</code><h3><a name="-tracks" class="anchor" href="#-tracks"></a>固定 Tracks</h3><p>插件的常见任务是固定某些有趣的 tracks（通常是 command 的结果）。</p>
+<p>这可以通过在 workspace 中找到适当的 track 并调用其 <code>pin()</code> 方法来实现。这将把它固定到其父 workspace 的顶部。</p>
+<code class="hljs code-block">trace.workspace
+  .flatTracks()
+  .find(<span class="hljs-function">(<span class="hljs-params">t</span>) =&gt;</span> t.name.startsWith(<span class="hljs-string">&#x27;foo&#x27;</span>))
+  .forEach(<span class="hljs-function">(<span class="hljs-params">t</span>) =&gt;</span> t.pin());</code><h3><a name="-" class="anchor" href="#-"></a>工作区</h3><p>Workspaces 是在 Perfetto UI 中组织和显示 tracks 的主要容器。它们允许用户管理 trace 数据的不同视图，保存 track 布局，并在它们之间切换。插件可以与 workspaces 交互以添加、删除和排列 tracks，以及创建和管理自定义 workspaces。</p>
+<p>与 workspaces 相关的主要接口和类是 <code>WorkspaceManager</code>、
+<code>Workspace</code> 和 <code>TrackNode</code>。这些通常通过 <code>trace.workspaces</code>（用于 manager）和 <code>trace.workspace</code>（用于当前活动的 workspace）在加载 trace 后访问。</p>
+<h4>Workspace Manager (<code>trace.workspaces</code>)</h4><p><code>WorkspaceManager</code> 提供对所有可用 workspaces 的概览和控制。它可以通过 <code>trace.workspaces</code> 访问。</p>
+<p>关键方法和属性：</p>
+<ul>
+<li><code>currentWorkspace: Workspace</code>：引用当前活动 workspace 的只读属性。这与 <code>trace.workspace</code> 是相同的实例。</li>
+<li><code>all: ReadonlyArray&lt;Workspace&gt;</code>：当前加载的所有 workspaces 的只读数组。</li>
+<li><code>createEmptyWorkspace(displayName: string): Workspace</code>：创建一个具有给定显示名称的新空 workspace 并返回它。此新 workspace 不会自动切换。</li>
+<li><code>switchWorkspace(workspace: Workspace): void</code>：将 UI 切换到显示提供的 workspace。</li>
+</ul>
+<p><strong>示例：创建并切换到新 Workspace</strong></p>
+<code class="hljs code-block"><span class="hljs-comment">// 假设 &#x27;trace&#x27; 是 Trace 对象</span>
+<span class="hljs-keyword">const</span> newWorkspace =
+  trace.workspaces.createEmptyWorkspace(<span class="hljs-string">&#x27;My Custom Analysis&#x27;</span>);
+trace.workspaces.switchWorkspace(newWorkspace);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Switched to workspace: <span class="hljs-subst">${newWorkspace.title}</span>`</span>);</code><h4>Workspace (<code>trace.workspace</code> 或来自 <code>WorkspaceManager</code> 的实例）</h4><p><code>Workspace</code> 对象表示 tracks 的单个布局，包括主 track 区域和固定 track 区域。</p>
+<p>关键属性：</p>
+<ul>
+<li><code>id: string</code>：workspace 的唯一、会话特定 ID。</li>
+<li><code>title: string</code>：workspace 的人类可读标题（例如，默认情况下为 &quot;<untitled-workspace>&quot;，或提供给 <code>createEmptyWorkspace</code> 的名称）。可以修改。</li>
+<li><code>userEditable: boolean</code>：指示用户是否可以修改此 workspace（默认为 <code>true</code>）。</li>
+<li><code>pinnedTracksNode: TrackNode</code>：一个特殊的 <code>TrackNode</code>，用作固定 tracks 的根。添加到此处的 tracks 显示在 Timeline 顶部的固定区域。</li>
+<li><code>tracks: TrackNode</code>：workspace 的主根 <code>TrackNode</code>。所有常规 tracks 和 track groups 都是此节点的子节点。</li>
+<li><code>pinnedTracks: ReadonlyArray&lt;TrackNode&gt;</code>：访问 <code>pinnedTracksNode</code> 子节点的便捷 getter。</li>
+<li><code>children: ReadonlyArray&lt;TrackNode&gt;</code>：访问主 <code>tracks</code> 节点子节点的便捷 getter。</li>
+</ul>
+<p>关键方法：</p>
+<ul>
+<li><code>clear(): void</code>：从主 track 区域和固定区域中删除所有 tracks。</li>
+<li><code>pinTrack(track: TrackNode): void</code>：将给定 <code>TrackNode</code> 的轻量级克隆（包含 <code>uri</code>、<code>name</code>、<code>removable</code> 属性）添加到固定 tracks 区域。</li>
+<li><code>unpinTrack(track: TrackNode): void</code>：从固定 tracks 区域删除 track（按 <code>uri</code> 匹配）。</li>
+<li><code>hasPinnedTrack(track: TrackNode): boolean</code>：检查具有与给定 <code>track</code> 相同 <code>uri</code> 的 track 当前是否已固定。</li>
+<li><code>getTrackById(id: string): TrackNode | undefined</code>：通过其唯一 <code>id</code> 找到 <code>TrackNode</code>（在主区域或固定区域中）。这是 O(1) 操作。</li>
+<li><code>getTrackByUri(uri: string): TrackNode | undefined</code>：通过其 <code>uri</code> 在主 tracks 区域中找到 <code>TrackNode</code>。</li>
+<li>Track 操作方法（委托给主 <code>tracks</code> 节点）：<ul>
+<li><code>addChildInOrder(child: TrackNode): Result</code></li>
+<li><code>addChildLast(child: TrackNode): Result</code></li>
+<li><code>addChildFirst(child: TrackNode): Result</code></li>
+<li><code>addChildBefore(child: TrackNode, referenceNode: TrackNode): Result</code></li>
+<li><code>addChildAfter(child: TrackNode, referenceNode: TrackNode): Result</code></li>
+<li><code>removeChild(child: TrackNode): void</code></li>
+</ul>
+</li>
+<li><code>flatTracksOrdered: ReadonlyArray&lt;TrackNode&gt;</code>：返回主 track 区域中所有后代节点的扁平列表，按深度优先排序。</li>
+<li><code>flatTracks: ReadonlyArray&lt;TrackNode&gt;</code>：返回主 track 区域中所有后代节点的扁平列表，无特定排序（如果顺序不重要，效率更高）。</li>
+</ul>
+<h4>Track Node (<code>TrackNode</code>)</h4><p><code>TrackNode</code> 是在 workspace 内构建 tracks 结构的基本构建块。<code>TrackNode</code> 可以表示单个 track（如果它有指向 <code>TrackRenderer</code> 的 <code>uri</code>）或一组 tracks（如果它有子节点）。</p>
+<p><strong>创建 <code>TrackNode</code>：</strong></p>
+<code class="hljs code-block"><span class="hljs-keyword">import</span> {TrackNode} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../public&#x27;</span>; <span class="hljs-comment">// 根据需要调整路径</span>
+
+<span class="hljs-comment">// 实际 track 的节点</span>
+<span class="hljs-keyword">const</span> myRenderableTrackNode = <span class="hljs-keyword">new</span> TrackNode({
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;My Slice Track&#x27;</span>,
+  <span class="hljs-attr">uri</span>: <span class="hljs-string">&#x27;plugin.id#mySliceTrackUri&#x27;</span>, <span class="hljs-comment">// 已注册 Track 的 URI</span>
+  <span class="hljs-attr">sortOrder</span>: <span class="hljs-number">100</span>,
+  <span class="hljs-attr">removable</span>: <span class="hljs-literal">true</span>,
+});
+
+<span class="hljs-comment">// 组的节点</span>
+<span class="hljs-keyword">const</span> myGroupNode = <span class="hljs-keyword">new</span> TrackNode({
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;My Analysis Group&#x27;</span>,
+  <span class="hljs-attr">sortOrder</span>: <span class="hljs-number">50</span>,
+  <span class="hljs-attr">collapsed</span>: <span class="hljs-literal">false</span>, <span class="hljs-comment">// 开始展开</span>
+});</code><p><strong><code>TrackNodeArgs</code>（构造函数参数）：</strong></p>
+<p>创建 <code>TrackNode</code> 时，你可以传递一个包含以下属性的可选对象（在 [<code>TrackNodeArgs</code>] 中定义）：</p>
+<ul>
+<li><code>name: string</code>：节点的可读的名称/标题。</li>
+<li><code>uri: string</code>：如果此节点表示可渲染的 track，这是已注册 <code>TrackRenderer</code> 的 URI。</li>
+<li><code>headless: boolean</code>（默认 <code>false</code>）：如果为 <code>true</code>，节点自己的 header/shell 不显示，其子节点显示为好像它们是此节点父节点的直接子节点。对于没有视觉嵌套的逻辑分组很有用。</li>
+<li><code>sortOrder: number</code>：一个数字，用于在调用 <code>addChildInOrder</code> 时对节点进行排序。较高的数字通常首先出现（或根据特定父实现）。</li>
+<li><code>collapsed: boolean</code>（默认 <code>true</code>）：节点是否应该以折叠状态开始（子节点隐藏）。</li>
+<li><code>isSummary: boolean</code>（默认 <code>false</code>）：如果为 <code>true</code>，此 track 作为其子节点的摘要。它获得特殊的样式和行为（例如，展开时 sticky）。</li>
+<li><code>removable: boolean</code>（默认 <code>false</code>）：如果为 <code>true</code>，显示一个关闭按钮，允许用户从 workspace 中删除此节点。</li>
+</ul>
+<p><strong>关键 <code>TrackNode</code> 属性：</strong></p>
+<ul>
+<li><code>id: string</code>：此节点实例的唯一、会话特定 ID。</li>
+<li><code>parent: TrackNode | undefined</code>：父 <code>TrackNode</code>。</li>
+<li><code>workspace: Workspace | undefined</code>：此节点所属的 <code>Workspace</code>（如果有）。</li>
+<li><code>children: ReadonlyArray&lt;TrackNode&gt;</code>：有序的子 <code>TrackNode</code> 列表。</li>
+<li><code>hasChildren: boolean</code>：节点是否有子节点。</li>
+<li><code>expanded: boolean</code> / <code>collapsed: boolean</code>：当前展开状态。</li>
+<li><code>isPinned: boolean</code>：如果此节点（或具有相同 URI 的节点）在 workspace 的固定区域中，则为 true。</li>
+<li><code>fullPath: ReadonlyArray&lt;string&gt;</code>：从根节点到此节点的名称数组，表示其在层次结构中的路径。</li>
+</ul>
+<p><strong>关键 <code>TrackNode</code> 方法：</strong></p>
+<ul>
+<li><strong>层次结构管理：</strong><ul>
+<li><code>addChildInOrder(child: TrackNode): Result</code></li>
+<li><code>addChildLast(child: TrackNode): Result</code></li>
+<li><code>addChildFirst(child: TrackNode): Result</code></li>
+<li><code>addChildBefore(child: TrackNode, referenceNode: TrackNode): Result</code></li>
+<li><code>addChildAfter(child: TrackNode, referenceNode: TrackNode): Result</code></li>
+<li><code>removeChild(child: TrackNode): void</code>：删除直接子节点。</li>
+<li><code>remove(): void</code>：从其父节点中删除此节点并从 workspace 中取消固定。</li>
+<li><code>clear(): void</code>：删除此节点的所有子节点。</li>
+</ul>
+</li>
+<li><strong>状态与外观：</strong><ul>
+<li><code>pin(): void</code>：在其 workspace 中固定此 track。</li>
+<li><code>unpin(): void</code>：取消固定此 track。</li>
+<li><code>expand(): void</code></li>
+<li><code>collapse(): void</code></li>
+<li><code>toggleCollapsed(): void</code></li>
+<li><code>reveal(): void</code>：展开所有祖先节点以使此节点可见。</li>
+</ul>
+</li>
+<li><strong>遍历与查询：</strong><ul>
+<li><code>getTrackById(id: string): TrackNode | undefined</code>：通过其 <code>id</code> 找到后代节点（O(1)）。</li>
+<li><code>getTrackByUri(uri: string): TrackNode | undefined</code>：通过其 <code>uri</code> 找到后代节点（O(1)）。</li>
+<li><code>flatTracksOrdered: ReadonlyArray&lt;TrackNode&gt;</code>：所有后代的扁平列表（深度优先）。</li>
+<li><code>flatTracks: ReadonlyArray&lt;TrackNode&gt;</code>：所有后代的扁平列表（无序，更快）。</li>
+</ul>
+</li>
+<li><code>clone(deep = false): TrackNode</code>：创建此节点的副本。如果 <code>deep</code> 为 true，子节点也会被克隆。</li>
+</ul>
+<p><strong>示例：构建 Track 层次结构</strong></p>
+<code class="hljs code-block"><span class="hljs-comment">// 假设 &#x27;trace&#x27; 是 Trace 对象，&#x27;workspace&#x27; 是 trace.workspace</span>
+
+<span class="hljs-keyword">const</span> parentGroup = <span class="hljs-keyword">new</span> TrackNode({<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;CPU Analysis&#x27;</span>});
+workspace.addChildLast(parentGroup);
+
+<span class="hljs-keyword">const</span> cpu0FreqTrack = <span class="hljs-keyword">new</span> TrackNode({
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;CPU 0 Frequency&#x27;</span>,
+  <span class="hljs-attr">uri</span>: <span class="hljs-string">&#x27;perfetto.CpuFrequency#cpu0&#x27;</span>, <span class="hljs-comment">// 示例 URI</span>
+  <span class="hljs-attr">sortOrder</span>: <span class="hljs-number">10</span>,
+});
+parentGroup.addChildInOrder(cpu0FreqTrack);
+
+<span class="hljs-keyword">const</span> cpu1FreqTrack = <span class="hljs-keyword">new</span> TrackNode({
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;CPU 1 Frequency&#x27;</span>,
+  <span class="hljs-attr">uri</span>: <span class="hljs-string">&#x27;perfetto.CpuFrequency#cpu1&#x27;</span>, <span class="hljs-comment">// 示例 URI</span>
+  <span class="hljs-attr">sortOrder</span>: <span class="hljs-number">20</span>,
+});
+parentGroup.addChildInOrder(cpu1FreqTrack);
+
+parentGroup.expand(); <span class="hljs-comment">// 显示 CPU frequency tracks</span>
+cpu0FreqTrack.pin(); <span class="hljs-comment">// 固定 CPU 0 frequency track</span></code><p>此结构允许插件动态构建复杂且有组织的 track 布局，针对特定的分析任务。记住在使用 <code>TrackNode</code>s 引用其 URI 之前，使用 <code>trace.tracks.registerTrack</code> 注册你实际的 <code>TrackRenderer</code>s。</p>
+<h3><a name="-" class="anchor" href="#-"></a>命令</h3><p>Commands 是 UI 中操作的快捷方式，用户可以通过 command palette 调用它们，可以通过按 <code>Ctrl+Shift+P</code>（在 Mac 上为 <code>Cmd+Shift+P</code>）打开，或在 omnibox 中键入 <code>&gt;</code>，但也可以以编程方式调用。</p>
+<h4>注册 Commands</h4><p>要添加 command，<code>CommandManager</code>（可作为 <code>app.commands</code> 或 <code>trace.commands</code> 使用）提供了 <code>registerCommand</code> 方法。</p>
+<code class="hljs code-block">registerCommand(command: {
+  <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>;
+  name: <span class="hljs-built_in">string</span>;
+  callback: <span class="hljs-function">(<span class="hljs-params">...args: <span class="hljs-built_in">any</span>[]</span>) =&gt;</span> <span class="hljs-built_in">any</span>;
+  defaultHotkey?: Hotkey
+}): <span class="hljs-built_in">void</span>;</code><p>注册一个新 command。接受一个 <code>Command</code> 对象，如下所示：</p>
+<ul>
+<li><code>id</code>：唯一标识此 command 的字符串。<code>id</code> 应该以插件 id 后跟 <code>#</code> 为前缀。所有 command <code>id</code> 必须在系统范围内唯一。</li>
+<li><code>name</code>：command 的人类可读名称，显示在 command palette 中。</li>
+<li><code>callback</code>：实际执行操作的回调。</li>
+<li><code>defaultHotkey</code>：此 command 的可选默认热键。</li>
+</ul>
+<p>请参阅
+<a href="https://github.com/google/perfetto/blob/main/ui/src/base/hotkeys.ts">hotkey.ts</a>
+了解可用的热键 keys 和 modifiers。</p>
+<blockquote>
+<p>注意:这被称为 &#39;default&#39; 热键，因为我们保留在未来添加用户修改其热键的功能的权利。</p>
+</blockquote>
+<p><strong>示例</strong></p>
+<code class="hljs code-block">appOrTrace.commands.registerCommand({
+  <span class="hljs-attr">id</span>: <span class="hljs-string">`<span class="hljs-subst">${app.pluginId}</span>#sayHello`</span>,
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Say hello&#x27;</span>,
+  <span class="hljs-attr">callback</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Hello, world!&#x27;</span>),
+});</code><p>命名注意事项：</p>
+<ul>
+<li>Commands 应该有模式为 <code>&lt;pluginId&gt;#doSomething</code> 的 id。</li>
+<li>Command ids 应该以其提供者的插件 id 为前缀。</li>
+<li>Command 名称应该有 &quot;Verb something something&quot; 的形式，应该使用正常的句子大小写。即不要大写每个单词的第一个字母。<ul>
+<li>好的：&quot;Pin janky frame timeline tracks&quot;</li>
+<li>不好的：&quot;Tracks are Displayed if Janky&quot;</li>
+</ul>
+</li>
+</ul>
+<h4>调用 Commands</h4><p>除了注册自己的 commands 之外，插件还可以通过其 ID 调用任何现有的 command。这允许插件触发由其他插件或 Perfetto 核心提供的操作。<code>CommandManager</code>（可作为 <code>app.commands</code> 或 <code>trace.commands</code> 使用）为此提供了 <code>runCommand</code> 方法。</p>
+<code class="hljs code-block">runCommand(commandId: <span class="hljs-built_in">string</span>, ...args: <span class="hljs-built_in">any</span>[]): <span class="hljs-built_in">any</span>;</code><p>执行由 <code>commandId</code> 标识的 command，将任何附加参数传递给 command 的回调。它返回一个 Promise，解析为 command 回调的结果（如果有）。</p>
+<ul>
+<li>参数<ul>
+<li><code>commandId</code>：要运行的 command 的 id。</li>
+<li><code>...args</code>：直接传递给 command 回调。</li>
+</ul>
+</li>
+<li>返回<ul>
+<li><code>any</code>：从 command 回调返回的任何内容。</li>
+</ul>
+</li>
+</ul>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block"><span class="hljs-comment">// PluginA</span>
+appOrTrace.commands.registerCommand({
+  <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;PluginA#increment&#x27;</span>,
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Increment&#x27;</span>,
+  <span class="hljs-attr">callback</span>: <span class="hljs-function">(<span class="hljs-params">num</span>) =&gt;</span> num + <span class="hljs-number">1</span>,
+});
+
+<span class="hljs-comment">// PluginB</span>
+<span class="hljs-keyword">try</span> {
+  <span class="hljs-keyword">const</span> result = appOrTrace.commands.runCommand(<span class="hljs-string">&#x27;PluginA#increment&#x27;</span>, <span class="hljs-number">1</span>);
+  <span class="hljs-comment">// result 应该是 2</span>
+} <span class="hljs-keyword">catch</span> (e) {
+  <span class="hljs-built_in">console</span>.error(<span class="hljs-string">`Failed to run command: <span class="hljs-subst">${(e <span class="hljs-keyword">as</span> <span class="hljs-built_in">Error</span>).message}</span>`</span>);
+}</code><p>插件可以通过查看其他插件的注册或引用核心 commands 的文档来发现 command IDs。</p>
+<p>示例：</p>
+<ul>
+<li><a href="https://github.com/google/perfetto/blob/main/ui/src/plugins/com.example.ExampleSimpleCommand/index.ts">com.example.ExampleSimpleCommand</a>。</li>
+<li><a href="https://github.com/google/perfetto/blob/main/ui/src/core_plugins/commands/index.ts">perfetto.CoreCommands</a>。</li>
+<li><a href="https://github.com/google/perfetto/blob/main/ui/src/plugins/com.example.ExampleState/index.ts">com.example.ExampleState</a>。</li>
+</ul>
+<h3><a name="track" class="anchor" href="#track"></a>Track</h3><p>为了向 Timeline 添加新 track，你需要创建两个实体：</p>
+<ul>
+<li>一个 track，控制 track 的外观以及如何从 trace processor 获取数据。</li>
+<li>一个 track node，指向 track 对象的指针，控制 track 在 workspace 中的显示位置。</li>
+</ul>
+<p>Tracks 是向 UI 添加时间序列数据的主要方式。</p>
+<p>使用 <code>trace.tracks.registerTrack</code> 添加 track。</p>
+<code class="hljs code-block">registerTrack(track: {
+  <span class="hljs-attr">uri</span>: <span class="hljs-built_in">string</span>;
+  track: TrackRenderer;
+  description?: <span class="hljs-built_in">string</span> | (<span class="hljs-function">() =&gt;</span> m.Children);
+  subtitle?: <span class="hljs-built_in">string</span>;
+  tags?: TrackTags;
+  chips?: ReadonlyArray&lt;<span class="hljs-built_in">string</span>&gt;;
+}): <span class="hljs-built_in">void</span>;</code><p>向 Perfetto 注册新 track。传递一个 <code>Track</code> 对象，包括：</p>
+<ul>
+<li><code>uri</code>：此 track 的唯一 id。</li>
+<li><code>track</code>：Track renderer - 描述此 track 如何加载数据并将其渲染到 canvas。</li>
+<li><code>description</code>：此 track 的人类可读描述或帮助文本。</li>
+<li><code>subtitle</code>：显示在 track 标题下方。</li>
+<li><code>tags</code>：任意的键值对。</li>
+<li><code>chipd</code>：显示在 track 标题右侧的字符串列表。</li>
+</ul>
+<p>Track renderers 功能强大但复杂，因此强烈建议不要创建你自己的。相反，开始使用 tracks 的最简单方法是使用 <code>createQuerySliceTrack</code> 和 <code>createQueryCounterTrack</code> 帮助器。</p>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block"><span class="hljs-keyword">import</span> {createQuerySliceTrack} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../components/tracks/query_slice_track&#x27;</span>;
+
+<span class="hljs-comment">// ~~ snip ~~</span>
+
+<span class="hljs-keyword">const</span> uri = <span class="hljs-string">`<span class="hljs-subst">${trace.pluginId}</span>#MyTrack`</span>;
+
+<span class="hljs-comment">// 基于查询创建新 track renderer</span>
+<span class="hljs-keyword">const</span> renderer = <span class="hljs-keyword">await</span> createQuerySliceTrack({
+  trace,
+  uri,
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-attr">sqlSource</span>: <span class="hljs-string">&#x27;select * from slice where track_id = 123&#x27;</span>,
+  },
+});
+
+<span class="hljs-comment">// 向核心注册 track renderer</span>
+trace.tracks.registerTrack({uri, renderer});
+
+<span class="hljs-comment">// 创建使用其 uri 引用 track 的 track node</span>
+<span class="hljs-keyword">const</span> trackNode = <span class="hljs-keyword">new</span> TrackNode({uri, <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;My Track&#x27;</span>});
+
+<span class="hljs-comment">// 将 track node 添加到当前 workspace</span>
+trace.workspace.addChildInOrder(trackNode);</code><p>请参阅
+<a href="https://github.com/google/perfetto/blob/main/ui/src/components/tracks/query_slice_track.ts">the source</a>
+了解详细用法。</p>
+<p>你也可以使用 <code>createQueryCounterTrack</code> 添加 counter track，其工作方式类似。</p>
+<code class="hljs code-block"><span class="hljs-keyword">import</span> {createQueryCounterTrack} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../components/tracks/query_counter_track&#x27;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">implements</span> <span class="hljs-title">PerfettoPlugin</span> </span>{
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> id = <span class="hljs-string">&#x27;com.example.MyPlugin&#x27;</span>;
+  <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-title">onTraceLoad</span>(<span class="hljs-params">trace: Trace</span>)</span> {
+    <span class="hljs-keyword">const</span> title = <span class="hljs-string">&#x27;My Counter Track&#x27;</span>;
+    <span class="hljs-keyword">const</span> uri = <span class="hljs-string">`<span class="hljs-subst">${trace.pluginId}</span>#MyCounterTrack`</span>;
+    <span class="hljs-keyword">const</span> query = <span class="hljs-string">&#x27;select * from counter where track_id = 123&#x27;</span>;
+
+    <span class="hljs-comment">// 基于查询创建新 track renderer</span>
+    <span class="hljs-keyword">const</span> renderer = <span class="hljs-keyword">await</span> createQueryCounterTrack({
+      trace,
+      uri,
+      <span class="hljs-attr">data</span>: {
+        <span class="hljs-attr">sqlSource</span>: query,
+      },
+    });
+
+    <span class="hljs-comment">// 向核心注册 track renderer</span>
+    trace.tracks.registerTrack({uri, title, renderer});
+
+    <span class="hljs-comment">// 创建使用其 uri 引用 track 的 track node</span>
+    <span class="hljs-keyword">const</span> trackNode = <span class="hljs-keyword">new</span> TrackNode({uri, title});
+
+    <span class="hljs-comment">// 将 track node 添加到当前 workspace</span>
+    trace.workspace.addChildInOrder(trackNode);
+  }
+}</code><p>请参阅
+<a href="https://github.com/google/perfetto/blob/main/ui/src/components/tracks/query_counter_track.ts">the source</a>
+了解详细用法。</p>
+<h3><a name="track-" class="anchor" href="#track-"></a>Track 描述 / 帮助文本</h3><p>如果在注册 track 时提供了 <code>description</code> 属性，任何引用该 track 的 <code>TrackNode</code> 都将在其 shell 中显示一个帮助按钮。单击时，会出现一个弹出窗口，包含 <code>description</code> 的内容。</p>
+<p><code>description</code> 可以是简单的字符串，也可以是返回 Mithril vnodes 的函数。使用函数对于将丰富的内容（如超链接）嵌入弹出窗口很有用。</p>
+<p>例如：</p>
+<code class="hljs code-block">ctx.tracks.registerTrack({
+  <span class="hljs-attr">description</span>: <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">return</span> m(<span class="hljs-string">&#x27;&#x27;</span>, [
+      <span class="hljs-string">`Shows which threads were running on CPU <span class="hljs-subst">${cpu.toString()}</span> over time.`</span>,
+      m(<span class="hljs-string">&#x27;br&#x27;</span>),
+      m(
+        Anchor,
+        {
+          <span class="hljs-attr">href</span>: <span class="hljs-string">&#x27;https://perfetto.dev/docs/data-sources/cpu-scheduling&#x27;</span>,
+          <span class="hljs-attr">target</span>: <span class="hljs-string">&#x27;_blank&#x27;</span>,
+          <span class="hljs-attr">icon</span>: Icons.ExternalLink,
+        },
+        <span class="hljs-string">&#x27;Documentation&#x27;</span>,
+      ),
+    ]);
+  },
+  <span class="hljs-comment">// ...</span>
+});</code><p><code>description</code> 属性是 <code>Track</code> 注册的一部分，而不是 <code>TrackNode</code>，因为 <code>TrackNode</code>s 必须可序列化为 JSON，而函数（<code>description</code> 可以是）不是。</p>
+<p>这对 track groups 有影响。如果你想向仅作为组且没有可渲染 <code>Track</code> 与之关联的 <code>TrackNode</code> 添加帮助文本，你必须为其注册一个 &quot;dummy&quot; track。这个 dummy track 可以有一个空的 renderer，但将携带 <code>description</code>。</p>
+<code class="hljs code-block"><span class="hljs-keyword">const</span> uri = <span class="hljs-string">`com.example.Tracks#GroupWithHelpText`</span>;
+
+trace.tracks.registerTrack({
+  uri,
+  <span class="hljs-attr">renderer</span>: {
+    <span class="hljs-comment">// 空的 track renderer</span>
+    <span class="hljs-attr">render</span>: <span class="hljs-function">() =&gt;</span> {},
+  },
+  <span class="hljs-attr">description</span>: <span class="hljs-function">() =&gt;</span> [
+    <span class="hljs-string">&#x27;This is a group track with some help text.&#x27;</span>,
+    m(<span class="hljs-string">&#x27;br&#x27;</span>),
+    <span class="hljs-string">&#x27;Use Mithril vnodes for formatting.&#x27;</span>,
+  ],
+});
+
+<span class="hljs-comment">// 现在创建引用 dummy track URI 的组节点。</span>
+<span class="hljs-keyword">const</span> groupNode = <span class="hljs-keyword">new</span> TrackNode({uri, <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Group with Help Text&#x27;</span>});</code><p>示例：
+<a href="https://github.com/google/perfetto/blob/main/ui/src/plugins/com.example.Tracks/index.ts">https://github.com/google/perfetto/blob/main/ui/src/plugins/com.example.Tracks/index.ts</a></p>
+<h4>分组 Tracks</h4><p>任何 track 都可以有子节点。只需使用其 <code>addChildXYZ()</code> 方法向任何 <code>TrackNode</code> 对象添加子节点。嵌套的 tracks 渲染为可折叠的树。</p>
+<code class="hljs code-block"><span class="hljs-keyword">const</span> group = <span class="hljs-keyword">new</span> TrackNode({<span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Group&#x27;</span>});
+trace.workspace.addChildInOrder(group);
+group.addChildLast(<span class="hljs-keyword">new</span> TrackNode({<span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Child Track A&#x27;</span>}));
+group.addChildLast(<span class="hljs-keyword">new</span> TrackNode({<span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Child Track B&#x27;</span>}));
+group.addChildLast(<span class="hljs-keyword">new</span> TrackNode({<span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Child Track C&#x27;</span>}));</code><p>带有子节点的 Tracks 节点可以由用户在运行时手动折叠和展开，或使用其 <code>expand()</code> 和 <code>collapse()</code> 方法以编程方式折叠和展开。默认情况下，tracks 是折叠的，因此要 tracks 在启动时自动展开，你需要在添加 track node 后调用 <code>expand()</code>。</p>
+<code class="hljs code-block">group.expand();</code><p><img src="../images/ui-plugins/nested_tracks.png" alt="Nested tracks"></p>
+<p>Summary tracks 的行为与普通 tracks 略有不同。Summary tracks：</p>
+<ul>
+<li>折叠时渲染为浅蓝色背景，展开时为深蓝色。</li>
+<li>滚动时粘在视口顶部。</li>
+<li>在 track 上进行的区域选择适用于子 tracks 而不是 summary track 本身。</li>
+</ul>
+<p>要创建 summary track，在其初始化程序列表中设置 <code>isSummary: true</code> 选项或在创建后将其 <code>isSummary</code> 属性设置为 true。</p>
+<code class="hljs code-block"><span class="hljs-keyword">const</span> group = <span class="hljs-keyword">new</span> TrackNode({<span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Group&#x27;</span>, <span class="hljs-attr">isSummary</span>: <span class="hljs-literal">true</span>});
+<span class="hljs-comment">// ~~~ 或 ~~~</span>
+group.isSummary = <span class="hljs-literal">true</span>;</code><p><img src="../images/ui-plugins/summary_track.png" alt="Summary track"></p>
+<p>示例</p>
+<ul>
+<li><a href="https://github.com/google/perfetto/blob/main/ui/src/plugins/com.example.ExampleNestedTracks/index.ts">com.example.ExampleNestedTracks</a>。</li>
+</ul>
+<h4>Track 排序</h4><p>可以使用 track node api 上可用的 <code>addChildXYZ()</code> 函数手动重新排序 tracks，包括 <code>addChildFirst()</code>、<code>addChildLast()</code>、
+<code>addChildBefore()</code> 和 <code>addChildAfter()</code>。</p>
+<p>请参阅
+<a href="https://github.com/google/perfetto/blob/main/ui/src/public/workspace.ts">the workspace source</a>
+了解详细用法。</p>
+<p>然而，当多个插件向同一节点或 workspace 添加 tracks 时，没有一个插件完全控制该节点内子节点的排序。因此，sortOrder 属性用于在插件 s 之间分散排序逻辑。</p>
+<p>为此，我们只需给 track 一个 <code>sortOrder</code> 并在父节点上调用 <code>addChildInOrder()</code>，track 将被放置在列表中具有更大 <code>sortOrder</code> 的第一个 track 之前。（即较低的 <code>sortOrder</code>s 显示在堆栈的较高位置）。</p>
+<code class="hljs code-block"><span class="hljs-comment">// PluginA</span>
+workspace.addChildInOrder(<span class="hljs-keyword">new</span> TrackNode({<span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Foo&#x27;</span>, <span class="hljs-attr">sortOrder</span>: <span class="hljs-number">10</span>}));
+
+<span class="hljs-comment">// Plugin B</span>
+workspace.addChildInOrder(<span class="hljs-keyword">new</span> TrackNode({<span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Bar&#x27;</span>, <span class="hljs-attr">sortOrder</span>: -<span class="hljs-number">10</span>}));</code><p>现在，无论插件以何种顺序初始化，track <code>Bar</code> 都将出现在 track <code>Foo</code> 上方（除非稍后重新排序）。</p>
+<p>如果没有定义 <code>sortOrder</code>，track 假定为 <code>sortOrder</code> 0。</p>
+<blockquote>
+<p>建议在插件s 中始终使用 <code>addChildInOrder()</code> 向 <code>workspace</code> 添加 tracks，特别是如果你想让你的插件默认启用，因为这将确保它尊重其他插件的 sortOrder。</p>
+</blockquote>
+<h4>DatasetSliceTrack</h4><p><code>DatasetSliceTrack</code> 是一个多功能的 track renderer 类，允许对基于 slice 的 tracks 的行为和外观进行更细粒度的控制。它是 <code>createQuerySliceTrack</code> 使用的底层组件，但提供了一组更丰富的自定义选项。</p>
+<p>要使用 <code>DatasetSliceTrack</code>，你需要用 <code>DatasetSliceTrackAttrs</code> 实例化它，包括：</p>
+<ul>
+<li><code>trace</code>：<code>Trace</code> 对象。</li>
+<li><code>uri</code>：track 的唯一 URI。</li>
+<li><code>dataset</code>：这是 track 数据的核心。它是一个 <code>SourceDataset&lt;T&gt;</code>（或返回一个的函数），定义了 slices 的 SQL 查询或表和 schema。<ul>
+<li><strong>必需的列</strong>：<ul>
+<li><code>id</code> (NUM)：每个 slice 的唯一标识符。</li>
+<li><code>ts</code> (LONG)：事件的时间戳（纳秒）。如果存在 <code>dur</code>，这是开始时间，否则是即时时间。</li>
+</ul>
+</li>
+<li><strong>可选的列</strong>：<ul>
+<li><code>dur</code> (LONG)：事件的持续时间（纳秒）。如果缺失，slices 是瞬时的。</li>
+<li><code>depth</code> (NUM)：slices 的垂直排列。</li>
+<li><code>layer</code> (NUM)：影响 mipmap 生成；较高的层渲染在顶部。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>sliceLayout</code>（可选）：一个对象，用于自定义 slices 的几何和布局（例如，<code>padding</code>、<code>rowHeight</code>）。</li>
+<li><code>instantStyle</code>（可选）：一个对象，用于定义即时事件（没有 <code>dur</code> 的事件）的自定义渲染。它需要一个 <code>width</code> 和一个 <code>render</code> 函数。</li>
+<li><code>colorizer</code>（可选）：一个函数 <code>(row: T) =&gt; ColorScheme</code>，用于根据数据动态设置每个 slice 的颜色。</li>
+<li><code>sliceName</code>（可选）：一个函数 <code>(row: T) =&gt; string</code>，用于设置每个 slice 上显示的文本。默认为数据集中的 <code>name</code> 列。</li>
+<li><code>tooltip</code>（可选）：一个函数 <code>(slice: SliceWithRow&lt;T&gt;) =&gt; m.Children</code>，用于在悬停在 slice 上时提供自定义 Mithril 内容的 tooltip。</li>
+<li><code>detailsPanel</code>（可选）：一个函数 <code>(row: T) =&gt; TrackEventDetailsPanel</code>，用于在选中 slice 时定义自定义详细信息面板。</li>
+<li><code>fillRatio</code>（可选）：一个函数 <code>(row: T) =&gt; number</code>（在 0.0 和 1.0 之间），用于在 slice 内渲染水平条，适用于显示利用率或进度。</li>
+<li><code>shellButtons</code>（可选）：一个函数 <code>() =&gt; m.Children</code>，用于向 track 的 shell 添加自定义 Mithril 按钮。</li>
+<li><code>initialMaxDepth</code>（可选）：最大深度的估计值，用于在初始加载期间稳定 track 高度。</li>
+<li><code>rootTableName</code>（可选）：ID 命名空间解析的基础表名。</li>
+<li><code>forceTsRenderOrder</code>（可选）：如果为 true，强制按时间戳顺序渲染，这对于有许多重叠即时事件的 tracks 很有用，可能以小的性能成本为代价。</li>
+</ul>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block"><span class="hljs-keyword">const</span> trackUri = <span class="hljs-string">`<span class="hljs-subst">${trace.pluginId}</span>#MyCustomSliceTrack`</span>;
+
+<span class="hljs-comment">// 定义你的 dataset</span>
+<span class="hljs-keyword">const</span> myDataset: SourceDataset&lt;MySliceRow&gt; = {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;my_custom_slices&#x27;</span>, <span class="hljs-comment">// 描述性名称</span>
+  <span class="hljs-attr">schema</span>: {
+    <span class="hljs-attr">id</span>: NUM,
+    <span class="hljs-attr">ts</span>: LONG,
+    <span class="hljs-attr">name</span>: STR,
+    <span class="hljs-attr">category</span>: STR,
+    <span class="hljs-attr">dur</span>: LONG, <span class="hljs-comment">// 假设你的事件有持续时间</span>
+    <span class="hljs-attr">depth</span>: NUM, <span class="hljs-comment">// 假设你想控制深度</span>
+  },
+  <span class="hljs-attr">query</span>: <span class="hljs-string">`
+    SELECT
+      slice_id as id,
+      ts,
+      dur,
+      depth,
+      name,
+      category
+    FROM my_slice_table_or_view
+  `</span>,
+};
+
+<span class="hljs-keyword">const</span> renderer = <span class="hljs-keyword">new</span> DatasetSliceTrack&lt;MySliceRow&gt;({
+  trace,
+  <span class="hljs-attr">uri</span>: trackUri,
+  <span class="hljs-attr">dataset</span>: myDataset,
+  <span class="hljs-attr">sliceName</span>: <span class="hljs-function">(<span class="hljs-params">row</span>) =&gt;</span> <span class="hljs-string">`<span class="hljs-subst">${row.category}</span>: <span class="hljs-subst">${row.name}</span>`</span>,
+  <span class="hljs-attr">colorizer</span>: <span class="hljs-function">(<span class="hljs-params">row</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (row.category === <span class="hljs-string">&#x27;important&#x27;</span>) {
+      <span class="hljs-keyword">return</span> {<span class="hljs-attr">background</span>: <span class="hljs-string">&#x27;#FF0000&#x27;</span>, <span class="hljs-attr">foreground</span>: <span class="hljs-string">&#x27;#FFFFFF&#x27;</span>}; <span class="hljs-comment">// 红色</span>
+    }
+    <span class="hljs-keyword">return</span> {<span class="hljs-attr">background</span>: <span class="hljs-string">&#x27;#0000FF&#x27;</span>, <span class="hljs-attr">foreground</span>: <span class="hljs-string">&#x27;#FFFFFF&#x27;</span>}; <span class="hljs-comment">// 蓝色</span>
+  },
+  <span class="hljs-attr">tooltip</span>: <span class="hljs-function">(<span class="hljs-params">slice</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> m(<span class="hljs-string">&#x27;div&#x27;</span>, [
+      m(<span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-string">`Name: <span class="hljs-subst">${slice.row.name}</span>`</span>),
+      m(<span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-string">`Category: <span class="hljs-subst">${slice.row.category}</span>`</span>),
+      m(<span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-string">`Duration: <span class="hljs-subst">${formatDuration(trace, slice.dur)}</span>`</span>),
+    ]);
+  },
+  <span class="hljs-comment">// 添加其他自定义设置，如 detailsPanel、fillRatio 等。</span>
+});
+
+<span class="hljs-comment">// 注册 track renderer</span>
+trace.tracks.registerTrack({
+  <span class="hljs-attr">uri</span>: trackUri,
+  <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;My Custom Slices&#x27;</span>,
+  renderer,
+});
+
+<span class="hljs-comment">// 像往常一样将 track node 添加到 workspace</span>
+<span class="hljs-keyword">const</span> trackNode = <span class="hljs-keyword">new</span> TrackNode({
+  <span class="hljs-attr">uri</span>: trackUri,
+  <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;My Custom Slices&#x27;</span>,
+});
+trace.workspace.addChildInOrder(trackNode);</code><p>此方法为你如何查询、处理和显示 track 数据提供了显著的灵活性。请记住查阅
+<a href="https://github.com/google/perfetto/blob/main/ui/src/components/tracks/dataset_slice_track.ts"><code>DatasetSliceTrack</code></a>
+和相关接口的源代码，以获取最新的详细信息和高级用法模式。</p>
+<h3><a name="timeline-" class="anchor" href="#timeline-"></a>Timeline 叠加层</h3><p>Timeline overlays 允许插件在 Timeline 上绘制，跨越多个 tracks。这对于绘制注释以显示不同 tracks 之间的关系很有用，例如 flow 箭头或标记重要事件的垂直线。</p>
+<p>要创建 timeline overlay，你需要实现 <code>Overlay</code> 接口并向 track manager 注册它。</p>
+<code class="hljs code-block"><span class="hljs-keyword">import</span> {Overlay, TrackBounds} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../public&#x27;</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyOverlay</span> <span class="hljs-title">implements</span> <span class="hljs-title">Overlay</span> </span>{
+  render(
+    ctx: CanvasRenderingContext2D,
+    <span class="hljs-attr">timescale</span>: TimeScale,
+    <span class="hljs-attr">size</span>: Size2D,
+    <span class="hljs-attr">tracks</span>: ReadonlyArray&lt;TrackBounds&gt;,
+  ): <span class="hljs-built_in">void</span> {
+    <span class="hljs-comment">// 绘制逻辑在这里</span>
+  }
+}</code><p><code>render</code> 方法在每一帧调用，并提供以下参数：</p>
+<ul>
+<li><code>ctx</code>：overlay 的 <code>CanvasRenderingContext2D</code>。这是在 canvas 上绘制形状、线条和文本的主要工具。</li>
+<li><code>timescale</code>：一个 <code>TimeScale</code> 对象，帮助在 trace 时间和水平像素坐标之间转换。使用 <code>timescale.timeToPx(time)</code> 查找给定时间戳的 x 坐标。</li>
+<li><code>size</code>：一个 <code>Size2D</code> 对象，包含整个 overlay canvas 的 <code>width</code> 和 <code>height</code>。</li>
+<li><code>tracks</code>：一个 <code>ReadonlyArray&lt;TrackBounds&gt;</code>。每个 <code>TrackBounds</code> 对象包含 track 的 <code>node</code> 及其 <code>verticalBounds</code>（track 在 canvas 上的 <code>top</code> 和 <code>bottom</code> y 坐标）。此数组允许你找到 Timeline 上任何 track 的确切位置，这对于绘制与特定 tracks 对齐的注释至关重要。</li>
+</ul>
+<p>一旦你有了 overlay 类，在你的插件的 <code>onTraceLoad</code> 方法中注册它：</p>
+<code class="hljs code-block"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">implements</span> <span class="hljs-title">PerfettoPlugin</span> </span>{
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> id = <span class="hljs-string">&#x27;com.example.MyPlugin&#x27;</span>;
+  <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-title">onTraceLoad</span>(<span class="hljs-params">trace: Trace</span>)</span> {
+    trace.tracks.registerOverlay(<span class="hljs-keyword">new</span> MyOverlay());
+  }
+}</code><p><code>WakerOverlay</code> 是 track overlay 的一个好例子，它在 thread 的 waker 和 thread 本身之间绘制箭头。你可以在 <code>ui/src/plugins/dev.perfetto.Sched/waker_overlay.ts</code> 中找到其源代码。</p>
+<h3><a name="-" class="anchor" href="#-"></a>标签页</h3><p>Tabs 是显示关于 trace、当前选择或操作结果的上下文信息的有用方式。</p>
+<p>要从插件注册 tab，使用 <code>Trace.registerTab</code> 方法。</p>
+<code class="hljs code-block"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyTab</span> <span class="hljs-title">implements</span> <span class="hljs-title">Tab</span> </span>{
+  render(): m.Children {
+    <span class="hljs-keyword">return</span> m(<span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-string">&#x27;Hello from my tab&#x27;</span>);
+  }
+
+  getTitle(): <span class="hljs-built_in">string</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;My Tab&#x27;</span>;
+  }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">implements</span> <span class="hljs-title">PerfettoPlugin</span> </span>{
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> id = <span class="hljs-string">&#x27;com.example.MyPlugin&#x27;</span>;
+  <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-title">onTraceLoad</span>(<span class="hljs-params">trace: Trace</span>)</span> {
+    trace.registerTab({
+      <span class="hljs-attr">uri</span>: <span class="hljs-string">`<span class="hljs-subst">${trace.pluginId}</span>#MyTab`</span>,
+      <span class="hljs-attr">content</span>: <span class="hljs-keyword">new</span> MyTab(),
+    });
+  }
+}</code><p>你需要传入一个类似 tab 的对象，即实现 <code>Tab</code> 接口的东西。Tabs 只需要定义其标题和指定如何渲染 tab 的 render 函数。</p>
+<p>注册的 tabs 不会立即出现 - 我们需要先显示它。所有注册的 tabs 都显示在 tab 下拉菜单中，可以通过单击下拉菜单中的条目来显示或隐藏。</p>
+<p>也可以通过单击其 handle 右上角的小 x 来隐藏 tabs。</p>
+<p>或者，可以使用 tabs API 以编程方式显示或隐藏 tabs。</p>
+<code class="hljs code-block">trace.tabs.showTab(<span class="hljs-string">`<span class="hljs-subst">${trace.pluginId}</span>#MyTab`</span>);
+trace.tabs.hideTab(<span class="hljs-string">`<span class="hljs-subst">${trace.pluginId}</span>#MyTab`</span>);</code><p>Tabs 具有以下属性：</p>
+<ul>
+<li>每个 tab 都有一个唯一的 URI。</li>
+<li>一次只能打开一个 tab 实例。多次使用相同的 URI 调用 showTab 只会激活 tab，而不会将 tab 的新实例添加到 tab bar。</li>
+</ul>
+<h4>短暂 Tabs</h4><p>默认情况下，tabs 被注册为 &#39;permanent&#39; tabs。这些 tabs 具有以下附加属性：</p>
+<ul>
+<li>它们出现在 tab 下拉菜单中。</li>
+<li>关闭后它们仍然存在。Plugin 控制 tab 对象的生命周期。</li>
+</ul>
+<p>相比之下，短暂 tabs 具有以下属性：</p>
+<ul>
+<li>它们不会出现在 tab 下拉菜单中。</li>
+<li>隐藏时，它们将自动注销。</li>
+</ul>
+<p>可以通过在注册 tab 时设置 <code>isEphemeral</code> 标志来注册短暂 tabs。</p>
+<code class="hljs code-block">trace.registerTab({
+  <span class="hljs-attr">isEphemeral</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">uri</span>: <span class="hljs-string">`<span class="hljs-subst">${trace.pluginId}</span>#MyTab`</span>,
+  <span class="hljs-attr">content</span>: <span class="hljs-keyword">new</span> MyEphemeralTab(),
+});</code><p>短暂 tabs 通常作为某些用户操作的结果添加，例如运行 command。因此，注册 tab 并同时显示 tab 是常见模式。</p>
+<p>激励示例：</p>
+<code class="hljs code-block"><span class="hljs-keyword">import</span> m <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;mithril&#x27;</span>;
+<span class="hljs-keyword">import</span> {uuidv4} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../base/uuid&#x27;</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyNameTab</span> <span class="hljs-title">implements</span> <span class="hljs-title">Tab</span> </span>{
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> name: <span class="hljs-built_in">string</span></span>)</span> {}
+  render(): m.Children {
+    <span class="hljs-keyword">return</span> m(<span class="hljs-string">&#x27;h1&#x27;</span>, <span class="hljs-string">`Hello, <span class="hljs-subst">${<span class="hljs-built_in">this</span>.name}</span>!`</span>);
+  }
+  getTitle(): <span class="hljs-built_in">string</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;My Name Tab&#x27;</span>;
+  }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">implements</span> <span class="hljs-title">PerfettoPlugin</span> </span>{
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> id = <span class="hljs-string">&#x27;com.example.MyPlugin&#x27;</span>;
+  <span class="hljs-keyword">async</span> onTraceLoad(trace: Trace): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt; {
+    trace.registerCommand({
+      <span class="hljs-attr">id</span>: <span class="hljs-string">`<span class="hljs-subst">${trace.pluginId}</span>#AddNewEphemeralTab`</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Add new ephemeral tab&#x27;</span>,
+      <span class="hljs-attr">callback</span>: <span class="hljs-function">() =&gt;</span> handleCommand(trace),
+    });
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleCommand</span>(<span class="hljs-params">trace: Trace</span>): <span class="hljs-title">void</span> </span>{
+  <span class="hljs-keyword">const</span> name = prompt(<span class="hljs-string">&#x27;What is your name&#x27;</span>);
+  <span class="hljs-keyword">if</span> (name) {
+    <span class="hljs-keyword">const</span> uri = <span class="hljs-string">`<span class="hljs-subst">${trace.pluginId}</span>#MyName<span class="hljs-subst">${uuidv4()}</span>`</span>;
+    <span class="hljs-comment">// 这使 tab 对 perfetto 可用</span>
+    ctx.registerTab({
+      <span class="hljs-attr">isEphemeral</span>: <span class="hljs-literal">true</span>,
+      uri,
+      <span class="hljs-attr">content</span>: <span class="hljs-keyword">new</span> MyNameTab(name),
+    });
+
+    <span class="hljs-comment">// 这在 tab bar 中打开 tab</span>
+    ctx.tabs.showTab(uri);
+  }
+}</code><h3><a name="-" class="anchor" href="#-"></a>侧边栏菜单项</h3><p>插件可以向侧边栏菜单添加新条目，该菜单出现在 UI 的左侧。这些条目可以包括：</p>
+<ul>
+<li>Commands</li>
+<li>Links</li>
+<li>任意 Callbacks</li>
+</ul>
+<h4>命令</h4><p>如果引用了 command，command 名称和热键将显示在侧边栏项上。</p>
+<code class="hljs code-block">trace.commands.registerCommand({
+  <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;sayHi&#x27;</span>,
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Say hi&#x27;</span>,
+  <span class="hljs-attr">callback</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">window</span>.alert(<span class="hljs-string">&#x27;hi&#x27;</span>),
+  <span class="hljs-attr">defaultHotkey</span>: <span class="hljs-string">&#x27;Shift+H&#x27;</span>,
+});
+
+trace.sidebar.addMenuItem({
+  <span class="hljs-attr">commandId</span>: <span class="hljs-string">&#x27;sayHi&#x27;</span>,
+  <span class="hljs-attr">section</span>: <span class="hljs-string">&#x27;support&#x27;</span>,
+  <span class="hljs-attr">icon</span>: <span class="hljs-string">&#x27;waving_hand&#x27;</span>,
+});</code><h4>链接</h4><p>如果存在 href，侧边栏将用作链接。这可以是 page 的内部链接，或外部链接。</p>
+<code class="hljs code-block">trace.sidebar.addMenuItem({
+  <span class="hljs-attr">section</span>: <span class="hljs-string">&#x27;navigation&#x27;</span>,
+  <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;插件&#x27;</span>,
+  <span class="hljs-attr">href</span>: <span class="hljs-string">&#x27;#!/plugins&#x27;</span>,
+});</code><h4>回调</h4><p>可以指示 Sidebar 项在单击按钮时执行任意 callbacks。</p>
+<code class="hljs code-block">trace.sidebar.addMenuItem({
+  <span class="hljs-attr">section</span>: <span class="hljs-string">&#x27;current_trace&#x27;</span>,
+  <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Copy secrets to clipboard&#x27;</span>,
+  <span class="hljs-attr">action</span>: <span class="hljs-function">() =&gt;</span> copyToClipboard(<span class="hljs-string">&#x27;...&#x27;</span>),
+});</code><p>如果 action 返回一个 promise，sidebar 项将显示一个小的 spinner 动画，直到 promise 返回。</p>
+<code class="hljs code-block">trace.sidebar.addMenuItem({
+  <span class="hljs-attr">section</span>: <span class="hljs-string">&#x27;current_trace&#x27;</span>,
+  <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Prepare the data...&#x27;</span>,
+  <span class="hljs-attr">action</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">r</span>) =&gt;</span> <span class="hljs-built_in">setTimeout</span>(r, <span class="hljs-number">1000</span>)),
+});</code><p>所有类型的 sidebar 项的可选参数：</p>
+<ul>
+<li><code>icon</code> - 显示在侧边栏菜单项旁边的 material design 图标。
+请参阅完整列表 <a href="https://fonts.google.com/icons">here</a>。</li>
+<li><code>tooltip</code> - 悬停时显示</li>
+<li><code>section</code> - 放置菜单项的位置。<ul>
+<li><code>navigation</code></li>
+<li><code>current_trace</code></li>
+<li><code>convert_trace</code></li>
+<li><code>example_traces</code></li>
+<li><code>support</code></li>
+</ul>
+</li>
+<li><code>sortOrder</code> - sortOrder 越低，条越靠上。</li>
+</ul>
+<p>请参阅
+<a href="https://github.com/google/perfetto/blob/main/ui/src/public/sidebar.ts">sidebar source</a>
+了解更详细的用法。</p>
+<h3><a name="-" class="anchor" href="#-"></a>页面</h3><p>Pages 是可以通过 URL 参数路由的实体，其内容占据 sidebar 右侧和 topbar 下方的整个可用空间。Page 的示例包括 Timeline、记录页面和查询页面，仅举几个常见示例。</p>
+<p>例如：</p>
+<code class="hljs code-block">http:<span class="hljs-regexp">//ui</span>.perfetto.dev<span class="hljs-regexp">/#!/</span>viewer &lt;-- <span class="hljs-string">&#x27;viewer&#x27;</span> 是当前页面。</code><p>Pages 通过调用 <code>pages.registerPage</code> 函数从插件添加。</p>
+<p>Pages 可以与 trace 或 app 上下文注册。与 trace 注册的 Pages 在切换 traces 时自动删除。在 app 上注册的 Traces 将在加载 trace 之前出现。</p>
+<p>在 <code>onActivate()</code> 中注册的与 app 注册的 Traces 应该这样做，而与 trace 注册的 traces 应该在 <code>onTraceLoad()</code> 中完成。</p>
+<p>Page 只是一个 render 函数，在页面处于活动状态时每个 Mithril 渲染周期调用。它应该返回将在页面区域内显示的 mithril 组件。在 render 函数中，只需正常渲染 mithril 组件。</p>
+<code class="hljs code-block">trace.pages.registerPage({
+  <span class="hljs-attr">route</span>: <span class="hljs-string">&#x27;/mypage&#x27;</span>,
+  <span class="hljs-attr">render</span>: <span class="hljs-function">() =&gt;</span> m(<span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-string">&#x27;Hello from my page!&#x27;</span>),
+});</code><h4>子页面</h4><p><code>render()</code> 回调接受一个参数 <code>subpage</code>，这是一个可选字符串，如果存在，定义子路由。例如，page 之后的 <code>#!/&lt;route&gt;/&lt;subpage&gt;</code> 之后的第一个 <code>/</code> 之后的任何内容。这可用于向你的 page 添加额外的子部分。</p>
+<p>示例：</p>
+<ul>
+<li><a href="https://github.com/google/perfetto/blob/main/ui/src/plugins/dev.perfetto.DataExplorer/index.ts">dev.perfetto.DataExplorer</a>。</li>
+</ul>
+<h3><a name="-" class="anchor" href="#-"></a>状态栏</h3><p>插件可以向 statusbar 添加项目，statusbar 显示在 UI 的底部。</p>
+<p>要从插件添加 statusbar 项目，使用 <code>trace.statusbar.registerItem</code> 方法。</p>
+<code class="hljs code-block">trace.statusbar.registerItem({
+  <span class="hljs-attr">renderItem</span>: <span class="hljs-function">() =&gt;</span> ({
+    <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;My Statusbar Item&#x27;</span>,
+    <span class="hljs-attr">icon</span>: <span class="hljs-string">&#x27;settings&#x27;</span>,
+    <span class="hljs-attr">onclick</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Statusbar item clicked&#x27;</span>),
+  }),
+  <span class="hljs-attr">popupContent</span>: <span class="hljs-function">() =&gt;</span> m(<span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-string">&#x27;Hello from my statusbar item popup&#x27;</span>),
+});</code><p><code>renderItem</code> 回调应该返回一个具有以下属性的对象：</p>
+<ul>
+<li><code>label</code>：在 statusbar 中显示的文本。</li>
+<li><code>icon</code>：显示在标签旁边的可选 material design 图标。</li>
+<li><code>intent</code>：可选的 intent，用于更改标签的颜色。</li>
+<li><code>onclick</code>：单击 statusbar 项时调用的可选回调。</li>
+</ul>
+<p><code>popupContent</code> 回调是可选的，当单击 statusbar 项时，应返回要在弹出窗口中显示的 mithril 内容。</p>
+<ul>
+<li><a href="https://github.com/google/perfetto/blob/main/ui/src/core_plugins/flags_page/index.ts">core_plugins/flags_page/index.ts</a>。</li>
+</ul>
+<h3><a name="omnibox-" class="anchor" href="#omnibox-"></a>Omnibox 提示</h3><p>插件可以利用 omnibox 提示用户输入。这比标准的浏览器 <code>window.prompt()</code> 更集成，可用于自由格式文本或从预定义选项列表中选择。<code>OmniboxManager</code> 可通过 <code>app.omnibox</code>（在 <code>onActivate</code> 中）或 <code>trace.omnibox</code>（在 <code>onTraceLoad</code> 中）使用。</p>
+<p>主要方法是 <code>prompt()</code>：</p>
+<ul>
+<li><code>prompt(text: string): Promise&lt;string | undefined&gt;</code>：用于自由格式文本输入。</li>
+<li><code>prompt(text: string, choices: ReadonlyArray&lt;string&gt;): Promise&lt;string | undefined&gt;</code>：
+用于从简单字符串列表中选择。</li>
+<li><code>prompt&lt;T&gt;(text: string, choices: PromptChoices&lt;T&gt;): Promise&lt;T | undefined&gt;</code>：
+用于从自定义对象列表中选择。<ul>
+<li><code>PromptChoices&lt;T&gt;</code> 需要：<ul>
+<li><code>values: ReadonlyArray&lt;T&gt;</code>：对象数组。</li>
+<li><code>getName: (x: T) =&gt; string</code>：一个函数，用于获取每个对象的显示名称。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>当用户输入/选择或取消提示（例如，通过按 Escape）时，promise 解析为用户的输入/选择或 <code>undefined</code>。</p>
+<p><strong>示例：</strong></p>
+<p><strong>1. 自由格式输入：</strong></p>
+<code class="hljs code-block"><span class="hljs-comment">// 在 onActivate 或 onTraceLoad 中</span>
+<span class="hljs-comment">// const appOrTrace: App | Trace = ...;</span>
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">askForName</span>(<span class="hljs-params">omnibox: OmniboxManager</span>) </span>{
+  <span class="hljs-keyword">const</span> name = <span class="hljs-keyword">await</span> omnibox.prompt(
+    <span class="hljs-string">&#x27;Enter a friendly name for the new marker:&#x27;</span>,
+  );
+  <span class="hljs-keyword">if</span> (name) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`User entered: <span class="hljs-subst">${name}</span>`</span>);
+    <span class="hljs-comment">// 继续使用名称</span>
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;User cancelled the prompt.&#x27;</span>);
+  }
+}
+
+<span class="hljs-comment">// 调用它：</span>
+<span class="hljs-comment">// askForName(appOrTrace.omnibox);</span></code><p><strong>2. 简单选项列表：</strong></p>
+<code class="hljs code-block"><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">chooseColor</span>(<span class="hljs-params">omnibox: OmniboxManager</span>) </span>{
+  <span class="hljs-keyword">const</span> color = <span class="hljs-keyword">await</span> omnibox.prompt(<span class="hljs-string">&#x27;Choose a highlight color:&#x27;</span>, [
+    <span class="hljs-string">&#x27;red&#x27;</span>,
+    <span class="hljs-string">&#x27;green&#x27;</span>,
+    <span class="hljs-string">&#x27;blue&#x27;</span>,
+    <span class="hljs-string">&#x27;yellow&#x27;</span>,
+  ]);
+  <span class="hljs-keyword">if</span> (color) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`User chose: <span class="hljs-subst">${color}</span>`</span>);
+    <span class="hljs-comment">// 应用颜色</span>
+  }
+}
+
+<span class="hljs-comment">// chooseColor(appOrTrace.omnibox);</span></code><p><strong>3. 自定义对象列表：</strong></p>
+<code class="hljs code-block"><span class="hljs-keyword">interface</span> ProcessChoice {
+  <span class="hljs-attr">pid</span>: <span class="hljs-built_in">number</span>;
+  name: <span class="hljs-built_in">string</span>;
+  threadCount: <span class="hljs-built_in">number</span>;
+}
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">selectProcess</span>(<span class="hljs-params">
+  omnibox: OmniboxManager,
+  processes: ProcessChoice[],
+</span>) </span>{
+  <span class="hljs-keyword">const</span> selectedProcess = <span class="hljs-keyword">await</span> omnibox.prompt&lt;ProcessChoice&gt;(
+    <span class="hljs-string">&#x27;Select a process to focus on:&#x27;</span>,
+    {
+      <span class="hljs-attr">values</span>: processes,
+      <span class="hljs-attr">getName</span>: <span class="hljs-function">(<span class="hljs-params">p</span>) =&gt;</span> <span class="hljs-string">`<span class="hljs-subst">${p.name}</span> (PID: <span class="hljs-subst">${p.pid}</span>, Threads: <span class="hljs-subst">${p.threadCount}</span>)`</span>,
+    },
+  );
+
+  <span class="hljs-keyword">if</span> (selectedProcess) {
+    <span class="hljs-built_in">console</span>.log(
+      <span class="hljs-string">`User selected process: <span class="hljs-subst">${selectedProcess.name}</span> (PID: <span class="hljs-subst">${selectedProcess.pid}</span>)`</span>,
+    );
+    <span class="hljs-comment">// 聚焦于选定的进程</span>
+  }
+}
+
+<span class="hljs-comment">// const exampleProcesses: ProcessChoice[] = [</span>
+<span class="hljs-comment">//   {pid: 123, name: &#x27;system_server&#x27;, threadCount: 150},</span>
+<span class="hljs-comment">//   {pid: 456, name: &#x27;com.example.app&#x27;, threadCount: 25},</span>
+<span class="hljs-comment">// ];</span>
+<span class="hljs-comment">// selectProcess(appOrTrace.omnibox, exampleProcesses);</span></code><p>此功能允许在你的插件中直接在 omnibox 中创建交互式工作流。</p>
+<h3><a name="-" class="anchor" href="#-"></a>区域选择标签页</h3><p>插件可以注册 tabs 以在 Timeline 的某个区域被选中时显示在详细信息面板中。</p>
+<p>要注册 area selection tab，使用 <code>trace.selection.registerAreaSelectionTab</code> 方法。</p>
+<code class="hljs code-block">trace.selection.registerAreaSelectionTab({
+  <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;my-area-selection-tab&#x27;</span>,
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;My Area Selection Tab&#x27;</span>,
+  <span class="hljs-attr">render</span>: <span class="hljs-function">(<span class="hljs-params">selection</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> m(<span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-string">`Selected area: <span class="hljs-subst">${selection.start}</span> - <span class="hljs-subst">${selection.end}</span>`</span>);
+  },
+});</code><p><code>render</code> 回调应该返回在 tab 中显示的 mithril 内容。
+<code>selection</code> 参数是一个 <code>AreaSelection</code> 对象，包含有关所选区域的信息。</p>
+<p>示例：</p>
+<ul>
+<li><a href="https://github.com/google/perfetto/blob/main/ui/src/plugins/dev.perfetto.TraceProcessorTrack/index.ts">dev.perfetto.TraceProcessorTrack/index.ts</a>。</li>
+</ul>
+<h3><a name="metric-" class="anchor" href="#metric-"></a>Metric 可视化</h3><p>待定</p>
+<p>示例：</p>
+<ul>
+<li><a href="https://github.com/google/perfetto/blob/main/ui/src/plugins/com.android.AndroidBinderViz/index.ts">com.android.AndroidBinderViz</a>。</li>
+</ul>
+<h3><a name="-" class="anchor" href="#-"></a>状态</h3><p class="callout note">NOTE: 使用持久状态时必须考虑版本偏差。</p>
+<p>插件可以将信息持久化到 permalinks 中。这允许插件优雅地处理永久链接，并且是一个选择加入的机制，不是自动的。</p>
+<p>持久化插件状态使用 <code>Store&lt;T&gt;</code>，其中 <code>T</code> 是某些 JSON 可序列化对象。<code>Store</code> 实现
+<a href="https://github.com/google/perfetto/blob/main/ui/src/base/store.ts">这里</a>。
+<code>Store</code> 允许读取和写入 <code>T</code>。读取：</p>
+<code class="hljs code-block"><span class="hljs-keyword">interface</span> Foo {
+  <span class="hljs-attr">bar</span>: <span class="hljs-built_in">string</span>;
+}
+
+<span class="hljs-keyword">const</span> store: Store&lt;Foo&gt; = getFooStoreSomehow();
+
+<span class="hljs-comment">// store.state 是不可变的，不得编辑。</span>
+<span class="hljs-keyword">const</span> foo = store.state.foo;
+<span class="hljs-keyword">const</span> bar = foo.bar;
+
+<span class="hljs-built_in">console</span>.log(bar);</code><p>写入：</p>
+<code class="hljs code-block"><span class="hljs-keyword">interface</span> Foo {
+  <span class="hljs-attr">bar</span>: <span class="hljs-built_in">string</span>;
+}
+
+<span class="hljs-keyword">const</span> store: Store&lt;Foo&gt; = getFooStoreSomehow();
+
+store.edit(<span class="hljs-function">(<span class="hljs-params">draft</span>) =&gt;</span> {
+  draft.foo.bar = <span class="hljs-string">&#x27;Hello, world!&#x27;</span>;
+});
+
+<span class="hljs-built_in">console</span>.log(store.state.foo.bar);
+<span class="hljs-comment">// &gt; Hello, world!</span></code><p>首先为你的特定插件状态定义一个接口。</p>
+<code class="hljs code-block"><span class="hljs-keyword">interface</span> MyState {
+  <span class="hljs-attr">favouriteSlices</span>: MySliceInfo[];
+}</code><p>要访问永久链接状态，请在 <code>Trace</code> 对象上调用 <code>mountStore()</code>，传入 migration 函数。</p>
+<code class="hljs code-block"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">implements</span> <span class="hljs-title">PerfettoPlugin</span> </span>{
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> id = <span class="hljs-string">&#x27;com.example.MyPlugin&#x27;</span>;
+  <span class="hljs-keyword">async</span> onTraceLoad(trace: Trace): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt; {
+    <span class="hljs-keyword">const</span> store = trace.mountStore(migrate);
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">migrate</span>(<span class="hljs-params">initialState: unknown</span>): <span class="hljs-title">MyState</span> </span>{
+  <span class="hljs-comment">// ...</span>
+}</code><p>关于 migration，需要考虑两种情况：</p>
+<ul>
+<li>加载新 trace</li>
+<li>从永久链接加载</li>
+</ul>
+<p>在新 trace 的情况下，你的 migration 函数以 <code>undefined</code> 调用。在这种情况下，你应该返回 <code>MyState</code> 的默认版本：</p>
+<code class="hljs code-block"><span class="hljs-keyword">const</span> DEFAULT = {<span class="hljs-attr">favouriteSlices</span>: []};
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">migrate</span>(<span class="hljs-params">initialState: unknown</span>): <span class="hljs-title">MyState</span> </span>{
+  <span class="hljs-keyword">if</span> (initialState === <span class="hljs-literal">undefined</span>) {
+    <span class="hljs-comment">// 返回 MyState 的默认版本。</span>
+    <span class="hljs-keyword">return</span> DEFAULT;
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-comment">// 在这里迁移旧版本。</span>
+  }
+}</code><p>在永久链接的情况下，你的 migration 函数以生成永久链接时的插件 store 状态调用。这可能来自插件的旧版本或新版本。</p>
+<p><strong>插件不得对 <code>initialState</code> 的内容做任何假设！</strong></p>
+<p>在这种情况下，你需要仔细验证状态对象。这可以通过几种方式实现，但没有一种是特别直接的。状态迁移很困难！</p>
+<p>一种暴力方法是使用版本号。</p>
+<code class="hljs code-block"><span class="hljs-keyword">interface</span> MyState {
+  <span class="hljs-attr">version</span>: <span class="hljs-built_in">number</span>;
+  favouriteSlices: MySliceInfo[];
+}
+
+<span class="hljs-keyword">const</span> VERSION = <span class="hljs-number">3</span>;
+<span class="hljs-keyword">const</span> DEFAULT = {<span class="hljs-attr">favouriteSlices</span>: []};
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">migrate</span>(<span class="hljs-params">initialState: unknown</span>): <span class="hljs-title">MyState</span> </span>{
+  <span class="hljs-keyword">if</span> (initialState &amp;&amp; (initialState <span class="hljs-keyword">as</span> {<span class="hljs-attr">version</span>: <span class="hljs-built_in">any</span>}).version === VERSION) {
+    <span class="hljs-comment">// 版本号检查通过，假设结构正确。</span>
+    <span class="hljs-keyword">return</span> initialState <span class="hljs-keyword">as</span> State;
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-comment">// Null、undefined 或错误的版本号 - 返回默认值。</span>
+    <span class="hljs-keyword">return</span> DEFAULT;
+  }
+}</code><p>更改时你需要记住更新你的版本号！迁移应该进行单元测试以确保兼容性。</p>
+<p>示例：</p>
+<ul>
+<li><a href="https://github.com/google/perfetto/blob/main/ui/src/plugins/dev.perfetto.ExampleState/index.ts">dev.perfetto.ExampleState</a>。</li>
+</ul>
+<h3><a name="-" class="anchor" href="#-"></a>功能标志</h3><p>插件可以注册 feature flags，允许用户打开或关闭实验性或开发中的功能。这对于逐步推出新功能或为高级用户提供选项很有用。Feature flags 通常在 <code>onActivate</code> 生命周期钩子中使用 <code>app.featureFlags</code> manager 注册。</p>
+<blockquote>
+<p><strong>注意</strong>：Feature flags 最适合用于在开发和推出期间对新功能或实验性进行门控。它们作为临时切换工作良好，这些切换有计划一旦功能稳定就删除（要么使其成为默认行为，要么完全删除它）。如果功能需要持续的用户配置，请考虑使用 <a href="#custom-settings">Custom Settings</a> 代替，因为它们为永久首选项提供了更好的用户体验。</p>
+</blockquote>
+<p>要注册 feature flag，你提供 <code>FlagSettings</code>：</p>
+<ul>
+<li><code>id</code> (string)：flag 的唯一标识符（例如，
+&quot;com.example.MyPlugin#myCoolFeature&quot;）。</li>
+<li><code>defaultValue</code> (boolean)：flag 的默认状态（true 为开，false 为关）。</li>
+<li><code>description</code> (string)：在 UI 中向用户显示的详细描述（例如，在 flags 页面中）。</li>
+<li><code>name</code> (string, optional)：flag 的人类可读名称。如果省略，则使用 <code>id</code>。</li>
+<li><code>devOnly</code> (boolean, optional)：如果为 true，则 flag 仅在 Perfetto 的 developer builds 中可见。</li>
+</ul>
+<p><code>register</code> 方法返回一个 <code>Flag</code> 对象，该对象提供与 flag 状态交互的方法：</p>
+<ul>
+<li><code>get(): boolean</code>：返回 flag 的当前值。</li>
+<li><code>set(value: boolean)</code>：覆盖 flag 的当前值并持久化它。</li>
+<li><code>isOverridden(): boolean</code>：检查 flag 的值是否已从默认值手动更改。</li>
+<li><code>reset()</code>：将 flag 重置为其 <code>defaultValue</code>。</li>
+<li><code>overriddenState(): OverrideState</code>：返回当前的覆盖状态
+（<code>DEFAULT</code>、<code>OVERRIDE_TRUE</code>、<code>OVERRIDE_FALSE</code>）。</li>
+</ul>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block"><span class="hljs-keyword">import</span> {Flag, FlagSettings} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../public/featureflag&#x27;</span>; <span class="hljs-comment">// 根据需要调整路径</span>
+<span class="hljs-keyword">import</span> {App} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../public/app&#x27;</span>;
+<span class="hljs-keyword">import</span> {PerfettoPlugin} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../public/plugin&#x27;</span>;
+<span class="hljs-keyword">import</span> {Trace} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../public/trace&#x27;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyFeatureFlagPlugin</span> <span class="hljs-title">implements</span> <span class="hljs-title">PerfettoPlugin</span> </span>{
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> id = <span class="hljs-string">&#x27;com.example.MyFeatureFlagPlugin&#x27;</span>;
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> enableExperimentalTracks: Flag;
+
+  <span class="hljs-keyword">static</span> onActivate(app: App): <span class="hljs-built_in">void</span> {
+    <span class="hljs-comment">// 注册一个 feature flag 来控制实验性 tracks</span>
+    <span class="hljs-built_in">this</span>.enableExperimentalTracks = app.featureFlags.register({
+      <span class="hljs-attr">id</span>: <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-built_in">this</span>.id}</span>#enableExperimentalTracks`</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Enable Experimental Memory Tracks&#x27;</span>,
+      <span class="hljs-attr">defaultValue</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">description</span>:
+        <span class="hljs-string">&#x27;Enables experimental memory analysis tracks that show detailed heap allocations and memory pressure events. These tracks are under active development.&#x27;</span>,
+      <span class="hljs-attr">devOnly</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 仅在 development builds 中可见</span>
+    });
+
+    <span class="hljs-comment">// 注册一个仅在 flag 启用时可用的 command</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.enableExperimentalTracks.get()) {
+      app.commands.registerCommand({
+        <span class="hljs-attr">id</span>: <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-built_in">this</span>.id}</span>#analyzeMemoryLeaks`</span>,
+        <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Analyze potential memory leaks&#x27;</span>,
+        <span class="hljs-attr">callback</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Running experimental leak detection...&#x27;</span>),
+      });
+    }
+  }
+
+  <span class="hljs-keyword">async</span> onTraceLoad(trace: Trace): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt; {
+    <span class="hljs-comment">// 仅在 feature flag 启用时添加实验性 tracks</span>
+    <span class="hljs-keyword">if</span> (MyFeatureFlagPlugin.enableExperimentalTracks.get()) {
+      <span class="hljs-comment">// ... 添加 track ...</span>
+    }
+  }
+}</code><p>用户通常可以通过 Perfetto UI 中专门的 &quot;Flags&quot; 页面管理这些 flags，在那里他们可以查看描述并切换它们。</p>
+<h3><a name="-" class="anchor" href="#-"></a>自定义设置</h3><p>插件可以定义和注册自己的设置，允许用户自定义插件行为。这些设置通过 <code>SettingsManager</code> 管理，可通过 <code>app.settings</code>（通常在 <code>onActivate</code> 中）或 <code>trace.settings</code> 使用。注册的设置出现在主 Perfetto settings 页面中。</p>
+<p>要注册设置，你提供 <code>SettingDescriptor&lt;T&gt;</code>：</p>
+<ul>
+<li><code>id</code> (string)：设置的唯一标识符（例如，
+&quot;com.example.MyPlugin#myCustomPreference&quot;）。这也用作存储键。</li>
+<li><code>name</code> (string)：在 settings UI 中显示的人类可读名称。</li>
+<li><code>description</code> (string)：设置功能的详细说明。</li>
+<li><code>schema</code> (<code>z.ZodType&lt;T&gt;</code>)：一个 <a href="https://zod.dev/">Zod</a> schema，定义设置的值类型和验证规则。这对于确保类型安全和数据完整性至关重要。</li>
+<li><code>defaultValue</code> (T)：如果用户未明确设置，则设置将具有的值。</li>
+<li><code>requiresReload</code> (boolean, optional)：如果为 <code>true</code>，当更改此设置时，用户将被提示重新加载 Perfetto UI，因为其效果可能仅在启动时应用。</li>
+<li><code>render</code> (<code>SettingRenderer&lt;T&gt;</code>, optional)：一个函数
+<code>(setting: Setting&lt;T&gt;) =&gt; m.Children</code>，返回 Mithril 内容以在 settings 页面中为此设置渲染自定义 UI。这对于非原始类型（对象、数组）或需要更专业的输入控件（例如，slider、自定义下拉菜单）时特别有用。如果未提供，将尝试基于 schema 类型的默认 UI（例如，boolean 的 checkbox、string/number 的 text input）。</li>
+</ul>
+<p><code>settings.register()</code> 方法返回一个 <code>Setting&lt;T&gt;</code> 对象，它扩展了描述符并提供与设置交互的方法：</p>
+<ul>
+<li><code>get(): T</code>：检索设置的当前值。</li>
+<li><code>set(value: T)</code>：设置设置的新值。该值将根据 schema 进行验证。</li>
+<li><code>reset()</code>：将设置恢复到其 <code>defaultValue</code>。</li>
+<li><code>isDefault: boolean</code>：一个只读属性，指示设置当前是否处于默认值。</li>
+</ul>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block"><span class="hljs-keyword">import</span> {Setting, SettingDescriptor} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../public/setting&#x27;</span>; <span class="hljs-comment">// 根据需要调整路径</span>
+<span class="hljs-keyword">import</span> {App} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../public/app&#x27;</span>;
+<span class="hljs-keyword">import</span> {PerfettoPlugin} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../public/plugin&#x27;</span>;
+<span class="hljs-keyword">import</span> {Trace} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../public/trace&#x27;</span>;
+<span class="hljs-keyword">import</span> {z} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
+<span class="hljs-keyword">import</span> m <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;mithril&#x27;</span>;
+
+<span class="hljs-comment">// 为复杂设置定义 Zod schema</span>
+<span class="hljs-keyword">const</span> MyComplexObjectSchema = z.object({
+  <span class="hljs-attr">optionA</span>: z.string().min(<span class="hljs-number">1</span>),
+  <span class="hljs-attr">optionB</span>: z.number().int().positive(),
+});
+<span class="hljs-keyword">type</span> MyComplexObject = z.infer&lt;<span class="hljs-keyword">typeof</span> MyComplexObjectSchema&gt;;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MySettingsPlugin</span> <span class="hljs-title">implements</span> <span class="hljs-title">PerfettoPlugin</span> </span>{
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> id = <span class="hljs-string">&#x27;com.example.MySettingsPlugin&#x27;</span>;
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> simpleBooleanSetting: Setting&lt;<span class="hljs-built_in">boolean</span>&gt;;
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> complexObjectSetting: Setting&lt;MyComplexObject&gt;;
+
+  <span class="hljs-keyword">static</span> onActivate(app: App): <span class="hljs-built_in">void</span> {
+    <span class="hljs-comment">// 1. 一个简单的 boolean 设置</span>
+    <span class="hljs-built_in">this</span>.simpleBooleanSetting = app.settings.register({
+      <span class="hljs-attr">id</span>: <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-built_in">this</span>.id}</span>#enableSimpleFeature`</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Enable Simple Feature&#x27;</span>,
+      <span class="hljs-attr">description</span>: <span class="hljs-string">&#x27;Toggles a basic feature on or off.&#x27;</span>,
+      <span class="hljs-attr">schema</span>: z.boolean(),
+      <span class="hljs-attr">defaultValue</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">requiresReload</span>: <span class="hljs-literal">false</span>,
+    });
+
+    <span class="hljs-comment">// 2. 一个带有自定义渲染器的更复杂的基于对象的设置</span>
+    <span class="hljs-built_in">this</span>.complexObjectSetting = app.settings.register({
+      <span class="hljs-attr">id</span>: <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-built_in">this</span>.id}</span>#complexConfig`</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Complex Configuration&#x27;</span>,
+      <span class="hljs-attr">description</span>: <span class="hljs-string">&#x27;Configure advanced options A and B.&#x27;</span>,
+      <span class="hljs-attr">schema</span>: MyComplexObjectSchema,
+      <span class="hljs-attr">defaultValue</span>: {<span class="hljs-attr">optionA</span>: <span class="hljs-string">&#x27;defaultA&#x27;</span>, <span class="hljs-attr">optionB</span>: <span class="hljs-number">10</span>},
+      <span class="hljs-attr">render</span>: <span class="hljs-function">(<span class="hljs-params">setting: Setting&lt;MyComplexObject&gt;</span>) =&gt;</span> {
+        <span class="hljs-keyword">const</span> currentValue = setting.get();
+        <span class="hljs-keyword">return</span> m(<span class="hljs-string">&#x27;div.custom-setting-container&#x27;</span>, [
+          m(<span class="hljs-string">&#x27;label&#x27;</span>, <span class="hljs-string">&#x27;Option A:&#x27;</span>),
+          m(<span class="hljs-string">&#x27;input[type=text]&#x27;</span>, {
+            <span class="hljs-attr">value</span>: currentValue.optionA,
+            <span class="hljs-attr">oninput</span>: <span class="hljs-function">(<span class="hljs-params">e: Event</span>) =&gt;</span> {
+              <span class="hljs-keyword">const</span> target = e.target <span class="hljs-keyword">as</span> HTMLInputElement;
+              setting.set({...currentValue, <span class="hljs-attr">optionA</span>: target.value});
+            },
+          }),
+          m(<span class="hljs-string">&#x27;label&#x27;</span>, <span class="hljs-string">&#x27;Option B (number):&#x27;</span>),
+          m(<span class="hljs-string">&#x27;input[type=number]&#x27;</span>, {
+            <span class="hljs-attr">value</span>: currentValue.optionB,
+            <span class="hljs-attr">oninput</span>: <span class="hljs-function">(<span class="hljs-params">e: Event</span>) =&gt;</span> {
+              <span class="hljs-keyword">const</span> target = e.target <span class="hljs-keyword">as</span> HTMLInputElement;
+              setting.set({
+                ...currentValue,
+                <span class="hljs-attr">optionB</span>: <span class="hljs-built_in">parseInt</span>(target.value, <span class="hljs-number">10</span>) || <span class="hljs-number">0</span>,
+              });
+            },
+          }),
+          m(<span class="hljs-string">&#x27;button&#x27;</span>, {<span class="hljs-attr">onclick</span>: <span class="hljs-function">() =&gt;</span> setting.reset()}, <span class="hljs-string">&#x27;Reset to Default&#x27;</span>),
+          setting.isDefault ? m(<span class="hljs-string">&#x27;span&#x27;</span>, <span class="hljs-string">&#x27; (Default)&#x27;</span>) : <span class="hljs-literal">null</span>,
+        ]);
+      },
+    });
+
+    <span class="hljs-comment">// 使用设置值</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.simpleBooleanSetting.get()) {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Simple feature is ON&#x27;</span>);
+    }
+    <span class="hljs-keyword">const</span> complexConf = <span class="hljs-built_in">this</span>.complexObjectSetting.get();
+    <span class="hljs-built_in">console</span>.log(
+      <span class="hljs-string">`Complex config: A=<span class="hljs-subst">${complexConf.optionA}</span>, B=<span class="hljs-subst">${complexConf.optionB}</span>`</span>,
+    );
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-title">onTraceLoad</span>(<span class="hljs-params">trace: Trace</span>)</span> {
+    <span class="hljs-comment">// 在 onTraceLoad 中使用设置</span>
+    <span class="hljs-keyword">if</span> (MySettingsPlugin.simpleBooleanSetting.get()) {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Simple feature is ON&#x27;</span>);
+    }
+  }
+}</code><p>使用 Zod schemas 确保设置是类型安全且经验证的，防止存储无效数据。自定义渲染器为复杂设置创建直观 UI 提供了强大的方式。</p>
+<p>示例：</p>
+<ul>
+<li><a href="https://github.com/google/perfetto/blob/main/ui/src/plugins/com.example.Settings/index.ts">https://github.com/google/perfetto/blob/main/ui/src/plugins/com.example.Settings/index.ts</a></li>
+</ul>
+<h3><a name="-" class="anchor" href="#-"></a>日志记录分析和错误</h3><p>插件可以通过记录自定义事件和错误来为 Perfetto 的内部分析做出贡献。这有助于了解功能使用情况并识别问题。分析界面可通过 <code>app.analytics</code>（在 <code>onActivate</code> 中）或 <code>trace.analytics</code>（在 <code>onTraceLoad</code> 中）使用。</p>
+<p><code>Analytics</code> 接口提供以下方法：</p>
+<ul>
+<li><code>logEvent(category: TraceCategories | null, event: string): void</code>：记录特定事件。<ul>
+<li><code>category</code>：可以是预定义的 <code>TraceCategories</code> 之一（例如，
+<code>&#39;Trace Actions&#39;</code>、<code>&#39;Record Trace&#39;</code>、<code>&#39;User Actions&#39;</code>）或 <code>null</code> 用于一般插件事件。如果你的插件操作不适合预定义的类别，建议使用 <code>null</code> 或非常具体的事件字符串，以避免污染一般指标。</li>
+<li><code>event</code>：描述事件的字符串（例如，&quot;MyPlugin:FeatureUsed&quot;、
+&quot;MyPlugin:SpecificActionCompleted&quot;）。</li>
+</ul>
+</li>
+<li><code>logError(err: ErrorDetails): void</code>：记录错误。<ul>
+<li><code>err</code>：一个 <code>ErrorDetails</code> 对象，通常包括错误消息，可以包括 stack trace 或其他上下文。</li>
+</ul>
+</li>
+<li><code>isEnabled(): boolean</code>：检查分析记录当前是否已启用。插件应该尊重这一点，如果返回 <code>false</code>，则避免记录。</li>
+</ul>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block"><span class="hljs-keyword">import</span> {App, Trace, Analytics, ErrorDetails} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../public&#x27;</span>; <span class="hljs-comment">// 调整路径</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">implements</span> <span class="hljs-title">PerfettoPlugin</span> </span>{
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> id = <span class="hljs-string">&#x27;com.example.MyAnalyticsPlugin&#x27;</span>;
+
+  <span class="hljs-keyword">static</span> onActivate(app: App): <span class="hljs-built_in">void</span> {
+    <span class="hljs-keyword">if</span> (app.analytics.isEnabled()) {
+      app.analytics.logEvent(<span class="hljs-literal">null</span>, <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-built_in">this</span>.id}</span>:Activated`</span>);
+    }
+  }
+
+  <span class="hljs-keyword">async</span> onTraceLoad(trace: Trace): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt; {
+    <span class="hljs-keyword">if</span> (trace.analytics.isEnabled()) {
+      trace.analytics.logEvent(<span class="hljs-string">&#x27;User Actions&#x27;</span>, <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-built_in">this</span>.id}</span>:TraceLoaded`</span>);
+    }
+
+    <span class="hljs-comment">// 记录自定义操作的示例</span>
+    <span class="hljs-built_in">this</span>.performSomeAction(trace.analytics);
+  }
+
+  <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-title">performSomeAction</span>(<span class="hljs-params">analytics: Analytics</span>)</span> {
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-comment">// ... 一些插件逻辑 ...</span>
+      <span class="hljs-keyword">if</span> (analytics.isEnabled()) {
+        analytics.logEvent(<span class="hljs-literal">null</span>, <span class="hljs-string">`<span class="hljs-subst">${MyAnalyticsPlugin.id}</span>:SomeActionSuccess`</span>);
+      }
+    } <span class="hljs-keyword">catch</span> (e) {
+      <span class="hljs-keyword">if</span> (analytics.isEnabled()) {
+        <span class="hljs-keyword">const</span> errorDetails: ErrorDetails = {
+          <span class="hljs-attr">message</span>: <span class="hljs-string">`Error in <span class="hljs-subst">${MyAnalyticsPlugin.id}</span>.performSomeAction: <span class="hljs-subst">${
+            (e <span class="hljs-keyword">as</span> <span class="hljs-built_in">Error</span>).message
+          }</span>`</span>,
+          <span class="hljs-attr">stack</span>: (e <span class="hljs-keyword">as</span> <span class="hljs-built_in">Error</span>).stack,
+        };
+        analytics.logError(errorDetails);
+      }
+      <span class="hljs-comment">// 可选地重新抛出或处理错误</span>
+    }
+  }
+}</code><p>通过使用提供的分析界面，插件可以以一致的方式将其遥测与主应用程序集成。</p>
+<h3><a name="-timeline-span" class="anchor" href="#-timeline-span"></a>添加 Timeline 注释和 Span</h3><p>插件可以直接在 Timeline 上添加视觉标记（notes）和高亮时间范围（span notes）。这对于根据插件特定的逻辑或用户操作吸引对特定点或持续时间的注意很有用。<code>NoteManager</code> 可通过 <code>trace.notes</code> 在 <code>onTraceLoad</code> 钩子内或 <code>Trace</code> 对象可访问的任何上下文中使用。</p>
+<p><strong>关键接口：</strong></p>
+<ul>
+<li><code>Note</code>：表示 Timeline 上的单个时间点标记。<ul>
+<li><code>timestamp</code> (<code>time</code>)：note 的确切时间。</li>
+<li><code>color</code> (string, optional)：note 标记的颜色。默认为随机颜色。</li>
+<li><code>text</code> (string, optional)：悬停在 note 上时显示的文本。</li>
+<li><code>id</code> (string, optional)：唯一 ID。如果提供，可用于更新现有 note。如果省略，则自动分配。</li>
+</ul>
+</li>
+<li><code>SpanNote</code>：表示高亮的时间范围。<ul>
+<li><code>start</code> (<code>time</code>)：span 的开始时间。</li>
+<li><code>end</code> (<code>time</code>)：span 的结束时间。</li>
+<li><code>color</code>、<code>text</code>、<code>id</code>：与 <code>Note</code> 相同。</li>
+</ul>
+</li>
+</ul>
+<p><strong>使用 <code>NoteManager</code>：</strong></p>
+<ul>
+<li><code>trace.notes.addNote(args: AddNoteArgs): string</code>：将 point note 添加到 Timeline 并返回其 ID。</li>
+<li><code>trace.notes.addSpanNote(args: AddSpanNoteArgs): string</code>：将 span note 添加到 Timeline 并返回其 ID。</li>
+<li><code>trace.notes.getNote(id: string): Note | SpanNote | undefined</code>：通过其 ID 检索先前添加的 note 或 span note。</li>
+</ul>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block"><span class="hljs-keyword">import</span> {Trace, time} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../public&#x27;</span>; <span class="hljs-comment">// 根据需要调整路径</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">implements</span> <span class="hljs-title">PerfettoPlugin</span> </span>{
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> id = <span class="hljs-string">&#x27;com.example.MyTimelineNotesPlugin&#x27;</span>;
+
+  <span class="hljs-keyword">async</span> onTraceLoad(trace: Trace): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt; {
+    <span class="hljs-comment">// 示例：在 trace 10 秒处添加 point note</span>
+    <span class="hljs-keyword">const</span> noteId = trace.notes.addNote({
+      <span class="hljs-attr">timestamp</span>: time.fromSeconds(<span class="hljs-number">10</span>),
+      <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Interesting event occurred here!&#x27;</span>,
+      <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;#FF00FF&#x27;</span>, <span class="hljs-comment">// 品红色</span>
+    });
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Added note with ID: <span class="hljs-subst">${noteId}</span>`</span>);
+
+    <span class="hljs-comment">// 示例：从 15s 到 20s 添加 span note</span>
+    <span class="hljs-keyword">const</span> spanNoteId = trace.notes.addSpanNote({
+      <span class="hljs-attr">start</span>: time.fromSeconds(<span class="hljs-number">15</span>),
+      <span class="hljs-attr">end</span>: time.fromSeconds(<span class="hljs-number">20</span>),
+      <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Critical duration under investigation&#x27;</span>,
+      <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;rgba(255, 165, 0, 0.5)&#x27;</span>, <span class="hljs-comment">// 橙色，半透明</span>
+    });
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Added span note with ID: <span class="hljs-subst">${spanNoteId}</span>`</span>);
+
+    <span class="hljs-comment">// 稍后，如果需要，你可以检索 note</span>
+    <span class="hljs-keyword">const</span> retrievedNote = trace.notes.getNote(noteId);
+    <span class="hljs-keyword">if</span> (retrievedNote) {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Retrieved note text:&#x27;</span>, retrievedNote.text);
+    }
+  }
+}</code><p>这些 notes 在 Timeline 的标记 track 上可视化表示，为插件 s 动态注释 trace 提供了一种方式。</p>
+<h3><a name="-minimap" class="anchor" href="#-minimap"></a>控制 Minimap</h3><p>插件可以提供自定义数据以显示在全局 timeline minimap 上。这允许在整个 trace 持续时间内可视化插件特定数据的高级概述。<code>MinimapManager</code> 可通过 <code>trace.minimap</code> 在 <code>onTraceLoad</code> 钩子内使用。</p>
+<p>要贡献内容，plugin 必须注册 <code>MinimapContentProvider</code>：</p>
+<ul>
+<li><code>priority</code> (number)：如果多个插件提供 minimap providers，优先级最高的获胜并完全控制 minimap。</li>
+<li><code>getData(timeSpan: HighPrecisionTimeSpan, resolution: duration): Promise&lt;MinimapRow[]&gt;</code>：
+UI 调用以获取给定 <code>timeSpan</code> 在特定 <code>resolution</code> 下的 minimap 数据的函数。<ul>
+<li>它应该返回一个 Promise，解析为 <code>MinimapRow</code> 数组。</li>
+<li>每个 <code>MinimapRow</code> 是一个 <code>MinimapCell</code> 对象数组。</li>
+<li>每个 <code>MinimapCell</code> 定义：<ul>
+<li><code>ts</code> (<code>time</code>)：单元的开始时间戳。</li>
+<li><code>dur</code> (<code>duration</code>)：此单元覆盖的持续时间。</li>
+<li><code>load</code> (number)：表示此单元强度或利用率的标准化值（0.0 到 1.0）。UI 使用此值来渲染单元的视觉表示（例如，颜色强度）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>使用 <code>MinimapManager</code>：</strong></p>
+<ul>
+<li><code>trace.minimap.registerContentProvider(provider: MinimapContentProvider): void</code>：
+注册你的自定义 provider。</li>
+</ul>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block"><span class="hljs-keyword">import</span> {
+  Trace,
+  MinimapContentProvider,
+  MinimapRow,
+  MinimapCell,
+  HighPrecisionTimeSpan,
+  duration,
+  time,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../public&#x27;</span>; <span class="hljs-comment">// 调整路径</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyMinimapDataProvider</span> <span class="hljs-title">implements</span> <span class="hljs-title">MinimapContentProvider</span> </span>{
+  <span class="hljs-keyword">readonly</span> priority = <span class="hljs-number">10</span>; <span class="hljs-comment">// 示例优先级</span>
+
+  <span class="hljs-keyword">async</span> getData(
+    timeSpan: HighPrecisionTimeSpan,
+    <span class="hljs-attr">resolution</span>: duration,
+  ): <span class="hljs-built_in">Promise</span>&lt;MinimapRow[]&gt; {
+    <span class="hljs-comment">// 在实际实现中，你会查询 Trace Processor 或使用其他插件数据源来基于 timeSpan 和 resolution 生成单元。</span>
+    <span class="hljs-comment">// 此示例生成带有某些虚拟数据的单行。</span>
+
+    <span class="hljs-keyword">const</span> cells: MinimapCell[] = [];
+    <span class="hljs-keyword">let</span> currentTs = timeSpan.start;
+    <span class="hljs-keyword">const</span> step = resolution; <span class="hljs-comment">// 使用提供的 resolution 作为步长</span>
+
+    <span class="hljs-keyword">while</span> (currentTs &lt; timeSpan.end) {
+      <span class="hljs-keyword">const</span> cellEnd = time.add(currentTs, step);
+      cells.push({
+        <span class="hljs-attr">ts</span>: currentTs,
+        <span class="hljs-attr">dur</span>: step,
+        <span class="hljs-comment">// 生成一些 load，例如，基于插件数据中的活动</span>
+        <span class="hljs-attr">load</span>: <span class="hljs-built_in">Math</span>.random(), <span class="hljs-comment">// 替换为实际数据计算</span>
+      });
+      currentTs = cellEnd;
+      <span class="hljs-keyword">if</span> (cells.length &gt; <span class="hljs-number">1000</span>) <span class="hljs-keyword">break</span>; <span class="hljs-comment">// 虚拟数据的安全中断</span>
+    }
+
+    <span class="hljs-comment">// 插件可以返回多行，如果他们想在 minimap 中表示不同的层或数据类型。</span>
+    <span class="hljs-keyword">return</span> [cells];
+  }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">implements</span> <span class="hljs-title">PerfettoPlugin</span> </span>{
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> id = <span class="hljs-string">&#x27;com.example.MyMinimapPlugin&#x27;</span>;
+
+  <span class="hljs-keyword">async</span> onTraceLoad(trace: Trace): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt; {
+    <span class="hljs-keyword">const</span> provider = <span class="hljs-keyword">new</span> MyMinimapDataProvider();
+    trace.minimap.registerContentProvider(provider);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;MyMinimapDataProvider registered.&#x27;</span>);
+  }
+}</code><p>UI 将在需要重新绘制 minimap 时调用注册 providers 的 <code>getData</code> 方法，允许插件贡献动态的、trace-wide 的概述。</p>
+<h3><a name="-" class="anchor" href="#-"></a>插件依赖</h3><p>插件可以声明对其他插件的依赖。这确保在当前插件被激活和加载之前加载依赖插件并可用。当插件需要扩展或利用另一个插件提供的功能时，这很有用。</p>
+<p><strong>声明依赖：</strong></p>
+<p>Plugin 在其类定义中通过静态 <code>dependencies</code> 数组声明其依赖。此数组应包含其依赖插件的静态类的直接引用。</p>
+<code class="hljs code-block"><span class="hljs-comment">// plugin-a.ts</span>
+<span class="hljs-keyword">import</span> {PerfettoPlugin, PerfettoPluginStatic, App, Trace} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../public&#x27;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PluginA</span> <span class="hljs-title">implements</span> <span class="hljs-title">PerfettoPlugin</span> </span>{
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> id = <span class="hljs-string">&#x27;com.example.PluginA&#x27;</span>;
+  <span class="hljs-comment">// ...</span>
+  doSomething(): <span class="hljs-built_in">string</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;Data from Plugin A&#x27;</span>;
+  }
+}
+
+<span class="hljs-comment">// plugin-b.ts</span>
+<span class="hljs-keyword">import</span> {PerfettoPlugin, PerfettoPluginStatic, App, Trace} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../public&#x27;</span>;
+<span class="hljs-keyword">import</span> PluginA <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./plugin-a&#x27;</span>; <span class="hljs-comment">// 导入静态类</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PluginB</span> <span class="hljs-title">implements</span> <span class="hljs-title">PerfettoPlugin</span> </span>{
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> id = <span class="hljs-string">&#x27;com.example.PluginB&#x27;</span>;
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> dependencies = [PluginA]; <span class="hljs-comment">// 将 PluginA 声明为依赖</span>
+
+  <span class="hljs-keyword">private</span> pluginAInstance?: PluginA;
+
+  <span class="hljs-keyword">async</span> onTraceLoad(ctx: Trace): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt; {
+    <span class="hljs-comment">// 获取依赖的实例</span>
+    <span class="hljs-built_in">this</span>.pluginAInstance = ctx.plugins.getPlugin(PluginA);
+
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.pluginAInstance) {
+      <span class="hljs-keyword">const</span> dataFromA = <span class="hljs-built_in">this</span>.pluginAInstance.doSomething();
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">${PluginB.id}</span> received: <span class="hljs-subst">${dataFromA}</span>`</span>);
+      <span class="hljs-comment">// 使用来自 pluginAInstance 的 dataFromA 或其他方法</span>
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-built_in">console</span>.error(<span class="hljs-string">`<span class="hljs-subst">${PluginB.id}</span> could not get instance of <span class="hljs-subst">${PluginA.id}</span>`</span>);
+    }
+  }
+}</code><p><strong>访问依赖：</strong></p>
+<p>一旦插件被加载（例如，在 <code>onActivate</code> 或 <code>onTraceLoad</code> 内），它可以使用 <code>App</code> 或 <code>Trace</code> 上下文对象上可用的 <code>plugins.getPlugin()</code> 方法获取声明的依赖的实例。你将依赖的静态类传递给此方法。</p>
+<ul>
+<li><code>app.plugins.getPlugin&lt;T extends PerfettoPlugin&gt;(plugin: PerfettoPluginStatic&lt;T&gt;): T</code></li>
+<li><code>trace.plugins.getPlugin&lt;T extends PerfettoPlugin&gt;(plugin: PerfettoPluginStatic&lt;T&gt;): T</code></li>
+</ul>
+<p>核心确保在调用依赖插件的 <code>onActivate</code> 和 <code>onTraceLoad</code> 之前调用它们。如果无法加载依赖，依赖插件可能不会加载或可能在尝试获取插件实例时收到 <code>undefined</code>。</p>
+<p><strong>示例：</strong></p>
+<p><a href="https://github.com/google/perfetto/blob/main/ui/src/plugins/dev.perfetto.TraceProcessorTrack/index.ts"><code>dev.perfetto.TraceProcessorTrack</code></a>
+plugin 依赖于 <code>ProcessThreadGroupsPlugin</code> 和 <code>StandardGroupsPlugin</code> 来组织 tracks 在适当的进程、线程或标准组下。</p>
+<code class="hljs code-block"><span class="hljs-comment">// 来自 ui/src/plugins/dev.perfetto.TraceProcessorTrack/index.ts</span>
+<span class="hljs-keyword">import</span> ProcessThreadGroupsPlugin <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../dev.perfetto.ProcessThreadGroups&#x27;</span>;
+<span class="hljs-keyword">import</span> StandardGroupsPlugin <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../dev.perfetto.StandardGroups&#x27;</span>;
+<span class="hljs-comment">// ...</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TraceProcessorTrackPlugin</span> <span class="hljs-title">implements</span> <span class="hljs-title">PerfettoPlugin</span> </span>{
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> id = <span class="hljs-string">&#x27;dev.perfetto.TraceProcessorTrack&#x27;</span>;
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> dependencies = [
+    ProcessThreadGroupsPlugin,
+    StandardGroupsPlugin,
+  ];
+
+  <span class="hljs-comment">// ...</span>
+  <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-title">addTrack</span>(<span class="hljs-params">
+    ctx: Trace,
+    <span class="hljs-comment">// ...</span>
+  </span>)</span> {
+    <span class="hljs-comment">// ...</span>
+    <span class="hljs-keyword">const</span> processGroupPlugin = ctx.plugins.getPlugin(ProcessThreadGroupsPlugin);
+    <span class="hljs-keyword">const</span> standardGroupPlugin = ctx.plugins.getPlugin(StandardGroupsPlugin);
+    <span class="hljs-comment">// 使用 processGroupPlugin 和 standardGroupPlugin 的实例...</span>
+  }
+}</code><p>通过声明依赖，插件可以相互构建，创建一个更模块化和可扩展的系统。</p>
+<h2><a name="-" class="anchor" href="#-"></a>默认插件</h2><p>一些插件默认启用。这些插件比非默认插件具有更高的质量标准，因为对这些插件的更改会影响 UI 的所有用户。默认插件的列表指定在
+<a href="https://github.com/google/perfetto/blob/main/ui/src/core/default_plugins.ts">ui/src/core/default_plugins.ts</a>。</p>
+<p>特别是，你的插件的启动时间将受到审查，如果你的插件对不使用你插件功能的用户有重大影响，你的插件可能会被默认禁用。要查看插件及其启动时间的列表，请访问 <a href="https://ui.perfetto.dev/#!/plugins">插件页面</a> 并按启动时间排序。</p>
+<p>大多数默认插件与 Android 和 Chrome 相关，这是由于 Perfetto 项目的血统，ui.perfetto.dev 主要服务于 Android 和 Chrome 遥测团队。</p>
+<h2><a name="-" class="anchor" href="#-"></a>其他注意事项</h2><ul>
+<li>插件必须在
+<a href="https://spdx.org/licenses/Apache-2.0.html">Apache-2.0</a> 下许可，与仓库中的所有其他代码相同。</li>
+<li>插件</li>
+</ul>
+
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

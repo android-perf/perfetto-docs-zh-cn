@@ -1,0 +1,2552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PerfettoSQL Prelude - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="PerfettoSQL Prelude - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/analysis/sql-tables">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/style.css">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/perfetto-docs-zh-cn/assets/favicon.png" />
+  <script type="text/javascript" src="/perfetto-docs-zh-cn/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/perfetto-docs-zh-cn/">
+      <img src="/perfetto-docs-zh-cn/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/perfetto-docs-zh-cn/docs/">Docs</a>
+  <a href="/perfetto-docs-zh-cn/docs/contributing/getting-started#community.html">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/perfetto-docs-zh-cn/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/tracing-101.html">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/start-using-perfetto.html">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/system-tracing.html">系统 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/in-app-tracing.html">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/memory-profiling.html">Memory Profiling</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/cpu-profiling.html">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/atrace.html">Android atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/ftrace.html">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/other-formats.html">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/converting.html">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/android-trace-analysis.html">分析 Android Trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/periodic-trace-snapshots.html">周期性 Trace 快照</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/memory.html">Android 内存使用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/scheduling-blockages.html">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/config.html">Trace 配置</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/buffers.html">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/service-model.html">服务模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/clock-sync.html">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/tracing-in-background.html">后台 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/android.html">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/chrome-tracing.html">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/tracing-sdk.html">Tracing SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/track-events.html">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/stdlib-docs.html">标准库</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-syntax.html">语法</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/style-guide.html">样式指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-backcompat.html">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor.html">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor-python.html">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-summary.html">Trace 汇总</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/quickstart/traceconv.html">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui.html">Perfetto UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/large-traces.html">打开大型 trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/deep-linking-to-perfetto-ui.html">深度链接</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/debug-tracks.html">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extending-the-ui.html">概述</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">命令和宏</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-servers.html">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/common-tasks.html">常见任务</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/become-a-committer.html">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-plugins.html">插件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/faq.html">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/native-heap-profiler.html">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/java-heap-profiler.html">Java 堆转储</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/memory-counters.html">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-scheduling.html">调度事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/syscalls.html">系统调用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-freq.html">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/atrace.html">Atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-log.html">Logcat</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/frametimeline.html">Frame Timeline</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/battery-counters.html">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-game-intervention-list.html">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-packet-proto.html">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/synthetic-track-event.html">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-config-proto.html">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/concurrent-tracing-sessions.html">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/detached-mode.html">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-boot-tracing.html">开机 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-outofmemoryerror.html">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/android-version-notes.html">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/kernel-track-event.html">内核 track 事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/previous-boot-trace.html">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/perfetto-cli.html">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced.html">traced</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced_probes.html">traced_probes</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/heap_profile-cli.html">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/tracebox.html">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables.html">Prelude 表</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/builtin.html">内置函数</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-stats.html">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/metrics.html">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-a-single-machine.html">Bigtrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-kubernetes.html">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/interceptors.html">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/commands-automation-reference.html">命令自动化参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol.html">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/build-instructions.html">构建</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/testing.html">测试</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/developer-tools.html">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sdk-releasing.html">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/python-releasing.html">Python 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui-release-process.html">UI 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/chrome-branches.html">Chrome 分支</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sqlite-upgrade-guide.html">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/api-and-abi.html">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/life-of-a-tracing-session.html">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/protozero.html">ProtoZero</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/security-model.html">安全模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/checkpoint-atoms.html">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/trace-processor-architecture.html">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-design.html">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-wire-protocol.html">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-sampling.html">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/continuous-integration.html">Perfetto CI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/lock-free-task-runner.html">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/analysis/sql-tables">
+    <h1>PerfettoSQL Prelude</h1><h2><a name="tables-diagram" class="anchor" href="#tables-diagram"></a>Tables diagram</h2><h4>Events tables</h4><div class="mermaid">graph TD
+  subgraph Events
+  SliceTable["slice"]
+  FtraceEventTable["ftrace_event"]
+  SchedSliceTable["sched"]
+  SpuriousSchedWakeupTable["spurious_sched_wakeup"]
+  ThreadStateTable["thread_state"]
+  end
+  SliceTable["slice"] -. parent_id .-> SliceTable["slice"]
+  SliceTable["slice"] -. arg_set_id .-> ArgTable["args"]
+  FtraceEventTable["ftrace_event"] -. utid .-> ThreadTable["thread"]
+  FtraceEventTable["ftrace_event"] -. arg_set_id .-> ArgTable["args"]
+  FtraceEventTable["ftrace_event"] -. ucpu .-> CpuTable["cpu"]
+  SchedSliceTable["sched"] -. ucpu .-> CpuTable["cpu"]
+  ThreadStateTable["thread_state"] -. waker_id .-> ThreadStateTable["thread_state"]
+  ThreadStateTable["thread_state"] -. ucpu .-> CpuTable["cpu"]
+  click SliceTable "#slice"
+  click SliceTable "#slice"
+  click ArgTable "#args"
+  click FtraceEventTable "#ftrace_event"
+  click ThreadTable "#thread"
+  click ArgTable "#args"
+  click CpuTable "#cpu"
+  click SchedSliceTable "#sched"
+  click CpuTable "#cpu"
+  click SpuriousSchedWakeupTable "#spurious_sched_wakeup"
+  click ThreadStateTable "#thread_state"
+  click ThreadStateTable "#thread_state"
+  click CpuTable "#cpu"
+</div><h4>Android tables</h4><div class="mermaid">graph TD
+  subgraph Android
+  AndroidDumpstateTable["android_dumpstate"]
+  AndroidGameInterventionListTable["android_game_intervention_list"]
+  end
+  click AndroidDumpstateTable "#android_dumpstate"
+  click AndroidGameInterventionListTable "#android_game_intervention_list"
+</div><h4>Callstack profilers tables</h4><div class="mermaid">graph TD
+  subgraph Callstack profilers
+  StackProfileMappingTable["stack_profile_mapping"]
+  StackProfileFrameTable["stack_profile_frame"]
+  StackProfileCallsiteTable["stack_profile_callsite"]
+  CpuProfileStackSampleTable["cpu_profile_stack_sample"]
+  HeapProfileAllocationTable["heap_profile_allocation"]
+  InstrumentsSampleTable["instruments_sample"]
+  PerfSessionTable["perf_session"]
+  PerfSampleTable["perf_sample"]
+  ProfilerSmapsTable["profiler_smaps"]
+  SymbolTable["stack_profile_symbol"]
+  end
+  StackProfileFrameTable["stack_profile_frame"] -. mapping .-> StackProfileMappingTable["stack_profile_mapping"]
+  StackProfileCallsiteTable["stack_profile_callsite"] -. parent_id .-> StackProfileCallsiteTable["stack_profile_callsite"]
+  StackProfileCallsiteTable["stack_profile_callsite"] -. frame_id .-> StackProfileFrameTable["stack_profile_frame"]
+  CpuProfileStackSampleTable["cpu_profile_stack_sample"] -. callsite_id .-> StackProfileCallsiteTable["stack_profile_callsite"]
+  HeapProfileAllocationTable["heap_profile_allocation"] -. callsite_id .-> StackProfileCallsiteTable["stack_profile_callsite"]
+  InstrumentsSampleTable["instruments_sample"] -. callsite_id .-> StackProfileCallsiteTable["stack_profile_callsite"]
+  PerfSampleTable["perf_sample"] -. callsite_id .-> StackProfileCallsiteTable["stack_profile_callsite"]
+  PerfSampleTable["perf_sample"] -. perf_session_id .-> PerfSessionTable["perf_session"]
+  click StackProfileMappingTable "#stack_profile_mapping"
+  click StackProfileFrameTable "#stack_profile_frame"
+  click StackProfileMappingTable "#stack_profile_mapping"
+  click StackProfileCallsiteTable "#stack_profile_callsite"
+  click StackProfileCallsiteTable "#stack_profile_callsite"
+  click StackProfileFrameTable "#stack_profile_frame"
+  click CpuProfileStackSampleTable "#cpu_profile_stack_sample"
+  click StackProfileCallsiteTable "#stack_profile_callsite"
+  click HeapProfileAllocationTable "#heap_profile_allocation"
+  click StackProfileCallsiteTable "#stack_profile_callsite"
+  click InstrumentsSampleTable "#instruments_sample"
+  click StackProfileCallsiteTable "#stack_profile_callsite"
+  click PerfSessionTable "#perf_session"
+  click PerfSampleTable "#perf_sample"
+  click StackProfileCallsiteTable "#stack_profile_callsite"
+  click PerfSessionTable "#perf_session"
+  click ProfilerSmapsTable "#profiler_smaps"
+  click SymbolTable "#stack_profile_symbol"
+</div><h4>Metadata tables</h4><div class="mermaid">graph TD
+  subgraph Metadata
+  MachineTable["machine"]
+  ProcessTable["process"]
+  ThreadTable["thread"]
+  FiledescriptorTable["filedescriptor"]
+  end
+  ProcessTable["process"] -. parent_upid .-> ProcessTable["process"]
+  ProcessTable["process"] -. uid .-> PackageListTable["package_list"]
+  ProcessTable["process"] -. arg_set_id .-> ArgTable["args"]
+  ProcessTable["process"] -. machine_id .-> MachineTable["machine"]
+  ThreadTable["thread"] -. upid .-> ProcessTable["process"]
+  ThreadTable["thread"] -. machine_id .-> MachineTable["machine"]
+  ThreadTable["thread"] -. arg_set_id .-> ArgTable["args"]
+  click MachineTable "#machine"
+  click ProcessTable "#process"
+  click ProcessTable "#process"
+  click PackageListTable "#package_list"
+  click ArgTable "#args"
+  click MachineTable "#machine"
+  click ThreadTable "#thread"
+  click ProcessTable "#process"
+  click MachineTable "#machine"
+  click ArgTable "#args"
+  click FiledescriptorTable "#filedescriptor"
+</div><h4>Winscope tables</h4><div class="mermaid">graph TD
+  subgraph Winscope
+  SurfaceFlingerLayersSnapshotTable["surfaceflinger_layers_snapshot"]
+  SurfaceFlingerLayerTable["surfaceflinger_layer"]
+  SurfaceFlingerTransactionsTable["surfaceflinger_transactions"]
+  WindowManagerShellTransitionsTable["window_manager_shell_transitions"]
+  WindowManagerShellTransitionHandlersTable["window_manager_shell_transition_handlers"]
+  WindowManagerTable["windowmanager"]
+  WindowManagerWindowContainerTable["windowmanager_windowcontainer"]
+  ProtoLogTable["protolog"]
+  end
+  SurfaceFlingerLayerTable["surfaceflinger_layer"] -. snapshot_id .-> SurfaceFlingerLayersSnapshotTable["surfaceflinger_layers_snapshot"]
+  WindowManagerWindowContainerTable["windowmanager_windowcontainer"] -. snapshot_id .-> WindowManagerTable["windowmanager"]
+  click SurfaceFlingerLayersSnapshotTable "#surfaceflinger_layers_snapshot"
+  click SurfaceFlingerLayerTable "#surfaceflinger_layer"
+  click SurfaceFlingerLayersSnapshotTable "#surfaceflinger_layers_snapshot"
+  click SurfaceFlingerTransactionsTable "#surfaceflinger_transactions"
+  click WindowManagerShellTransitionsTable "#window_manager_shell_transitions"
+  click WindowManagerShellTransitionHandlersTable "#window_manager_shell_transition_handlers"
+  click WindowManagerTable "#windowmanager"
+  click WindowManagerWindowContainerTable "#windowmanager_windowcontainer"
+  click WindowManagerTable "#windowmanager"
+  click ProtoLogTable "#protolog"
+</div><h4>Misc tables</h4><div class="mermaid">graph TD
+  subgraph Misc
+  FlowTable["flow"]
+  ArgTable["args"]
+  ClockSnapshotTable["clock_snapshot"]
+  CpuTable["cpu"]
+  CpuFreqTable["cpu_freq"]
+  GpuTable["gpu"]
+  TraceFileTable["trace_file"]
+  GpuCounterGroupTable["gpu_counter_group"]
+  PackageListTable["package_list"]
+  VulkanMemoryAllocationsTable["vulkan_memory_allocations"]
+  end
+  FlowTable["flow"] -. slice_out .-> SliceTable["slice"]
+  FlowTable["flow"] -. slice_in .-> SliceTable["slice"]
+  ClockSnapshotTable["clock_snapshot"] -. machine_id .-> MachineTable["machine"]
+  CpuTable["cpu"] -. machine_id .-> MachineTable["machine"]
+  CpuFreqTable["cpu_freq"] -. ucpu .-> CpuTable["cpu"]
+  GpuTable["gpu"] -. machine_id .-> MachineTable["machine"]
+  TraceFileTable["trace_file"] -. parent_id .-> TraceFileTable["trace_file"]
+  click FlowTable "#flow"
+  click SliceTable "#slice"
+  click SliceTable "#slice"
+  click ArgTable "#args"
+  click ClockSnapshotTable "#clock_snapshot"
+  click MachineTable "#machine"
+  click CpuTable "#cpu"
+  click MachineTable "#machine"
+  click CpuFreqTable "#cpu_freq"
+  click CpuTable "#cpu"
+  click GpuTable "#gpu"
+  click MachineTable "#machine"
+  click TraceFileTable "#trace_file"
+  click TraceFileTable "#trace_file"
+  click GpuCounterGroupTable "#gpu_counter_group"
+  click PackageListTable "#package_list"
+  click VulkanMemoryAllocationsTable "#vulkan_memory_allocations"
+</div><h2><a name="events" class="anchor" href="#events"></a>Events</h2><h3><a name="slice" class="anchor" href="#slice"></a>slice</h3><p>Contains slices from userspace which explains what threads were doing
+during the trace.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>SliceTable::Id</td>
+<td>Unique identifier for this slice.</td>
+</tr>
+<tr>
+<td>ts</td>
+<td>int64_t</td>
+<td>The timestamp at the start of the slice (in nanoseconds).</td>
+</tr>
+<tr>
+<td>dur</td>
+<td>int64_t</td>
+<td>The duration of the slice (in nanoseconds).</td>
+</tr>
+<tr>
+<td>track_id</td>
+<td>TrackTable::Id</td>
+<td>The id of the track this slice is located on<br>Joinable with <a href="#__intrinsic_track">__intrinsic_track.id</a></td>
+</tr>
+<tr>
+<td>category</td>
+<td>string<br><code>optional</code></td>
+<td>The &quot;category&quot; of the slice. If this slice originated with                   track_event, this column contains the category emitted<br>                  Otherwise, it is likely to be null (with limited exceptions).</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string<br><code>optional</code></td>
+<td>The name of the slice. The name describes what was happening                   during the slice.</td>
+</tr>
+<tr>
+<td>depth</td>
+<td>uint32_t</td>
+<td>The depth of the slice in the current stack of slices.</td>
+</tr>
+<tr>
+<td>parent_id</td>
+<td>SliceTable::Id<br><code>optional</code></td>
+<td>The id of the parent (i.e. immediate ancestor) slice for this                   slice<br>                 Joinable with <a href="#slice">slice.id</a></td>
+</tr>
+<tr>
+<td>arg_set_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>The id of the argument set associated with this slice<br>Joinable with <a href="#args">args.arg_set_id</a></td>
+</tr>
+<tr>
+<td>thread_ts</td>
+<td>int64_t<br><code>optional</code></td>
+<td>The thread timestamp at the start of the slice. This column                   will only be populated if thread timestamp collection is                   enabled with track_event.</td>
+</tr>
+<tr>
+<td>thread_dur</td>
+<td>int64_t<br><code>optional</code></td>
+<td>&#39;                   The thread time used by this slice. This column will only be                   populated if thread timestamp collection is enabled with                   track_event.</td>
+</tr>
+<tr>
+<td>thread_instruction_count</td>
+<td>int64_t<br><code>optional</code></td>
+<td>The value of the CPU instruction counter at the start of the                   slice. This column will only be populated if thread                   instruction collection is enabled with track_event.</td>
+</tr>
+<tr>
+<td>thread_instruction_delta</td>
+<td>int64_t<br><code>optional</code></td>
+<td>The change in value of the CPU instruction counter between the                   start and end of the slice. This column will only be                   populated if thread instruction collection is enabled with                   track_event.</td>
+</tr>
+</tbody></table>
+<h3><a name="ftrace_event" class="anchor" href="#ftrace_event"></a>ftrace_event</h3><p>Contains all the ftrace events in the trace. This table exists only
+for debugging purposes and should not be relied on in production
+usecases (i.e. metrics, standard library etc). Note also that this
+table might be empty if raw ftrace parsing has been disabled.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>FtraceEventTable::Id</td>
+<td>Unique identifier for this ftrace_event.</td>
+</tr>
+<tr>
+<td>ts</td>
+<td>int64_t</td>
+<td>The timestamp of this event.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>The name of the event. For ftrace events, this will be the                   ftrace event name.</td>
+</tr>
+<tr>
+<td>utid</td>
+<td>uint32_t</td>
+<td>The thread this event was emitted on<br>Joinable with <a href="#thread">thread.id</a></td>
+</tr>
+<tr>
+<td>arg_set_id</td>
+<td>uint32_t</td>
+<td>The set of key/value pairs associated with this event<br>Joinable with <a href="#args">args.arg_set_id</a></td>
+</tr>
+<tr>
+<td>common_flags</td>
+<td>uint32_t</td>
+<td>Ftrace event flags for this event. Currently only emitted for                   sched_waking events.</td>
+</tr>
+<tr>
+<td>ucpu</td>
+<td>CpuTable::Id</td>
+<td>The unique CPU indentifier<br>                 Joinable with <a href="#cpu">cpu.id</a></td>
+</tr>
+</tbody></table>
+<h3><a name="sched" class="anchor" href="#sched"></a>sched</h3><p>This table holds slices with kernel thread scheduling information.
+These slices are collected when the Linux &quot;ftrace&quot; data source is
+used with the &quot;sched/switch&quot; and &quot;sched/wakeup*&quot; events enabled.</p>
+<p>The rows in this table will always have a matching row in the
+|thread_state| table with |thread_state.state| = &#39;Running&#39;</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>SchedSliceTable::Id</td>
+<td>Unique identifier for this sched.</td>
+</tr>
+<tr>
+<td>ts</td>
+<td>int64_t</td>
+<td>The timestamp at the start of the slice (in nanoseconds).</td>
+</tr>
+<tr>
+<td>dur</td>
+<td>int64_t</td>
+<td>The duration of the slice (in nanoseconds).</td>
+</tr>
+<tr>
+<td>utid</td>
+<td>uint32_t</td>
+<td>The thread&#39;s unique id in the trace.</td>
+</tr>
+<tr>
+<td>end_state</td>
+<td>string</td>
+<td>A string representing the scheduling state of the kernel                   thread at the end of the slice.  The individual characters in                   the string mean the following: R (runnable), S (awaiting a                   wakeup), D (in an uninterruptible sleep), T (suspended),                   t (being traced), X (exiting), P (parked), W (waking),                   I (idle), N (not contributing to the load average),                   K (wakeable on fatal signals) and Z (zombie, awaiting                   cleanup).</td>
+</tr>
+<tr>
+<td>priority</td>
+<td>int32_t</td>
+<td>The kernel priority that the thread ran at.</td>
+</tr>
+<tr>
+<td>ucpu</td>
+<td>CpuTable::Id</td>
+<td>The unique CPU identifier that the slice executed on<br>                 Joinable with <a href="#cpu">cpu.id</a></td>
+</tr>
+</tbody></table>
+<h3><a name="spurious_sched_wakeup" class="anchor" href="#spurious_sched_wakeup"></a>spurious_sched_wakeup</h3><p>This table contains the scheduling wakeups that occurred while a
+thread was not blocked, i.e. running or runnable. Such wakeups are not
+tracked in the |thread_state_table|.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>SpuriousSchedWakeupTable::Id</td>
+<td>Unique identifier for this spurious_sched_wakeup.</td>
+</tr>
+<tr>
+<td>ts</td>
+<td>int64_t</td>
+<td>The timestamp at the start of the slice (in nanoseconds).</td>
+</tr>
+<tr>
+<td>thread_state_id</td>
+<td>int64_t</td>
+<td>The id of the row in the thread_state table that this row is                   associated with.</td>
+</tr>
+<tr>
+<td>irq_context</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Whether the wakeup was from interrupt context or process                   context.</td>
+</tr>
+<tr>
+<td>utid</td>
+<td>uint32_t</td>
+<td>The thread&#39;s unique id in the trace..</td>
+</tr>
+<tr>
+<td>waker_utid</td>
+<td>uint32_t</td>
+<td>The unique thread id of the thread which caused a wakeup of                   this thread.</td>
+</tr>
+</tbody></table>
+<h3><a name="thread_state" class="anchor" href="#thread_state"></a>thread_state</h3><p>This table contains the scheduling state of every thread on the
+system during the trace.</p>
+<p>The rows in this table which have |state| = &#39;Running&#39;, will have a
+corresponding row in the |sched_slice| table.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>ThreadStateTable::Id</td>
+<td>Unique identifier for this thread_state.</td>
+</tr>
+<tr>
+<td>ts</td>
+<td>int64_t</td>
+<td>The timestamp at the start of the slice (in nanoseconds).</td>
+</tr>
+<tr>
+<td>dur</td>
+<td>int64_t</td>
+<td>The duration of the slice (in nanoseconds).</td>
+</tr>
+<tr>
+<td>utid</td>
+<td>uint32_t</td>
+<td>The thread&#39;s unique id in the trace.</td>
+</tr>
+<tr>
+<td>state</td>
+<td>string</td>
+<td>The scheduling state of the thread. Can be &quot;Running&quot; or any                   of the states described in |sched_slice.end_state|.</td>
+</tr>
+<tr>
+<td>io_wait</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Indicates whether this thread was blocked on IO.</td>
+</tr>
+<tr>
+<td>blocked_function</td>
+<td>string<br><code>optional</code></td>
+<td>The function in the kernel this thread was blocked on.</td>
+</tr>
+<tr>
+<td>waker_utid</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>The unique thread id of the thread which caused a wakeup of                   this thread.</td>
+</tr>
+<tr>
+<td>waker_id</td>
+<td>ThreadStateTable::Id<br><code>optional</code></td>
+<td>The unique thread state id which caused a wakeup of this                   thread<br>                 Joinable with <a href="#thread_state">thread_state.id</a></td>
+</tr>
+<tr>
+<td>irq_context</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Whether the wakeup was from interrupt context or process                   context.</td>
+</tr>
+<tr>
+<td>ucpu</td>
+<td>CpuTable::Id<br><code>optional</code></td>
+<td>The unique CPU identifier that the thread executed on<br>                 Joinable with <a href="#cpu">cpu.id</a></td>
+</tr>
+</tbody></table>
+<h2><a name="android" class="anchor" href="#android"></a>Android</h2><h3><a name="android_dumpstate" class="anchor" href="#android_dumpstate"></a>android_dumpstate</h3><p>Dumpsys entries from Android dumpstate.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>AndroidDumpstateTable::Id</td>
+<td>Unique identifier for this android_dumpstate.</td>
+</tr>
+<tr>
+<td>section</td>
+<td>string<br><code>optional</code></td>
+<td>name of the dumpstate section.</td>
+</tr>
+<tr>
+<td>service</td>
+<td>string<br><code>optional</code></td>
+<td>name of the dumpsys service. Only present when                     dumpstate==&quot;dumpsys&quot;, NULL otherwise.</td>
+</tr>
+<tr>
+<td>line</td>
+<td>string</td>
+<td>line-by-line contents of the section/service,                     one row per line.</td>
+</tr>
+</tbody></table>
+<h3><a name="android_game_intervention_list" class="anchor" href="#android_game_intervention_list"></a>android_game_intervention_list</h3><p>A table presenting all game modes and interventions
+of games installed on the system.
+This is generated by the game_mode_intervention data-source.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>AndroidGameInterventionListTable::Id</td>
+<td>Unique identifier for this android_game_intervention_list.</td>
+</tr>
+<tr>
+<td>package_name</td>
+<td>string</td>
+<td>name of the pakcage, e.g. com.google.android.gm.</td>
+</tr>
+<tr>
+<td>uid</td>
+<td>int64_t</td>
+<td>UID processes of this package runs as.</td>
+</tr>
+<tr>
+<td>current_mode</td>
+<td>int32_t</td>
+<td>current game mode the game is running at.</td>
+</tr>
+<tr>
+<td>standard_mode_supported</td>
+<td>int32_t</td>
+<td>bool whether standard mode is supported.</td>
+</tr>
+<tr>
+<td>standard_mode_downscale</td>
+<td>double<br><code>optional</code></td>
+<td>resolution downscaling factor of standard                     mode.</td>
+</tr>
+<tr>
+<td>standard_mode_use_angle</td>
+<td>int32_t<br><code>optional</code></td>
+<td>bool whether ANGLE is used in standard mode.</td>
+</tr>
+<tr>
+<td>standard_mode_fps</td>
+<td>double<br><code>optional</code></td>
+<td>frame rate that the game is throttled at in standard                     mode.</td>
+</tr>
+<tr>
+<td>perf_mode_supported</td>
+<td>int32_t</td>
+<td>bool whether performance mode is supported.</td>
+</tr>
+<tr>
+<td>perf_mode_downscale</td>
+<td>double<br><code>optional</code></td>
+<td>resolution downscaling factor of performance mode.</td>
+</tr>
+<tr>
+<td>perf_mode_use_angle</td>
+<td>int32_t<br><code>optional</code></td>
+<td>bool whether ANGLE is used in performance mode.</td>
+</tr>
+<tr>
+<td>perf_mode_fps</td>
+<td>double<br><code>optional</code></td>
+<td>frame rate that the game is throttled at in performance                     mode.</td>
+</tr>
+<tr>
+<td>battery_mode_supported</td>
+<td>int32_t</td>
+<td>bool whether battery mode is supported.</td>
+</tr>
+<tr>
+<td>battery_mode_downscale</td>
+<td>double<br><code>optional</code></td>
+<td>resolution downscaling factor of battery mode.</td>
+</tr>
+<tr>
+<td>battery_mode_use_angle</td>
+<td>int32_t<br><code>optional</code></td>
+<td>bool whether ANGLE is used in battery mode.</td>
+</tr>
+<tr>
+<td>battery_mode_fps</td>
+<td>double<br><code>optional</code></td>
+<td>frame rate that the game is throttled at in battery                     mode.</td>
+</tr>
+</tbody></table>
+<h2><a name="callstack-profilers" class="anchor" href="#callstack-profilers"></a>Callstack profilers</h2><h3><a name="stack_profile_mapping" class="anchor" href="#stack_profile_mapping"></a>stack_profile_mapping</h3><p>A mapping (binary / library) in a process.
+This is generated by the stack profilers: heapprofd and traced_perf.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>StackProfileMappingTable::Id</td>
+<td>Unique identifier for this stack_profile_mapping.</td>
+</tr>
+<tr>
+<td>build_id</td>
+<td>string</td>
+<td>Hex-encoded Build ID of the binary / library.</td>
+</tr>
+<tr>
+<td>exact_offset</td>
+<td>int64_t</td>
+<td></td>
+</tr>
+<tr>
+<td>start_offset</td>
+<td>int64_t</td>
+<td></td>
+</tr>
+<tr>
+<td>start</td>
+<td>int64_t</td>
+<td>Start of the mapping in the process&#39; address space.</td>
+</tr>
+<tr>
+<td>end</td>
+<td>int64_t</td>
+<td>End of the mapping in the process&#39; address space.</td>
+</tr>
+<tr>
+<td>load_bias</td>
+<td>int64_t</td>
+<td></td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>Filename of the binary / library.</td>
+</tr>
+</tbody></table>
+<h3><a name="stack_profile_frame" class="anchor" href="#stack_profile_frame"></a>stack_profile_frame</h3><p>A frame on the callstack. This is a location in a program.
+This is generated by the stack profilers: heapprofd and traced_perf.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>StackProfileFrameTable::Id</td>
+<td>Unique identifier for this stack_profile_frame.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>Name of the function this location is in.</td>
+</tr>
+<tr>
+<td>mapping</td>
+<td>StackProfileMappingTable::Id</td>
+<td>The mapping (library / binary) this location is in<br>Joinable with <a href="#stack_profile_mapping">stack_profile_mapping.id</a></td>
+</tr>
+<tr>
+<td>rel_pc</td>
+<td>int64_t</td>
+<td>The program counter relative to the start of the mapping.</td>
+</tr>
+<tr>
+<td>symbol_set_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>If the profile was offline symbolized, the offline                 symbol information of this frame.</td>
+</tr>
+<tr>
+<td>deobfuscated_name</td>
+<td>string<br><code>optional</code></td>
+<td>Deobfuscated name of the function this location is in.</td>
+</tr>
+</tbody></table>
+<h3><a name="stack_profile_callsite" class="anchor" href="#stack_profile_callsite"></a>stack_profile_callsite</h3><p>A callsite. This is a list of frames that were on the stack.
+This is generated by the stack profilers: heapprofd and traced_perf.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>StackProfileCallsiteTable::Id</td>
+<td>Unique identifier for this stack_profile_callsite.</td>
+</tr>
+<tr>
+<td>depth</td>
+<td>uint32_t</td>
+<td>Distance from the bottom-most frame of the callstack.</td>
+</tr>
+<tr>
+<td>parent_id</td>
+<td>StackProfileCallsiteTable::Id<br><code>optional</code></td>
+<td>Parent frame on the callstack. NULL for the bottom-most<br>Joinable with <a href="#stack_profile_callsite">stack_profile_callsite.id</a></td>
+</tr>
+<tr>
+<td>frame_id</td>
+<td>StackProfileFrameTable::Id</td>
+<td>Frame at this position in the callstack<br>Joinable with <a href="#stack_profile_frame">stack_profile_frame.id</a></td>
+</tr>
+</tbody></table>
+<h3><a name="cpu_profile_stack_sample" class="anchor" href="#cpu_profile_stack_sample"></a>cpu_profile_stack_sample</h3><p>Table containing stack samples from CPU profiling.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>CpuProfileStackSampleTable::Id</td>
+<td>Unique identifier for this cpu_profile_stack_sample.</td>
+</tr>
+<tr>
+<td>ts</td>
+<td>int64_t</td>
+<td>timestamp of the sample.</td>
+</tr>
+<tr>
+<td>callsite_id</td>
+<td>StackProfileCallsiteTable::Id</td>
+<td>unwound callstack<br>Joinable with <a href="#stack_profile_callsite">stack_profile_callsite.id</a></td>
+</tr>
+<tr>
+<td>utid</td>
+<td>uint32_t</td>
+<td>thread that was active when the sample was taken.</td>
+</tr>
+<tr>
+<td>process_priority</td>
+<td>int32_t</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3><a name="heap_profile_allocation" class="anchor" href="#heap_profile_allocation"></a>heap_profile_allocation</h3><p>Allocations that happened at a callsite.</p>
+<p class="callout note">NOTE: this table is not sorted by timestamp intentionanlly -
+see b/193757386 for details.</p>
+<p>This is generated by heapprofd.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>HeapProfileAllocationTable::Id</td>
+<td>Unique identifier for this heap_profile_allocation.</td>
+</tr>
+<tr>
+<td>ts</td>
+<td>int64_t</td>
+<td>The timestamp the allocations happened at. heapprofd batches                 allocations and frees, and all data from a dump will have the                 same timestamp.</td>
+</tr>
+<tr>
+<td>upid</td>
+<td>uint32_t</td>
+<td>The unique PID of the allocating process.</td>
+</tr>
+<tr>
+<td>heap_name</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>callsite_id</td>
+<td>StackProfileCallsiteTable::Id</td>
+<td>The callsite the allocation happened at<br>Joinable with <a href="#stack_profile_callsite">stack_profile_callsite.id</a></td>
+</tr>
+<tr>
+<td>count</td>
+<td>int64_t</td>
+<td>If positive: number of allocations that happened at this                 callsite. if negative: number of allocations that happened at                 this callsite that were freed.</td>
+</tr>
+<tr>
+<td>size</td>
+<td>int64_t</td>
+<td>If positive: size of allocations that happened at this                 callsite. if negative: size of allocations that happened at this                 callsite that were freed.</td>
+</tr>
+</tbody></table>
+<h3><a name="instruments_sample" class="anchor" href="#instruments_sample"></a>instruments_sample</h3><p>Samples from MacOS Instruments.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>InstrumentsSampleTable::Id</td>
+<td>Unique identifier for this instruments_sample.</td>
+</tr>
+<tr>
+<td>ts</td>
+<td>int64_t</td>
+<td>Timestamp of the sample.</td>
+</tr>
+<tr>
+<td>utid</td>
+<td>uint32_t</td>
+<td>Sampled thread.</td>
+</tr>
+<tr>
+<td>callsite_id</td>
+<td>StackProfileCallsiteTable::Id<br><code>optional</code></td>
+<td>If set, unwound callstack of the sampled thread<br>Joinable with <a href="#stack_profile_callsite">stack_profile_callsite.id</a></td>
+</tr>
+<tr>
+<td>cpu</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Core the sampled thread was running on.</td>
+</tr>
+</tbody></table>
+<h3><a name="perf_session" class="anchor" href="#perf_session"></a>perf_session</h3><p>Perf sessions.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>PerfSessionTable::Id</td>
+<td>Unique identifier for this perf_session.</td>
+</tr>
+<tr>
+<td>cmdline</td>
+<td>string<br><code>optional</code></td>
+<td>Command line used to collect the data.</td>
+</tr>
+</tbody></table>
+<h3><a name="perf_sample" class="anchor" href="#perf_sample"></a>perf_sample</h3><p>Samples from the traced_perf profiler.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>PerfSampleTable::Id</td>
+<td>Unique identifier for this perf_sample.</td>
+</tr>
+<tr>
+<td>ts</td>
+<td>int64_t</td>
+<td>Timestamp of the sample.</td>
+</tr>
+<tr>
+<td>utid</td>
+<td>uint32_t</td>
+<td>Sampled thread.</td>
+</tr>
+<tr>
+<td>cpu</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Core the sampled thread was running on.</td>
+</tr>
+<tr>
+<td>cpu_mode</td>
+<td>string</td>
+<td>Execution state (userspace/kernelspace) of the sampled                 thread.</td>
+</tr>
+<tr>
+<td>callsite_id</td>
+<td>StackProfileCallsiteTable::Id<br><code>optional</code></td>
+<td>If set, unwound callstack of the sampled thread<br>Joinable with <a href="#stack_profile_callsite">stack_profile_callsite.id</a></td>
+</tr>
+<tr>
+<td>unwind_error</td>
+<td>string<br><code>optional</code></td>
+<td>If set, indicates that the unwinding for this sample                 encountered an error. Such samples still reference the                 best-effort result via the callsite_id, with a synthetic error                 frame at the point where unwinding stopped.</td>
+</tr>
+<tr>
+<td>perf_session_id</td>
+<td>PerfSessionTable::Id</td>
+<td>Distinguishes samples from different profiling                 streams (i.e. multiple data sources)<br>Joinable with <a href="#perf_session">perf_session.id</a></td>
+</tr>
+<tr>
+<td>counter_set_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>References the set of counter values associated with this                    sample in __intrinsic_perf_counter_set.</td>
+</tr>
+</tbody></table>
+<h3><a name="profiler_smaps" class="anchor" href="#profiler_smaps"></a>profiler_smaps</h3><p>The profiler smaps contains the memory stats for virtual memory ranges
+captured by the
+<a href="/perfetto-docs-zh-cn/docs/data-sources/native-heap-profiler.html">heap profiler</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>ProfilerSmapsTable::Id</td>
+<td>Unique identifier for this profiler_smaps.</td>
+</tr>
+<tr>
+<td>upid</td>
+<td>uint32_t</td>
+<td>The unique PID of the process.</td>
+</tr>
+<tr>
+<td>ts</td>
+<td>int64_t</td>
+<td>Timestamp of the snapshot. Multiple rows will have the same                 timestamp.</td>
+</tr>
+<tr>
+<td>path</td>
+<td>string</td>
+<td>The mmaped file, as per /proc/pid/smaps.</td>
+</tr>
+<tr>
+<td>size_kb</td>
+<td>int64_t</td>
+<td>Total size of the mapping.</td>
+</tr>
+<tr>
+<td>private_dirty_kb</td>
+<td>int64_t</td>
+<td>KB of this mapping that are private dirty  RSS.</td>
+</tr>
+<tr>
+<td>swap_kb</td>
+<td>int64_t</td>
+<td>KB of this mapping that are in swap.</td>
+</tr>
+<tr>
+<td>file_name</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>start_address</td>
+<td>int64_t</td>
+<td></td>
+</tr>
+<tr>
+<td>module_timestamp</td>
+<td>int64_t</td>
+<td></td>
+</tr>
+<tr>
+<td>module_debugid</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>module_debug_path</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>protection_flags</td>
+<td>int64_t</td>
+<td></td>
+</tr>
+<tr>
+<td>private_clean_resident_kb</td>
+<td>int64_t</td>
+<td></td>
+</tr>
+<tr>
+<td>shared_dirty_resident_kb</td>
+<td>int64_t</td>
+<td></td>
+</tr>
+<tr>
+<td>shared_clean_resident_kb</td>
+<td>int64_t</td>
+<td></td>
+</tr>
+<tr>
+<td>locked_kb</td>
+<td>int64_t</td>
+<td></td>
+</tr>
+<tr>
+<td>proportional_resident_kb</td>
+<td>int64_t</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3><a name="stack_profile_symbol" class="anchor" href="#stack_profile_symbol"></a>stack_profile_symbol</h3><p>Symbolization data for a frame. Rows with the same symbol_set_id
+describe one callframe, with the most-inlined symbol having
+id == symbol_set_id.</p>
+<p>For instance, if the function foo has an inlined call to the
+function bar, which has an inlined call to baz, the
+stack_profile_symbol table would look like this.</p>
+<code class="hljs code-block">|<span class="hljs-string">id</span>|<span class="hljs-string">symbol_set_id</span>|<span class="hljs-string">name         </span>|<span class="hljs-string">source_file</span>|<span class="hljs-string">line_number</span>|
+|<span class="hljs-string">--</span>|<span class="hljs-string">-------------</span>|<span class="hljs-string">-------------</span>|<span class="hljs-string">-----------</span>|<span class="hljs-string">-----------</span>|
+|<span class="hljs-string">1 </span>|<span class="hljs-string">      1      </span>|<span class="hljs-string">baz          </span>|<span class="hljs-string">foo.cc     </span>|<span class="hljs-string"> 36        </span>|
+|<span class="hljs-string">2 </span>|<span class="hljs-string">      1      </span>|<span class="hljs-string">bar          </span>|<span class="hljs-string">foo.cc     </span>|<span class="hljs-string"> 30        </span>|
+|<span class="hljs-string">3 </span>|<span class="hljs-string">      1      </span>|<span class="hljs-string">foo          </span>|<span class="hljs-string">foo.cc     </span>|<span class="hljs-string"> 60        </span>|</code><table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>SymbolTable::Id</td>
+<td>Unique identifier for this stack_profile_symbol.</td>
+</tr>
+<tr>
+<td>symbol_set_id</td>
+<td>uint32_t</td>
+<td></td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>name of the function.</td>
+</tr>
+<tr>
+<td>source_file</td>
+<td>string<br><code>optional</code></td>
+<td>name of the source file containing the function.</td>
+</tr>
+<tr>
+<td>line_number</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>line number of the frame in the source file. This is the                     exact line for the corresponding program counter, not the                     beginning of the function.</td>
+</tr>
+<tr>
+<td>inlined</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>whether this function was inlined into another function<br>                    True for inlined functions, false for non-inlined functions,                     null if inlining information is not available.</td>
+</tr>
+</tbody></table>
+<h2><a name="metadata" class="anchor" href="#metadata"></a>Metadata</h2><h3><a name="machine" class="anchor" href="#machine"></a>machine</h3><p>Contains raw machine_id of trace packets emitted from remote machines.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>MachineTable::Id</td>
+<td>Unique identifier for this machine.</td>
+</tr>
+<tr>
+<td>raw_id</td>
+<td>uint32_t</td>
+<td>Raw machine identifier in the trace packet, non-zero for                   remote machines.</td>
+</tr>
+<tr>
+<td>sysname</td>
+<td>string<br><code>optional</code></td>
+<td>The name of the operating system (e.g. &quot;Linux&quot;).</td>
+</tr>
+<tr>
+<td>release</td>
+<td>string<br><code>optional</code></td>
+<td>The current release of the operating system.</td>
+</tr>
+<tr>
+<td>version</td>
+<td>string<br><code>optional</code></td>
+<td>The current version of the operating system.</td>
+</tr>
+<tr>
+<td>arch</td>
+<td>string<br><code>optional</code></td>
+<td>Hardware architecture of the machine (e.g. x86_64).</td>
+</tr>
+<tr>
+<td>num_cpus</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Number of cpus available to the machine.</td>
+</tr>
+<tr>
+<td>android_build_fingerprint</td>
+<td>string<br><code>optional</code></td>
+<td>A unique string that identifies a specific build of                   the Android operating system.</td>
+</tr>
+<tr>
+<td>android_device_manufacturer</td>
+<td>string<br><code>optional</code></td>
+<td>The Android&#39;s device manufacturer.</td>
+</tr>
+<tr>
+<td>android_sdk_version</td>
+<td>int64_t<br><code>optional</code></td>
+<td>The Android SDK version used in the machine.</td>
+</tr>
+<tr>
+<td>system_ram_bytes</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Total system RAM in bytes available to the machine.</td>
+</tr>
+<tr>
+<td>system_ram_gb</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Total system RAM in gigabytes (rounded) available to the                   machine.</td>
+</tr>
+</tbody></table>
+<h3><a name="process" class="anchor" href="#process"></a>process</h3><p>Contains information of processes seen during the trace</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>upid</td>
+<td>ProcessTable::Id</td>
+<td>Unique process id. This is != the OS pid. This is a                    monotonic number associated to each process. The OS process                    id (pid) cannot be used as primary key because tids and pids                    are recycled by most kernels.</td>
+</tr>
+<tr>
+<td>pid</td>
+<td>int64_t</td>
+<td>The OS id for this process. Note: this is <em>not</em> unique                   over the lifetime of the trace so cannot be used as a                   primary key. Use |upid| instead.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string<br><code>optional</code></td>
+<td>The name of the process. Can be populated from many sources                   (e.g. ftrace, /proc scraping, track event etc).</td>
+</tr>
+<tr>
+<td>start_ts</td>
+<td>int64_t<br><code>optional</code></td>
+<td>The start timestamp of this process (if known). Is null                   in most cases unless a process creation event is enabled                   (e.g. task_newtask ftrace event on Linux/Android).</td>
+</tr>
+<tr>
+<td>end_ts</td>
+<td>int64_t<br><code>optional</code></td>
+<td>The end timestamp of this process (if known). Is null in                   most cases unless a process destruction event is enabled                   (e.g. sched_process_free ftrace event on Linux/Android).</td>
+</tr>
+<tr>
+<td>parent_upid</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>The upid of the process which caused this process to be                   spawned<br>                 Joinable with <a href="#process">process.upid</a></td>
+</tr>
+<tr>
+<td>uid</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>The Unix user id of the process<br>Joinable with <a href="#package_list">package_list.uid</a></td>
+</tr>
+<tr>
+<td>android_appid</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Android appid of this process.</td>
+</tr>
+<tr>
+<td>android_user_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Android user id running the process<br>                Related to Android multi-user (not to be confused with the                 unix uid)</td>
+</tr>
+<tr>
+<td>cmdline</td>
+<td>string<br><code>optional</code></td>
+<td>/proc/cmdline for this process.</td>
+</tr>
+<tr>
+<td>arg_set_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Extra args for this process<br>Joinable with <a href="#args">args.arg_set_id</a></td>
+</tr>
+<tr>
+<td>machine_id</td>
+<td>MachineTable::Id</td>
+<td>Machine identifier, non-null for processes on a remote                   machine<br>                 Joinable with <a href="#machine">machine.id</a></td>
+</tr>
+</tbody></table>
+<h3><a name="thread" class="anchor" href="#thread"></a>thread</h3><p>Contains information of threads seen during the trace</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>utid</td>
+<td>ThreadTable::Id</td>
+<td>Unique thread id. This is != the OS tid. This is a monotonic                   number associated to each thread. The OS thread id (tid)                   cannot be used as primary key because tids and pids are                   recycled by most kernels.</td>
+</tr>
+<tr>
+<td>tid</td>
+<td>int64_t</td>
+<td>The OS id for this thread. Note: this is <em>not</em> unique over the                   lifetime of the trace so cannot be used as a primary key. Use                   |utid| instead.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string<br><code>optional</code></td>
+<td>The name of the thread. Can be populated from many sources                   (e.g. ftrace, /proc scraping, track event etc).</td>
+</tr>
+<tr>
+<td>start_ts</td>
+<td>int64_t<br><code>optional</code></td>
+<td>The start timestamp of this thread (if known). Is null in most                   cases unless a thread creation event is enabled (e.g<br>                  task_newtask ftrace event on Linux/Android).</td>
+</tr>
+<tr>
+<td>end_ts</td>
+<td>int64_t<br><code>optional</code></td>
+<td>The end timestamp of this thread (if known). Is null in most                   cases unless a thread destruction event is enabled (e.g<br>                  sched_process_free ftrace event on Linux/Android).</td>
+</tr>
+<tr>
+<td>upid</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>The process hosting this thread<br>Joinable with <a href="#process">process.upid</a></td>
+</tr>
+<tr>
+<td>is_main_thread</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Boolean indicating if this thread is the main thread                   in the process.</td>
+</tr>
+<tr>
+<td>is_idle</td>
+<td>uint32_t</td>
+<td>Boolean indicating if this thread is an kernel idle task (                   pid = 0 on Linux).</td>
+</tr>
+<tr>
+<td>machine_id</td>
+<td>MachineTable::Id</td>
+<td>Machine identifier, non-null for threads on a remote machine<br>                 Joinable with <a href="#machine">machine.id</a></td>
+</tr>
+<tr>
+<td>arg_set_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Extra args for this thread<br>Joinable with <a href="#args">args.arg_set_id</a></td>
+</tr>
+</tbody></table>
+<h3><a name="filedescriptor" class="anchor" href="#filedescriptor"></a>filedescriptor</h3><p>Contains information of filedescriptors collected during the trace</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>FiledescriptorTable::Id</td>
+<td>Unique identifier for this filedescriptor.</td>
+</tr>
+<tr>
+<td>ufd</td>
+<td>int64_t</td>
+<td>Unique fd. This is != the OS fd<br>This is a monotonic number associated to each filedescriptor. The OS assigned fd cannot be used as primary key because fds are recycled by most kernels.</td>
+</tr>
+<tr>
+<td>fd</td>
+<td>int64_t</td>
+<td>The OS id for this process. Note: this is <em>not</em> unique over the lifetime of the trace so cannot be used as a primary key. Use |ufd| instead.</td>
+</tr>
+<tr>
+<td>ts</td>
+<td>int64_t<br><code>optional</code></td>
+<td>The timestamp for when the fd was collected.</td>
+</tr>
+<tr>
+<td>upid</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>The upid of the process which opened the filedescriptor.</td>
+</tr>
+<tr>
+<td>path</td>
+<td>string<br><code>optional</code></td>
+<td>The path to the file or device backing the fd In case this was a socket the path will be the port number.</td>
+</tr>
+</tbody></table>
+<h2><a name="winscope" class="anchor" href="#winscope"></a>Winscope</h2><h3><a name="surfaceflinger_layers_snapshot" class="anchor" href="#surfaceflinger_layers_snapshot"></a>surfaceflinger_layers_snapshot</h3><p>SurfaceFlinger layers snapshot</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>SurfaceFlingerLayersSnapshotTable::Id</td>
+<td>Unique identifier for this surfaceflinger_layers_snapshot.</td>
+</tr>
+<tr>
+<td>ts</td>
+<td>int64_t</td>
+<td>Timestamp of the snapshot</td>
+</tr>
+<tr>
+<td>arg_set_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Extra args parsed from the proto message</td>
+</tr>
+<tr>
+<td>base64_proto_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>String id for raw proto message</td>
+</tr>
+<tr>
+<td>sequence_id</td>
+<td>uint32_t</td>
+<td>Sequence id of the trace packet</td>
+</tr>
+<tr>
+<td>has_invalid_elapsed_ts</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Indicates whether snapshot was recorded without elapsed timestamp</td>
+</tr>
+</tbody></table>
+<h3><a name="surfaceflinger_layer" class="anchor" href="#surfaceflinger_layer"></a>surfaceflinger_layer</h3><p>SurfaceFlinger layer</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>SurfaceFlingerLayerTable::Id</td>
+<td>Unique identifier for this surfaceflinger_layer.</td>
+</tr>
+<tr>
+<td>snapshot_id</td>
+<td>SurfaceFlingerLayersSnapshotTable::Id</td>
+<td>The snapshot that generated this layer Joinable with <a href="#surfaceflinger_layers_snapshot">surfaceflinger_layers_snapshot.id</a></td>
+</tr>
+<tr>
+<td>arg_set_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Extra args parsed from the proto message</td>
+</tr>
+<tr>
+<td>base64_proto_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>String id for raw proto message</td>
+</tr>
+<tr>
+<td>layer_id</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Layer id</td>
+</tr>
+<tr>
+<td>layer_name</td>
+<td>string<br><code>optional</code></td>
+<td>Layer name</td>
+</tr>
+<tr>
+<td>is_visible</td>
+<td>int64_t</td>
+<td>Computed layer visibility</td>
+</tr>
+<tr>
+<td>parent</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Parent layer id</td>
+</tr>
+<tr>
+<td>corner_radius_tl</td>
+<td>double<br><code>optional</code></td>
+<td>Layer corner radius top left</td>
+</tr>
+<tr>
+<td>corner_radius_tr</td>
+<td>double<br><code>optional</code></td>
+<td>Layer corner radius top right</td>
+</tr>
+<tr>
+<td>corner_radius_bl</td>
+<td>double<br><code>optional</code></td>
+<td>Layer corner radius bottom left</td>
+</tr>
+<tr>
+<td>corner_radius_br</td>
+<td>double<br><code>optional</code></td>
+<td>Layer corner radius bottom right</td>
+</tr>
+<tr>
+<td>hwc_composition_type</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Hwc composition type</td>
+</tr>
+<tr>
+<td>is_hidden_by_policy</td>
+<td>int64_t</td>
+<td>Is hidden by policy</td>
+</tr>
+<tr>
+<td>z_order_relative_of</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Z parent</td>
+</tr>
+<tr>
+<td>is_missing_z_parent</td>
+<td>int64_t</td>
+<td>Is Z parent missing</td>
+</tr>
+<tr>
+<td>layer_rect_id</td>
+<td>WinscopeTraceRectTable::Id<br><code>optional</code></td>
+<td>Used to associate with row in __intrinsic_winscope_trace_rect Joinable with <a href="#__intrinsic_winscope_trace_rect">__intrinsic_winscope_trace_rect.id</a></td>
+</tr>
+<tr>
+<td>input_rect_id</td>
+<td>WinscopeTraceRectTable::Id<br><code>optional</code></td>
+<td>Used to associate with row in __intrinsic_winscope_trace_rect Joinable with <a href="#__intrinsic_winscope_trace_rect">__intrinsic_winscope_trace_rect.id</a></td>
+</tr>
+</tbody></table>
+<h3><a name="surfaceflinger_transactions" class="anchor" href="#surfaceflinger_transactions"></a>surfaceflinger_transactions</h3><p>SurfaceFlinger transactions. Each row contains a set of transactions that SurfaceFlinger committed together.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>SurfaceFlingerTransactionsTable::Id</td>
+<td>Unique identifier for this surfaceflinger_transactions.</td>
+</tr>
+<tr>
+<td>ts</td>
+<td>int64_t</td>
+<td>Timestamp of the transactions commit</td>
+</tr>
+<tr>
+<td>arg_set_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Extra args parsed from the proto message</td>
+</tr>
+<tr>
+<td>base64_proto_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>String id for raw proto message</td>
+</tr>
+<tr>
+<td>vsync_id</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Vsync id taken from raw proto message</td>
+</tr>
+</tbody></table>
+<h3><a name="window_manager_shell_transitions" class="anchor" href="#window_manager_shell_transitions"></a>window_manager_shell_transitions</h3><p>Window Manager Shell Transitions</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>WindowManagerShellTransitionsTable::Id</td>
+<td>Unique identifier for this window_manager_shell_transitions.</td>
+</tr>
+<tr>
+<td>ts</td>
+<td>int64_t</td>
+<td>The timestamp the transition started playing - either dispatch time or send time</td>
+</tr>
+<tr>
+<td>transition_id</td>
+<td>int64_t</td>
+<td>The id of the transition</td>
+</tr>
+<tr>
+<td>arg_set_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Extra args parsed from the proto message</td>
+</tr>
+<tr>
+<td>transition_type</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>The type of the transition</td>
+</tr>
+<tr>
+<td>send_time_ns</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Transition send time</td>
+</tr>
+<tr>
+<td>dispatch_time_ns</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Transition dispatch time</td>
+</tr>
+<tr>
+<td>duration_ns</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Transition duration</td>
+</tr>
+<tr>
+<td>finish_time_ns</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Transition finish time</td>
+</tr>
+<tr>
+<td>shell_abort_time_ns</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Transition shell abort time</td>
+</tr>
+<tr>
+<td>wm_abort_time_ns</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Transition wm abort time</td>
+</tr>
+<tr>
+<td>merge_time_ns</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Transition merge time</td>
+</tr>
+<tr>
+<td>create_time_ns</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Transition create time</td>
+</tr>
+<tr>
+<td>handler</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Handler id</td>
+</tr>
+<tr>
+<td>status</td>
+<td>string<br><code>optional</code></td>
+<td>Transition status</td>
+</tr>
+<tr>
+<td>flags</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Transition flags</td>
+</tr>
+<tr>
+<td>start_transaction_id</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Start transaction id</td>
+</tr>
+<tr>
+<td>finish_transaction_id</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Finish transaction id</td>
+</tr>
+</tbody></table>
+<h3><a name="window_manager_shell_transition_handlers" class="anchor" href="#window_manager_shell_transition_handlers"></a>window_manager_shell_transition_handlers</h3><p>Window Manager Shell Transition Handlers</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>WindowManagerShellTransitionHandlersTable::Id</td>
+<td>Unique identifier for this window_manager_shell_transition_handlers.</td>
+</tr>
+<tr>
+<td>handler_id</td>
+<td>int64_t</td>
+<td>The id of the handler</td>
+</tr>
+<tr>
+<td>handler_name</td>
+<td>string</td>
+<td>The name of the handler</td>
+</tr>
+<tr>
+<td>base64_proto_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>String id for raw proto message</td>
+</tr>
+</tbody></table>
+<h3><a name="windowmanager" class="anchor" href="#windowmanager"></a>windowmanager</h3><p>WindowManager</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>WindowManagerTable::Id</td>
+<td>Unique identifier for this windowmanager.</td>
+</tr>
+<tr>
+<td>ts</td>
+<td>int64_t</td>
+<td>The timestamp the state snapshot was captured</td>
+</tr>
+<tr>
+<td>arg_set_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Extra args parsed from the proto message</td>
+</tr>
+<tr>
+<td>base64_proto_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>String id for raw proto message</td>
+</tr>
+<tr>
+<td>focused_display_id</td>
+<td>uint32_t</td>
+<td>Focused display id for this snapshot</td>
+</tr>
+<tr>
+<td>has_invalid_elapsed_ts</td>
+<td>uint32_t</td>
+<td>Indicates whether snapshot was recorded without elapsed timestamp</td>
+</tr>
+</tbody></table>
+<h3><a name="windowmanager_windowcontainer" class="anchor" href="#windowmanager_windowcontainer"></a>windowmanager_windowcontainer</h3><p>WindowManager</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>WindowManagerWindowContainerTable::Id</td>
+<td>Unique identifier for this windowmanager_windowcontainer.</td>
+</tr>
+<tr>
+<td>snapshot_id</td>
+<td>WindowManagerTable::Id</td>
+<td>The snapshot that generated this window container Joinable with <a href="#windowmanager">windowmanager.id</a></td>
+</tr>
+<tr>
+<td>arg_set_id</td>
+<td>uint32_t</td>
+<td>Extra args parsed from the proto message</td>
+</tr>
+<tr>
+<td>base64_proto_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>String id for raw proto message</td>
+</tr>
+<tr>
+<td>title</td>
+<td>string</td>
+<td>The window container&#39;s title</td>
+</tr>
+<tr>
+<td>token</td>
+<td>int32_t</td>
+<td>The window container&#39;s token</td>
+</tr>
+<tr>
+<td>parent_token</td>
+<td>int32_t<br><code>optional</code></td>
+<td>The parent window container&#39;s token</td>
+</tr>
+<tr>
+<td>child_index</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>The index of this window container within the parent&#39;s children</td>
+</tr>
+<tr>
+<td>is_visible</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>The window container visibility</td>
+</tr>
+<tr>
+<td>window_rect_id</td>
+<td>WinscopeTraceRectTable::Id<br><code>optional</code></td>
+<td>The rect corresponding to this window container Joinable with <a href="#__intrinsic_winscope_trace_rect">__intrinsic_winscope_trace_rect.id</a></td>
+</tr>
+<tr>
+<td>container_type</td>
+<td>string<br><code>optional</code></td>
+<td>The window container type e.g. DisplayContent, TaskFragment</td>
+</tr>
+<tr>
+<td>name_override</td>
+<td>string<br><code>optional</code></td>
+<td>Optional name override for some container types</td>
+</tr>
+</tbody></table>
+<h3><a name="protolog" class="anchor" href="#protolog"></a>protolog</h3><p>Protolog</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>ProtoLogTable::Id</td>
+<td>Unique identifier for this protolog.</td>
+</tr>
+<tr>
+<td>ts</td>
+<td>int64_t</td>
+<td>The timestamp the log message was sent</td>
+</tr>
+<tr>
+<td>level</td>
+<td>string</td>
+<td>The log level of the protolog message</td>
+</tr>
+<tr>
+<td>tag</td>
+<td>string</td>
+<td>The log tag of the protolog message</td>
+</tr>
+<tr>
+<td>message</td>
+<td>string</td>
+<td>The protolog message</td>
+</tr>
+<tr>
+<td>stacktrace</td>
+<td>string</td>
+<td>Stacktrace captured at the message&#39;s logpoint</td>
+</tr>
+<tr>
+<td>location</td>
+<td>string</td>
+<td>The location of the logpoint (only for processed messages)</td>
+</tr>
+</tbody></table>
+<h2><a name="misc" class="anchor" href="#misc"></a>Misc</h2><h3><a name="flow" class="anchor" href="#flow"></a>flow</h3><table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>FlowTable::Id</td>
+<td>Unique identifier for this flow.</td>
+</tr>
+<tr>
+<td>slice_out</td>
+<td>SliceTable::Id</td>
+<td>Id of the slice that this flow flows out of<br>Joinable with <a href="#slice">slice.id</a></td>
+</tr>
+<tr>
+<td>slice_in</td>
+<td>SliceTable::Id</td>
+<td>If of the slice that this flow flows into<br>Joinable with <a href="#slice">slice.id</a></td>
+</tr>
+<tr>
+<td>trace_id</td>
+<td>int64_t<br><code>optional</code></td>
+<td>Ids (raw values passed from the trace) of flows originating, passing through, or ending at this event. They are global within a trace. NULL if flow was &quot;implicitly created&quot;, e.g came from Trace Processor inferring a link between binder transaction slices.</td>
+</tr>
+<tr>
+<td>arg_set_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3><a name="args" class="anchor" href="#args"></a>args</h3><table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>ArgTable::Id</td>
+<td>Unique identifier for this args.</td>
+</tr>
+<tr>
+<td>arg_set_id</td>
+<td>uint32_t</td>
+<td></td>
+</tr>
+<tr>
+<td>flat_key</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>key</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>int_value</td>
+<td>int64_t<br><code>optional</code></td>
+<td></td>
+</tr>
+<tr>
+<td>string_value</td>
+<td>string<br><code>optional</code></td>
+<td></td>
+</tr>
+<tr>
+<td>real_value</td>
+<td>double<br><code>optional</code></td>
+<td></td>
+</tr>
+<tr>
+<td>value_type</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3><a name="clock_snapshot" class="anchor" href="#clock_snapshot"></a>clock_snapshot</h3><p>Contains all the mapping between clock snapshots and trace time.</p>
+<p class="callout note">NOTE: this table is not sorted by timestamp; this is why we omit the
+sorted flag on the ts column.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>ClockSnapshotTable::Id</td>
+<td>Unique identifier for this clock_snapshot.</td>
+</tr>
+<tr>
+<td>ts</td>
+<td>int64_t</td>
+<td>timestamp of the snapshot in trace time.</td>
+</tr>
+<tr>
+<td>clock_id</td>
+<td>int64_t</td>
+<td>id of the clock (corresponds to the id in the trace).</td>
+</tr>
+<tr>
+<td>clock_name</td>
+<td>string<br><code>optional</code></td>
+<td>the name of the clock for builtin clocks or null otherwise.</td>
+</tr>
+<tr>
+<td>clock_value</td>
+<td>int64_t</td>
+<td>timestamp of the snapshot in clock time.</td>
+</tr>
+<tr>
+<td>snapshot_id</td>
+<td>uint32_t</td>
+<td>the index of this snapshot (only useful for debugging)</td>
+</tr>
+<tr>
+<td>machine_id</td>
+<td>MachineTable::Id</td>
+<td>Machine identifier, non-null for clock snapshots on a remote                   machine<br>                 Joinable with <a href="#machine">machine.id</a></td>
+</tr>
+</tbody></table>
+<h3><a name="cpu" class="anchor" href="#cpu"></a>cpu</h3><p>Contains information of processes seen during the trace</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>CpuTable::Id</td>
+<td>Unique identifier for this cpu.</td>
+</tr>
+<tr>
+<td>cpu</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>the index (0-based) of the CPU core on the device</td>
+</tr>
+<tr>
+<td>cluster_id</td>
+<td>uint32_t</td>
+<td>the cluster id is shared by CPUs in the same cluster</td>
+</tr>
+<tr>
+<td>processor</td>
+<td>string</td>
+<td>a string describing this core</td>
+</tr>
+<tr>
+<td>machine_id</td>
+<td>MachineTable::Id</td>
+<td>Machine identifier, non-null for CPUs on a remote machine<br>                 Joinable with <a href="#machine">machine.id</a></td>
+</tr>
+<tr>
+<td>capacity</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Capacity of a CPU of a device, a metric which indicates the                   relative performance of a CPU on a device                   For details see:                   <a href="https://www.kernel.org/doc/Documentation/devicetree/bindings/arm/cpu-capacity.txt">https://www.kernel.org/doc/Documentation/devicetree/bindings/arm/cpu-capacity.txt</a></td>
+</tr>
+<tr>
+<td>arg_set_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Extra args associated with the CPU</td>
+</tr>
+</tbody></table>
+<h3><a name="cpu_freq" class="anchor" href="#cpu_freq"></a>cpu_freq</h3><table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>CpuFreqTable::Id</td>
+<td>Unique identifier for this cpu_freq.</td>
+</tr>
+<tr>
+<td>ucpu</td>
+<td>CpuTable::Id</td>
+<td>Joinable with <a href="#cpu">cpu.id</a></td>
+</tr>
+<tr>
+<td>freq</td>
+<td>uint32_t</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3><a name="gpu" class="anchor" href="#gpu"></a>gpu</h3><p>Contains information of GPUs seen during the trace.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>GpuTable::Id</td>
+<td>Unique identifier for this gpu.</td>
+</tr>
+<tr>
+<td>gpu</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>the index (0-based) of the GPU on the device</td>
+</tr>
+<tr>
+<td>machine_id</td>
+<td>MachineTable::Id</td>
+<td>Machine identifier, non-null for GPUs on a remote machine<br>                 Joinable with <a href="#machine">machine.id</a></td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>GPU name (e.g., &quot;NVIDIA A100&quot;, &quot;Adreno 740&quot;)</td>
+</tr>
+<tr>
+<td>vendor</td>
+<td>string</td>
+<td>GPU vendor string (e.g., &quot;NVIDIA&quot;, &quot;AMD&quot;, &quot;Qualcomm&quot;)</td>
+</tr>
+<tr>
+<td>model</td>
+<td>string</td>
+<td>GPU model/product identifier</td>
+</tr>
+<tr>
+<td>architecture</td>
+<td>string</td>
+<td>GPU architecture (e.g., &quot;Ampere&quot;, &quot;RDNA 3&quot;)</td>
+</tr>
+<tr>
+<td>uuid</td>
+<td>string</td>
+<td>UUID of the GPU (16-byte device UUID, hex-encoded)</td>
+</tr>
+<tr>
+<td>pci_bdf</td>
+<td>string</td>
+<td>PCI bus location (domain:bus:device.function)</td>
+</tr>
+<tr>
+<td>arg_set_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td>Extra args associated with the GPU</td>
+</tr>
+</tbody></table>
+<h3><a name="trace_file" class="anchor" href="#trace_file"></a>trace_file</h3><p>Metadata related to the trace file parsed. Note the order in which
+the files appear in this table corresponds to the order in which
+they are read and sent to the tokenization stage.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>TraceFileTable::Id</td>
+<td>Unique identifier for this trace_file.</td>
+</tr>
+<tr>
+<td>parent_id</td>
+<td>TraceFileTable::Id<br><code>optional</code></td>
+<td>Parent file. E.g. files contained in a zip file will point to                   the zip file<br>                 Joinable with <a href="#trace_file">trace_file.id</a></td>
+</tr>
+<tr>
+<td>name</td>
+<td>string<br><code>optional</code></td>
+<td>File name, if known, NULL otherwise</td>
+</tr>
+<tr>
+<td>size</td>
+<td>int64_t</td>
+<td>Size in bytes</td>
+</tr>
+<tr>
+<td>trace_type</td>
+<td>string</td>
+<td>Trace type</td>
+</tr>
+<tr>
+<td>processing_order</td>
+<td>int64_t<br><code>optional</code></td>
+<td>In which order where the files were processed.</td>
+</tr>
+<tr>
+<td>is_container</td>
+<td>uint32_t</td>
+<td>Whether the file is a container (e.g. zip, gzip)</td>
+</tr>
+</tbody></table>
+<h3><a name="gpu_counter_group" class="anchor" href="#gpu_counter_group"></a>gpu_counter_group</h3><table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>GpuCounterGroupTable::Id</td>
+<td>Unique identifier for this gpu_counter_group.</td>
+</tr>
+<tr>
+<td>group_id</td>
+<td>int32_t</td>
+<td></td>
+</tr>
+<tr>
+<td>track_id</td>
+<td>TrackTable::Id</td>
+<td>Joinable with <a href="#__intrinsic_track">__intrinsic_track.id</a></td>
+</tr>
+</tbody></table>
+<h3><a name="package_list" class="anchor" href="#package_list"></a>package_list</h3><p>Metadata about packages installed on the system.
+This is generated by the packages_list data-source.</p>
+<p>Include this data-source in the perfetto config:</p>
+<code class="hljs code-block"><span class="hljs-class">data_sources </span>{
+<span class="hljs-class">config </span>{
+<span class="hljs-symbol">name:</span> <span class="hljs-string">&quot;android.packages_list&quot;</span>
+}
+}</code><table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>PackageListTable::Id</td>
+<td>Unique identifier for this package_list.</td>
+</tr>
+<tr>
+<td>package_name</td>
+<td>string</td>
+<td>name of the package, e.g. com.google.android.gm.</td>
+</tr>
+<tr>
+<td>uid</td>
+<td>int64_t</td>
+<td>UID processes of this package run as.</td>
+</tr>
+<tr>
+<td>debuggable</td>
+<td>int32_t</td>
+<td>bool whether this app is debuggable.</td>
+</tr>
+<tr>
+<td>profileable_from_shell</td>
+<td>int32_t</td>
+<td>bool whether this app is profileable.</td>
+</tr>
+<tr>
+<td>version_code</td>
+<td>int64_t</td>
+<td>versionCode from the APK.</td>
+</tr>
+</tbody></table>
+<h3><a name="vulkan_memory_allocations" class="anchor" href="#vulkan_memory_allocations"></a>vulkan_memory_allocations</h3><table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>VulkanMemoryAllocationsTable::Id</td>
+<td>Unique identifier for this vulkan_memory_allocations.</td>
+</tr>
+<tr>
+<td>arg_set_id</td>
+<td>uint32_t<br><code>optional</code></td>
+<td></td>
+</tr>
+<tr>
+<td>source</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>operation</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>int64_t</td>
+<td></td>
+</tr>
+<tr>
+<td>upid</td>
+<td>uint32_t<br><code>optional</code></td>
+<td></td>
+</tr>
+<tr>
+<td>device</td>
+<td>int64_t<br><code>optional</code></td>
+<td></td>
+</tr>
+<tr>
+<td>device_memory</td>
+<td>int64_t<br><code>optional</code></td>
+<td></td>
+</tr>
+<tr>
+<td>memory_type</td>
+<td>uint32_t<br><code>optional</code></td>
+<td></td>
+</tr>
+<tr>
+<td>heap</td>
+<td>uint32_t<br><code>optional</code></td>
+<td></td>
+</tr>
+<tr>
+<td>function_name</td>
+<td>string<br><code>optional</code></td>
+<td></td>
+</tr>
+<tr>
+<td>object_handle</td>
+<td>int64_t<br><code>optional</code></td>
+<td></td>
+</tr>
+<tr>
+<td>memory_address</td>
+<td>int64_t<br><code>optional</code></td>
+<td></td>
+</tr>
+<tr>
+<td>memory_size</td>
+<td>int64_t<br><code>optional</code></td>
+<td></td>
+</tr>
+<tr>
+<td>scope</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody></table>
+
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

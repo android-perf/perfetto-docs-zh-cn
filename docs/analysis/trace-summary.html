@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trace 汇总 - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="Trace 汇总 - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/analysis/trace-summary">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/style.css">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/perfetto-docs-zh-cn/assets/favicon.png" />
+  <script type="text/javascript" src="/perfetto-docs-zh-cn/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/perfetto-docs-zh-cn/">
+      <img src="/perfetto-docs-zh-cn/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/perfetto-docs-zh-cn/docs/">Docs</a>
+  <a href="/perfetto-docs-zh-cn/docs/contributing/getting-started#community.html">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/perfetto-docs-zh-cn/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/tracing-101.html">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/start-using-perfetto.html">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/system-tracing.html">系统 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/in-app-tracing.html">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/memory-profiling.html">Memory Profiling</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/cpu-profiling.html">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/atrace.html">Android atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/ftrace.html">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/other-formats.html">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/converting.html">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/android-trace-analysis.html">分析 Android Trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/periodic-trace-snapshots.html">周期性 Trace 快照</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/memory.html">Android 内存使用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/scheduling-blockages.html">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/config.html">Trace 配置</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/buffers.html">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/service-model.html">服务模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/clock-sync.html">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/tracing-in-background.html">后台 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/android.html">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/chrome-tracing.html">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/tracing-sdk.html">Tracing SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/track-events.html">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/stdlib-docs.html">标准库</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-syntax.html">语法</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/style-guide.html">样式指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-backcompat.html">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor.html">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor-python.html">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-summary.html">Trace 汇总</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/quickstart/traceconv.html">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui.html">Perfetto UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/large-traces.html">打开大型 trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/deep-linking-to-perfetto-ui.html">深度链接</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/debug-tracks.html">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extending-the-ui.html">概述</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">命令和宏</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-servers.html">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/common-tasks.html">常见任务</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/become-a-committer.html">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-plugins.html">插件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/faq.html">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/native-heap-profiler.html">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/java-heap-profiler.html">Java 堆转储</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/memory-counters.html">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-scheduling.html">调度事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/syscalls.html">系统调用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-freq.html">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/atrace.html">Atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-log.html">Logcat</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/frametimeline.html">Frame Timeline</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/battery-counters.html">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-game-intervention-list.html">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-packet-proto.html">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/synthetic-track-event.html">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-config-proto.html">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/concurrent-tracing-sessions.html">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/detached-mode.html">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-boot-tracing.html">开机 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-outofmemoryerror.html">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/android-version-notes.html">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/kernel-track-event.html">内核 track 事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/previous-boot-trace.html">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/perfetto-cli.html">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced.html">traced</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced_probes.html">traced_probes</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/heap_profile-cli.html">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/tracebox.html">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables.html">Prelude 表</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/builtin.html">内置函数</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-stats.html">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/metrics.html">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-a-single-machine.html">Bigtrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-kubernetes.html">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/interceptors.html">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/commands-automation-reference.html">命令自动化参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol.html">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/build-instructions.html">构建</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/testing.html">测试</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/developer-tools.html">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sdk-releasing.html">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/python-releasing.html">Python 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui-release-process.html">UI 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/chrome-branches.html">Chrome 分支</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sqlite-upgrade-guide.html">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/api-and-abi.html">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/life-of-a-tracing-session.html">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/protozero.html">ProtoZero</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/security-model.html">安全模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/checkpoint-atoms.html">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/trace-processor-architecture.html">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-design.html">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-wire-protocol.html">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-sampling.html">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/continuous-integration.html">Perfetto CI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/lock-free-task-runner.html">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/analysis/trace-summary">
+    <h1>Trace 汇总</h1><p>本指南解释如何使用 Perfetto 的 trace 汇总功能从 trace 中提取结构化、可操作的数据。</p>
+<h2><a name="-trace-" class="anchor" href="#-trace-"></a>为什么要使用 Trace 汇总？</h2><p>PerfettoSQL 是一个强大的工具，用于交互式探索 trace。你可以编写任何想要的查询，结果立即可用。但是，这种灵活性给自动化和大规模分析带来了挑战。<code>SELECT</code> 语句的输出具有任意架构（列名和类型），可能会从一个查询更改为下一个查询。这使得构建消费此数据的通用工具、仪表板或回归检测系统变得困难，因为它们无法依赖稳定的数据结构。</p>
+<p><strong>Trace 汇总解决了这个问题。</strong>它提供了一种为要从 trace 中提取的数据定义稳定、结构化架构的方法。它不是生成任意表，而是生成一致的 protobuf 消息(<a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto/protos/perfetto/trace_summary/file.proto;l=53?q=tracesummaryspec"><code>TraceSummary</code></a>)，工具很容易解析和处理。</p>
+<p>这对于<strong>跨 trace 分析</strong>尤其强大。通过在数百或数千个 trace 上运行相同的汇总规范，你可以可靠地聚合结果，以跟踪一段时间内的性能 metrics，比较应用程序的不同版本，并自动检测回归。</p>
+<p>简而言之，当你需要以下情况时，使用 trace 汇总：</p>
+<ul>
+<li>为自动化工具提取数据</li>
+<li>确保分析的稳定输出架构</li>
+<li>执行大规模、跨 trace 分析</li>
+</ul>
+<h2><a name="-" class="anchor" href="#-"></a>使用标准库生成汇总</h2><p>最简单的方法是使用 [PerfettoSQL 标准库](/docs/analysis/stdlib-docs.autogen）中的模块。</p>
+<p>让我们通过一个示例。假设我们想要计算 trace 中每个进程的平均内存使用量（具体来说，RSS + Swap）。<code>linux.memory.process</code> 模块已经提供了一个表 <code>memory_rss_and_swap_per_process</code>，非常适合此目的。</p>
+<p>我们可以定义一个 <code>TraceSummarySpec</code> 来计算此 metrics：</p>
+<code class="hljs code-block"><span class="hljs-comment">// spec.textproto</span>
+metric_spec {
+ id: <span class="hljs-string">&quot;memory_per_process&quot;</span>
+ dimensions: <span class="hljs-string">&quot;process_name&quot;</span>
+ value: <span class="hljs-string">&quot;avg_rss_and_swap&quot;</span>
+ query: {
+ table: {
+ table_name: <span class="hljs-string">&quot;memory_rss_and_swap_per_process&quot;</span>
+ }
+ referenced_modules: <span class="hljs-string">&quot;linux.memory.process&quot;</span>
+ group_by: {
+ column_names: <span class="hljs-string">&quot;process_name&quot;</span>
+ aggregates: {
+ column_name: <span class="hljs-string">&quot;rss_and_swap&quot;</span>
+ op: DURATION_WEIGHTED_MEAN
+ result_column_name: <span class="hljs-string">&quot;avg_rss_and_swap&quot;</span>
+ }
+ }
+ }
+}</code><p>要运行此操作，请将上述内容保存为 <code>spec.textproto</code> 并使用你首选的工具。</p>
+
+    <div class="tab-box">
+      <div class="tab-buttons">
+      <button class="tab-button">Python API</button>
+<button class="tab-button">Command-line shell</button>
+      </div>
+      <div class="tab-content"><p><code class="hljs code-block"><span class="hljs-keyword">from</span> perfetto.trace_processor <span class="hljs-keyword">import</span> TraceProcessor
+
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;spec.textproto&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> f:
+ spec_text = f.read()
+
+<span class="hljs-keyword">with</span> TraceProcessor(trace=<span class="hljs-string">&#x27;my_trace.pftrace&#x27;</span>) <span class="hljs-keyword">as</span> tp:
+ summary = tp.trace_summary(
+ specs=[spec_text],
+ metric_ids=[<span class="hljs-string">&quot;memory_per_process&quot;</span>]
+ )
+ <span class="hljs-built_in">print</span>(summary)</code></p></div>
+<div class="tab-content"><p><code class="hljs code-block">trace_processor_shell --summary \
+ --summary-spec spec.textproto \
+ --summary-metrics-v2 memory_per_process \
+ my_trace.pftrace</code></p></div>
+    </div>
+  <h2><a name="-" class="anchor" href="#-"></a>使用模板减少重复</h2><p>通常，你希望计算几个相关的 metrics，这些 metrics 共享相同的底层查询和维度。例如，对于给定进程，你可能想知道最小、最大和平均内存使用量。</p>
+<p>与其为每个 metrics 编写单独的 <code>metric_spec</code>，这将涉及重复相同的 <code>query</code> 和 <code>dimensions</code> 块，你可以使用<a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/trace_summary/v2_metric.proto"><code>TraceMetricV2TemplateSpec</code></a>。这更简洁，更不容易出错，并且性能更高，因为底层查询只运行一次。</p>
+<p>让我们扩展我们的内存示例，计算每个进程的 RSS+Swap 的最小值、最大值和持续时间加权平均值。</p>
+<code class="hljs code-block"><span class="hljs-comment">// spec.textproto</span>
+metric_template_spec {
+ id_prefix: <span class="hljs-string">&quot;memory_per_process&quot;</span>
+ dimensions: <span class="hljs-string">&quot;process_name&quot;</span>
+ value_columns: <span class="hljs-string">&quot;min_rss_and_swap&quot;</span>
+ value_columns: <span class="hljs-string">&quot;max_rss_and_swap&quot;</span>
+ value_columns: <span class="hljs-string">&quot;avg_rss_and_swap&quot;</span>
+ query: {
+ table: {
+ table_name: <span class="hljs-string">&quot;memory_rss_and_swap_per_process&quot;</span>
+ }
+ referenced_modules: <span class="hljs-string">&quot;linux.memory.process&quot;</span>
+ group_by: {
+ column_names: <span class="hljs-string">&quot;process_name&quot;</span>
+ aggregates: {
+ column_name: <span class="hljs-string">&quot;rss_and_swap&quot;</span>
+ op: MIN
+ result_column_name: <span class="hljs-string">&quot;min_rss_and_swap&quot;</span>
+ }
+ aggregates: {
+ column_name: <span class="hljs-string">&quot;rss_and_swap&quot;</span>
+ op: MAX
+ result_column_name: <span class="hljs-string">&quot;max_rss_and_swap&quot;</span>
+ }
+ aggregates: {
+ column_name: <span class="hljs-string">&quot;rss_and_swap&quot;</span>
+ op: DURATION_WEIGHTED_MEAN
+ result_column_name: <span class="hljs-string">&quot;avg_rss_and_swap&quot;</span>
+ }
+ }
+ }
+}</code><p>这个单一模板生成三个 metrics：</p>
+<ul>
+<li><code>memory_per_process_min_rss_and_swap</code></li>
+<li><code>memory_per_process_max_rss_and_swap</code></li>
+<li><code>memory_per_process_avg_rss_and_swap</code></li>
+</ul>
+<p>然后你可以运行它，请求任何或所有生成的 metrics，如下所示。</p>
+
+    <div class="tab-box">
+      <div class="tab-buttons">
+      <button class="tab-button">Python API</button>
+<button class="tab-button">Command-line shell</button>
+      </div>
+      <div class="tab-content"><p><code class="hljs code-block"><span class="hljs-keyword">from</span> perfetto.trace_processor <span class="hljs-keyword">import</span> TraceProcessor
+
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;spec.textproto&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> f:
+ spec_text = f.read()
+
+<span class="hljs-keyword">with</span> TraceProcessor(trace=<span class="hljs-string">&#x27;my_trace.pftrace&#x27;</span>) <span class="hljs-keyword">as</span> tp:
+ summary = tp.trace_summary(
+ specs=[spec_text],
+ metric_ids=[
+ <span class="hljs-string">&quot;memory_per_process_min_rss_and_swap&quot;</span>,
+ <span class="hljs-string">&quot;memory_per_process_max_rss_and_swap&quot;</span>,
+ <span class="hljs-string">&quot;memory_per_process_avg_rss_and_swap&quot;</span>,
+ ]
+ )
+ <span class="hljs-built_in">print</span>(summary)</code></p></div>
+<div class="tab-content"><p><code class="hljs code-block">trace_processor_shell --summary \
+ --summary-spec spec.textproto \
+ --summary-metrics-v2 memory_per_process_min_rss_and_swap,memory_per_process_max_rss_and_swap,memory_per_process_avg_rss_and_swap \
+ my_trace.pftrace</code></p></div>
+    </div>
+  <h2><a name="-" class="anchor" href="#-"></a>添加单位和极性</h2><p>为了使 metrics 的自动化 profile 和可视化更强大，你可以为 metrics 添加单位和极性（即，较高还是较低的值更好）。</p>
+<p>这是通过在 <code>TraceMetricV2TemplateSpec</code> 中使用 <code>value_column_specs</code> 字段而不是简单的 <code>value_columns</code> 来完成的。这允许你为模板生成的每个 metrics 指定 <code>unit</code> 和 <code>polarity</code>。</p>
+<p>让我们调整之前的内存示例以包含此信息。我们将指定内存值以 <code>BYTES</code> 为单位，较低的值更好。</p>
+<code class="hljs code-block"><span class="hljs-comment">// spec.textproto</span>
+metric_template_spec {
+ id_prefix: <span class="hljs-string">&quot;memory_per_process&quot;</span>
+ dimensions: <span class="hljs-string">&quot;process_name&quot;</span>
+ value_column_specs: {
+ name: <span class="hljs-string">&quot;min_rss_and_swap&quot;</span>
+ unit: BYTES
+ polarity: LOWER_IS_BETTER
+ }
+ value_column_specs: {
+ name: <span class="hljs-string">&quot;max_rss_and_swap&quot;</span>
+ unit: BYTES
+ polarity: LOWER_IS_BETTER
+ }
+ value_column_specs: {
+ name: <span class="hljs-string">&quot;avg_rss_and_swap&quot;</span>
+ unit: BYTES
+ polarity: LOWER_IS_BETTER
+ }
+ query: {
+ table: {
+ table_name: <span class="hljs-string">&quot;memory_rss_and_swap_per_process&quot;</span>
+ }
+ referenced_modules: <span class="hljs-string">&quot;linux.memory.process&quot;</span>
+ group_by: {
+ column_names: <span class="hljs-string">&quot;process_name&quot;</span>
+ aggregates: {
+ column_name: <span class="hljs-string">&quot;rss_and_swap&quot;</span>
+ op: MIN
+ result_column_name: <span class="hljs-string">&quot;min_rss_and_swap&quot;</span>
+ }
+ aggregates: {
+ column_name: <span class="hljs-string">&quot;rss_and_swap&quot;</span>
+ op: MAX
+ result_column_name: <span class="hljs-string">&quot;max_rss_and_swap&quot;</span>
+ }
+ aggregates: {
+ column_name: <span class="hljs-string">&quot;rss_and_swap&quot;</span>
+ op: DURATION_WEIGHTED_MEAN
+ result_column_name: <span class="hljs-string">&quot;avg_rss_and_swap&quot;</span>
+ }
+ }
+ }
+}</code><p>这将为每个生成 metrics 的 <code>TraceMetricV2Spec</code> 添加指定的 <code>unit</code> 和 <code>polarity</code>，使输出更丰富，对自动化工具更有用。</p>
+<h2><a name="-sql-" class="anchor" href="#-sql-"></a>使用自定义 SQL 模块生成汇总</h2><p>虽然标准库很强大，但你经常需要分析特定于你的应用程序的自定义事件。你可以通过编写自己的 SQL 模块并将它们加载到 Trace Processor 中来实现此目的。</p>
+<p>SQL 包只是一个包含 <code>.sql</code> 文件的目录。此目录可以加载到 Trace Processor 中，其文件可作为模块使用。</p>
+<p>假设你有名为 <code>game_frame</code> 的自定义 slice，并且想要计算平均、最小和最大帧持续时间。</p>
+<p><strong>1. 创建自定义 SQL 模块：</strong></p>
+<p>创建这样的目录结构：</p>
+<code class="hljs code-block">my<span class="hljs-emphasis">_sql_modules/
+└── my_</span>game/
+<span class="hljs-code"> └── metrics.sql</span></code><p>在 <code>metrics.sql</code> 内部，定义一个计算帧统计的视图：</p>
+<code class="hljs code-block"><span class="hljs-comment">-- my_sql_modules/my_game/metrics.sql</span>
+<span class="hljs-keyword">CREATE</span> PERFETTO <span class="hljs-keyword">VIEW</span> game_frame_stats <span class="hljs-keyword">AS</span>
+<span class="hljs-keyword">SELECT</span>
+ <span class="hljs-string">&#x27;game_frame&#x27;</span> <span class="hljs-keyword">AS</span> frame_type,
+ <span class="hljs-built_in">MIN</span>(dur) <span class="hljs-keyword">AS</span> min_duration_ns,
+ <span class="hljs-built_in">MAX</span>(dur) <span class="hljs-keyword">AS</span> max_duration_ns,
+ <span class="hljs-built_in">AVG</span>(dur) <span class="hljs-keyword">AS</span> avg_duration_ns
+<span class="hljs-keyword">FROM</span> slice
+<span class="hljs-keyword">WHERE</span> name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;game_frame&#x27;</span>
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> <span class="hljs-number">1</span>;</code><p><strong>2. 在汇总规范中使用模板：</strong></p>
+<p>同样，我们可以使用 <code>TraceMetricV2TemplateSpec</code> 从单个共享配置生成这些相关 metrics。</p>
+<p>创建一个引用你的自定义模块和视图的 <code>spec.textproto</code>:</p>
+<code class="hljs code-block"><span class="hljs-comment">// spec.textproto</span>
+metric_template_spec {
+ id_prefix: <span class="hljs-string">&quot;game_frame&quot;</span>
+ dimensions: <span class="hljs-string">&quot;frame_type&quot;</span>
+ value_columns: <span class="hljs-string">&quot;min_duration_ns&quot;</span>
+ value_columns: <span class="hljs-string">&quot;max_duration_ns&quot;</span>
+ value_columns: <span class="hljs-string">&quot;avg_duration_ns&quot;</span>
+ query: {
+ table: {
+ <span class="hljs-comment">// 模块名称是相对于包根目录的目录路径,</span>
+ <span class="hljs-comment">// 去掉了 .sql 扩展名。</span>
+ table_name: <span class="hljs-string">&quot;game_frame_stats&quot;</span>
+ }
+ referenced_modules: <span class="hljs-string">&quot;my_game.metrics&quot;</span>
+ }
+}</code><p><strong>3. 使用你的自定义包运行汇总：</strong></p>
+<p>你现在可以使用 Python API 或命令行 shell 计算汇总，告诉 Trace Processor 在哪里找到你的自定义包。</p>
+
+    <div class="tab-box">
+      <div class="tab-buttons">
+      <button class="tab-button">Python API</button>
+<button class="tab-button">Command-line shell</button>
+      </div>
+      <div class="tab-content"><p><p>在 <code>TraceProcessorConfig</code> 中使用 <code>add_sql_packages</code> 参数。</p>
+<code class="hljs code-block"><span class="hljs-keyword">from</span> perfetto.trace_processor <span class="hljs-keyword">import</span> TraceProcessor, TraceProcessorConfig
+
+<span class="hljs-comment"># 自定义 SQL 模块目录的路径</span>
+sql_package_path = <span class="hljs-string">&#x27;./my_sql_modules&#x27;</span>
+
+config = TraceProcessorConfig(
+ add_sql_packages=[sql_package_path]
+)
+
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;spec.textproto&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> f:
+ spec_text = f.read()
+
+<span class="hljs-keyword">with</span> TraceProcessor(trace=<span class="hljs-string">&#x27;my_trace.pftrace&#x27;</span>, config=config) <span class="hljs-keyword">as</span> tp:
+ <span class="hljs-comment"># 请求一个、一些或所有生成的 metrics。</span>
+ summary = tp.trace_summary(
+ specs=[spec_text],
+ metric_ids=[
+ <span class="hljs-string">&quot;game_frame_min_duration_ns&quot;</span>,
+ <span class="hljs-string">&quot;game_frame_max_duration_ns&quot;</span>,
+ <span class="hljs-string">&quot;game_frame_avg_duration_ns&quot;</span>
+ ]
+ )
+ <span class="hljs-built_in">print</span>(summary)</code></p></div>
+<div class="tab-content"><p><p>使用 <code>--add-sql-package</code> 标志。你可以显式列出 metrics 或使用 <code>all</code> 关键字。</p>
+<code class="hljs code-block">trace_processor_shell --summary \
+ --add-sql-package ./my_sql_modules \
+ --summary-spec spec.textproto \
+ --summary-metrics-v2 game_frame_min_duration_ns,game_frame_max_duration_ns,game_frame_avg_duration_ns \
+ my_trace.pftrace</code></p></div>
+    </div>
+  <h2><a name="-" class="anchor" href="#-"></a>常见模式和技巧</h2><h3><a name="-" class="anchor" href="#-"></a>列转换</h3><p><code>select_columns</code> 字段提供了一种强大的方法来操作查询结果的列。你可以使用 SQL 表达式重命名列并执行转换。</p>
+<p>每个 <code>SelectColumn</code> 消息有两个字段：</p>
+<ul>
+<li><code>column_name_or_expression</code>：源中的列名或 SQL 表达式。</li>
+<li><code>alias</code>：列的新名称。</li>
+</ul>
+<h4>示例：重命名和转换列</h4><p>此示例显示如何从 <code>slice</code> 表中选择 <code>ts</code> 和 <code>dur</code> 列，将 <code>ts</code> 重命名为 <code>timestamp</code>，并通过将 <code>dur</code> 从纳秒转换为毫秒来创建新列 <code>dur_ms</code>。</p>
+<code class="hljs code-block">query: {
+ table: {
+ table_name: <span class="hljs-string">&quot;slice&quot;</span>
+ }
+ select_columns: {
+ column_name_or_expression: <span class="hljs-string">&quot;ts&quot;</span>
+ alias: <span class="hljs-string">&quot;timestamp&quot;</span>
+ }
+ select_columns: {
+ column_name_or_expression: <span class="hljs-string">&quot;dur / 1000&quot;</span>
+ alias: <span class="hljs-string">&quot;dur_ms&quot;</span>
+ }
+}</code><h3><a name="-code-interval_intersect-code-" class="anchor" href="#-code-interval_intersect-code-"></a>使用 <code>interval_intersect</code> 分析时间间隔</h3><p>常见的分析模式是分析来自一个源（例如，CPU 使用率）的数据在来自另一个源（例如，&quot;关键用户旅程&quot;slice）的特定时间窗口内。<code>interval_intersect</code> 查询使这变得容易。</p>
+<p>它的工作原理是采用一个 <code>base</code> 查询和一个或多个 <code>interval</code> 查询。结果仅包含与 <em>每个</em> <code>interval</code> 查询的至少一行在时间上重叠的 <code>base</code> 查询的行。</p>
+<p><strong>用例：</strong></p>
+<ul>
+<li>在定义的 CUJ 期间计算特定线程的 CPU 使用率</li>
+<li>分析用户交互（由 slice 定义）期间的进程内存消耗</li>
+<li>查找仅在多个条件同时为真时发生的系统事件（例如，&quot;应用程序在前台&quot; AND &quot;滚动活动&quot;）。</li>
+</ul>
+<h4>示例：特定 CUJ Slice 期间的 CPU 时间</h4><p>此示例演示如何使用 <code>interval_intersect</code> 查找线程 <code>bar</code> 在来自 &quot;system_server&quot; 进程的任何 &quot;baz_*&quot; slice 的持续时间内的总 CPU 时间。</p>
+<code class="hljs code-block"><span class="hljs-comment">// 在 id 为 &quot;bar_cpu_time_during_baz_cujs&quot; 的 metric_spec 中</span>
+query: {
+ interval_intersect: {
+ base: {
+ <span class="hljs-comment">// 基础数据是每个线程的 CPU 时间。</span>
+ table: {
+ table_name: <span class="hljs-string">&quot;thread_slice_cpu_time&quot;</span>
+ }
+ referenced_modules: <span class="hljs-string">&quot;slices.cpu_time&quot;</span>
+ filters: {
+ column_name: <span class="hljs-string">&quot;thread_name&quot;</span>
+ op: EQUAL
+ string_rhs: <span class="hljs-string">&quot;bar&quot;</span>
+ }
+ }
+ interval_intersect: {
+ <span class="hljs-comment">// 间隔是 &quot;baz_*&quot; slice。</span>
+ simple_slices: {
+ slice_name_glob: <span class="hljs-string">&quot;baz_*&quot;</span>
+ process_name_glob: <span class="hljs-string">&quot;system_server&quot;</span>
+ }
+ }
+ }
+ group_by: {
+ <span class="hljs-comment">// 我们对相交间隔的 CPU 时间求和。</span>
+ aggregates: {
+ column_name: <span class="hljs-string">&quot;cpu_time&quot;</span>
+ op: SUM
+ result_column_name: <span class="hljs-string">&quot;total_cpu_time&quot;</span>
+ }
+ }
+}</code><h3><a name="-code-dependencies-code-" class="anchor" href="#-code-dependencies-code-"></a>使用 <code>dependencies</code> 组合查询</h3><p><code>Sql</code> 源中的 <code>dependencies</code> 字段允许你通过从其他结构化查询组合它们来构建复杂查询。这对于将复杂分析分解为更小的、可重用的部分特别有用。</p>
+<p>每个依赖项都有一个 <code>alias</code>，这是一个字符串，可以在 SQL 查询中用于引用依赖项的结果。SQL 查询然后可以像使用表一样使用此别名。</p>
+<h4>示例：将 CPU 数据与 CUJ Slice 连接</h4><p>此示例显示如何使用 <code>dependencies</code> 将 CPU 调度数据与 CUJ slice 连接。我们定义两个依赖项，一个用于 CPU 数据，一个用于 CUJ slice，然后在主 SQL 查询中连接它们。</p>
+<code class="hljs code-block">query: {
+ sql: {
+ sql: <span class="hljs-string">&quot;SELECT s.id, s.ts, s.dur, t.track_name FROM $slice_table s JOIN $track_table t ON s.track_id = t.id&quot;</span>
+ column_names: <span class="hljs-string">&quot;id&quot;</span>
+ column_names: <span class="hljs-string">&quot;ts&quot;</span>
+ column_names: <span class="hljs-string">&quot;dur&quot;</span>
+ column_names: <span class="hljs-string">&quot;track_name&quot;</span>
+ dependencies: {
+ alias: <span class="hljs-string">&quot;slice_table&quot;</span>
+ query: {
+ table: {
+ table_name: <span class="hljs-string">&quot;slice&quot;</span>
+ }
+ }
+ }
+ dependencies: {
+ alias: <span class="hljs-string">&quot;track_table&quot;</span>
+ query: {
+ table: {
+ table_name: <span class="hljs-string">&quot;track&quot;</span>
+ }
+ }
+ }
+ }
+}</code><h3><a name="-trace-" class="anchor" href="#-trace-"></a>添加 trace 范围的元数据</h3><p>你可以将键值元数据添加到汇总中，以为 metrics 提供上下文，例如设备型号或操作系统版本。这在分析多个 trace 时特别有用，因为它允许你基于此元数据分组或过滤结果。</p>
+<p>元数据与你在同一运行中请求的任何 metrics 一起计算。</p>
+<p><strong>1. 在规范中定义元数据查询：</strong></p>
+<p>此查询必须返回 &quot;key&quot; 和 &quot;value&quot; 列。</p>
+<code class="hljs code-block"><span class="hljs-comment">// 在 spec.textproto 中,与你的 metric_spec 定义一起</span>
+query {
+ id: <span class="hljs-string">&quot;device_info_query&quot;</span>
+ sql {
+ sql: <span class="hljs-string">&quot;SELECT &#x27;device_name&#x27; AS key, &#x27;Pixel Test&#x27; AS value&quot;</span>
+ column_names: <span class="hljs-string">&quot;key&quot;</span>
+ column_names: <span class="hljs-string">&quot;value&quot;</span>
+ }
+}</code><p><strong>2. 使用 metrics 和元数据运行汇总：</strong></p>
+<p>运行汇总时，你指定要计算的 metrics 和用于元数据的查询。</p>
+
+    <div class="tab-box">
+      <div class="tab-buttons">
+      <button class="tab-button">Python API</button>
+<button class="tab-button">Command-line shell</button>
+      </div>
+      <div class="tab-content"><p><p>传递 <code>metric_ids</code> 和 <code>metadata_query_id</code>:</p>
+<code class="hljs code-block">summary = tp.trace_summary(
+ specs=[spec_text],
+ metric_ids=[<span class="hljs-string">&quot;game_frame_avg_duration_ns&quot;</span>],
+ metadata_query_id=<span class="hljs-string">&quot;device_info_query&quot;</span>
+)</code></p></div>
+<div class="tab-content"><p><p>使用 <code>--summary-metrics-v2</code> 和 <code>--summary-metadata-query</code>:</p>
+<code class="hljs code-block">trace_processor_shell --summary \\
+ --summary-spec spec.textproto \\
+ --summary-metrics-v2 game_frame_avg_duration_ns \\
+ --summary-metadata-query device_info_query \\
+ my_trace.pftrace</code></p></div>
+    </div>
+  <h3><a name="-" class="anchor" href="#-"></a>输出格式</h3><p>汇总的结果是 <code>TraceSummary</code> protobuf 消息。此消息包含 <code>metric_bundles</code> 字段，这是一个 <code>TraceMetricV2Bundle</code> 消息列表。</p>
+<p>每个 bundle 可以包含一起计算的一个或多个 metrics 的结果。使用 <code>TraceMetricV2TemplateSpec</code> 是创建 bundle 的最常见方式。从单个模板生成的所有 metrics 都自动放置在同一个 bundle 中，共享相同的 <code>specs</code> 和 <code>row</code> 结构。这非常高效，因为维度值通常是重复的，每行只写入一次。</p>
+<h4>示例输出</h4><p>对于 <code>memory_per_process</code> 模板示例，输出 <code>TraceSummary</code> 将包含一个 <code>TraceMetricV2Bundle</code>，如下所示：</p>
+<code class="hljs code-block"># 在 TraceSummary 的 metric_bundles 字段中:
+metric_bundles {
+ # 模板生成的所有三个 metrics 的规范。
+ specs {
+ id: <span class="hljs-string">&quot;memory_per_process_min_rss_and_swap&quot;</span>
+ dimensions: <span class="hljs-string">&quot;process_name&quot;</span>
+ value: <span class="hljs-string">&quot;min_rss_and_swap&quot;</span>
+ # ... 查询详细信息 ...
+ }
+ specs {
+ id: <span class="hljs-string">&quot;memory_per_process_max_rss_and_swap&quot;</span>
+ dimensions: <span class="hljs-string">&quot;process_name&quot;</span>
+ value: <span class="hljs-string">&quot;max_rss_and_swap&quot;</span>
+ # ... 查询详细信息 ...
+ }
+ specs {
+ id: <span class="hljs-string">&quot;memory_per_process_avg_rss_and_swap&quot;</span>
+ dimensions: <span class="hljs-string">&quot;process_name&quot;</span>
+ value: <span class="hljs-string">&quot;avg_rss_and_swap&quot;</span>
+ # ... 查询详细信息 ...
+ }
+ # 每行包含一组维度和三个值，对应于
+ # `specs` 中的三个 metrics。
+ row {
+ values { double_value: <span class="hljs-number">100000</span> } # min
+ values { double_value: <span class="hljs-number">200000</span> } # max
+ values { double_value: <span class="hljs-number">123456.789</span> } # avg
+ dimension { string_value: <span class="hljs-string">&quot;com.example.app&quot;</span> }
+ }
+ row {
+ values { double_value: <span class="hljs-number">80000</span> } # min
+ values { double_value: <span class="hljs-number">150000</span> } # max
+ values { double_value: <span class="hljs-number">98765.432</span> } # avg
+ dimension { string_value: <span class="hljs-string">&quot;system_server&quot;</span> }
+ }
+ # ...
+}</code><h2><a name="-metrics-" class="anchor" href="#-metrics-"></a>与旧版 metrics 系统的比较</h2><p>Perfetto 以前有一个不同的系统来计算 metrics，通常称为&quot;v1 metrics&quot;。Trace 汇总是此系统的后继者，设计为更健壮且更易于使用。</p>
+<p>以下是主要区别：</p>
+<ul>
+<li><strong>输出架构</strong> ：旧系统要求用户定义自己的输出 protobuf 架构。这很强大，但学习曲线陡峭，导致不一致、难以维护的输出。Trace 汇总使用单个、定义良好的输出 proto（<code>TraceSummary</code>），确保所有汇总的结构一致。</li>
+<li><strong>易于使用</strong> ：使用 trace 汇总，你不需要为输出编写或管理任何 <code>.proto</code> 文件。你只需要定义要计算的数据（查询）及其形状（维度和值）。Perfetto 处理其余部分。</li>
+<li><strong>灵活性与工具</strong> ：虽然旧系统在输出结构方面提供了更多的灵活性，但这是以可工具化为代价的。trace 汇总的标准化输出使构建用于分析、可视化和回归跟踪的可靠、长期工具变得容易得多。</li>
+</ul>
+<h2><a name="-" class="anchor" href="#-"></a>扩展</h2><p><code>ValueColumnSpec</code> 消息允许供应商扩展，例如支持配置如何在 dashboard 中跨 trace 聚合。</p>
+<p>我们建议这仅用于 Perfetto &quot;之上&quot;的级别，即不用于配置如何从单个 trace 生成 metrics。</p>
+<h2><a name="-" class="anchor" href="#-"></a>参考</h2><h3><a name="-" class="anchor" href="#-"></a>运行汇总</h3><p>你可以使用不同的 Perfetto 工具计算汇总。</p>
+
+    <div class="tab-box">
+      <div class="tab-buttons">
+      <button class="tab-button">Python API</button>
+<button class="tab-button">Command-line shell</button>
+      </div>
+      <div class="tab-content"><p><p>对于编程工作流，使用 <code>TraceProcessor</code> 类的 <code>trace_summary</code> 方法。</p>
+<code class="hljs code-block"><span class="hljs-keyword">from</span> perfetto.trace_processor <span class="hljs-keyword">import</span> TraceProcessor
+
+<span class="hljs-comment"># 假设 &#x27;tp&#x27; 是一个初始化的 TraceProcessor 实例</span>
+<span class="hljs-comment"># 而 &#x27;spec_text&#x27; 包含你的 TraceSummarySpec。</span>
+
+summary_proto = tp.trace_summary(
+ specs=[spec_text],
+ metric_ids=[<span class="hljs-string">&quot;example_metric&quot;</span>],
+ metadata_query_id=<span class="hljs-string">&quot;device_info_query&quot;</span>
+)
+
+<span class="hljs-built_in">print</span>(summary_proto)</code><p><code>trace_summary</code> 方法接受以下参数：</p>
+<ul>
+<li><strong>specs</strong> ： <code>TraceSummarySpec</code> 定义的列表（作为文本或字节）。</li>
+<li><strong>metric_ids</strong> ： 要计算的可选 metrics ID 列表。如果为 <code>None</code>，则计算规范中的所有 metrics。</li>
+<li><strong>metadata_query_id</strong> ： 用于 trace 范围元数据的查询的可选 ID。</li>
+</ul>
+</p></div>
+<div class="tab-content"><p><p><code>trace_processor_shell</code> 允许你使用专用标志从 trace 文件计算 trace 汇总。</p>
+<ul>
+<li><strong>按 ID 运行特定 metrics</strong> ：使用 <code>--summary-metrics-v2</code> 标志提供逗号分隔的 metrics ID 列表。</li>
+</ul>
+<code class="hljs code-block">trace_processor_shell --summary \\
+--summary-spec YOUR_SPEC_FILE \\
+--summary-metrics-v2 METRIC_ID_1,METRIC_ID_2 \\
+TRACE_FILE</code><ul>
+<li><strong>运行规范中定义的所有 metrics</strong> ：使用关键字 <code>all</code>。</li>
+</ul>
+<code class="hljs code-block">trace_processor_shell --summary \\
+--summary-spec YOUR_SPEC_FILE \\
+--summary-metrics-v2 all \\
+TRACE_FILE</code><ul>
+<li><strong>输出格式</strong> ：使用 <code>--summary-format</code> 控制输出格式。<ul>
+<li><code>text</code>：人类可读的文本 protobuf(默认)。</li>
+<li><code>binary</code>：二进制 protobuf。</li>
+</ul>
+</li>
+</ul>
+</p></div>
+    </div>
+  <h3><a name="-a-href-https-source-chromium-org-chromium-chromium-src-main-third_party-perfetto-protos-perfetto-trace_summary-file-proto-code-tracesummaryspec-code-a-" class="anchor" href="#-a-href-https-source-chromium-org-chromium-chromium-src-main-third_party-perfetto-protos-perfetto-trace_summary-file-proto-code-tracesummaryspec-code-a-"></a><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/trace_summary/file.proto"><code>TraceSummarySpec</code></a></h3><p>用于配置汇总的顶级消息。它包含：</p>
+<ul>
+<li><strong><code>metric_spec</code> (repeated
+ <a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/trace_summary/v2_metric.proto"><code>TraceMetricV2Spec</code></a>)</strong>:
+ 定义各个 metrics。</li>
+<li><strong><code>query</code> (repeated
+ <a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/perfetto_sql/structured_query.proto"><code>PerfettoSqlStructuredQuery</code></a>)</strong>:
+ 定义可以被 metrics 引用或用于 trace 范围元数据的共享查询。</li>
+</ul>
+<h3><a name="-a-href-https-source-chromium-org-chromium-chromium-src-main-third_party-perfetto-protos-perfetto-trace_summary-file-proto-code-tracesummary-code-a-" class="anchor" href="#-a-href-https-source-chromium-org-chromium-chromium-src-main-third_party-perfetto-protos-perfetto-trace_summary-file-proto-code-tracesummary-code-a-"></a><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/trace_summary/file.proto"><code>TraceSummary</code></a></h3><p>汇总输出的顶级消息。它包含：</p>
+<ul>
+<li><strong><code>metric_bundles</code> (repeated
+ <a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/trace_summary/v2_metric.proto"><code>TraceMetricV2Bundle</code></a>)</strong>:
+ 每个 metrics 的计算结果。</li>
+<li><strong><code>metadata</code> (repeated <code>Metadata</code>)</strong> ：trace 级元数据的键值对。</li>
+</ul>
+<h3><a name="-a-href-https-source-chromium-org-chromium-chromium-src-main-third_party-perfetto-protos-perfetto-trace_summary-v2_metric-proto-code-tracemetricv2spec-code-a-" class="anchor" href="#-a-href-https-source-chromium-org-chromium-chromium-src-main-third_party-perfetto-protos-perfetto-trace_summary-v2_metric-proto-code-tracemetricv2spec-code-a-"></a><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/trace_summary/v2_metric.proto"><code>TraceMetricV2Spec</code></a></h3><p>定义单个 metrics。</p>
+<ul>
+<li><strong><code>id</code> (string)</strong> ：metrics 的唯一标识符。</li>
+<li><strong><code>dimensions</code> (repeated string)</strong> ：作为维度的列。</li>
+<li><strong><code>value</code> (string)</strong> ：包含 metrics 数值值的列。</li>
+<li><strong><code>unit</code> (oneof)</strong> ：metrics 值的单位（例如，<code>TIME_NANOS</code>、<code>BYTES</code>）。也可以是 <code>custom_unit</code> 字符串。</li>
+<li><strong><code>polarity</code> (enum)</strong> ：较高还是较低的值更好（例如，<code>HIGHER_IS_BETTER</code>、<code>LOWER_IS_BETTER</code>）。</li>
+<li><strong><code>query</code>
+ (<a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/perfetto_sql/structured_query.proto"><code>PerfettoSqlStructuredQuery</code></a>)</strong>:
+ 计算数据的查询。</li>
+</ul>
+<h3><a name="-a-href-https-source-chromium-org-chromium-chromium-src-main-third_party-perfetto-protos-perfetto-trace_summary-v2_metric-proto-code-tracemetricv2templatespec-code-a-" class="anchor" href="#-a-href-https-source-chromium-org-chromium-chromium-src-main-third_party-perfetto-protos-perfetto-trace_summary-v2_metric-proto-code-tracemetricv2templatespec-code-a-"></a><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/trace_summary/v2_metric.proto"><code>TraceMetricV2TemplateSpec</code></a></h3><p>定义用于从单个共享配置生成多个相关 metrics 的模板。当你有几个共享相同查询和维度的 metrics 时，这对于减少重复很有用。</p>
+<p>使用模板会自动将生成的 metrics 捆绑到输出中的单个 <a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/trace_summary/v2_metric.proto"><code>TraceMetricV2Bundle</code></a> 中。</p>
+<ul>
+<li><strong><code>id_prefix</code> (string)</strong> ：所有生成 metrics 的 ID 的前缀。</li>
+<li><strong><code>dimensions</code> (repeated string)</strong> ：所有 metrics 的共享维度。</li>
+<li><strong><code>value_columns</code> (repeated string)</strong> ：查询中的列列表。每列将使用 ID <code>&lt;id_prefix&gt;_&lt;value_column&gt;</code> 生成唯一的 metrics。</li>
+<li><strong><code>value_column_specs</code> (repeated <code>ValueColumnSpec</code>)</strong> ：值列规范的列表，允许每个列具有唯一的 <code>unit</code> 和 <code>polarity</code>，以及任何必要的供应商扩展，配置如何管理跨 trace 的聚合。</li>
+<li><strong><code>query</code>
+ (<a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/perfetto_sql/structured_query.proto"><code>PerfettoSqlStructuredQuery</code></a>)</strong>:
+ 计算所有 metrics 数据的共享查询。</li>
+</ul>
+<h3><a name="-a-href-https-source-chromium-org-chromium-chromium-src-main-third_party-perfetto-protos-perfetto-trace_summary-v2_metric-proto-code-tracemetricv2bundle-code-a-" class="anchor" href="#-a-href-https-source-chromium-org-chromium-chromium-src-main-third_party-perfetto-protos-perfetto-trace_summary-v2_metric-proto-code-tracemetricv2bundle-code-a-"></a><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/trace_summary/v2_metric.proto"><code>TraceMetricV2Bundle</code></a></h3><p>包含捆绑在一起的一个或多个 metrics 的结果。</p>
+<ul>
+<li><strong><code>specs</code> (repeated <code>TraceMetricV2Spec</code>)</strong> ：bundle 中所有 metrics 的规范。</li>
+<li><strong><code>row</code> (repeated <code>Row</code>)</strong> ：每行包含维度值和该组维度的所有 metrics 值。</li>
+</ul>
+<h3><a name="-a-href-https-source-chromium-org-chromium-chromium-src-main-third_party-perfetto-protos-perfetto-perfetto_sql-structured_query-proto-code-perfettosqlstructuredquery-code-a-" class="anchor" href="#-a-href-https-source-chromium-org-chromium-chromium-src-main-third_party-perfetto-protos-perfetto-perfetto_sql-structured_query-proto-code-perfettosqlstructuredquery-code-a-"></a><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/perfetto//protos/perfetto/perfetto_sql/structured_query.proto"><code>PerfettoSqlStructuredQuery</code></a></h3><p><code>PerfettoSqlStructuredQuery</code> 消息提供了一种结构化的方法来定义 PerfettoSQL 查询。它是通过定义数据 <code>source</code> 然后选择性地应用 <code>filters</code>、<code>group_by</code> 操作和 <code>select_columns</code> 转换来构建的。</p>
+<h4>查询源</h4><p>查询的源可以是以下之一：</p>
+<ul>
+<li><strong>table</strong> ：PerfettoSQL 表或视图。</li>
+<li><strong>sql</strong> ：任意 SQL <code>SELECT</code> 语句。</li>
+<li><strong>simple_slices</strong> ：查询 <code>slice</code> 表的便利方法。</li>
+<li><strong>inner_query</strong> ：嵌套结构化查询。</li>
+<li><strong>inner_query_id</strong> ：对共享结构化查询的引用。</li>
+<li><strong>interval_intersect</strong> ：<code>base</code> 数据源与一个或多个 <code>interval</code> 数据源的基于时间的交集。</li>
+</ul>
+<h4>查询操作</h4><p>这些操作按顺序应用于来自源的数据：</p>
+<ul>
+<li><strong>filters</strong> ：用于过滤行的条件列表。</li>
+<li><strong>group_by</strong> ：对行进行分组并应用聚合函数。</li>
+<li><strong>select_columns</strong> ：选择并可选地重命名列。</li>
+</ul>
+<h4>聚合运算符</h4><p><code>group_by</code> 操作允许你使用以下聚合函数：</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>COUNT</code></td>
+<td>计算每个组中的行数。如果未指定 <code>column_name</code>，则变为 <code>COUNT(*)</code>(计算所有行)。</td>
+</tr>
+<tr>
+<td><code>SUM</code></td>
+<td>计算数值列的总和。</td>
+</tr>
+<tr>
+<td><code>MIN</code></td>
+<td>查找数值列的最小值。</td>
+</tr>
+<tr>
+<td><code>MAX</code></td>
+<td>查找数值列的最大值。</td>
+</tr>
+<tr>
+<td><code>MEAN</code></td>
+<td>计算数值列的平均值。</td>
+</tr>
+<tr>
+<td><code>MEDIAN</code></td>
+<td>计算数值列的第 50 百分位数。</td>
+</tr>
+<tr>
+<td><code>DURATION_WEIGHTED_MEAN</code></td>
+<td>计算数值列的持续时间加权平均值。这对于应根据持续时间加权的时序数据很有用。</td>
+</tr>
+<tr>
+<td><code>PERCENTILE</code></td>
+<td>计算数值列的给定百分位数。百分位数在 <code>Aggregate</code> 消息的 <code>percentile</code> 字段中指定。</td>
+</tr>
+</tbody></table>
+<h5>聚合字段要求</h5><ul>
+<li><strong>COUNT</strong> ：<code>column_name</code> 是可选的。如果省略，则默认为 <code>COUNT(*)</code>。</li>
+<li><strong><code>SUM</code>、<code>MIN</code>、<code>MAX</code>、<code>MEAN</code>、<code>MEDIAN</code>、<code>DURATION_WEIGHTED_MEAN</code></strong> ：需要 <code>column_name</code>。</li>
+<li><strong>PERCENTILE</strong> ：需要 <code>column_name</code> 和 <code>percentile</code>。</li>
+</ul>
+<h5>示例：计算第 99 百分位数</h5><p>此示例显示如何计算 <code>slice</code> 表中 <code>dur</code> 列的第 99 百分位数。</p>
+<code class="hljs code-block">query: {
+ table: {
+ table_name: <span class="hljs-string">&quot;slice&quot;</span>
+ }
+ group_by: {
+ aggregates: {
+ column_name: <span class="hljs-string">&quot;dur&quot;</span>
+ op: PERCENTILE
+ result_column_name: <span class="hljs-string">&quot;p99_dur&quot;</span>
+ percentile: <span class="hljs-number">99</span>
+ }
+ }
+}</code>
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>命令自动化参考 - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="命令自动化参考 - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/visualization/commands-automation-reference">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/style.css">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/perfetto-docs-zh-cn/assets/favicon.png" />
+  <script type="text/javascript" src="/perfetto-docs-zh-cn/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/perfetto-docs-zh-cn/">
+      <img src="/perfetto-docs-zh-cn/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/perfetto-docs-zh-cn/docs/">Docs</a>
+  <a href="/perfetto-docs-zh-cn/docs/contributing/getting-started#community.html">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/perfetto-docs-zh-cn/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/tracing-101.html">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/start-using-perfetto.html">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/system-tracing.html">系统 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/in-app-tracing.html">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/memory-profiling.html">Memory Profiling</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/cpu-profiling.html">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/atrace.html">Android atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/ftrace.html">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/other-formats.html">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/converting.html">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/android-trace-analysis.html">分析 Android Trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/periodic-trace-snapshots.html">周期性 Trace 快照</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/memory.html">Android 内存使用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/scheduling-blockages.html">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/config.html">Trace 配置</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/buffers.html">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/service-model.html">服务模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/clock-sync.html">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/tracing-in-background.html">后台 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/android.html">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/chrome-tracing.html">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/tracing-sdk.html">Tracing SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/track-events.html">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/stdlib-docs.html">标准库</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-syntax.html">语法</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/style-guide.html">样式指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-backcompat.html">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor.html">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor-python.html">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-summary.html">Trace 汇总</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/quickstart/traceconv.html">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui.html">Perfetto UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/large-traces.html">打开大型 trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/deep-linking-to-perfetto-ui.html">深度链接</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/debug-tracks.html">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extending-the-ui.html">概述</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">命令和宏</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-servers.html">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/common-tasks.html">常见任务</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/become-a-committer.html">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-plugins.html">插件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/faq.html">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/native-heap-profiler.html">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/java-heap-profiler.html">Java 堆转储</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/memory-counters.html">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-scheduling.html">调度事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/syscalls.html">系统调用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-freq.html">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/atrace.html">Atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-log.html">Logcat</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/frametimeline.html">Frame Timeline</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/battery-counters.html">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-game-intervention-list.html">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-packet-proto.html">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/synthetic-track-event.html">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-config-proto.html">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/concurrent-tracing-sessions.html">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/detached-mode.html">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-boot-tracing.html">开机 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-outofmemoryerror.html">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/android-version-notes.html">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/kernel-track-event.html">内核 track 事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/previous-boot-trace.html">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/perfetto-cli.html">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced.html">traced</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced_probes.html">traced_probes</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/heap_profile-cli.html">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/tracebox.html">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables.html">Prelude 表</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/builtin.html">内置函数</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-stats.html">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/metrics.html">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-a-single-machine.html">Bigtrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-kubernetes.html">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/interceptors.html">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/commands-automation-reference.html">命令自动化参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol.html">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/build-instructions.html">构建</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/testing.html">测试</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/developer-tools.html">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sdk-releasing.html">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/python-releasing.html">Python 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui-release-process.html">UI 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/chrome-branches.html">Chrome 分支</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sqlite-upgrade-guide.html">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/api-and-abi.html">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/life-of-a-tracing-session.html">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/protozero.html">ProtoZero</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/security-model.html">安全模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/checkpoint-atoms.html">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/trace-processor-architecture.html">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-design.html">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-wire-protocol.html">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-sampling.html">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/continuous-integration.html">Perfetto CI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/lock-free-task-runner.html">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/visualization/commands-automation-reference">
+    <h1>命令自动化参考</h1><p>本文档记录了 Perfetto UI 的稳定 command surface，专门用于自动化用例。这些命令具有向后兼容性保证，可以安全地用于自动化工作流、启动配置、macros 和 deep linking。</p>
+<h2><a name="-" class="anchor" href="#-"></a>概览</h2><p>虽然 Perfetto UI 在内部使用 commands 进行所有用户交互，但本参考专门关注用于自动化目的的稳定命令子集。这些稳定的自动化命令专为以下用途设计：</p>
+<ul>
+<li><strong>Startup commands</strong> - 加载 trace 时自动配置 UI</li>
+<li><strong>Macros</strong> - 为复杂的分析任务创建可重用工作流</li>
+<li><strong>Deep linking</strong> - 通过 URLs 或 postMessage 共享预配置视图</li>
+</ul>
+<p>此自动化参考之外的命令是内部实现细节，没有向后兼容性保证，可能会在不警告的情况下更改。</p>
+<h2><a name="-" class="anchor" href="#-"></a>向后兼容性保证</h2><p>对于本参考中列出的自动化命令，Perfetto UI 保证：</p>
+<ul>
+<li><strong>Stable command IDs</strong> - 命令标识符（例如，<code>dev.perfetto.RunQuery</code>）不会更改</li>
+<li><strong>Stable required arguments</strong> - 现有的必需参数将继续以相同的语义工作</li>
+<li><strong>Consistent behavior</strong> - 核心功能将在更新中保留</li>
+<li><strong>Advance notice of changes</strong> - 任何重大更改将：<ul>
+<li>在 CHANGELOG 中发布</li>
+<li>在更改生效前至少 6 个月宣布</li>
+</ul>
+</li>
+</ul>
+<p>可能会在不通知的情况下向命令添加可选参数，但不会影响现有用法。</p>
+<h2><a name="-" class="anchor" href="#-"></a>命令参考</h2><h3><a name="track-" class="anchor" href="#track-"></a>Track 操作命令</h3><p>这些命令控制 tracks 在 Timeline 视图中的显示方式。</p>
+<h4><code>dev.perfetto.PinTracksByRegex</code></h4><p>将匹配正则表达式模式的 tracks 固定到 Timeline 顶部。</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>pattern</code> (string, required): 用于匹配 track 名称或路径的正则表达式</li>
+<li><code>nameOrPath</code> (string, optional): 是匹配 track 名称 (&quot;name&quot;) 还是 track 路径 (&quot;path&quot;)。默认为 &quot;name&quot;</li>
+</ul>
+<p><strong>Track 名称 vs 路径:</strong></p>
+<ul>
+<li>Track 名称: <code>&quot;RenderThread&quot;</code></li>
+<li>Track 路径: <code>&quot;com.example.app &gt; RenderThread&quot;</code></li>
+</ul>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.PinTracksByRegex&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [<span class="hljs-string">&quot;.*surfaceflinger.*&quot;</span>]
+}</code><p><strong>Example with track path filtering:</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.PinTracksByRegex&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [<span class="hljs-string">&quot;.*com\\.example\\.app.*RenderThread.*&quot;</span>, <span class="hljs-string">&quot;path&quot;</span>]
+}</code><p><strong>常见模式：</strong></p>
+<ul>
+<li>Pin CPU tracks: <code>&quot;.*CPU \\d+$&quot;</code></li>
+<li>Pin specific process: <code>&quot;.*com\\.example\\.app.*&quot;</code></li>
+<li>Pin multiple processes: <code>&quot;.*(system_server|surfaceflinger).*&quot;</code></li>
+</ul>
+<hr>
+<h4><code>dev.perfetto.ExpandTracksByRegex</code></h4><p>展开匹配正则表达式模式的 track groups。</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>pattern</code> (string, required): 用于匹配 track group 名称或路径的正则表达式</li>
+<li><code>nameOrPath</code> (string, optional): 是匹配 track 名称 (&quot;name&quot;) 还是 track 路径 (&quot;path&quot;)。默认为 &quot;name&quot;</li>
+</ul>
+<p><strong>Track 名称 vs 路径:</strong></p>
+<ul>
+<li>Track 名称: <code>&quot;RenderThread&quot;</code></li>
+<li>Track 路径: <code>&quot;com.example.app &gt; RenderThread&quot;</code></li>
+</ul>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.ExpandTracksByRegex&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [<span class="hljs-string">&quot;.*system_server.*&quot;</span>]
+}</code><p><strong>Example with track path filtering:</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.ExpandTracksByRegex&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [<span class="hljs-string">&quot;.*system_server.*RenderThread.*&quot;</span>, <span class="hljs-string">&quot;path&quot;</span>]
+}</code><hr>
+<h4><code>dev.perfetto.CollapseTracksByRegex</code></h4><p>折叠匹配正则表达式模式的 track groups。</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>pattern</code> (string, required): 用于匹配 track group 名称或路径的正则表达式</li>
+<li><code>nameOrPath</code> (string, optional): 是匹配 track 名称 (&quot;name&quot;) 还是 track 路径 (&quot;path&quot;)。默认为 &quot;name&quot;</li>
+</ul>
+<p><strong>Track 名称 vs 路径:</strong></p>
+<ul>
+<li>Track 名称: <code>&quot;RenderThread&quot;</code></li>
+<li>Track 路径: <code>&quot;com.example.app &gt; RenderThread&quot;</code></li>
+</ul>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.CollapseTracksByRegex&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [<span class="hljs-string">&quot;CPU Scheduling&quot;</span>]
+}</code><p><strong>Example with track path filtering:</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.CollapseTracksByRegex&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [<span class="hljs-string">&quot;.*com\\.example\\.app.*&quot;</span>, <span class="hljs-string">&quot;path&quot;</span>]
+}</code><p><strong>提示：</strong> Use <code>&quot;.*&quot;</code> 将所有 tracks 折叠作为专注分析的起点。</p>
+<h3><a name="debug-track-" class="anchor" href="#debug-track-"></a>Debug Track 命令</h3><p>从 SQL 查询创建自定义可视化 tracks。Debug tracks 叠加在 Timeline 上，并在视图更改时自动更新。</p>
+<p><strong>重要:</strong> 如果你的查询使用 Perfetto 模块（例如，<code>android.screen_state</code>、<code>android.memory.lmk</code>），你必须首先执行带有模块 include 语句的 <code>RunQuery</code> 命令，然后才能创建 debug track。模块 include 必须位于命令序列中的第一位。</p>
+<h4><code>dev.perfetto.AddDebugSliceTrack</code></h4><p>从返回时间间隔的 SQL 查询创建 slice track。</p>
+<p><strong>参数：</strong></p>
+<ol>
+<li><code>query</code> (string, required): 必须返回以下内容的 SQL 查询：<ul>
+<li><code>ts</code> (number): 时间戳（纳秒）</li>
+<li><code>dur</code> (number): 持续时间（纳秒）</li>
+<li><code>name</code> (string): 要显示的 slice 名称</li>
+</ul>
+</li>
+<li><code>title</code> (string, required): track 的显示名称</li>
+</ol>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.AddDebugSliceTrack&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [
+    <span class="hljs-string">&quot;SELECT ts, dur, name FROM slice WHERE dur &gt; 10000000 ORDER BY dur DESC LIMIT 100&quot;</span>,
+    <span class="hljs-string">&quot;Long Slices (&gt;10ms)&quot;</span>
+  ]
+}</code><hr>
+<h4><code>dev.perfetto.AddDebugSliceTrackWithPivot</code></h4><p>按 pivot 列分组创建多个 slice tracks。pivot 列中的每个唯一值都有自己的 track。</p>
+<p><strong>参数：</strong></p>
+<ol>
+<li><code>query</code> (string, required): 必须返回以下内容的 SQL 查询：<ul>
+<li><code>ts</code> (number): 时间戳（纳秒）</li>
+<li><code>dur</code> (number): 持续时间（纳秒）</li>
+<li><code>name</code> (string): Slice 名称以显示</li>
+<li>用于 pivoting 的附加列</li>
+</ul>
+</li>
+<li><code>pivotColumn</code> (string, required): 用于分组 tracks 的列名</li>
+<li><code>title</code> (string, required): track group 的基本标题</li>
+</ol>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.AddDebugSliceTrackWithPivot&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [
+    <span class="hljs-string">&quot;SELECT ts, dur, name, IFNULL(category, &#x27;[NULL]&#x27;) as category FROM slice WHERE dur &gt; 1000000&quot;</span>,
+    <span class="hljs-string">&quot;category&quot;</span>,
+    <span class="hljs-string">&quot;Slices by Category&quot;</span>
+  ]
+}</code><p><strong>注意：</strong> 使用 <code>IFNULL()</code> 处理 pivot 列中的 NULL 值，因为 NULL 会导致命令失败。</p>
+<hr>
+<h4><code>dev.perfetto.AddDebugCounterTrack</code></h4><p>从返回时间序列数据的 SQL 查询创建 counter track。</p>
+<p><strong>参数：</strong></p>
+<ol>
+<li><code>query</code> (string, required): 必须返回以下内容的 SQL 查询：<ul>
+<li><code>ts</code> (number): 时间戳（纳秒）</li>
+<li><code>value</code> (number): Counter 值</li>
+</ul>
+</li>
+<li><code>title</code> (string, required): track 的显示名称</li>
+</ol>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.AddDebugCounterTrack&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [<span class="hljs-string">&quot;SELECT ts, value FROM counter WHERE track_id = 42&quot;</span>, <span class="hljs-string">&quot;Memory Usage&quot;</span>]
+}</code><hr>
+<h4><code>dev.perfetto.AddDebugCounterTrackWithPivot</code></h4><p>按 pivot 列分组创建多个 counter tracks。</p>
+<p><strong>参数：</strong></p>
+<ol>
+<li><code>query</code> (string, required): 必须返回以下内容的 SQL 查询：<ul>
+<li><code>ts</code> (number): 时间戳（纳秒）</li>
+<li><code>value</code> (number): Counter 值</li>
+<li>用于 pivoting 的附加列</li>
+</ul>
+</li>
+<li><code>pivotColumn</code> (string, required): 用于分组 tracks 的列名</li>
+<li><code>title</code> (string, required): track group 的基本标题</li>
+</ol>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.AddDebugCounterTrackWithPivot&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [
+    <span class="hljs-string">&quot;SELECT ts, value, name FROM counter JOIN counter_track ON counter.track_id = counter_track.id&quot;</span>,
+    <span class="hljs-string">&quot;name&quot;</span>,
+    <span class="hljs-string">&quot;System Counters&quot;</span>
+  ]
+}</code><h3><a name="workspace-" class="anchor" href="#workspace-"></a>Workspace 命令</h3><p>Workspaces 允许你通过将特定的 tracks 组织在一起来创建 trace 数据的自定义视图。</p>
+<h4><code>dev.perfetto.CreateWorkspace</code></h4><p>创建一个新的空 workspace。</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>title</code> (string, required): 新 workspace 的名称</li>
+</ul>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.CreateWorkspace&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [<span class="hljs-string">&quot;Memory Analysis&quot;</span>]
+}</code><hr>
+<h4><code>dev.perfetto.SwitchWorkspace</code></h4><p>按名称切换到现有 workspace。</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>title</code> (string, required): 要切换到的 workspace 名称</li>
+</ul>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.SwitchWorkspace&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [<span class="hljs-string">&quot;Memory Analysis&quot;</span>]
+}</code><p><strong>注意：</strong> 在切换到 workspace 之前，该 workspace 必须已经存在。</p>
+<hr>
+<h4><code>dev.perfetto.CopyTracksToWorkspaceByRegex</code></h4><p>将匹配模式的 tracks 复制到 workspace。</p>
+<p><strong>参数：</strong></p>
+<ol>
+<li><code>pattern</code> (string, required): 用于匹配 track 名称或路径的正则表达式</li>
+<li><code>workspaceTitle</code> (string, required): 目标 workspace 名称</li>
+<li><code>nameOrPath</code> (string, optional): 是匹配 track 名称 (&quot;name&quot;) 还是 track 路径 (&quot;path&quot;)。默认为 &quot;name&quot;</li>
+</ol>
+<p><strong>Track 名称 vs 路径：</strong></p>
+<ul>
+<li>Track 名称: <code>&quot;RenderThread&quot;</code></li>
+<li>Track 路径: <code>&quot;com.example.app &gt; RenderThread&quot;</code></li>
+</ul>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.CopyTracksToWorkspaceByRegex&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [<span class="hljs-string">&quot;(Expected|Actual) Timeline&quot;</span>, <span class="hljs-string">&quot;Frame Analysis&quot;</span>]
+}</code><p><strong>使用 track 路径过滤的示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.CopyTracksToWorkspaceByRegex&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [<span class="hljs-string">&quot;.*com\\.example\\.app.*RenderThread.*&quot;</span>, <span class="hljs-string">&quot;Frame Analysis&quot;</span>, <span class="hljs-string">&quot;path&quot;</span>]
+}</code><hr>
+<h4><code>dev.perfetto.CopyTracksToWorkspaceByRegexWithAncestors</code></h4><p>将匹配模式的 tracks 复制到 workspace，包括其父 track 组以提供上下文。</p>
+<p><strong>参数：</strong></p>
+<ol>
+<li><code>pattern</code> (string, required): 用于匹配 track 名称或路径的正则表达式</li>
+<li><code>workspaceTitle</code> (string, required): 目标 workspace 名称</li>
+<li><code>nameOrPath</code> (string, optional): 是匹配 track 名称 (&quot;name&quot;) 还是 track 路径 (&quot;path&quot;)。默认为 &quot;name&quot;</li>
+</ol>
+<p><strong>Track 名称 vs 路径：</strong></p>
+<ul>
+<li>Track 名称: <code>&quot;RenderThread&quot;</code></li>
+<li>Track 路径: <code>&quot;com.example.app &gt; RenderThread&quot;</code></li>
+</ul>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.CopyTracksToWorkspaceByRegexWithAncestors&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [<span class="hljs-string">&quot;RenderThread&quot;</span>, <span class="hljs-string">&quot;Rendering Analysis&quot;</span>]
+}</code><p><strong>使用 track 路径过滤的示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.CopyTracksToWorkspaceByRegexWithAncestors&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [
+    <span class="hljs-string">&quot;.*com\\.example\\.app.*RenderThread.*&quot;</span>,
+    <span class="hljs-string">&quot;Rendering Analysis&quot;</span>,
+    <span class="hljs-string">&quot;path&quot;</span>
+  ]
+}</code><h3><a name="-" class="anchor" href="#-"></a>查询命令</h3><h4><code>dev.perfetto.RunQuery</code></h4><p>执行 PerfettoSQL 查询而不显示结果。</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>query</code> (string, required): 要执行的 PerfettoSQL 查询</li>
+</ul>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.RunQuery&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [
+    <span class="hljs-string">&quot;CREATE PERFETTO FUNCTION my_func(x INT) RETURNS INT AS SELECT $x * 2&quot;</span>
+  ]
+}</code><hr>
+<h4><code>dev.perfetto.RunQueryAndShowTab</code></h4><p>执行 PerfettoSQL 查询并在新的查询标签页中显示结果。</p>
+<p><strong>参数：</strong></p>
+<ol>
+<li><code>query</code> (string, required): 要执行的 PerfettoSQL 查询</li>
+<li><code>title</code> (string, optional): 查询标签页的标题</li>
+</ol>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.RunQueryAndShowTab&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [<span class="hljs-string">&quot;SELECT ts, dur, name FROM slice LIMIT 50&quot;</span>]
+}</code><p><strong>带标签页标题的示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.RunQueryAndShowTab&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [<span class="hljs-string">&quot;SELECT ts, dur, name FROM slice LIMIT 50&quot;</span>, <span class="hljs-string">&quot;Top 50 Slices&quot;</span>]
+}</code><h3><a name="-" class="anchor" href="#-"></a>笔记命令</h3><h4><code>dev.perfetto.AddNoteAtTimestamp</code></h4><p>在 trace 时钟的给定时间戳添加具有特定文本的笔记。</p>
+<p><strong>参数：</strong></p>
+<ol>
+<li><code>timestamp</code> (string, required): trace 时钟中的时间戳（纳秒）</li>
+<li><code>text</code> (string, required): 笔记的文本</li>
+</ol>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.AddNoteAtTimestamp&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [
+    <span class="hljs-string">&quot;1771711048774386000&quot;</span>,
+    <span class="hljs-string">&quot;A specific event happened&quot;</span>
+  ]
+}</code><h3><a name="-" class="anchor" href="#-"></a>宏命令</h3><p>宏是用户定义的按顺序执行的命令序列。它们提供了一种自动化复杂多步分析工作流的方式。</p>
+<h4>用户定义的宏</h4><p>宏可以通过 UI 设置（<strong>设置 &gt; 宏</strong>）定义。每个宏都有一个你定义的唯一 ID，该 ID 成为用于调用它的命令 ID。</p>
+<p><strong>命令模式：</strong></p>
+<ul>
+<li><code>{macro.id}</code> - 执行具有指定 ID 的宏</li>
+</ul>
+<p><strong>参数：</strong></p>
+<p>无（宏命令和参数是预先配置的）</p>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;user.myteam.MyAnalysisWorkflow&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: []
+}</code><p><strong>注意：</strong></p>
+<ul>
+<li>每个宏包含按顺序执行的命令序列</li>
+<li>宏 ID 应使用反向域名风格的命名（例如，<code>user.myteam.MacroName</code>、<code>com.company.AnalysisWorkflow</code>）</li>
+<li>当用作启动命令时，宏中的所有命令也必须在允许列表中</li>
+<li>宏可以包含本参考中的任何稳定自动化命令</li>
+<li>宏中的失败命令会被记录，但不会停止剩余命令的执行</li>
+</ul>
+<blockquote>
+<p><strong>注意（迁移）：</strong> 宏的格式已从字典更改为数组结构。现有的宏已自动迁移，并使用格式为 <code>dev.perfetto.UserMacro.&lt;old_name&gt;</code> 的 ID。新宏应使用反向域名风格的 ID。</p>
+</blockquote>
+<h3><a name="-" class="anchor" href="#-"></a>导航命令</h3><h4><code>dev.perfetto.GoToTime</code></h4><p>导航到 trace 中的特定时间戳。</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>time</code> (number, required): 时间戳（纳秒）</li>
+</ul>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.GoToTime&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [<span class="hljs-number">1000000000</span>]
+}</code><hr>
+<h4><code>dev.perfetto.SelectArea</code></h4><p>选择特定的时间范围。</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>start</code> (number, required): 开始时间戳（纳秒）</li>
+<li><code>end</code> (number, required): 结束时间戳（纳秒）</li>
+</ul>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.SelectArea&quot;</span>,
+  <span class="hljs-attr">&quot;args&quot;</span>: [<span class="hljs-number">1000000000</span>, <span class="hljs-number">2000000000</span>]
+}</code><h3><a name="-" class="anchor" href="#-"></a>可视化命令</h3><h4><code>dev.perfetto.ShowCurrentSelectionTab</code></h4><p>显示 &quot;Current Selection&quot; 标签页。</p>
+<p><strong>参数：</strong> 无</p>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.ShowCurrentSelectionTab&quot;</span>
+}</code><hr>
+<h4><code>dev.perfetto.PinJankyFrameTracks</code></h4><p>固定所有 janky frame tracks。</p>
+<p><strong>参数：</strong> 无</p>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.PinJankyFrameTracks&quot;</span>
+}</code><hr>
+<h4><code>dev.perfetto.ShowStackTrace</code></h4><p>显示所选事件的 stack trace。</p>
+<p><strong>参数：</strong> 无</p>
+<p><strong>示例：</strong></p>
+<code class="hljs code-block">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;dev.perfetto.ShowStackTrace&quot;</span>
+}</code><hr>
+<h2><a name="-" class="anchor" href="#-"></a>使用命令进行自动化</h2><p>这些稳定的自动化命令可以在多种上下文中使用：</p>
+<ul>
+<li><strong>启动命令</strong> - 加载 trace 时自动运行。请参阅 UI 自动化指南中的<a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation#commands-system-overview.html">启动命令</a>。</li>
+<li><strong>宏</strong> - 用于按需执行的命名命令序列。请参阅 UI 自动化指南中的<a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation#commands-system-overview.html">宏</a>。</li>
+<li><strong>URL 深度链接</strong> - 在 URL 或 postMessage 中嵌入命令。有关 URL 模式和 postMessage 集成，请参阅<a href="/perfetto-docs-zh-cn/docs/visualization/deep-linking-to-perfetto-ui#configuring-the-ui-with-startup-commands.html">深度链接</a>。</li>
+</ul>
+<p>有关实用的自动化示例和技巧，请参阅 <a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">UI 自动化指南</a>。</p>
+<h2><a name="-" class="anchor" href="#-"></a>请求新的稳定自动化命令</h2><p>要请求将命令添加到稳定自动化界面：</p>
+<ol>
+<li>在 <a href="https://github.com/google/perfetto/issues">https://github.com/google/perfetto/issues</a> 提交 issue</li>
+<li>包括：<ul>
+<li>你需要稳定的命令 ID</li>
+<li>你的用例以及为什么稳定性很重要</li>
+<li>显示你计划如何使用它的示例用法</li>
+</ul>
+</li>
+</ol>
+<p>命令的优先级基于：</p>
+<ul>
+<li>在自动化场景中的使用频率</li>
+<li>对常见分析工作流的重要性</li>
+<li>保持向后兼容性的可行性</li>
+</ul>
+<h2><a name="-" class="anchor" href="#-"></a>另请参阅</h2><ul>
+<li><a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">UI 自动化指南</a> - 使用这些命令的实用技巧</li>
+<li><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui.html">Perfetto UI 指南</a> - 包括命令的一般 UI 文档</li>
+<li><a href="/perfetto-docs-zh-cn/docs/visualization/deep-linking-to-perfetto-ui.html">深度链接</a> - 使用预配置命令打开 traces</li>
+</ul>
+
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

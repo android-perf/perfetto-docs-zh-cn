@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tracing SDK - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="Tracing SDK - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/instrumentation/tracing-sdk">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/style.css">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/perfetto-docs-zh-cn/assets/favicon.png" />
+  <script type="text/javascript" src="/perfetto-docs-zh-cn/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/perfetto-docs-zh-cn/">
+      <img src="/perfetto-docs-zh-cn/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/perfetto-docs-zh-cn/docs/">Docs</a>
+  <a href="/perfetto-docs-zh-cn/docs/contributing/getting-started#community.html">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/perfetto-docs-zh-cn/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/tracing-101.html">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/start-using-perfetto.html">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/system-tracing.html">系统 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/in-app-tracing.html">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/memory-profiling.html">Memory Profiling</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/cpu-profiling.html">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/atrace.html">Android atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/ftrace.html">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/other-formats.html">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/converting.html">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/android-trace-analysis.html">分析 Android Trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/periodic-trace-snapshots.html">周期性 Trace 快照</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/memory.html">Android 内存使用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/scheduling-blockages.html">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/config.html">Trace 配置</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/buffers.html">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/service-model.html">服务模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/clock-sync.html">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/tracing-in-background.html">后台 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/android.html">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/chrome-tracing.html">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/tracing-sdk.html">Tracing SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/track-events.html">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/stdlib-docs.html">标准库</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-syntax.html">语法</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/style-guide.html">样式指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-backcompat.html">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor.html">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor-python.html">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-summary.html">Trace 汇总</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/quickstart/traceconv.html">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui.html">Perfetto UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/large-traces.html">打开大型 trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/deep-linking-to-perfetto-ui.html">深度链接</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/debug-tracks.html">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extending-the-ui.html">概述</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">命令和宏</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-servers.html">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/common-tasks.html">常见任务</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/become-a-committer.html">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-plugins.html">插件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/faq.html">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/native-heap-profiler.html">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/java-heap-profiler.html">Java 堆转储</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/memory-counters.html">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-scheduling.html">调度事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/syscalls.html">系统调用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-freq.html">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/atrace.html">Atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-log.html">Logcat</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/frametimeline.html">Frame Timeline</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/battery-counters.html">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-game-intervention-list.html">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-packet-proto.html">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/synthetic-track-event.html">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-config-proto.html">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/concurrent-tracing-sessions.html">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/detached-mode.html">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-boot-tracing.html">开机 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-outofmemoryerror.html">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/android-version-notes.html">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/kernel-track-event.html">内核 track 事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/previous-boot-trace.html">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/perfetto-cli.html">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced.html">traced</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced_probes.html">traced_probes</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/heap_profile-cli.html">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/tracebox.html">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables.html">Prelude 表</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/builtin.html">内置函数</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-stats.html">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/metrics.html">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-a-single-machine.html">Bigtrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-kubernetes.html">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/interceptors.html">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/commands-automation-reference.html">命令自动化参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol.html">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/build-instructions.html">构建</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/testing.html">测试</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/developer-tools.html">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sdk-releasing.html">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/python-releasing.html">Python 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui-release-process.html">UI 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/chrome-branches.html">Chrome 分支</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sqlite-upgrade-guide.html">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/api-and-abi.html">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/life-of-a-tracing-session.html">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/protozero.html">ProtoZero</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/security-model.html">安全模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/checkpoint-atoms.html">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/trace-processor-architecture.html">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-design.html">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-wire-protocol.html">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-sampling.html">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/continuous-integration.html">Perfetto CI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/lock-free-task-runner.html">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/instrumentation/tracing-sdk">
+    <h1>Tracing SDK</h1><p>Perfetto Tracing SDK 是一个 C++17 库，允许用户空间应用程序发出 Trace 事件，并向 Perfetto trace 中添加更多应用程序特定的上下文。</p>
+<p>使用 Tracing SDK 时，需要考虑两个主要方面：</p>
+<ol>
+<li><p>你是只对 Tracing 来自自己应用程序的事件感兴趣，还是想收集完整的全栈 Trace，将应用程序 Trace 事件与系统 Trace 事件（如调度器 trace、系统调用或任何其他 Perfetto 数据源）叠加在一起。</p>
+</li>
+<li><p>对于应用程序特定的 Tracing，你是需要 Tracing 简单类型的 Timeline 事件（例如 Slice、Counter），还是需要定义具有自定义强类型 Schema 的复杂数据源（例如，将应用程序子系统的状态转储到 trace 中）。</p>
+</li>
+</ol>
+<p>对于仅限 Android 的插桩，如果现有的 <a href="https://developer.android.com/reference/android/os/Trace">android.os.Trace (SDK)</a> / <a href="https://developer.android.com/ndk/reference/group/tracing">ATrace_* (NDK)</a> 能够满足你的使用场景，建议继续使用它们。基于 Atrace 的插桩在 Perfetto 中得到完全支持。有关详情，请参阅 <a href="/perfetto-docs-zh-cn/docs/data-sources/atrace.html">Data Sources -&gt; Android System -&gt; Atrace Instrumentation</a>。</p>
+<h2><a name="-" class="anchor" href="#-"></a>快速入门</h2><p class="callout tip">TIP: 这些示例中的代码也可在[仓库中](/examples/sdk/README.md）找到。</p>
+<p>要开始使用 Client API，首先从最新的 Perfetto 版本下载 SDK 源文件：</p>
+<ol>
+<li>访问 <a href="https://github.com/google/perfetto/releases/latest">https://github.com/google/perfetto/releases/latest</a></li>
+<li>下载 perfetto-cpp-sdk-src.zip 并将文件解压到 sdk/perfetto 目录</li>
+</ol>
+<p>或者，用于开发目的，你可以使用 <code>tools/gen_amalgamated --output sdk/perfetto</code> 生成它们。</p>
+<p>然后，使用 CMake 进行构建：</p>
+<code class="hljs code-block"><span class="hljs-built_in">cd</span> examples/sdk
+cmake -B build
+cmake --build build</code><p>SDK 由两个文件组成，<code>sdk/perfetto.h</code> 和 <code>sdk/perfetto.cc</code>。这些是 Client API 的合并版本，设计为易于集成到现有的构建系统中。源代码是自包含的，只需要符合 C++17 标准库。</p>
+<p>例如，要将 SDK 添加到 CMake 项目中，请编辑你的 CMakeLists.txt：</p>
+<code class="hljs code-block"><span class="hljs-keyword">cmake_minimum_required</span>(VERSION <span class="hljs-number">3.13</span>)
+<span class="hljs-keyword">project</span>(PerfettoExample)
+<span class="hljs-keyword">find_package</span>(Threads)
+
+<span class="hljs-comment"># 为 Perfetto 定义静态库。</span>
+<span class="hljs-keyword">include_directories</span>(perfetto/sdk)
+<span class="hljs-keyword">add_library</span>(perfetto STATIC perfetto/sdk/perfetto.cc)
+
+<span class="hljs-comment"># 将库链接到你的主可执行文件。</span>
+<span class="hljs-keyword">add_executable</span>(example example.cc)
+<span class="hljs-keyword">target_link_libraries</span>(example perfetto <span class="hljs-variable">${CMAKE_THREAD_LIBS_INIT}</span>)
+
+<span class="hljs-keyword">if</span> (WIN32)
+ <span class="hljs-comment"># perfetto 库包含许多符号，因此它需要大对象格式。</span>
+ <span class="hljs-keyword">target_compile_options</span>(perfetto PRIVATE <span class="hljs-string">&quot;/bigobj&quot;</span>)
+ <span class="hljs-comment"># 在 windows.h 中禁用旧功能。</span>
+ <span class="hljs-keyword">add_definitions</span>(-DWIN32_LEAN_AND_MEAN -DNOMINMAX)
+ <span class="hljs-comment"># 在 Windows 上，我们应该链接到 WinSock2。</span>
+ <span class="hljs-keyword">target_link_libraries</span>(example ws2_32)
+<span class="hljs-keyword">endif</span> (WIN32)
+
+<span class="hljs-comment"># 使用 Visual Studio 编译器时启用符合标准的模式。</span>
+<span class="hljs-keyword">if</span> (MSVC)
+ <span class="hljs-keyword">target_compile_options</span>(example PRIVATE <span class="hljs-string">&quot;/permissive-&quot;</span>)
+<span class="hljs-keyword">endif</span> (MSVC)</code><p>接下来，在你的程序中初始化 Perfetto：</p>
+<code class="hljs code-block"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;perfetto.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span> </span>{
+ perfetto::TracingInitArgs args;
+
+ <span class="hljs-comment">// backends 决定在何处记录 Trace 事件。你可以选择一个或多个：</span>
+
+ <span class="hljs-comment">// 1) 进程内 backend 仅在应用程序本身内记录。</span>
+ args.backends |= perfetto::kInProcessBackend;
+
+ <span class="hljs-comment">// 2) 系统 backend 将事件写入系统 Perfetto daemon，</span>
+ <span class="hljs-comment">// 允许在同一 Timeline 上合并应用程序和系统事件（例如，ftrace）。</span>
+ <span class="hljs-comment">// 要求 Perfetto `traced` daemon 正在运行（例如，在 Android Pie 和更新版本上）。</span>
+ args.backends |= perfetto::kSystemBackend;
+
+ perfetto::Tracing::<span class="hljs-built_in">Initialize</span>(args);
+}</code><p>现在你已经准备好使用 Trace 事件为你的应用程序进行插桩了。</p>
+<h2><a name="-vs-track-" class="anchor" href="#-vs-track-"></a>自定义数据源 vs Track 事件</h2><p>SDK 提供两个抽象层来注入tracing 数据，它们彼此构建，在代码复杂度和表现力之间进行权衡：<a href="#track-events%EF%BC%89%E5%92%8C%5B%E8%87%AA%E5%AE%9A%E4%B9%89%E6%95%B0%E6%8D%AE%E6%BA%90%5D(#custom-data-sources">Track 事件</a>。</p>
+<h3><a name="track-" class="anchor" href="#track-"></a>Track 事件</h3><p>Track 事件是处理应用程序特定 Tracing 的建议选项，因为它们处理了许多细微之处（例如，线程安全、刷新、字符串驻留）。Track 事件是基于代码库中简单 <code>TRACE_EVENT</code> 注释标记的有界事件（例如，slice、counter），如下所示：</p>
+<code class="hljs code-block"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;perfetto.h&gt;</span></span>
+
+<span class="hljs-built_in">PERFETTO_DEFINE_CATEGORIES</span>(
+ perfetto::<span class="hljs-built_in">Category</span>(<span class="hljs-string">&quot;rendering&quot;</span>)
+ .<span class="hljs-built_in">SetDescription</span>(<span class="hljs-string">&quot;Events from the graphics subsystem&quot;</span>),
+ perfetto::<span class="hljs-built_in">Category</span>(<span class="hljs-string">&quot;network&quot;</span>)
+ .<span class="hljs-built_in">SetDescription</span>(<span class="hljs-string">&quot;Network upload and download statistics&quot;</span>));
+
+<span class="hljs-built_in">PERFETTO_TRACK_EVENT_STATIC_STORAGE</span>();
+...
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span> </span>{
+ ...
+ perfetto::Tracing::<span class="hljs-built_in">Initialize</span>(args);
+ perfetto::TrackEvent::<span class="hljs-built_in">Register</span>();
+}
+...
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LayerTreeHost::DoUpdateLayers</span><span class="hljs-params">()</span> </span>{
+ <span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;rendering&quot;</span>, <span class="hljs-string">&quot;LayerTreeHost::DoUpdateLayers&quot;</span>);
+ ...
+ <span class="hljs-keyword">for</span> (PictureLayer&amp; pl : layers) {
+ <span class="hljs-built_in">TRACE_EVENT</span>(<span class="hljs-string">&quot;rendering&quot;</span>, <span class="hljs-string">&quot;PictureLayer::Update&quot;</span>);
+ pl.<span class="hljs-built_in">Update</span>();
+ }
+}</code><p>它们在 UI 中的渲染效果如下：</p>
+<p><img src="/perfetto-docs-zh-cn/docs/images/track-events.png" alt="Track event example"></p>
+<p>Track 事件是最佳的默认选项，可以用很低的复杂度满足大多数 Tracing 用例。</p>
+<p>要将新的 Track 事件包含在 trace 中，请确保 trace 配置中包含 <code>track_event</code> 数据源，并包含已启用和已禁用的类别列表。</p>
+<code class="hljs code-block">data_sources {
+ config {
+ name: <span class="hljs-string">&quot;track_event&quot;</span>
+ track_event_config {
+ enabled_categories: <span class="hljs-string">&quot;rendering&quot;</span>
+ disabled_categories: <span class="hljs-string">&quot;*&quot;</span>
+ }
+ }
+}</code><p>有关完整说明，请参阅 <a href="/perfetto-docs-zh-cn/docs/instrumentation/track-events.html">Track 事件页面</a>。</p>
+<h3><a name="-" class="anchor" href="#-"></a>自定义数据源</h3><p>对于大多数用途，Track 事件是为应用程序进行 tracing 插桩的最直接的方式。然而，在某些罕见情况下，它们不够灵活，例如，当数据不适合 Track 的概念，或者数据量足够大以至于需要强类型 Schema 来最小化每个事件的大小。在这种情况下，你可以为 Perfetto 实现 _自定义数据源_。</p>
+<p>与 Track 事件不同，使用自定义数据源时，你还需要在 <a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor.html">Trace Processor</a> 中进行相应的更改，以启用导入数据格式。</p>
+<p>自定义数据源是 <code>perfetto::DataSource</code> 的子类。Perfetto 将自动为每个激活它的 Tracing 会话创建一个该类的实例（通常只有一个）。</p>
+<code class="hljs code-block"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CustomDataSource</span> :</span> <span class="hljs-keyword">public</span> perfetto::DataSource&lt;CustomDataSource&gt; {
+ <span class="hljs-keyword">public</span>:
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnSetup</span><span class="hljs-params">(<span class="hljs-keyword">const</span> SetupArgs&amp;)</span> <span class="hljs-keyword">override</span> </span>{
+ <span class="hljs-comment">// 使用此回调根据 SetupArgs 中的 TraceConfig 对你的数据源应用任何自定义配置。</span>
+ }
+
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnStart</span><span class="hljs-params">(<span class="hljs-keyword">const</span> StartArgs&amp;)</span> <span class="hljs-keyword">override</span> </span>{
+ <span class="hljs-comment">// 此通知可用于初始化 GPU 驱动程序、启用 Counters 等。</span>
+ <span class="hljs-comment">// StartArgs 将包含 DataSourceDescriptor，可以进行扩展。</span>
+ }
+
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnStop</span><span class="hljs-params">(<span class="hljs-keyword">const</span> StopArgs&amp;)</span> <span class="hljs-keyword">override</span> </span>{
+ <span class="hljs-comment">// 撤销在 OnStart 中完成的任何初始化。</span>
+ }
+
+ <span class="hljs-comment">// 数据源也可以有每个实例的状态。</span>
+ <span class="hljs-keyword">int</span> my_custom_state = <span class="hljs-number">0</span>;
+};
+
+<span class="hljs-built_in">PERFETTO_DECLARE_DATA_SOURCE_STATIC_MEMBERS</span>(CustomDataSource);</code><p>数据源的静态数据应该在一个源文件中定义，如下所示：</p>
+<code class="hljs code-block"><span class="hljs-built_in">PERFETTO_DEFINE_DATA_SOURCE_STATIC_MEMBERS</span>(CustomDataSource);</code><p>自定义数据源需要向 Perfetto 注册：</p>
+<code class="hljs code-block"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span> </span>{
+ ...
+ perfetto::Tracing::<span class="hljs-built_in">Initialize</span>(args);
+ <span class="hljs-comment">// 添加以下内容：</span>
+ perfetto::DataSourceDescriptor dsd;
+ dsd.<span class="hljs-built_in">set_name</span>(<span class="hljs-string">&quot;com.example.custom_data_source&quot;</span>);
+ CustomDataSource::<span class="hljs-built_in">Register</span>(dsd);
+}</code><p>与所有数据源一样，需要在 trace 配置中指定自定义数据源以启用 tracing：</p>
+<code class="hljs code-block">perfetto::TraceConfig cfg;
+<span class="hljs-keyword">auto</span>* ds_cfg = cfg.<span class="hljs-built_in">add_data_sources</span>()-&gt;<span class="hljs-built_in">mutable_config</span>();
+ds_cfg-&gt;<span class="hljs-built_in">set_name</span>(<span class="hljs-string">&quot;com.example.custom_data_source&quot;</span>);</code><p>最后，调用 <code>Trace()</code> 方法以使用你的自定义数据源记录事件。传递给该方法的 lambda 函数仅在启用 tracing 时才会被调用。它总是被同步调用，并且如果有多个并发 Tracing 会话处于活动状态，可能会被多次调用。</p>
+<code class="hljs code-block">CustomDataSource::<span class="hljs-built_in">Trace</span>([](CustomDataSource::TraceContext ctx) {
+ <span class="hljs-keyword">auto</span> packet = ctx.<span class="hljs-built_in">NewTracePacket</span>();
+ packet-&gt;<span class="hljs-built_in">set_timestamp</span>(perfetto::TrackEvent::<span class="hljs-built_in">GetTraceTimeNs</span>());
+ packet-&gt;<span class="hljs-built_in">set_for_testing</span>()-&gt;<span class="hljs-built_in">set_str</span>(<span class="hljs-string">&quot;Hello world!&quot;</span>);
+});</code><p>如果有必要，<code>Trace()</code> 方法可以访问自定义数据源状态（上面示例中的 <code>my_custom_state</code>）。这样做会获取互斥锁以确保在另一个线程上调用 <code>Trace()</code> 方法时不会销毁数据源（例如，因为停止了追踪）。例如：</p>
+<code class="hljs code-block">CustomDataSource::<span class="hljs-built_in">Trace</span>([](CustomDataSource::TraceContext ctx) {
+ <span class="hljs-keyword">auto</span> safe_handle = trace_args.<span class="hljs-built_in">GetDataSourceLocked</span>(); <span class="hljs-comment">// 持有 RAII 锁。</span>
+ <span class="hljs-built_in">DoSomethingWith</span>(safe_handle-&gt;my_custom_state);
+});</code><h2><a name="-vs-" class="anchor" href="#-vs-"></a>进程内模式 vs 系统模式</h2><p>这两种模式不是互斥的。应用程序可以配置为在两种模式下工作，并响应进程内 tracing 请求和系统 tracing 请求。两种模式都生成相同的 trace 文件格式。</p>
+<h3><a name="-" class="anchor" href="#-"></a>进程内模式</h3><p>在此模式下，perfetto 服务和应用程序定义的数据源完全在进程内托管，在被profile 应用程序的同一进程中。不会尝试连接到系统 <code>traced</code> daemon。</p>
+<p>进程内模式可以通过在初始化 SDK 时设置 <code>TracingInitArgs.backends = perfetto::kInProcessBackend</code> 来启用，请参阅下面的示例。</p>
+<p>此模式用于生成仅包含应用程序发出的事件的 trace，但不包含其他类型的事件（例如，调度器 trace）。</p>
+<p>主要优点是，通过完全在进程内运行，它不需要任何特殊的操作系统特权，被 profile 进程可以控制追踪会话的生命周期。</p>
+<p>此模式在 Android、Linux、MacOS 和 Windows 上受支持。</p>
+<h3><a name="-" class="anchor" href="#-"></a>系统模式</h3><p>在此模式下，应用程序定义的数据源将使用 <a href="/perfetto-docs-zh-cn/docs/design-docs/api-and-abi#socket-protocol.html">IPC over UNIX socket</a> 连接到外部 <code>traced</code> 服务。</p>
+<p>系统模式可以通过在初始化 SDK 时设置 <code>TracingInitArgs.backends = perfetto::kSystemBackend</code> 来启用，请参阅下面的示例。</p>
+<p>此模式的主要优点是可以创建融合的 trace，其中应用程序事件被叠加在同一 OS 事件的 Timeline 上。这启用了全栈性能调查，一直查看到系统调用和内核调度事件。</p>
+<p>此模式的主要限制是它要求外部 <code>traced</code> daemon 正在运行并可通过 UNIX socket 连接访问。</p>
+<p>建议用于本地调试或实验室测试场景，其中用户（或测试工具）可以控制操作系统部署（例如，在 Android 上 sideload 二进制文件）。</p>
+<p>使用系统模式时，必须从外部控制追踪会话，使用 <code>perfetto</code> 命令行客户端（请参阅<a href="/perfetto-docs-zh-cn/docs/reference/perfetto-cli.html">参考</a>）。这是因为在收集系统 trace 时，不允许tracing 数据生产者读取 trace 数据，因为它可能会披露有关其他进程的信息并允许侧信道攻击。</p>
+<ul>
+<li>在 Android 9 (Pie) 及更高版本上，traced 作为平台的一部分提供。</li>
+<li>在旧版本的 Android 上，可以使用[独立的基于 NDK 的工作流](/docs/contributing/build-instructions.md）从源代码构建 traced，并通过 adb shell sideload。<!-- * 在 Linux、MacOS 和 Windows 上，`traced` 必须单独构建和运行。有关说明，请参阅 [Linux quickstart](/docs/quickstart/linux-tracing.md)。</li>
+<li>在 Windows 上，追踪协议通过 TCP/IP 工作 --&gt;
+ <a href="https://cs.android.com/android/platform/superproject/main/+/main:external/perfetto/src/tracing/ipc/default_socket.cc;l=75;drc=4f88a2fdfd3801c109d5e927b8206f9756288b12">127.0.0.1:32278</a>
+ ) + 命名 shmem。</li>
+</ul>
+<h2><a name="recording" class="anchor" href="#recording"></a> 通过 API 采集 Trace</h2><p><em>通过 API 进行 tracing目前仅支持进程内模式。使用系统模式时，请使用 <code>perfetto</code> 命令行客户端（请参阅快速入门指南）。</em></p>
+<p>首先初始化一个 <a href="/perfetto-docs-zh-cn/docs/reference/trace-config-proto.html">TraceConfig</a> 消息，该消息指定要记录的数据类型。</p>
+<p>如果你的应用程序包含 <a href="/perfetto-docs-zh-cn/docs/instrumentation/track-events.html">Track 事件</a>（即，<code>TRACE_EVENT</code>），你通常希望选择为 Tracing 启用的类别。</p>
+<p>默认情况下，启用所有非调试类别，但你可以像这样启用特定的类别：</p>
+<code class="hljs code-block">perfetto::protos::gen::TrackEventConfig track_event_cfg;
+track_event_cfg.<span class="hljs-built_in">add_disabled_categories</span>(<span class="hljs-string">&quot;*&quot;</span>);
+track_event_cfg.<span class="hljs-built_in">add_enabled_categories</span>(<span class="hljs-string">&quot;rendering&quot;</span>);</code><p>接下来，将主 trace 配置与 track 事件部分一起构建：</p>
+<code class="hljs code-block">perfetto::TraceConfig cfg;
+cfg.<span class="hljs-built_in">add_buffers</span>()-&gt;<span class="hljs-built_in">set_size_kb</span>(<span class="hljs-number">1024</span>); <span class="hljs-comment">// 最多记录 1 MiB。</span>
+<span class="hljs-keyword">auto</span>* ds_cfg = cfg.<span class="hljs-built_in">add_data_sources</span>()-&gt;<span class="hljs-built_in">mutable_config</span>();
+ds_cfg-&gt;<span class="hljs-built_in">set_name</span>(<span class="hljs-string">&quot;track_event&quot;</span>);
+ds_cfg-&gt;<span class="hljs-built_in">set_track_event_config_raw</span>(track_event_cfg.<span class="hljs-built_in">SerializeAsString</span>());</code><p>如果你的应用程序包含自定义数据源，你也可以在此处启用它：</p>
+<code class="hljs code-block">ds_cfg = cfg.<span class="hljs-built_in">add_data_sources</span>()-&gt;<span class="hljs-built_in">mutable_config</span>();
+ds_cfg-&gt;<span class="hljs-built_in">set_name</span>(<span class="hljs-string">&quot;my_data_source&quot;</span>);</code><p>构建 trace 配置后，你可以开始追踪：</p>
+<code class="hljs code-block"><span class="hljs-function">std::unique_ptr&lt;perfetto::TracingSession&gt; <span class="hljs-title">tracing_session</span><span class="hljs-params">(
+ perfetto::Tracing::NewTrace())</span></span>;
+tracing_session-&gt;<span class="hljs-built_in">Setup</span>(cfg);
+tracing_session-&gt;<span class="hljs-built_in">StartBlocking</span>();</code><p class="callout tip">TIP: 名称中包含 <code>Blocking</code> 的 API 方法将挂起调用线程，直到相应的操作完成。还有没有此限制的异步变体。</p>
+<p>现在 tracing 处于活动状态，指示你的应用程序执行你想要记录的操作。之后，停止 tracing 并收集 protobuf 格式的 trace 数据：</p>
+<code class="hljs code-block">tracing_session-&gt;<span class="hljs-built_in">StopBlocking</span>();
+<span class="hljs-function">std::vector&lt;<span class="hljs-keyword">char</span>&gt; <span class="hljs-title">trace_data</span><span class="hljs-params">(tracing_session-&gt;ReadTraceBlocking())</span></span>;
+
+<span class="hljs-comment">// 将 trace 写入文件。</span>
+std::ofstream output;
+output.<span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;example.perfetto-trace&quot;</span>, std::ios::out | std::ios::binary);
+output.<span class="hljs-built_in">write</span>(&amp;trace_data[<span class="hljs-number">0</span>], trace_data.<span class="hljs-built_in">size</span>());
+output.<span class="hljs-built_in">close</span>();</code><p>为了节省较长时间 trace 的内存，你还可以通过将文件描述符传递给 Setup() 来告诉 Perfetto 直接写入文件，记住在追踪完成后关闭文件：</p>
+<code class="hljs code-block"><span class="hljs-keyword">int</span> fd = <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;example.perfetto-trace&quot;</span>, O_RDWR | O_CREAT | O_TRUNC, <span class="hljs-number">0600</span>);
+tracing_session-&gt;<span class="hljs-built_in">Setup</span>(cfg, fd);
+tracing_session-&gt;<span class="hljs-built_in">StartBlocking</span>();
+<span class="hljs-comment">// ...</span>
+tracing_session-&gt;<span class="hljs-built_in">StopBlocking</span>();
+<span class="hljs-built_in">close</span>(fd);</code><p>生成的 trace 文件可以直接在 <a href="https://ui.perfetto.dev">Perfetto UI</a> 或 <a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor.html">Trace Processor</a> 中打开。</p>
+
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

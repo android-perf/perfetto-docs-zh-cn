@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Data Explorer 架构 - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="Data Explorer 架构 - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/design-docs/data-explorer-architecture">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/style.css">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/perfetto-docs-zh-cn/assets/favicon.png" />
+  <script type="text/javascript" src="/perfetto-docs-zh-cn/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/perfetto-docs-zh-cn/">
+      <img src="/perfetto-docs-zh-cn/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/perfetto-docs-zh-cn/docs/">Docs</a>
+  <a href="/perfetto-docs-zh-cn/docs/contributing/getting-started#community.html">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/perfetto-docs-zh-cn/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/tracing-101.html">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/start-using-perfetto.html">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/system-tracing.html">系统 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/in-app-tracing.html">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/memory-profiling.html">Memory Profiling</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/cpu-profiling.html">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/atrace.html">Android atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/ftrace.html">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/other-formats.html">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/converting.html">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/android-trace-analysis.html">分析 Android Trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/periodic-trace-snapshots.html">周期性 Trace 快照</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/memory.html">Android 内存使用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/scheduling-blockages.html">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/config.html">Trace 配置</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/buffers.html">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/service-model.html">服务模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/clock-sync.html">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/tracing-in-background.html">后台 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/android.html">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/chrome-tracing.html">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/tracing-sdk.html">Tracing SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/track-events.html">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/stdlib-docs.html">标准库</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-syntax.html">语法</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/style-guide.html">样式指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-backcompat.html">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor.html">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor-python.html">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-summary.html">Trace 汇总</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/quickstart/traceconv.html">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui.html">Perfetto UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/large-traces.html">打开大型 trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/deep-linking-to-perfetto-ui.html">深度链接</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/debug-tracks.html">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extending-the-ui.html">概述</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">命令和宏</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-servers.html">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/common-tasks.html">常见任务</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/become-a-committer.html">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-plugins.html">插件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/faq.html">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/native-heap-profiler.html">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/java-heap-profiler.html">Java 堆转储</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/memory-counters.html">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-scheduling.html">调度事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/syscalls.html">系统调用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-freq.html">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/atrace.html">Atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-log.html">Logcat</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/frametimeline.html">Frame Timeline</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/battery-counters.html">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-game-intervention-list.html">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-packet-proto.html">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/synthetic-track-event.html">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-config-proto.html">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/concurrent-tracing-sessions.html">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/detached-mode.html">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-boot-tracing.html">开机 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-outofmemoryerror.html">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/android-version-notes.html">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/kernel-track-event.html">内核 track 事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/previous-boot-trace.html">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/perfetto-cli.html">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced.html">traced</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced_probes.html">traced_probes</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/heap_profile-cli.html">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/tracebox.html">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables.html">Prelude 表</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/builtin.html">内置函数</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-stats.html">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/metrics.html">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-a-single-machine.html">Bigtrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-kubernetes.html">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/interceptors.html">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/commands-automation-reference.html">命令自动化参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol.html">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/build-instructions.html">构建</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/testing.html">测试</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/developer-tools.html">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sdk-releasing.html">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/python-releasing.html">Python 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui-release-process.html">UI 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/chrome-branches.html">Chrome 分支</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sqlite-upgrade-guide.html">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/api-and-abi.html">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/life-of-a-tracing-session.html">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/protozero.html">ProtoZero</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/security-model.html">安全模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/checkpoint-atoms.html">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/trace-processor-architecture.html">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-design.html">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-wire-protocol.html">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-sampling.html">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/continuous-integration.html">Perfetto CI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/lock-free-task-runner.html">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/design-docs/data-explorer-architecture">
+    <h1>Data Explorer 架构</h1><p>本文档解释了 Perfetto 的 Data Explorer 的工作原理，从创建可视化查询图到执行 SQL 查询和显示结果。它涵盖了使 Data Explorer 能够提供用于 trace 分析的交互式基于节点的 SQL 查询构建器的关键组件、数据流和架构模式。</p>
+<h2><a name="-" class="anchor" href="#-"></a>概述</h2><p>Data Explorer 是一个可视化查询构建器，允许用户通过在有向无环图（DAG）中连接节点来构建复杂的 SQL 查询。每个节点代表数据源（表、Slice、自定义 SQL）或操作（过滤、聚合、连接等）。系统将此可视化图转换为结构化的 SQL 查询，通过 trace processor 执行它们，并在交互式数据网格中显示结果。</p>
+<h2><a name="-" class="anchor" href="#-"></a>核心数据流</h2><code class="hljs code-block">用户交互 → 节点图 → 结构化查询生成 →
+查询分析<span class="hljs-comment">(验证)</span> → 查询物化 → 结果显示</code><h2><a name="-" class="anchor" href="#-"></a>节点图结构</h2><p><strong>QueryNode</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/query_node.ts:128-161</code>)</p>
+<ul>
+<li>所有节点类型的基础抽象</li>
+<li>维护双向连接：<code>primaryInput</code>(上游)、<code>nextNodes</code>(下游)、<code>secondaryInputs</code>(侧连接)</li>
+<li>通过 <code>getStructuredQuery()</code> 生成结构化查询 protobuf</li>
+<li>验证配置并提供 UI 渲染方法</li>
+</ul>
+<p><strong>节点连接</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/graph_utils.ts</code>)</p>
+<ul>
+<li>主输入：垂直数据流(单个父节点)</li>
+<li>次输入：水平数据流(带端口号的侧连接)</li>
+<li>通过 <code>addConnection()</code>/<code>removeConnection()</code> 进行双向关系管理</li>
+<li>基于端口的多输入操作路由</li>
+</ul>
+<h2><a name="-" class="anchor" href="#-"></a>节点注册和创建</h2><p><strong>NodeRegistry</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/node_registry.ts</code>)</p>
+<ul>
+<li>所有节点类型的中央注册表</li>
+<li>描述符指定：名称、图标、类型（源/修改/多源）、工厂函数</li>
+<li>可选的 <code>preCreate()</code> 钩子用于交互式设置(例如，表选择模态框)</li>
+<li>支持键盘快捷键以快速创建节点</li>
+</ul>
+<p><strong>核心节点</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/core_nodes.ts</code>)</p>
+<code class="hljs code-block"><span class="hljs-function"><span class="hljs-title">registerCoreNodes</span>(<span class="hljs-params"></span>)</span> {
+ nodeRegistry.register(<span class="hljs-string">&#x27;table&#x27;</span>, {...});
+ nodeRegistry.register(<span class="hljs-string">&#x27;slice&#x27;</span>, {...});
+ nodeRegistry.register(<span class="hljs-string">&#x27;sql&#x27;</span>, {...});
+ nodeRegistry.register(<span class="hljs-string">&#x27;filter&#x27;</span>, {...});
+ nodeRegistry.register(<span class="hljs-string">&#x27;aggregation&#x27;</span>, {...});
+ <span class="hljs-comment">// ... 更多节点</span>
+}</code><h2><a name="-" class="anchor" href="#-"></a>节点类型</h2><h3><a name="1-" class="anchor" href="#1-"></a>1. 源节点(数据源)</h3><p><strong>TableSourceNode</strong> - 查询特定的 SQL 表
+<strong>SlicesSourceNode</strong> - 用于 trace Slice 的预配置查询
+<strong>SqlSourceNode</strong> - 作为数据源的自定义 SQL 查询
+<strong>TimeRangeSourceNode</strong> - 生成时间间隔</p>
+<h3><a name="2-" class="anchor" href="#2-"></a>2. 单输入修改节点</h3><p><strong>FilterNode</strong> - 添加 WHERE 条件
+<strong>SortNode</strong> - 添加 ORDER BY 子句
+<strong>AggregationNode</strong> - 带聚合函数的 GROUP BY
+<strong>ModifyColumnsNode</strong> - 重命名/删除列
+<strong>AddColumnsNode</strong> - 通过 LEFT JOIN 和/或计算表达式从次源添加列
+<strong>LimitAndOffsetNode</strong> - 分页</p>
+<h3><a name="3-" class="anchor" href="#3-"></a>3. 多输入节点</h3><p><strong>UnionNode</strong> - 组合来自多个源的行
+<strong>JoinNode</strong> - 通过 JOIN 条件组合列
+<strong>IntervalIntersectNode</strong> - 查找重叠的时间间隔
+<strong>FilterDuringNode</strong> - 使用次间隔输入进行过滤
+<strong>CreateSlicesNode</strong> - 将来自两个次源的开始/结束事件配对到 Slice 中</p>
+<h2><a name="ui-" class="anchor" href="#ui-"></a>UI 组件</h2><p><strong>Builder</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/builder.ts</code>)</p>
+<ul>
+<li>协调所有子组件的主组件</li>
+<li>使用可调整大小的侧边栏和分割面板管理布局</li>
+<li>三个视图：信息、修改（特定于节点）、结果</li>
+<li>处理节点选择、执行回调、撤销/重做</li>
+<li>接收 <code>GraphCallbacks</code> 接口并将其直接传播到 Graph(无 prop drilling)</li>
+</ul>
+<p><strong>Graph</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/graph/graph.ts</code>)</p>
+<ul>
+<li>用于节点操作的可视化画布</li>
+<li>具有持久化布局的拖放定位</li>
+<li>通过可拖动端口进行连接管理</li>
+<li>用于文档的标签注释</li>
+<li>定义 <code>GraphCallbacks</code> 接口（14 个回调）和 <code>GraphAttrs extends GraphCallbacks</code></li>
+</ul>
+<p><strong>NodePanel</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/node_panel.ts</code>)</p>
+<ul>
+<li>用于选定节点的侧边栏面板</li>
+<li>显示节点信息、配置 UI 和 SQL 预览</li>
+<li>在状态更改时触发查询分析</li>
+<li>通过 QueryExecutionService 管理执行流程</li>
+</ul>
+<p><strong>DataExplorer</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/data_explorer.ts</code>)</p>
+<ul>
+<li>显示查询结果的底部抽屉</li>
+<li>通过 SQLDataSource 进行服务器端分页</li>
+<li>基于列的过滤和排序</li>
+<li>导出到时间轴功能</li>
+</ul>
+<h2><a name="-" class="anchor" href="#-"></a>查询执行模型</h2><h3><a name="-" class="anchor" href="#-"></a>两阶段执行</h3><p><strong>阶段 1：分析(验证)</strong></p>
+<code class="hljs code-block">节点图 → 结构化查询 Protobuf → <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Engine</span>.</span></span>update<span class="hljs-constructor">SummarizerSpec()</span> + query<span class="hljs-constructor">Summarizer()</span> →
+查询 {sql, textproto, columns} <span class="hljs-pattern-match">| 错误</span></code><ul>
+<li>通过 <code>createSummarizer(summarizerId)</code> 创建 summarizer(每个会话一次)</li>
+<li>通过 <code>updateSummarizerSpec(summarizerId, spec)</code> 向 TP 注册查询</li>
+<li>通过 <code>querySummarizer(summarizerId, queryId)</code> 获取 SQL 和元数据(触发延迟物化)</li>
+<li>TP 在内部计算 proto 哈希以进行更改检测</li>
+</ul>
+<p><strong>阶段 2：物化(执行)</strong></p>
+<code class="hljs code-block">engine.query<span class="hljs-constructor">Summarizer(<span class="hljs-params">summarizerId</span>, <span class="hljs-params">nodeId</span>)</span> → TP 创建/重用表 →
+{tableName, rowCount, columns, durationMs} → SQLDataSource → DataGrid 显示</code><ul>
+<li>TP 为服务器端分页创建持久化表(延迟，在第一次 querySummarizer 时)</li>
+<li>TP 在内部处理缓存(如果 proto 哈希未更改则重用表)</li>
+<li>querySummarizer 返回显示所需的所有元数据</li>
+</ul>
+<h3><a name="queryexecutionservice" class="anchor" href="#queryexecutionservice"></a>QueryExecutionService</h3><p><strong>目的</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/query_execution_service.ts</code>)</p>
+<ul>
+<li>通过 FIFO 执行队列防止快速用户交互期间的竞态条件</li>
+<li>对快速请求进行去抖动以批量用户输入</li>
+<li>与 Trace Processor 的物化 API 协调</li>
+<li>执行前的查询分析(验证)</li>
+</ul>
+<p><strong>Trace Processor 作为单一事实来源</strong></p>
+<p>所有物化状态由 Trace Processor （TP）管理，而不是 UI:</p>
+<ul>
+<li>TP 跟踪哪些查询已物化(按 query_id)</li>
+<li>TP 在内部比较 SQL 哈希以检测更改</li>
+<li>TP 根据需要创建/删除表</li>
+<li>TP 存储表名和错误状态</li>
+</ul>
+<p>UI 按需查询 TP 而不是缓存：</p>
+<code class="hljs code-block"><span class="hljs-comment">// 需要从 TP 获取表名时（例如，用于&quot;复制表名&quot;或导出）</span>
+<span class="hljs-keyword">async</span> getTableName(nodeId: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">string</span> | <span class="hljs-literal">undefined</span>&gt; {
+ <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> engine.querySummarizer(DATA_EXPLORER_SUMMARIZER_ID, nodeId);
+ <span class="hljs-keyword">if</span> (result.exists !== <span class="hljs-literal">true</span> || result.error) {
+ <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>;
+ }
+ <span class="hljs-keyword">return</span> result.tableName;
+}</code><p>这消除了 UI 和 TP 之间的状态同步错误。</p>
+<p><strong>FIFO 执行队列</strong></p>
+<ul>
+<li>串行执行(一次一个操作)</li>
+<li>保留节点依赖关系(父节点在子节点之前物化)</li>
+<li>每操作错误隔离(错误被记录，不抛出)</li>
+</ul>
+<p><strong>快速节点点击处理</strong> (<code>ui/src/base/async_limiter.ts</code>)</p>
+<p><code>AsyncLimiter</code> 确保在快速单击节点时只运行最新的排队任务：</p>
+<code class="hljs code-block"><span class="hljs-comment">// AsyncLimiter 行为:</span>
+<span class="hljs-keyword">while</span> ((task = taskQueue.shift())) {
+ <span class="hljs-keyword">if</span> (taskQueue.length &gt; <span class="hljs-number">0</span>) {
+ task.deferred.resolve(); <span class="hljs-comment">// 跳过 - 更新的任务在等待</span>
+ } <span class="hljs-keyword">else</span> {
+ <span class="hljs-keyword">await</span> task.work(); <span class="hljs-comment">// 运行 - 这是最新的</span>
+ }
+}</code><p>示例：在 A 处理时快速单击 A → B → C:</p>
+<ol>
+<li>A 开始处理</li>
+<li>B 排队，C 排队</li>
+<li>A 完成</li>
+<li>B 跳过（队列有 C）,C 运行</li>
+</ol>
+<p>这确保处理当前选定的节点（C），跳过中间的单击（B）。</p>
+<p><strong>通过 TP API 物化</strong></p>
+<code class="hljs code-block"><span class="hljs-comment">// 与 TP 同步所有查询,然后获取目标节点的结果</span>
+<span class="hljs-keyword">async</span> processNode(node: QueryNode): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt; {
+ <span class="hljs-comment">// 1. 确保 summarizer 存在(每个会话创建一次)</span>
+ <span class="hljs-keyword">await</span> engine.createSummarizer(DATA_EXPLORER_SUMMARIZER_ID);
+
+ <span class="hljs-comment">// 2. 向 TP 注册所有查询(处理更改检测)</span>
+ <span class="hljs-keyword">const</span> spec = buildTraceSummarySpec(allNodes);
+ <span class="hljs-keyword">await</span> engine.updateSummarizerSpec(DATA_EXPLORER_SUMMARIZER_ID, spec);
+
+ <span class="hljs-comment">// 3. 获取结果 - 触发延迟物化</span>
+ <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> engine.querySummarizer(DATA_EXPLORER_SUMMARIZER_ID, node.nodeId);
+ <span class="hljs-comment">// 返回:tableName, rowCount, columns, durationMs, sql, textproto</span>
+}</code><p><strong>自动执行逻辑</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/query_execution_service.ts</code>)</p>
+<table>
+<thead>
+<tr>
+<th>autoExecute</th>
+<th>manual</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>true</td>
+<td>false</td>
+<td>自动分析 + 执行</td>
+</tr>
+<tr>
+<td>true</td>
+<td>true</td>
+<td>分析 + 执行（强制）</td>
+</tr>
+<tr>
+<td>false</td>
+<td>false</td>
+<td>跳过 - 显示&quot;运行查询&quot;按钮</td>
+</tr>
+<tr>
+<td>false</td>
+<td>true</td>
+<td>分析 + 执行（用户点击）</td>
+</tr>
+</tbody></table>
+<p>自动执行禁用于：SqlSourceNode、IntervalIntersectNode、UnionNode、FilterDuringNode、CreateSlicesNode</p>
+<h3><a name="-" class="anchor" href="#-"></a>状态管理</h3><p><strong>DataExplorerState</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/data_explorer.ts</code>)</p>
+<code class="hljs code-block"><span class="hljs-keyword">interface</span> DataExplorerState {
+ <span class="hljs-attr">rootNodes</span>: QueryNode[]; <span class="hljs-comment">// 没有父节点的节点(起点)</span>
+ selectedNodes: ReadonlySet&lt;<span class="hljs-built_in">string</span>&gt;; <span class="hljs-comment">// 选定节点 ID 的集合(多选)</span>
+ nodeLayouts: <span class="hljs-built_in">Map</span>&lt;<span class="hljs-built_in">string</span>, {x, y}&gt;; <span class="hljs-comment">// 可视化位置</span>
+ labels: <span class="hljs-built_in">Array</span>&lt;{...}&gt;; <span class="hljs-comment">// 注释</span>
+ isExplorerCollapsed?: <span class="hljs-built_in">boolean</span>;
+ sidebarWidth?: <span class="hljs-built_in">number</span>;
+ loadGeneration?: <span class="hljs-built_in">number</span>; <span class="hljs-comment">// 内容加载时递增</span>
+ clipboardNodes?: ClipboardEntry[]; <span class="hljs-comment">// 多节点复制/粘贴</span>
+ clipboardConnections?: ClipboardConnection[];
+}</code><p><strong>查询状态管理</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/builder.ts:60-86</code>)</p>
+<p>Builder 维护 <code>this.query</code> 作为查询状态的单一事实来源：</p>
+<ul>
+<li>由自动分析（来自 NodePanel）和手动执行（来自 Builder）更新</li>
+<li>作为 prop 传递给 NodePanel 用于渲染 SQL/Proto 选项卡</li>
+<li>确保自动执行和自动执行节点的查询显示一致</li>
+</ul>
+<p>查询状态流：</p>
+<code class="hljs code-block">自动执行(autoExecute=<span class="hljs-literal">true</span>):
+ <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">NodePanel</span>.</span></span>update<span class="hljs-constructor">Query()</span> → process<span class="hljs-constructor">Node({ <span class="hljs-params">manual</span>: <span class="hljs-params">false</span> })</span>
+ → onAnalysisComplete → 设置 <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">NodePanel</span>.</span></span>currentQuery
+ → onAnalysisComplete → 调用 onQueryAnalyzed 回调 → 设置 <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Builder</span>.</span></span>query
+ → Builder 将 query 作为 prop 传递给 NodePanel
+ → <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">NodePanel</span>.</span></span>render<span class="hljs-constructor">Content()</span> 使用 attrs.query ?? this.currentQuery
+
+手动执行(autoExecute=<span class="hljs-literal">false</span>):
+ 用户单击<span class="hljs-string">&quot;运行查询&quot;</span> → Builder 调用 process<span class="hljs-constructor">Node({ <span class="hljs-params">manual</span>: <span class="hljs-params">true</span> })</span>
+ → onAnalysisComplete → 设置 <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Builder</span>.</span></span>query
+ → onAnalysisComplete → 调用 onNodeQueryAnalyzed 回调 → 设置 <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Builder</span>.</span></span>query
+ → Builder 将 query 作为 prop 传递给 NodePanel
+ → <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">NodePanel</span>.</span></span>render<span class="hljs-constructor">Content()</span> 使用 attrs.query(this.currentQuery 可能未定义)</code><p>这确保了 SQL/Proto 选项卡在自动和手动执行模式下都能正确显示。</p>
+<p><strong>竞态条件预防</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/builder.ts:283-292</code>)</p>
+<p>回调在创建时捕获选定节点以防止陈旧查询泄漏：</p>
+<code class="hljs code-block"><span class="hljs-keyword">const</span> callbackNode = selectedNode;
+<span class="hljs-built_in">this</span>.onNodeQueryAnalyzed = <span class="hljs-function">(<span class="hljs-params">query</span>) =&gt;</span> {
+ <span class="hljs-comment">// 仅当仍在同一节点上时才更新</span>
+ <span class="hljs-keyword">if</span> (callbackNode === <span class="hljs-built_in">this</span>.previousSelectedNode) {
+ <span class="hljs-built_in">this</span>.query = query;
+ }
+};</code><p>没有此检查，快速节点切换可能会导致：</p>
+<ol>
+<li>用户选择节点 A → 异步分析开始</li>
+<li>用户快速切换到节点 B → 节点 A 的组件被销毁</li>
+<li>节点 A 的分析完成 → 回调使用节点 A 的查询触发</li>
+<li>节点 B 在 SQL/Proto 选项卡中错误地显示节点 A 的查询</li>
+</ol>
+<p>验证确保切换后忽略来自旧节点的回调。</p>
+<p><strong>HistoryManager</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/history_manager.ts</code>)</p>
+<ul>
+<li>具有状态快照的撤销/重做堆栈</li>
+<li>通过 <code>serializeState()</code> 为每个节点进行序列化</li>
+<li>反序列化从 JSON 重建整个图</li>
+</ul>
+<h2><a name="-" class="anchor" href="#-"></a>图操作</h2><p><strong>节点创建</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/node_crud_operations.ts</code>)</p>
+<code class="hljs code-block"><span class="hljs-comment">// 源节点</span>
+<span class="hljs-function"><span class="hljs-title">addSourceNode</span>(<span class="hljs-params">deps, state, id</span>)</span> {
+ <span class="hljs-keyword">const</span> descriptor = nodeRegistry.get(id);
+ <span class="hljs-keyword">const</span> initialState = <span class="hljs-keyword">await</span> descriptor.preCreate?.(); <span class="hljs-comment">// 可选模态框</span>
+ <span class="hljs-keyword">const</span> newNode = descriptor.factory(initialState);
+ rootNodes.push(newNode);
+}
+
+<span class="hljs-comment">// 操作节点</span>
+<span class="hljs-function"><span class="hljs-title">addOperationNode</span>(<span class="hljs-params">deps, state, parentNode, id</span>)</span> {
+ <span class="hljs-keyword">const</span> newNode = descriptor.factory(initialState);
+ <span class="hljs-keyword">if</span> (singleNodeOperation(newNode.type)) {
+ insertNodeBetween(parentNode, newNode); <span class="hljs-comment">// A → C 变为 A → B → C</span>
+ } <span class="hljs-keyword">else</span> {
+ addConnection(parentNode, newNode); <span class="hljs-comment">// 多输入:只需连接</span>
+ }
+}</code><p><strong>节点删除</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/node_crud_operations.ts</code>)</p>
+<code class="hljs code-block"><span class="hljs-comment">// 复杂的重连接逻辑保留数据流</span>
+<span class="hljs-function"><span class="hljs-title">deleteNode</span>(<span class="hljs-params">deps, state, node</span>)</span> {
+ <span class="hljs-number">1.</span> <span class="hljs-keyword">await</span> cleanupManager.cleanupNode(node); <span class="hljs-comment">// 删除 SQL 表</span>
+ <span class="hljs-number">2.</span> 捕获图结构(父节点、子节点、端口连接)
+ <span class="hljs-number">3.</span> disconnectNodeFromGraph(node)
+ <span class="hljs-number">4.</span> 将主父节点重新连接到子节点(绕过已删除的节点)
+  - 仅主连接(portIndex === <span class="hljs-literal">undefined</span>)
+  - 删除次连接(特定于已删除的节点)
+ <span class="hljs-number">5.</span> 更新根节点(添加孤立节点)
+ <span class="hljs-number">6.</span> 将布局转移到停靠的子节点
+ <span class="hljs-number">7.</span> 通过 onPrevNodesUpdated() 通知受影响的节点
+}</code><p><strong>图遍历</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/graph_utils.ts</code>)</p>
+<ul>
+<li><code>getAllNodes()</code>: BFS 遍历(向前和向后)</li>
+<li><code>getAllDownstreamNodes()</code>：向前遍历(用于失效)</li>
+<li><code>getAllUpstreamNodes()</code>：向后遍历(用于依赖检查)</li>
+<li><code>insertNodeBetween()</code>：插入操作时重新连接连接</li>
+</ul>
+<h2><a name="-" class="anchor" href="#-"></a>失效和缓存</h2><p><strong>TP 管理的缓存</strong></p>
+<p>查询哈希缓存和更改检测完全由 Trace Processor 处理：</p>
+<ul>
+<li>TP 为每个物化查询计算并存储 proto 哈希</li>
+<li>调用 <code>updateSummarizerSpec()</code> 时，TP 将新哈希与存储的哈希进行比较</li>
+<li>如果未更改，TP 返回现有表名而不重新执行</li>
+<li>如果已更改，TP 删除旧表并创建新表</li>
+</ul>
+<p><strong>延迟物化</strong></p>
+<p>物化是延迟的 - TP 仅在为该特定查询调用 <code>querySummarizer()</code> 时才物化查询。调用 <code>updateSummarizerSpec()</code> 时，图中所有有效的查询都在 TP 中注册，但不执行 SQL。仅当调用 <code>querySummarizer(nodeId)</code> 时，TP 才实际物化该查询（及其依赖项）。这避免了用户尚未查看的节点的不必要工作。</p>
+<p><strong>智能重新物化优化</strong></p>
+<p>当通过 <code>updateSummarizerSpec()</code> 与 TP 同步查询时，TP 执行智能更改检测和依赖跟踪，以最大限度地减少冗余工作：</p>
+<ol>
+<li><p><strong>基于 proto 的更改检测</strong>：每个查询的结构化查询 proto 字节被哈希（而不是生成的 SQL）。这对于具有 <code>inner_query_id</code> 引用的查询可以正确工作，这些查询的 SQL 无法独立生成。</p>
+</li>
+<li><p><strong>依赖传播</strong>：如果查询 B 通过 <code>inner_query_id</code> 依赖于查询 A，并且 A 的 proto 更改，则即使 B 的 proto 未更改（因为 B 的输出依赖于 A 的数据）,B 也必须重新物化。TP 通过整个依赖链传递传播此依赖关系。</p>
+</li>
+<li><p><strong>表源替换</strong>：对于已经物化的未更改查询，TP 用引用物化表的简单表源结构化查询替换它们。为更改的查询生成 SQL 时，它们直接引用这些表，而不是重新展开完整的查询链。</p>
+</li>
+</ol>
+<p>示例：对于链 A → B → C → D，如果 C 更改：</p>
+<ul>
+<li>A、B：未更改，使用现有的物化表(<code>_exp_mat_0</code>、<code>_exp_mat_1</code>)</li>
+<li>C：已更改，重新物化(SQL 直接引用 B 的物化表)</li>
+<li>D：传递性更改（依赖于 C），重新物化(SQL 引用 C 的新表)</li>
+</ul>
+<p>此优化通过避免冗余 SQL 生成和执行显著加速长查询链中的增量编辑。TP 端实现位于 <code>src/trace_processor/trace_summary/summarizer.cc</code>。</p>
+<p><strong>按需状态查询</strong></p>
+<p>UI 在需要时从 TP 查询物化状态：</p>
+<code class="hljs code-block"><span class="hljs-comment">// 从 TP 获取当前状态(用于&quot;复制表名&quot;、导出等)</span>
+<span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> engine.querySummarizer(DATA_EXPLORER_SUMMARIZER_ID, nodeId);
+<span class="hljs-comment">// 返回:{ exists: boolean, tableName?: string, error?: string, ... }</span></code><p>此设计确保：</p>
+<ul>
+<li>没有 UI 端状态可能变得陈旧或与 TP 不同步</li>
+<li>TP 是所有物化状态的权威来源</li>
+<li>更简单的 UI 代码，没有缓存失效逻辑</li>
+</ul>
+<p><strong>Trace Processor 重启处理</strong></p>
+<p>如果 Trace Processor 重启或崩溃，所有 summarizer 状态（包括物化表）都会丢失。UI 可能仍然持有 TP 中不再存在的陈旧 <code>summarizerId</code>。当下一次 <code>querySummarizer()</code> 调用发生时，TP 将返回错误，指示 summarizer 不存在。UI 会优雅地处理此错误，将其视为需要在下一次执行尝试时重新创建 summarizer 并重新同步所有查询。用户可能会看到错误消息，但再次单击&quot;运行查询&quot;将恢复状态。</p>
+<h2><a name="-" class="anchor" href="#-"></a>结构化查询生成</h2><p><strong>查询构建</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/query_builder_utils.ts</code>)</p>
+<code class="hljs code-block"><span class="hljs-function"><span class="hljs-title">getStructuredQueries</span>(<span class="hljs-params">finalNode</span>)</span> {
+ <span class="hljs-keyword">const</span> queries: PerfettoSqlStructuredQuery[] = [];
+ <span class="hljs-keyword">let</span> currentNode = finalNode;
+
+ <span class="hljs-comment">// 从叶到根遍历图</span>
+ <span class="hljs-keyword">while</span> (currentNode) {
+ queries.push(currentNode.getStructuredQuery());
+ currentNode = currentNode.primaryInput; <span class="hljs-comment">// 遵循主输入链</span>
+ }
+
+ <span class="hljs-keyword">return</span> queries.reverse(); <span class="hljs-comment">// 根 → 叶顺序</span>
+}
+
+<span class="hljs-function"><span class="hljs-title">analyzeNode</span>(<span class="hljs-params">node, engine</span>)</span> {
+ <span class="hljs-keyword">const</span> structuredQueries = getStructuredQueries(node);
+ <span class="hljs-keyword">const</span> spec = <span class="hljs-keyword">new</span> TraceSummarySpec();
+ spec.query = structuredQueries;
+ <span class="hljs-keyword">await</span> engine.createSummarizer(ANALYZE_NODE_SUMMARIZER_ID); <span class="hljs-comment">// 确保 summarizer 存在</span>
+ <span class="hljs-keyword">await</span> engine.updateSummarizerSpec(ANALYZE_NODE_SUMMARIZER_ID, spec); <span class="hljs-comment">// 向 TP 注册</span>
+ <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> engine.querySummarizer(ANALYZE_NODE_SUMMARIZER_ID, node.nodeId); <span class="hljs-comment">// 获取结果</span>
+ <span class="hljs-keyword">return</span> {<span class="hljs-attr">sql</span>: result.sql, <span class="hljs-attr">textproto</span>: result.textproto};
+}</code><h2><a name="-" class="anchor" href="#-"></a>序列化和示例</h2><p><strong>JSON 序列化</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/json_handler.ts</code>)</p>
+<ul>
+<li><code>exportStateAsJson()</code>：将整个图状态序列化为 JSON 文件</li>
+<li><code>deserializeState()</code>：从 JSON 重建图</li>
+<li>每个节点实现 <code>serializeState()</code> 用于特定于节点的状态</li>
+<li>用于：导入/导出、示例、撤销/重做快照</li>
+</ul>
+<p><strong>示例系统</strong> (<code>ui/src/plugins/dev.perfetto.DataExplorer/examples_modal.ts</code>)</p>
+<ul>
+<li>预构建的图作为 JSON 存储在 <code>ui/src/assets/data_explorer/</code> 中</li>
+<li>首次访问时自动加载基本页面状态</li>
+<li>模态框允许用户加载策划的示例</li>
+</ul>
+<h2><a name="-" class="anchor" href="#-"></a>关键架构模式</h2><h3><a name="1-" class="anchor" href="#1-"></a>1. 基于节点的查询构建</h3><p>所有查询通过可组合节点构建：</p>
+<ul>
+<li>源提供初始数据(表、Slice、自定义 SQL)</li>
+<li>操作转换数据(过滤、聚合、连接)</li>
+<li>节点通过拖放可视化界面连接</li>
+<li>图结构直接映射到 SQL 查询结构</li>
+</ul>
+<h3><a name="2-" class="anchor" href="#2-"></a>2. 双向图连接</h3><p>节点维护前向和后向链接：</p>
+<ul>
+<li><code>primaryInput</code>：单个父节点(垂直数据流)</li>
+<li><code>secondaryInputs</code>：端口 → 父节点的映射(侧连接)</li>
+<li><code>nextNodes</code>：子节点数组(此节点输出的使用者)</li>
+<li>图操作在所有链接上维护一致性</li>
+</ul>
+<h3><a name="3-" class="anchor" href="#3-"></a>3. 两阶段执行与延迟物化</h3><ul>
+<li>分析阶段：验证查询结构而不执行</li>
+<li>执行阶段：物化到 PERFETTO 表以进行分页</li>
+<li>延迟物化：仅物化选定节点及其上游依赖项</li>
+<li>TP 在内部处理表缓存(proto 哈希未更改时重用)</li>
+<li>智能重新物化：未更改的父查询使用表源替换</li>
+<li>通过 SQLDataSource 进行服务器端分页(无完整结果获取)</li>
+</ul>
+<h3><a name="4-tp-fifo-" class="anchor" href="#4-tp-fifo-"></a>4. TP 管理状态的 FIFO 队列</h3><ul>
+<li>防止快速用户输入期间的竞态条件</li>
+<li>操作按顺序执行(保留节点依赖关系)</li>
+<li>每操作错误隔离(一个失败不会阻塞队列)</li>
+<li>TP 在内部处理所有缓存/更改检测</li>
+<li>UI 按需查询 TP 以获取表名(无 UI 端缓存)</li>
+</ul>
+<h3><a name="5-" class="anchor" href="#5-"></a>5. 结构化查询协议</h3><ul>
+<li>节点生成 protobuf <code>PerfettoSqlStructuredQuery</code></li>
+<li>Engine 通过 <code>updateSummarizerSpec()</code> + <code>querySummarizer()</code> 验证并转换为 SQL</li>
+<li>基于哈希的更改检测(proto 字节由 TP 哈希)</li>
+<li>允许查询分析而无需 SQL 字符串操作</li>
+</ul>
+<h3><a name="6-" class="anchor" href="#6-"></a>6. 模块化纯函数架构</h3><p><code>data_explorer.ts</code> 将业务逻辑委托给专注于纯函数的模块：</p>
+<ul>
+<li>每个模块定义 <code>Deps</code> 接口用于其所需的依赖项</li>
+<li>函数显式接收依赖项(无类 <code>this</code> 访问)</li>
+<li><code>data_explorer.ts</code> 构建依赖项对象并委托给模块函数</li>
+<li>启用测试、重用和清晰的责任边界</li>
+</ul>
+<p>模块：</p>
+<ul>
+<li><strong>node_crud_operations.ts</strong> — 节点添加/删除/复制/连接/断开连接(<code>NodeCrudDeps</code>)</li>
+<li><strong>datagrid_node_creation.ts</strong> — 从 DataGrid 交互触发的节点创建(<code>DatagridNodeCreationDeps</code>)</li>
+<li><strong>clipboard_operations.ts</strong> — 多节点复制/粘贴</li>
+<li><strong>graph_io.ts</strong> — 导入/导出、图加载、模板初始化(<code>GraphIODeps</code>)</li>
+<li><strong>node_actions.ts</strong> — 用于节点→图交互的基于闭包的回调(<code>NodeActionHandlers</code>)</li>
+</ul>
+<h3><a name="7-graphcallbacks-prop-drilling-" class="anchor" href="#7-graphcallbacks-prop-drilling-"></a>7. GraphCallbacks 接口(减少 Prop Drilling)</h3><p>14 个回调从 <code>data_explorer.ts</code> 流向 <code>Builder</code> → <code>Graph</code>:</p>
+<ul>
+<li><code>GraphCallbacks</code> 接口在 <code>graph.ts</code> 中定义，对所有 14 个回调进行分组</li>
+<li><code>BuilderAttrs</code> 有一个 <code>graphCallbacks: GraphCallbacks</code> 字段</li>
+<li>Builder 将 <code>...attrs.graphCallbacks</code> 直接传播到 <code>Graph</code> 组件</li>
+<li>消除了通过 Builder 手动转发每个回调的需要</li>
+</ul>
+<h2><a name="-" class="anchor" href="#-"></a>文件路径参考</h2><p><strong>核心基础设施</strong>：</p>
+<ul>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/data_explorer.ts</code> - 主插件、状态管理、键盘处理、依赖项构建</li>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/query_node.ts</code> - 节点抽象和类型定义</li>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/builder.ts</code> - 主 UI 组件(接收 <code>GraphCallbacks</code>)</li>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/query_execution_service.ts</code> - 执行协调</li>
+</ul>
+<p><strong>业务逻辑模块</strong>(具有显式依赖注入的纯函数):</p>
+<ul>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/node_crud_operations.ts</code> - 节点添加/删除/复制/连接/断开连接</li>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/datagrid_node_creation.ts</code> - 从 DataGrid 交互触发的节点创建</li>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/clipboard_operations.ts</code> - 多节点复制/粘贴</li>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/graph_io.ts</code> - 导入/导出、图加载、模板初始化</li>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/node_actions.ts</code> - 用于节点→图交互的基于闭包的回调</li>
+</ul>
+<p><strong>节点系统</strong>：</p>
+<ul>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/node_registry.ts</code> - 节点注册</li>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/core_nodes.ts</code> - 核心节点注册</li>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/nodes/</code> - 单个节点实现</li>
+</ul>
+<p><strong>UI 组件</strong>：</p>
+<ul>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/graph/graph.ts</code> - 可视化图画布(定义 <code>GraphCallbacks</code>)</li>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/node_panel.ts</code> - 节点侧边栏</li>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/data_explorer.ts</code> - 结果抽屉</li>
+</ul>
+<p><strong>工具</strong>：</p>
+<ul>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/graph_utils.ts</code> - 图遍历和连接管理</li>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/query_builder_utils.ts</code> - 查询分析和工具</li>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/query_builder/cleanup_manager.ts</code> - 资源清理</li>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/history_manager.ts</code> - 撤销/重做管理</li>
+<li><code>ui/src/plugins/dev.perfetto.DataExplorer/json_handler.ts</code> - 序列化</li>
+</ul>
+<p>**Trace Processor (C++)**：</p>
+<ul>
+<li><code>src/trace_processor/trace_summary/summarizer.cc</code> - 带有更改检测和依赖传播的智能重新物化</li>
+<li><code>src/trace_processor/trace_summary/summarizer.h</code> - Summarizer 类定义和 QueryState</li>
+<li><code>src/trace_processor/perfetto_sql/generator/structured_query_generator.cc</code> - 从结构化查询生成 SQL</li>
+</ul>
+
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

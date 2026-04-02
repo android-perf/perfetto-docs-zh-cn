@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>使用 FrameTimeline 检测 Android 掉帧 - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="使用 FrameTimeline 检测 Android 掉帧 - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/data-sources/frametimeline">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/style.css">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/perfetto-docs-zh-cn/assets/favicon.png" />
+  <script type="text/javascript" src="/perfetto-docs-zh-cn/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/perfetto-docs-zh-cn/">
+      <img src="/perfetto-docs-zh-cn/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/perfetto-docs-zh-cn/docs/">Docs</a>
+  <a href="/perfetto-docs-zh-cn/docs/contributing/getting-started#community.html">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/perfetto-docs-zh-cn/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/tracing-101.html">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/start-using-perfetto.html">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/system-tracing.html">系统 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/in-app-tracing.html">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/memory-profiling.html">Memory Profiling</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/cpu-profiling.html">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/atrace.html">Android atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/ftrace.html">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/other-formats.html">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/converting.html">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/android-trace-analysis.html">分析 Android Trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/periodic-trace-snapshots.html">周期性 Trace 快照</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/memory.html">Android 内存使用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/scheduling-blockages.html">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/config.html">Trace 配置</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/buffers.html">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/service-model.html">服务模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/clock-sync.html">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/tracing-in-background.html">后台 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/android.html">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/chrome-tracing.html">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/tracing-sdk.html">Tracing SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/track-events.html">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/stdlib-docs.html">标准库</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-syntax.html">语法</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/style-guide.html">样式指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-backcompat.html">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor.html">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor-python.html">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-summary.html">Trace 汇总</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/quickstart/traceconv.html">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui.html">Perfetto UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/large-traces.html">打开大型 trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/deep-linking-to-perfetto-ui.html">深度链接</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/debug-tracks.html">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extending-the-ui.html">概述</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">命令和宏</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-servers.html">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/common-tasks.html">常见任务</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/become-a-committer.html">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-plugins.html">插件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/faq.html">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/native-heap-profiler.html">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/java-heap-profiler.html">Java 堆转储</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/memory-counters.html">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-scheduling.html">调度事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/syscalls.html">系统调用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-freq.html">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/atrace.html">Atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-log.html">Logcat</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/frametimeline.html">Frame Timeline</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/battery-counters.html">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-game-intervention-list.html">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-packet-proto.html">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/synthetic-track-event.html">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-config-proto.html">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/concurrent-tracing-sessions.html">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/detached-mode.html">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-boot-tracing.html">开机 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-outofmemoryerror.html">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/android-version-notes.html">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/kernel-track-event.html">内核 track 事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/previous-boot-trace.html">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/perfetto-cli.html">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced.html">traced</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced_probes.html">traced_probes</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/heap_profile-cli.html">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/tracebox.html">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables.html">Prelude 表</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/builtin.html">内置函数</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-stats.html">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/metrics.html">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-a-single-machine.html">Bigtrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-kubernetes.html">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/interceptors.html">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/commands-automation-reference.html">命令自动化参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol.html">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/build-instructions.html">构建</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/testing.html">测试</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/developer-tools.html">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sdk-releasing.html">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/python-releasing.html">Python 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui-release-process.html">UI 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/chrome-branches.html">Chrome 分支</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sqlite-upgrade-guide.html">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/api-and-abi.html">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/life-of-a-tracing-session.html">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/protozero.html">ProtoZero</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/security-model.html">安全模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/checkpoint-atoms.html">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/trace-processor-architecture.html">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-design.html">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-wire-protocol.html">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-sampling.html">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/continuous-integration.html">Perfetto CI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/lock-free-task-runner.html">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/data-sources/frametimeline">
+    <h1>使用 FrameTimeline 检测 Android 掉帧</h1><p class="callout note">NOTE: <strong>FrameTimeline 需要 Android 12(S) 或更高版本</strong></p>
+<p>如果帧在屏幕上呈现的时间与调度器给定的预测呈现时间不匹配，则称该帧是掉帧的。</p>
+<p>掉帧可能导致：</p>
+<ul>
+<li>不稳定的帧率</li>
+<li>增加的延迟</li>
+</ul>
+<p>FrameTimeline 是 SurfaceFlinger 内的一个模块，它检测掉帧并报告掉帧的来源。<a href="https://developer.android.com/reference/android/view/SurfaceView">SurfaceViews</a> 目前<strong>不支持</strong>，但将来会支持。</p>
+<h2><a name="ui" class="anchor" href="#ui"></a>UI</h2><p>对于屏幕上至少有一帧的每个应用程序，都会添加两个新 track。</p>
+<p><img src="/perfetto-docs-zh-cn/docs/images/frametimeline/timeline_tracks.png" alt=""></p>
+<ul>
+<li><p>预期 Timeline
+每个 Slice 代表给应用程序渲染帧的时间。为了避免系统中的掉帧，应用程序应在此时间范围内完成。开始时间是安排 Choreographer 回调运行的时间。</p>
+</li>
+<li><p>实际 Timeline
+这些 Slice 代表应用程序完成帧(包括 GPU 工作并将其发送到 SurfaceFlinger 进行合成所花费的实际时间。开始时间是 <code>Choreographer#doFrame</code> 或 <code>AChoreographer_vsyncCallback</code> 开始运行的时间。此处 Slice 的结束时间代表 <code>max(gpu 时间， 发布时间)</code>。<strong>发布时间</strong>是应用程序的帧发布到 SurfaceFlinger 的时间。</p>
+</li>
+</ul>
+<p><img src="/perfetto-docs-zh-cn/docs/images/frametimeline/app-timelines.png" alt=""></p>
+<p>同样，SurfaceFlinger 也会获得这两个新 track，代表它预期完成的时间，以及它完成合成帧和在屏幕上呈现所花费的实际时间。在这里，SurfaceFlinger 的工作表示显示堆栈中其下方的所有内容。这包括 Composer 和 DisplayHAL。因此，Slice 代表 SurfaceFlinger 主线程从开始到屏幕更新的过程。</p>
+<p>Slice 的名称表示从 <a href="https://developer.android.com/reference/android/view/Choreographer">choreographer</a> 接收的令牌。你可以将实际 Timeline track 中的 Slice 与预期 Timeline track 中的相应 Slice 进行比较，以查看应用程序的表现与预期相比如何。此外，出于调试目的，令牌被添加到应用程序的 <strong>doFrame</strong> 和 <strong>RenderThread</strong> Slice 中。对于 SurfaceFlinger，相同的令牌显示在 <strong>onMessageReceived</strong> 中。</p>
+<p><img src="/perfetto-docs-zh-cn/docs/images/frametimeline/app-vsyncid.png" alt=""></p>
+<p><img src="/perfetto-docs-zh-cn/docs/images/frametimeline/sf-vsyncid.png" alt=""></p>
+<h3><a name="-timeline-slice" class="anchor" href="#-timeline-slice"></a>选择实际 Timeline Slice</h3><p><img src="/perfetto-docs-zh-cn/docs/images/frametimeline/selection.png" alt=""></p>
+<p>选择详细信息提供了有关帧发生了什么的更多信息。这些包括：</p>
+<ul>
+<li><strong>呈现类型</strong></li>
+</ul>
+<p>帧是早、按时还是晚。</p>
+<ul>
+<li><strong>按时完成</strong></li>
+</ul>
+<p>应用程序是否按时完成了帧的工作？</p>
+<ul>
+<li><strong>掉帧类型</strong></li>
+</ul>
+<p>是否观察到此帧有掉帧？如果是，这显示观察到的掉帧类型。如果没有，类型将为 <strong>None</strong>。</p>
+<ul>
+<li><strong>预测类型</strong></li>
+</ul>
+<p>当 FrameTimeline 接收到此帧时，预测是否已过期？如果是，这将显示 <strong>Expired Prediction</strong>。如果不是，则显示 <strong>Valid Prediction</strong>。</p>
+<ul>
+<li><strong>GPU 合成</strong></li>
+</ul>
+<p>布尔值，告诉帧是否由 GPU 合成。</p>
+<ul>
+<li><strong>图层名称</strong></li>
+</ul>
+<p>帧呈现到的图层/表面的名称。某些进程会更新多个表面的帧。在这里，具有相同令牌的多个 Slice 将显示在实际 Timeline 中。图层名称是区分这些 Slice 的好方法。</p>
+<ul>
+<li><strong>是缓冲区？</strong></li>
+</ul>
+<p>布尔值，告诉帧是对应于缓冲区还是动画。</p>
+<h3><a name="-" class="anchor" href="#-"></a>流事件</h3><p>在应用程序中选择实际 Timeline Slice 还会绘制一条线回相应的 SurfaceFlinger Timeline Slice。</p>
+<p><img src="/perfetto-docs-zh-cn/docs/images/frametimeline/select-app-slice.png" alt=""></p>
+<p>由于 SurfaceFlinger 可以将多个图层的帧合成为单个屏幕上的帧（称为 <strong>DisplayFrame</strong>），选择 DisplayFrame 会绘制箭头到所有被一起合成的帧。这可以跨越多个进程。</p>
+<p><img src="/perfetto-docs-zh-cn/docs/images/frametimeline/select-sf-slice-1.png" alt="">
+<img src="/perfetto-docs-zh-cn/docs/images/frametimeline/select-sf-slice-2.png" alt=""></p>
+<h3><a name="-" class="anchor" href="#-"></a>颜色代码</h3><table>
+<thead>
+<tr>
+<th align="left">颜色</th>
+<th align="center">图像</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">绿色</td>
+<td align="center"><img src="/perfetto-docs-zh-cn/docs/images/frametimeline/green.png" alt=""></td>
+<td align="left">良好的帧。未观察到掉帧</td>
+</tr>
+<tr>
+<td align="left">浅绿色</td>
+<td align="center"><img src="/perfetto-docs-zh-cn/docs/images/frametimeline/light-green.png" alt=""></td>
+<td align="left">高延迟状态。帧率平滑，但帧呈现较晚，导致输入延迟增加。</td>
+</tr>
+<tr>
+<td align="left">红色</td>
+<td align="center"><img src="/perfetto-docs-zh-cn/docs/images/frametimeline/red.png" alt=""></td>
+<td align="left">掉帧的帧。Slice 所属的进程是掉帧的原因。</td>
+</tr>
+<tr>
+<td align="left">黄色</td>
+<td align="center"><img src="/perfetto-docs-zh-cn/docs/images/frametimeline/yellow.png" alt=""></td>
+<td align="left">仅由应用程序使用。帧是掉帧的，但应用程序不是原因，SurfaceFlinger 导致了掉帧。</td>
+</tr>
+<tr>
+<td align="left">蓝色</td>
+<td align="center"><img src="/perfetto-docs-zh-cn/docs/images/frametimeline/blue.png" alt=""></td>
+<td align="left">丢失的帧。在 SurfaceFlinger 中，这意味着我们跳过了一帧，更喜欢更新的帧而不是此帧。在应用程序方面，这意味着 UI 线程的状态更新没有及时推送到 RenderThread，并且 RenderThread 在没有来自 UI 线程的状态更新的情况下绘制了帧。</td>
+</tr>
+</tbody></table>
+<h2><a name="-" class="anchor" href="#-"></a>掉帧说明</h2><p>掉帧类型在 <a href="https://cs.android.com/android/platform/superproject/main/+/main:frameworks/native/libs/gui/include/gui/JankInfo.h?l=22">JankInfo.h</a> 中定义。由于每个应用程序的编写方式不同，因此没有通用的方法来深入应用程序的内部并指定掉帧的原因。我们的目标不是这样做，而是提供一种快速的方法来判断应用程序是否掉帧或 SurfaceFlinger 是否掉帧。</p>
+<h3><a name="none" class="anchor" href="#none"></a>None</h3><p>一切都很好。帧没有掉帧。应该追求的理想状态。</p>
+<h3><a name="-" class="anchor" href="#-"></a>应用程序掉帧</h3><ul>
+<li><strong>AppDeadlineMissed</strong></li>
+</ul>
+<p>应用程序运行时间超过预期，导致掉帧。应用程序帧所花费的总时间是通过使用 choreographer 唤醒作为开始时间和 max（gpu，发布时间）作为结束时间来计算的。发布时间是帧发送到 SurfaceFlinger 的时间。由于 GPU 通常并行运行，gpu 可能在发布时间之后完成。</p>
+<ul>
+<li><strong>BufferStuffing</strong></li>
+</ul>
+<p>这更像是一种状态而不是掉帧。如果应用程序在上一个帧甚至呈现之前就不断向 SurfaceFlinger 发送新帧，就会发生这种情况。内部缓冲区队列被尚未呈现的缓冲区填充，因此名称为 Buffer Stuffing。队列中的这些额外缓冲区仅一个接一个地呈现，因此导致额外的延迟。这也可能导致没有更多缓冲区供应用程序使用的阶段，并且它进入出队阻塞等待。应用程序执行的实际持续时间可能仍在期限内，但由于填充的性质，无论应用程序完成其工作的速度如何，所有帧都将至少延迟一个 vsync 呈现。在此状态下，帧仍然平滑，但与延迟呈现相关联的输入延迟增加。</p>
+<h3><a name="surfaceflinger-" class="anchor" href="#surfaceflinger-"></a>SurfaceFlinger 掉帧</h3><p>SurfaceFlinger 有两种方式可以合成帧：</p>
+<ul>
+<li>设备合成 - 使用专用硬件</li>
+<li>GPU/客户端合成 - 使用 GPU 进行合成</li>
+</ul>
+<p>需要注意的一点是，执行设备合成是主线程上的阻塞调用。然而，GPU 合成是并行进行的。SurfaceFlinger 执行必要的绘制调用，然后将 gpu 栅栏交给显示设备。显示设备然后等待栅栏发出信号，然后呈现帧。</p>
+<ul>
+<li><strong>SurfaceFlingerCpuDeadlineMissed</strong></li>
+</ul>
+<p>SurfaceFlinger 预期在给定的期限内完成。如果主线程运行时间超过该时间，则掉帧为 SurfaceFlingerCpuDeadlineMissed。SurfaceFlinger 的 CPU 时间是在主线程上花费的时间。如果使用了设备合成，这包括整个合成时间。如果使用了 GPU 合成，这包括编写绘制调用和将帧交给 GPU 的时间。</p>
+<ul>
+<li><strong>SurfaceFlingerGpuDeadlineMissed</strong></li>
+</ul>
+<p>SurfaceFlinger 主线程在 CPU 上花费的时间 + GPU 合成时间一起超过了预期。在这里，CPU 时间仍然会在期限内，但由于 GPU 上的工作未按时准备好，帧被推到下一个 vsync。</p>
+<ul>
+<li><strong>DisplayHAL</strong></li>
+</ul>
+<p>DisplayHAL 掉帧是指 SurfaceFlinger 完成其工作并按时将帧发送到 HAL，但帧未在 vsync 上呈现的情况。它在下一个 vsync 上呈现。可能是 SurfaceFlinger 没有给 HAL 工作足够的时间，或者 HAL 工作确实有延迟。</p>
+<ul>
+<li><strong>PredictionError</strong></li>
+</ul>
+<p>SurfaceFlinger 的调度器提前计划呈现帧的时间。然而，这种预测有时会偏离实际的硬件 vsync 时间。例如，帧的预测呈现时间可能为 20ms。由于估计中的漂移，帧的实际呈现时间可能为 23ms。这在 SurfaceFlinger 的调度器中称为预测误差。调度器会定期自我纠正，因此这种漂移不是永久的。然而，具有预测漂移的帧仍将被分类为掉帧以进行跟踪。</p>
+<p>孤立的预测误差通常不会被用户感知，因为调度器很快会适应并修复漂移。</p>
+<h3><a name="-" class="anchor" href="#-"></a>未知掉帧</h3><p>顾名思义，在这种情况下掉帧的原因是未知的。这里的一个例子是 SurfaceFlinger 或应用程序运行时间超过预期并且错过了期限，但帧仍然提前呈现。这种掉帧发生的概率非常低，但并非不可能。</p>
+<h2><a name="sql" class="anchor" href="#sql"></a>SQL</h2><p>在 SQL 级别，fremetimeline 数据在两个表中可用</p>
+<ul>
+<li><a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables#expected_frame_timeline_slice.html"><code>expected_frame_timeline_slice</code></a></li>
+<li><a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables#actual_frame_timeline_slice.html"><code>actual_frame_timeline_slice</code></a></li>
+</ul>
+<code class="hljs code-block"><span class="hljs-keyword">select</span> ts, dur, surface_frame_token <span class="hljs-keyword">as</span> app_token, display_frame_token <span class="hljs-keyword">as</span> sf_token, process.name
+<span class="hljs-keyword">from</span> expected_frame_timeline_slice <span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span> process <span class="hljs-keyword">using</span>(upid)</code><table>
+<thead>
+<tr>
+<th>ts</th>
+<th>dur</th>
+<th>app_token</th>
+<th>sf_token</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>60230453475</td>
+<td>20500000</td>
+<td>3135</td>
+<td>3142</td>
+<td>com.google.android.apps.nexuslauncher</td>
+</tr>
+<tr>
+<td>60241677540</td>
+<td>20500000</td>
+<td>3137</td>
+<td>3144</td>
+<td>com.google.android.apps.nexuslauncher</td>
+</tr>
+<tr>
+<td>60252895412</td>
+<td>20500000</td>
+<td>3139</td>
+<td>3146</td>
+<td>com.google.android.apps.nexuslauncher</td>
+</tr>
+<tr>
+<td>60284614241</td>
+<td>10500000</td>
+<td>0</td>
+<td>3144</td>
+<td>/system/bin/surfaceflinger</td>
+</tr>
+<tr>
+<td>60295858299</td>
+<td>10500000</td>
+<td>0</td>
+<td>3146</td>
+<td>/system/bin/surfaceflinger</td>
+</tr>
+<tr>
+<td>60297798913</td>
+<td>20500000</td>
+<td>3147</td>
+<td>3150</td>
+<td>com.android.systemui</td>
+</tr>
+<tr>
+<td>60307075728</td>
+<td>10500000</td>
+<td>0</td>
+<td>3148</td>
+<td>/system/bin/surfaceflinger</td>
+</tr>
+<tr>
+<td>60318297746</td>
+<td>10500000</td>
+<td>0</td>
+<td>3150</td>
+<td>/system/bin/surfaceflinger</td>
+</tr>
+<tr>
+<td>60320236468</td>
+<td>20500000</td>
+<td>3151</td>
+<td>3154</td>
+<td>com.android.systemui</td>
+</tr>
+<tr>
+<td>60329511401</td>
+<td>10500000</td>
+<td>0</td>
+<td>3152</td>
+<td>/system/bin/surfaceflinger</td>
+</tr>
+<tr>
+<td>60340732956</td>
+<td>10500000</td>
+<td>0</td>
+<td>3154</td>
+<td>/system/bin/surfaceflinger</td>
+</tr>
+<tr>
+<td>60342673064</td>
+<td>20500000</td>
+<td>3155</td>
+<td>3158</td>
+<td>com.android.systemui</td>
+</tr>
+</tbody></table>
+<code class="hljs code-block"><span class="hljs-keyword">select</span> ts, dur, surface_frame_token <span class="hljs-keyword">as</span> app_token, display_frame_token, jank_type, on_time_finish, present_type, layer_name, process.name
+<span class="hljs-keyword">from</span> actual_frame_timeline_slice <span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span> process <span class="hljs-keyword">using</span>(upid)</code><table>
+<thead>
+<tr>
+<th>ts</th>
+<th>dur</th>
+<th>app_token</th>
+<th>sf_token</th>
+<th>jank_type</th>
+<th>on_time_finish</th>
+<th>present_type</th>
+<th>layer_name</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>60230453475</td>
+<td>26526379</td>
+<td>3135</td>
+<td>3142</td>
+<td>Buffer Stuffing</td>
+<td>1</td>
+<td>Late Present</td>
+<td>TX - com.google.android.apps.nexuslauncher/com.google.android.apps.nexuslauncher.NexusLauncherActivity#0</td>
+<td>com.google.android.apps.nexuslauncher</td>
+</tr>
+<tr>
+<td>60241677540</td>
+<td>28235805</td>
+<td>3137</td>
+<td>3144</td>
+<td>Buffer Stuffing</td>
+<td>1</td>
+<td>Late Present</td>
+<td>TX - com.google.android.apps.nexuslauncher/com.google.android.apps.nexuslauncher.NexusLauncherActivity#0</td>
+<td>com.google.android.apps.nexuslauncher</td>
+</tr>
+<tr>
+<td>60252895412</td>
+<td>2546525</td>
+<td>3139</td>
+<td>3142</td>
+<td>None</td>
+<td>1</td>
+<td>On-time Present</td>
+<td>TX - NavigationBar0#0</td>
+<td>com.android.systemui</td>
+</tr>
+<tr>
+<td>60252895412</td>
+<td>27945382</td>
+<td>3139</td>
+<td>3146</td>
+<td>Buffer Stuffing</td>
+<td>1</td>
+<td>Late Present</td>
+<td>TX - com.google.android.apps.nexuslauncher/com.google.android.apps.nexuslauncher.NexusLauncherActivity#0</td>
+<td>com.google.android.apps.nexuslauncher</td>
+</tr>
+<tr>
+<td>60284808190</td>
+<td>10318230</td>
+<td>0</td>
+<td>3144</td>
+<td>None</td>
+<td>1</td>
+<td>On-time Present</td>
+<td>[NULL]</td>
+<td>/system/bin/surfaceflinger</td>
+</tr>
+<tr>
+<td>60296067722</td>
+<td>10265574</td>
+<td>0</td>
+<td>3146</td>
+<td>None</td>
+<td>1</td>
+<td>On-time Present</td>
+<td>[NULL]</td>
+<td>/system/bin/surfaceflinger</td>
+</tr>
+<tr>
+<td>60297798913</td>
+<td>5239227</td>
+<td>3147</td>
+<td>3150</td>
+<td>None</td>
+<td>1</td>
+<td>On-time Present</td>
+<td>TX - NavigationBar0#0</td>
+<td>com.android.systemui</td>
+</tr>
+<tr>
+<td>60307246161</td>
+<td>10301772</td>
+<td>0</td>
+<td>3148</td>
+<td>None</td>
+<td>1</td>
+<td>On-time Present</td>
+<td>[NULL]</td>
+<td>/system/bin/surfaceflinger</td>
+</tr>
+<tr>
+<td>60318497204</td>
+<td>10281199</td>
+<td>0</td>
+<td>3150</td>
+<td>None</td>
+<td>1</td>
+<td>On-time Present</td>
+<td>[NULL]</td>
+<td>/system/bin/surfaceflinger</td>
+</tr>
+<tr>
+<td>60320236468</td>
+<td>2747559</td>
+<td>3151</td>
+<td>3154</td>
+<td>None</td>
+<td>1</td>
+<td>On-time Present</td>
+<td>TX - NavigationBar0#0</td>
+<td>com.android.systemui</td>
+</tr>
+</tbody></table>
+<h2><a name="traceconfig" class="anchor" href="#traceconfig"></a>TraceConfig</h2><p>Trace Protos:
+<a href="/perfetto-docs-zh-cn/docs/reference/trace-packet-proto#FrameTimelineEvent.html">FrameTimelineEvent</a></p>
+<p>Datasource:</p>
+<code class="hljs code-block">data_sources {
+ config {
+ name: <span class="hljs-string">&quot;android.surfaceflinger.frametimeline&quot;</span>
+ }
+}</code>
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

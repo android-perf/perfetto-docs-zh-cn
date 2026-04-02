@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CPU 调度事件 - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="CPU 调度事件 - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/data-sources/cpu-scheduling">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/style.css">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/perfetto-docs-zh-cn/assets/favicon.png" />
+  <script type="text/javascript" src="/perfetto-docs-zh-cn/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/perfetto-docs-zh-cn/">
+      <img src="/perfetto-docs-zh-cn/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/perfetto-docs-zh-cn/docs/">Docs</a>
+  <a href="/perfetto-docs-zh-cn/docs/contributing/getting-started#community.html">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/perfetto-docs-zh-cn/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/tracing-101.html">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/start-using-perfetto.html">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/system-tracing.html">系统 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/in-app-tracing.html">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/memory-profiling.html">Memory Profiling</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/cpu-profiling.html">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/atrace.html">Android atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/ftrace.html">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/other-formats.html">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/converting.html">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/android-trace-analysis.html">分析 Android Trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/periodic-trace-snapshots.html">周期性 Trace 快照</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/memory.html">Android 内存使用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/scheduling-blockages.html">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/config.html">Trace 配置</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/buffers.html">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/service-model.html">服务模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/clock-sync.html">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/tracing-in-background.html">后台 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/android.html">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/chrome-tracing.html">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/tracing-sdk.html">Tracing SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/track-events.html">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/stdlib-docs.html">标准库</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-syntax.html">语法</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/style-guide.html">样式指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-backcompat.html">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor.html">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor-python.html">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-summary.html">Trace 汇总</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/quickstart/traceconv.html">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui.html">Perfetto UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/large-traces.html">打开大型 trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/deep-linking-to-perfetto-ui.html">深度链接</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/debug-tracks.html">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extending-the-ui.html">概述</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">命令和宏</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-servers.html">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/common-tasks.html">常见任务</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/become-a-committer.html">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-plugins.html">插件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/faq.html">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/native-heap-profiler.html">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/java-heap-profiler.html">Java 堆转储</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/memory-counters.html">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-scheduling.html">调度事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/syscalls.html">系统调用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-freq.html">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/atrace.html">Atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-log.html">Logcat</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/frametimeline.html">Frame Timeline</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/battery-counters.html">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-game-intervention-list.html">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-packet-proto.html">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/synthetic-track-event.html">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-config-proto.html">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/concurrent-tracing-sessions.html">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/detached-mode.html">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-boot-tracing.html">开机 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-outofmemoryerror.html">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/android-version-notes.html">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/kernel-track-event.html">内核 track 事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/previous-boot-trace.html">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/perfetto-cli.html">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced.html">traced</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced_probes.html">traced_probes</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/heap_profile-cli.html">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/tracebox.html">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables.html">Prelude 表</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/builtin.html">内置函数</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-stats.html">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/metrics.html">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-a-single-machine.html">Bigtrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-kubernetes.html">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/interceptors.html">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/commands-automation-reference.html">命令自动化参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol.html">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/build-instructions.html">构建</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/testing.html">测试</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/developer-tools.html">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sdk-releasing.html">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/python-releasing.html">Python 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui-release-process.html">UI 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/chrome-branches.html">Chrome 分支</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sqlite-upgrade-guide.html">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/api-and-abi.html">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/life-of-a-tracing-session.html">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/protozero.html">ProtoZero</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/security-model.html">安全模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/checkpoint-atoms.html">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/trace-processor-architecture.html">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-design.html">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-wire-protocol.html">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-sampling.html">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/continuous-integration.html">Perfetto CI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/lock-free-task-runner.html">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/data-sources/cpu-scheduling">
+    <h1>CPU 调度事件</h1><p>在 Android 和 Linux 上，Perfetto 可以通过 Linux 内核 <a href="https://www.kernel.org/doc/Documentation/trace/ftrace.txt">ftrace</a> 基础架构收集调度器 trace。</p>
+<p>这允许获取细粒度的调度事件，例如：</p>
+<ul>
+<li>哪些线程在任何时间点调度到哪个 CPU 核心上，具有纳秒级精度。</li>
+<li>运行线程被取消调度的原因（例如，抢占、在互斥锁上阻塞、阻塞系统调用或任何其他等待队列）。</li>
+<li>线程有资格执行的时间点，即使它没有立即放在任何 CPU 运行队列上，以及使其可执行的源线程。</li>
+</ul>
+<h2><a name="ui" class="anchor" href="#ui"></a>UI</h2><p>UI 将各个调度事件表示为 Slice：</p>
+<p><img src="/perfetto-docs-zh-cn/docs/images/cpu-zoomed.png" alt="" title="CPU 运行队列的详细视图"></p>
+<p>单击 CPU Slice 会在详细信息面板中显示相关信息：</p>
+<p><img src="/perfetto-docs-zh-cn/docs/images/cpu-sched-details.png" alt="" title="CPU 调度详细信息"></p>
+<p>向下滚动时，展开各个进程时，调度事件还为每个线程创建一个 track，允许跟踪单个线程状态的演变：</p>
+<p><img src="/perfetto-docs-zh-cn/docs/images/thread-states.png" alt="" title="单个线程的状态"></p>
+<h2><a name="sql" class="anchor" href="#sql"></a>SQL</h2><p>在 SQL 级别，调度数据在 <a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables#sched_slice.html"><code>sched_slice</code></a> 表中公开。</p>
+<code class="hljs code-block"><span class="hljs-keyword">select</span> ts, dur, cpu, end_state, priority, process.name, thread.name
+<span class="hljs-keyword">from</span> sched_slice <span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span> thread <span class="hljs-keyword">using</span>(utid) <span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span> process <span class="hljs-keyword">using</span>(upid)</code><table>
+<thead>
+<tr>
+<th>ts</th>
+<th>dur</th>
+<th>cpu</th>
+<th>end_state</th>
+<th>priority</th>
+<th>process.name,</th>
+<th>thread.name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>261187012170995</td>
+<td>247188</td>
+<td>2</td>
+<td>S</td>
+<td>130</td>
+<td>/system/bin/logd</td>
+<td>logd.klogd</td>
+</tr>
+<tr>
+<td>261187012418183</td>
+<td>12812</td>
+<td>2</td>
+<td>D</td>
+<td>120</td>
+<td>/system/bin/traced_probes</td>
+<td>traced_probes0</td>
+</tr>
+<tr>
+<td>261187012421099</td>
+<td>220000</td>
+<td>4</td>
+<td>D</td>
+<td>120</td>
+<td>kthreadd</td>
+<td>kworker/u16:2</td>
+</tr>
+<tr>
+<td>261187012430995</td>
+<td>72396</td>
+<td>2</td>
+<td>D</td>
+<td>120</td>
+<td>/system/bin/traced_probes</td>
+<td>traced_probes1</td>
+</tr>
+<tr>
+<td>261187012454537</td>
+<td>13958</td>
+<td>0</td>
+<td>D</td>
+<td>120</td>
+<td>/system/bin/traced_probes</td>
+<td>traced_probes0</td>
+</tr>
+<tr>
+<td>261187012460318</td>
+<td>46354</td>
+<td>3</td>
+<td>S</td>
+<td>120</td>
+<td>/system/bin/traced_probes</td>
+<td>traced_probes2</td>
+</tr>
+<tr>
+<td>261187012468495</td>
+<td>10625</td>
+<td>0</td>
+<td>R</td>
+<td>120</td>
+<td>[NULL]</td>
+<td>swapper/0</td>
+</tr>
+<tr>
+<td>261187012479120</td>
+<td>6459</td>
+<td>0</td>
+<td>D</td>
+<td>120</td>
+<td>/system/bin/traced_probes</td>
+<td>traced_probes0</td>
+</tr>
+<tr>
+<td>261187012485579</td>
+<td>7760</td>
+<td>0</td>
+<td>R</td>
+<td>120</td>
+<td>[NULL]</td>
+<td>swapper/0</td>
+</tr>
+<tr>
+<td>261187012493339</td>
+<td>34896</td>
+<td>0</td>
+<td>D</td>
+<td>120</td>
+<td>/system/bin/traced_probes</td>
+<td>traced_probes0</td>
+</tr>
+</tbody></table>
+<h2><a name="traceconfig" class="anchor" href="#traceconfig"></a>TraceConfig</h2><p>要收集此数据，请包括以下数据源：</p>
+<code class="hljs code-block"># 来自内核的调度数据。
+data_sources: {
+ config {
+ name: <span class="hljs-string">&quot;linux.ftrace&quot;</span>
+ ftrace_config {
+ compact_sched: {
+ enabled: <span class="hljs-literal">true</span>
+ }
+ ftrace_events: <span class="hljs-string">&quot;sched/sched_switch&quot;</span>
+ # 可选:精确的线程生命周期跟踪:
+ ftrace_events: <span class="hljs-string">&quot;sched/sched_process_exit&quot;</span>
+ ftrace_events: <span class="hljs-string">&quot;sched/sched_process_free&quot;</span>
+ ftrace_events: <span class="hljs-string">&quot;task/task_newtask&quot;</span>
+ ftrace_events: <span class="hljs-string">&quot;task/task_rename&quot;</span>
+ }
+ }
+}
+
+# 添加完整的进程名称和线程&lt;&gt;进程关系:
+data_sources: {
+ config {
+ name: <span class="hljs-string">&quot;linux.process_stats&quot;</span>
+ }
+}</code><h2><a name="-" class="anchor" href="#-"></a>调度唤醒和延迟分析</h2><p>通过在 TraceConfig 中进一步启用以下内容，ftrace 数据源还将记录调度唤醒事件：</p>
+<code class="hljs code-block"> ftrace_events: <span class="hljs-string">&quot;sched/sched_wakeup_new&quot;</span>
+ ftrace_events: <span class="hljs-string">&quot;sched/sched_waking&quot;</span></code><p>虽然 <code>sched_switch</code> 事件仅在线程处于 <code>R(unnable)</code> 状态并且在 CPU 运行队列上运行时发出，但在任何事件导致线程状态更改时都会发出 <code>sched_waking</code> 事件。</p>
+<p>考虑以下示例：</p>
+<code class="hljs code-block">线程 <span class="hljs-selector-tag">A</span>
+<span class="hljs-selector-tag">condition_variable</span><span class="hljs-selector-class">.wait</span>()
+ 线程 <span class="hljs-selector-tag">B</span>
+ <span class="hljs-selector-tag">condition_variable</span><span class="hljs-selector-class">.notify</span>()</code><p>当线程 A 在 wait() 上挂起时，它将进入状态 <code>S(sleeping)</code> 并从 CPU 运行队列中移除。当线程 B 通知变量时，内核将线程 A 转换为 <code>R(unnable)</code> 状态。此时线程 A 有资格放回运行队列。但是，这可能不会立即发生，因为，例如：</p>
+<ul>
+<li>所有 CPU 可能正忙于运行其他线程，线程 A 需要等待分配运行队列槽位（或者其他线程具有更高的优先级）。</li>
+<li>有其他 CPU 而不是当前的 CPU，但调度器负载均衡器可能需要一些时间将线程移动到另一个 CPU 上。</li>
+</ul>
+<p>除非使用实时线程优先级，否则大多数 Linux 内核调度器配置都不是严格的工作守恒的。例如，调度器可能更喜欢等待一段时间，希望当前 CPU 上运行的线程进入空闲，避免跨 CPU 迁移，这在开销和功耗方面可能更昂贵。</p>
+<p class="callout note">NOTE: <code>sched_waking</code> 和 <code>sched_wakeup</code> 提供几乎相同的信息。区别在于跨 CPU 的唤醒事件，这涉及处理器间中断。前者始终在源(唤醒)CPU 上发出，后者可能在源或目标(被唤醒)CPU 上执行，具体取决于几个因素。<code>sched_waking</code> 通常足以进行延迟分析，除非你正在细分由于调度器唤醒路径导致的延迟，例如处理器间信令。</p>
+<p>当启用 <code>sched_waking</code> 事件时，在选择 CPU Slice 时，UI 中将显示以下内容：</p>
+<p><img src="/perfetto-docs-zh-cn/docs/images/latency.png" alt="" title="UI 中的调度唤醒事件"></p>
+<h3><a name="-code-end_state-code-" class="anchor" href="#-code-end_state-code-"></a>解码 <code>end_state</code></h3><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables#sched_slice.html">sched_slice</a> 表包含有关系统调度活动的信息：</p>
+<code class="hljs code-block">&gt; <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> sched_slice <span class="hljs-keyword">limit</span> <span class="hljs-number">1</span>
+id <span class="hljs-built_in">type</span> ts dur cpu utid end_state priority
+<span class="hljs-number">0</span> sched_slice <span class="hljs-number">70730062200</span> <span class="hljs-number">125364</span> <span class="hljs-number">0</span> <span class="hljs-number">1</span> S <span class="hljs-number">130</span> </code><p>表的每一行显示给定线程（<code>utid</code>）何时开始运行（<code>ts</code>）、在哪个核心上运行（<code>cpu</code>）、运行了多长时间（<code>dur</code>）以及它为什么停止运行：<code>end_state</code>。</p>
+<p><code>end_state</code> 编码为一个或多个 ASCII 字符。UI 使用以下转换将 <code>end_state</code> 转换为人类可读的文本：</p>
+<table>
+<thead>
+<tr>
+<th>end_state</th>
+<th>Translation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R</td>
+<td>Runnable</td>
+</tr>
+<tr>
+<td>R+</td>
+<td>Runnable (Preempted)</td>
+</tr>
+<tr>
+<td>S</td>
+<td>Sleeping</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Uninterruptible Sleep</td>
+</tr>
+<tr>
+<td>T</td>
+<td>Stopped</td>
+</tr>
+<tr>
+<td>t</td>
+<td>Traced</td>
+</tr>
+<tr>
+<td>X</td>
+<td>Exit (Dead)</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>Exit (Zombie)</td>
+</tr>
+<tr>
+<td>x</td>
+<td>Task Dead</td>
+</tr>
+<tr>
+<td>I</td>
+<td>Idle</td>
+</tr>
+<tr>
+<td>K</td>
+<td>Wake Kill</td>
+</tr>
+<tr>
+<td>W</td>
+<td>Waking</td>
+</tr>
+<tr>
+<td>P</td>
+<td>Parked</td>
+</tr>
+<tr>
+<td>N</td>
+<td>No Load</td>
+</tr>
+</tbody></table>
+<p>并非所有字符组合都是有意义的。</p>
+<p>如果我们不知道调度何时结束（例如，因为在线程仍在运行时 trace 结束）,<code>end_state</code> 将为 <code>NULL</code>，并且 <code>dur</code> 将为 -1。</p>
+
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>

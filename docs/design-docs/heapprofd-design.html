@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>heapprofd： Android Heap Profiler - Perfetto Tracing Docs</title>
+  <meta property="og:title" content="heapprofd： Android Heap Profiler - Perfetto Tracing Docs">
+  <meta property="og:site_name" content="Perfetto">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="canonical" href="https://perfetto.dev/docs/design-docs/heapprofd-design">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/style.css">
+  <link rel="stylesheet" href="/perfetto-docs-zh-cn/assets/tomorrow-night.css">
+  <link rel="shortcut icon" href="/perfetto-docs-zh-cn/assets/favicon.png" />
+  <script type="text/javascript" src="/perfetto-docs-zh-cn/assets/script.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <a href="/perfetto-docs-zh-cn/">
+      <img src="/perfetto-docs-zh-cn/assets/brand.png">
+      
+      <span class="brand-docs">Docs</span>
+      
+    </a>
+  </div>
+  <a href="#toggle" class="menu"><i class="material-icons-round">menu</i></a>
+
+  
+    <div id="search">
+      <input id="search-box" type="text" placeholder="Search" autocomplete="off">
+      <div id="search-res"></div>
+    </div>
+  
+
+  <a href="/perfetto-docs-zh-cn/docs/">Docs</a>
+  <a href="/perfetto-docs-zh-cn/docs/contributing/getting-started#community.html">Community</a>
+  <a href="https://ui.perfetto.dev/">Trace Viewer</a>
+  <a href="https://github.com/google/perfetto">GitHub</a>
+</header>
+<div class="docs">
+  <nav class="nav">
+    <ul>
+<li><p><a href="#">快速入门</a></p>
+<ul>
+<li><p><a href="/perfetto-docs-zh-cn/docs/">什么是 Perfetto？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/tracing-101.html">什么是 Tracing？</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/start-using-perfetto.html">如何开始使用 Perfetto？</a></p>
+</li>
+<li><p><a href="#">教程</a></p>
+</li>
+<li><p><a href="#">全栈 Perfetto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/system-tracing.html">系统 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/in-app-tracing.html">应用内 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/memory-profiling.html">Memory Profiling</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/cpu-profiling.html">CPU Profiling</a></p>
+</li>
+<li><p><a href="#">添加 Tracepoint</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/atrace.html">Android atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/ftrace.html">Linux ftrace</a></p>
+</li>
+<li><p><a href="#">非 Perfetto Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/other-formats.html">支持的 trace 格式</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/converting.html">转换为 Perfetto</a></p>
+</li>
+<li><p><a href="#">实战指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/android-trace-analysis.html">分析 Android Trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/periodic-trace-snapshots.html">周期性 Trace 快照</a></p>
+</li>
+<li><p><a href="#">案例研究</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/memory.html">Android 内存使用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/scheduling-blockages.html">调度阻塞</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入学习</a></p>
+<ul>
+<li><p><a href="#">概念</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/config.html">Trace 配置</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/buffers.html">缓冲区和数据流</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/service-model.html">服务模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/clock-sync.html">时钟同步</a></p>
+</li>
+<li><p><a href="#">Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/tracing-in-background.html">后台 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/learning-more/android.html">更多 Android Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/getting-started/chrome-tracing.html">Chrome Tracing</a></p>
+</li>
+<li><p><a href="#">Trace 插桩</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/tracing-sdk.html">Tracing SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/track-events.html">Track Event</a></p>
+</li>
+<li><p><a href="#">Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/stdlib-docs.html">标准库</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-syntax.html">语法</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/style-guide.html">样式指南</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/perfetto-sql-backcompat.html">向后兼容性</a></p>
+</li>
+<li><p><a href="#">Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor.html">Trace Processor (C++)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-processor-python.html">Trace Processor (Python)</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/trace-summary.html">Trace 汇总</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/quickstart/traceconv.html">从 Perfetto 转换</a></p>
+</li>
+<li><p><a href="#">Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui.html">Perfetto UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/large-traces.html">打开大型 trace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/deep-linking-to-perfetto-ui.html">深度链接</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/debug-tracks.html">调试 Tracks</a></p>
+</li>
+<li><p><a href="#">扩展 UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extending-the-ui.html">概述</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/ui-automation.html">命令和宏</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-servers.html">扩展服务器</a></p>
+</li>
+<li><p><a href="#">贡献</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/common-tasks.html">常见任务</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/become-a-committer.html">成为提交者</a></p>
+</li>
+<li><p><a href="#">UI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-getting-started.html">快速入门</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/ui-plugins.html">插件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/faq.html">FAQ</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#">深入探索</a></p>
+<ul>
+<li><p><a href="#">数据源</a></p>
+</li>
+<li><p><a href="#">内存数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/native-heap-profiler.html">Native Heap Profiler</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/java-heap-profiler.html">Java 堆转储</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/memory-counters.html">Counters 和事件</a></p>
+</li>
+<li><p><a href="#">Ftrace 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-scheduling.html">调度事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/syscalls.html">系统调用</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/cpu-freq.html">调频</a></p>
+</li>
+<li><p><a href="#">Android 数据源</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/atrace.html">Atrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-log.html">Logcat</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/frametimeline.html">Frame Timeline</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/battery-counters.html">电池 Counters 和电源轨</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/android-game-intervention-list.html">其他数据源</a></p>
+</li>
+<li><p><a href="#">Trace 格式参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-packet-proto.html">Trace Packet Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/synthetic-track-event.html">高级程序化生成</a></p>
+</li>
+<li><p><a href="#">高级 Trace 采集</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/trace-config-proto.html">Trace Config Proto</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/concurrent-tracing-sessions.html">并发 Tracing 会话</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/concepts/detached-mode.html">分离模式</a></p>
+</li>
+<li><p><a href="#">Android</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-boot-tracing.html">开机 Tracing</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/case-studies/android-outofmemoryerror.html">OutOfMemoryError</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/android-version-notes.html">Android 版本说明</a></p>
+</li>
+<li><p><a href="#">Linux</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/kernel-track-event.html">内核 track 事件</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/data-sources/previous-boot-trace.html">跨重启 Tracing</a></p>
+</li>
+<li><p><a href="#">命令行参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/perfetto-cli.html">perfetto_cmd</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced.html">traced</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/traced_probes.html">traced_probes</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/heap_profile-cli.html">heap_profile 命令行</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/reference/tracebox.html">tracebox</a></p>
+</li>
+<li><p><a href="#">高级 Trace 分析</a></p>
+</li>
+<li><p><a href="#">PerfettoSQL</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-tables.html">Prelude 表</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/builtin.html">内置函数</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/sql-stats.html">Stats 表参考</a></p>
+</li>
+<li><p><a href="#">单 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/metrics.html">旧版（v1）metrics</a></p>
+</li>
+<li><p><a href="#">多 Trace 分析</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/analysis/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-a-single-machine.html">Bigtrace</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/deployment/deploying-bigtrace-on-kubernetes.html">Kubernetes 上的 Bigtrace</a></p>
+</li>
+<li><p><a href="#">高级 Perfetto SDK</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/instrumentation/interceptors.html">拦截器</a></p>
+</li>
+<li><p><a href="#">高级 Trace 可视化</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/commands-automation-reference.html">命令自动化参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/extension-server-protocol.html">扩展服务器协议</a></p>
+</li>
+<li><p><a href="#">贡献者参考</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/build-instructions.html">构建</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/testing.html">测试</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/developer-tools.html">开发者工具</a></p>
+</li>
+<li><p><a href="#">团队文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sdk-releasing.html">SDK 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/python-releasing.html">Python 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/visualization/perfetto-ui-release-process.html">UI 发布流程</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/chrome-branches.html">Chrome 分支</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/contributing/sqlite-upgrade-guide.html">SQLite 升级指南</a></p>
+</li>
+<li><p><a href="#">设计文档</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/api-and-abi.html">API 和 ABI 表面</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/life-of-a-tracing-session.html">Tracing 会话的生命周期</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/protozero.html">ProtoZero</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/security-model.html">安全模型</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/checkpoint-atoms.html">Statsd Checkpoint Atom</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/batch-trace-processor.html">批量 Trace Processor</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/trace-processor-architecture.html">Trace Processor 架构</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-design.html">Heapprofd 设计</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-wire-protocol.html">Heapprofd 线路协议</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-sampling.html">Heapprofd 采样</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/continuous-integration.html">Perfetto CI</a></p>
+</li>
+<li><p><a href="/perfetto-docs-zh-cn/docs/design-docs/lock-free-task-runner.html">LockFreeTaskRunner</a></p>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav>
+
+  <main class="doc" data-md-file="/docs/design-docs/heapprofd-design">
+    <h1>heapprofd： Android Heap Profiler</h1><p><em><strong>状态：</strong> 已完成 <strong>·</strong> fmayer, primiano <strong>·</strong> 2018-06-15</em><br><em><strong>更新：</strong> 2020-04-20</em></p>
+<h2><a name="-" class="anchor" href="#-"></a>目标</h2><p>提供低开销的原生 heap profiling 机制，具有 C++ 和 Java callstack 归因，可供 Android 系统上的所有进程使用。这包括 Java 和原生服务。该机制能够将 heap dumps 导出到 traces，以便能够将 heap 信息与系统上的其他活动相关联。此功能在 Android 10 版本中添加。</p>
+<h2><a name="-" class="anchor" href="#-"></a>概述</h2><p><img src="/perfetto-docs-zh-cn/docs/images/heapprofd-design/Architecture.png" alt=""></p>
+<p>实现一个进程外 heap profiler。在 malloc 中进行最少的内联处理，然后委托给中央组件进行进一步处理。这引入了一个新的守护进程 <em>heapprofd</em> 。</p>
+<p>当启用 tracing 时，无论是通过系统属性还是传递给现有进程的信号，一定百分比的 malloc 调用会将当前调用堆栈复制到由 heapprofd 接收的共享内存缓冲区中。heapprofd 使用 libunwindstack 异步进行堆栈展开和符号化。此信息用于构建账本表以跟踪活动分配，并最终转储到 Perfetto trace 中。</p>
+<p>本文档中引用的所有数据都在 Android P 上的 Pixel 2 上收集。</p>
+<h3><a name="-" class="anchor" href="#-"></a>要求</h3><p>这些是 heap profiler 必须满足的属性：</p>
+<p><strong>无需设置：</strong> 可以使用单个命令获取 heap profile。</p>
+<p><strong>分析运行中的应用程序：</strong> 系统可用于启用已运行应用程序的分析，以获取自启用 profiling以来的内存使用情况信息，而无需重启。这对于跟踪内存泄漏很有用。</p>
+<p><strong>归因于 Java 方法：</strong> 系统可用于跟踪 Java 应用程序的原生内存使用情况。Java heap 上的分配超出了本文档的范围。</p>
+<p><strong>禁用时零开销：</strong> 当系统未启用时，必须不会产生性能开销。</p>
+<p><strong>分析整个系统：</strong> 系统必须能够处理分析所有正在运行的进程的负载。采样率经过调整以限制数据量。</p>
+<p><strong>可忽略的进程内内存开销：</strong> 系统不得在进程中保存账本数据，以免膨胀更高级别的 metrics（如 PSS）。</p>
+<p><strong>有界性能影响：</strong> 对于所有用例，设备仍然必须可用。</p>
+<h2><a name="-" class="anchor" href="#-"></a>详细设计</h2><h3><a name="-profiling" class="anchor" href="#-profiling"></a>启用 profiling</h3><h4>用例 1：从正在运行的进程 profile 未来的分配</h4><p>实时信号之一(<a href="https://cs.android.com/android/platform/superproject/main/+/main:bionic/libc/platform/bionic/reserved_signals.h?q=symbol:BIONIC_SIGNAL_PROFILER"><code>BIONIC_SIGNAL_PROFILER</code></a>)在 libc 中保留作为触发机制。在此场景中：</p>
+<ul>
+<li>heapprofd 向目标进程发送 RT 信号</li>
+<li>收到信号后，bionic 通过安装临时 malloc hook 作出反应，后者又生成一个线程以在进程上下文中动态加载 libheapprofd.so。这意味着 heapprofd 将不适用于静态链接的二进制文件，因为它们缺乏 <code>dlopen</code> 的能力。我们不能直接从信号处理程序生成线程，因为 <code>pthread_create</code> 不是异步安全的。</li>
+<li>调用 libheapprofd.so 中的初始值设定项来处理其余部分（请参阅下面的 <a href="#client-operation-and-in-process-hooks">客户端操作和进程内挂钩</a>）</li>
+</ul>
+<h4>用例 2：从启动分析单个进程</h4><ul>
+<li>heapprofd 设置一个格式为 libc.debug.heapprofd.argv0 的属性（argv0 是 <code>/proc/self/cmdline</code> 中的第一个参数，直到第一个 &quot;:&quot;）</li>
+<li>原生进程：bionic 初始化时检查属性是否存在，如果存在且匹配进程名称，则加载 libheapprofd.so。</li>
+<li>托管的 java 进程：zygote 在 <code>PreApplicationInit</code> 中调用 <code>mallopt(M_SET_ZYGOTE_CHILD, ...)</code>。在此过程中，Bionic 检查属性是否存在，如果存在且匹配进程名称，则加载 libheapprofd.so 并继续如上所述。</li>
+</ul>
+<h4>用例 3：分析整个系统</h4><p>可以设置系统属性 <code>libc.heapprofd.enable</code> 以在启动时启用 heap profiling。设置此属性后，每个进程在启动时都会加载 libheapprofd.so 库。其余部分与上述情况相同。</p>
+<h3><a name="-" class="anchor" href="#-"></a>禁用分析</h3><p>通过从 heapprofd 端关闭 sockets 来简单地禁用分析。在 send() 失败时，客户端将卸载挂钩（请参阅附录：线程安全的挂钩设置/拆除）</p>
+<h3><a name="-" class="anchor" href="#-"></a>客户端操作和进程内挂钩</h3><p>在 libheapprofd.so 初始化时：</p>
+<ul>
+<li>客户端通过连接的 UNIX socket 与 heapprofd 守护进程建立连接。</li>
+<li>连接后，守护进程将向客户端发送一个数据包，指定分析配置（采样率；采样所有线程/仅特定线程；采样启发式调整）。它还将发送用于发送采样的 SharedMemoryBuffer 的 FD（请参阅 <a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-wire-protocol.html">wire protocol</a>）。</li>
+<li>安装 malloc 挂钩。</li>
+</ul>
+<p>在每次 <code>*alloc()/posix_memalign()</code> 调用时，客户端库将执行一些最少的记账。如果达到采样率，它将把原始堆栈连同指定寄存器状态、tid、操作的全局序列号和分配大小的标头一起复制到共享内存缓冲区中。然后它将在控制 socket 上发送以唤醒服务。</p>
+<p>在每次 <code>free()</code> 调用时，客户端将释放的地址追加到全局（进程范围）仅追加缓冲区（缓冲区是为了避免对每个 free 进行 send() 开销）。当固定大小的缓冲区已满或在预设数量的操作后，此 free()s 缓冲区将发送到 heapprofd 守护进程。这还包括操作的全局序列号。</p>
+<p>如果由于 heapprofd 已关闭 socket（无论是自愿（优雅禁用）还是非自愿（已崩溃））导致 send() 失败，客户端将拆除挂钩并禁用任何分析操作。</p>
+<h3><a name="-" class="anchor" href="#-"></a>服务操作</h3><p><img src="/perfetto-docs-zh-cn/docs/images/heapprofd-design/shmem-detail.png" alt=""></p>
+<p>展开器线程读取客户端的共享内存缓冲区并处理接收到的采样。展开的结果随后通过 PostTask 排队，供主线程进行记账。在线程之间使用基于队列的模型是因为它使同步更容易。主线程根本不需要同步，因为记账数据只能由它访问。</p>
+<p>如果采样是 malloc，则堆栈被展开，结果数据在主线程中处理。主线程忽略序列号低于此地址已处理的序列号的 mallocs。如果采样是 free，则将其添加到缓冲区。一旦序列号低于 free 的所有 mallocs 都已处理，就处理它。</p>
+<h4>展开</h4><p>使用 libunwindstack 进行展开。实现了一个新的 Memory 类，将复制的堆栈覆盖在进程内存上（使用 FDMemory 访问）。FDMemory 使用目标应用程序发送的 <code>/proc/self/mem</code> 文件描述符上的读取。</p>
+<code class="hljs code-block"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StackMemory</span> :</span> <span class="hljs-keyword">public</span> unwindstack::MemoryRemote {
+ <span class="hljs-keyword">public</span>:
+ ...
+ <span class="hljs-function"><span class="hljs-keyword">size_t</span> <span class="hljs-title">Read</span><span class="hljs-params">(<span class="hljs-keyword">uint64_t</span> addr, <span class="hljs-keyword">void</span>* dst, <span class="hljs-keyword">size_t</span> size)</span> <span class="hljs-keyword">override</span> </span>{
+ <span class="hljs-keyword">if</span> (addr &gt;= sp_ &amp;&amp; addr + size &lt;= stack_end_ &amp;&amp; addr + size &gt; sp_) {
+ <span class="hljs-keyword">size_t</span> offset = <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">size_t</span>&gt;(addr - sp_);
+ <span class="hljs-built_in">memcpy</span>(dst, stack_ + offset, size);
+ <span class="hljs-keyword">return</span> size;
+ }
+
+ <span class="hljs-keyword">return</span> mem_-&gt;<span class="hljs-built_in">Read</span>(addr, dst, size);
+ }
+
+ <span class="hljs-keyword">private</span>:
+ <span class="hljs-keyword">uint64_t</span> sp_;
+ <span class="hljs-keyword">uint8_t</span>* stack_;
+ <span class="hljs-keyword">size_t</span> size;
+};</code><p>这允许展开对于原生代码和 ART 的所有三种执行模式都可以工作。原生库被映射到进程内存中，ART 写入的临时调试信息也可以通过进程内存访问。有可能 ART 会在展开完成之前垃圾收集信息，在这种情况下我们将错过堆栈帧。由于这无论如何是一种采样方法，这种准确性损失是可以接受的。</p>
+<p>远程展开还使我们能够在 libunwindstack 中使用 <em>全局缓存</em>(<code>Elf::SetCachingEnabled(true)</code>)。这防止了由不同进程使用的调试信息被加载和解压缩多次。</p>
+<p>我们添加一个 <code>FDMaps</code> 对象来解析从目标进程发送的 <code>/proc/self/maps</code> 映射。我们为每个正在分析的进程保持 <code>FDMaps</code> 对象缓存。这既节省了文本解析 <code>/proc/[pid]/maps</code> 的开销，也保持了展开所需的各种对象（例如，解压缩的 minidebuginfo）。如果展开因 <code>ERROR_INVALID_MAP</code> 失败，我们重新解析 maps 对象。我们将对 libunwindstack 进行更改，以创建 [<code>LocalUpdatableMaps</code>](<a href="https://cs.android.com/android/platform/superproject/main/+/main:system/unwinding/libunwindstack/Maps.cpp?q=symbol:LocalUpdatableMaps%EF%BC%89%E7%9A%84%E6%9B%B4%E9%80%9A%E7%94%A8%E7%89%88%E6%9C%AC%EF%BC%8C%E8%AF%A5%E7%89%88%E6%9C%AC%E4%B9%9F%E9%80%82%E7%94%A8%E4%BA%8E%E8%BF%9C%E7%A8%8B%E8%BF%9B%E7%A8%8B%E3%80%82">https://cs.android.com/android/platform/superproject/main/+/main:system/unwinding/libunwindstack/Maps.cpp?q=symbol:LocalUpdatableMaps）的更通用版本，该版本也适用于远程进程。</a></p>
+<h4>远程展开的优势</h4><p><strong>防崩溃：</strong> 记账逻辑或 libunwindstack 中的崩溃错误不会导致用户可见的崩溃，而只会导致缺少 profile 数据。这将导致与 heapprofd 的连接中断，并在客户端侧优雅地停止 profiling。</p>
+<p><strong>性能：</strong> 复制堆栈比展开具有更一致和更高的性能，展开可能需要几毫秒。请参见上图。</p>
+<p><strong>不会膨胀更高级别的 metrics：</strong> 诸如 PSS 之类的更高级别 metrics 不会因记账成本而膨胀。</p>
+<p><strong>压缩：</strong> 如果在多个进程之间共享，已展开帧的记账可以更有效率。例如，常见的帧序列（在 libc、ART 等中）可以重复数据删除。</p>
+<h4>远程展开的缺点</h4><p><strong>复杂性：</strong> 系统比同步展开和符号化具有更高的复杂性。</p>
+<h4>记账</h4><p>数据以树的形式存储，其中每个元素都有指向其父元素的反向指针。这重复数据删除了重复的堆栈帧。对方法名和库名应用了字符串驻留。</p>
+<p>细节将根据实现期间收集的数据进行调整。</p>
+<h3><a name="wire-" class="anchor" href="#wire-"></a>Wire 协议</h3><p>在 heapprofd 的早期版本中，我们使用 <code>SOCK_STREAM</code> socket 将调用堆栈发送到服务。我们现在使用基于共享内存的 <a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-wire-protocol.html">wire protocol</a>，详细说明单独描述。</p>
+<h3><a name="-" class="anchor" href="#-"></a>失败模式</h3><p><strong>heapprofd 展开无法跟上：</strong> 共享内存缓冲区将拒绝新采样。如果设置了 <code>block_client</code>，客户端将重试直到共享内存缓冲区中有空间。</p>
+<p><strong>heapprofd 崩溃：</strong> 在控制 socket 上写入将失败，客户端将被拆除。</p>
+<p><strong>客户端中写入失败：</strong> 如果写入失败并出现 <code>EINTR</code> 以外的任何错误代码，则连接关闭，分析被拆除。</p>
+<h3><a name="fork-" class="anchor" href="#fork-"></a>Fork 处理</h3><p>进程 fork 后，我们需要清理由父进程初始化的状态并卸载 malloc 挂钩。我们目前不打算支持跟踪 fork，请参阅 [考虑的替代方案](#alternatives-considered）以获取可能的实现。</p>
+<h2><a name="-" class="anchor" href="#-"></a>性能考虑</h2><h3><a name="-" class="anchor" href="#-"></a>远程展开</h3><p><em><strong>注意：</strong>这些数据是在 heapprofd 使用 socket 从客户端到服务进行通信时收集的。我们现在使用共享内存缓冲区，因此我们应该具有更低的开销。</em></p>
+<p>使用远程展开是为了减少对正在分析的应用程序的性能影响。发送堆栈后，应用程序可以恢复其操作，而远程守护进程展开堆栈并进行展开。由于发送堆栈平均来说比展开堆栈是更快的操作，这导致了性能提升。</p>
+<table>
+ <tr>
+ <td>
+
+<p><img src="/perfetto-docs-zh-cn/docs/images/heapprofd-design/Android-Heap0.png" alt=""></p>
+ </td>
+ <td>
+
+<p><img src="/perfetto-docs-zh-cn/docs/images/heapprofd-design/Android-Heap1.png" alt=""></p>
+ </td>
+ </tr>
+</table>
+
+<p><strong>平均展开：</strong> 413us 
+<strong>平均发送：</strong> 50us 
+<strong>中位展开：</strong> 193us 
+<strong>中位发送：</strong> 14us 
+<strong>90 百分位展开：</strong> 715us 
+<strong>90 百分位发送：</strong> 40us</p>
+<h3><a name="-" class="anchor" href="#-"></a>采样</h3><p>在每个 <code>malloc</code> 调用时展开堆栈具有很高的成本，并不总是值得支付。因此，客户端使用泊松采样对 malloc 调用进行采样，概率与其分配大小成比例（即，较大的分配比较小的分配更可能被考虑）。自上次考虑的 malloc 以来分配的所有内存都归因于此分配。</p>
+<p>采样率作为初始握手的一部分可配置。采样率 == 1 将退化为完全准确的高开销模式。</p>
+<p>有关更多详细信息，请参阅 <a href="/perfetto-docs-zh-cn/docs/design-docs/heapprofd-sampling.html">Memory Profile 的采样</a>。</p>
+<p>先前的艺术：<a href="http://crbug.com/812262">crbug.com/812262</a>, <a href="http://crbug.com/803276">crbug.com/803276</a>。</p>
+<h2><a name="-" class="anchor" href="#-"></a>实现计划</h2><h3><a name="-" class="anchor" href="#-"></a>实现原型 [已完成]</h3><p>实现上述系统的原型，该系统在 walleye 上以 root 身份运行时配合 SELinux <code>setenforce 0</code> 工作。</p>
+<h3><a name="-" class="anchor" href="#-"></a>实现基准 [已完成]</h3><p>实现一个从基本事实数据执行 malloc / free 调用的程序。使用 heapprofd 分析此程序，然后将结果与基本事实数据进行比较。使用它来迭代采样启发式方法。</p>
+<h3><a name="-" class="anchor" href="#-"></a>生产化 [已完成]</h3><p>进行在 <code>setenforce 1</code> 和非 root 身份下运行 heapprofd 所需的安全更改。</p>
+<h2><a name="-" class="anchor" href="#-"></a>测试计划</h2><ul>
+<li>对共享内存缓冲区进行模糊测试。[已完成]</li>
+<li>组件的单元测试。[已完成]</li>
+<li>CTS。[已完成]</li>
+</ul>
+<h2><a name="-" class="anchor" href="#-"></a>背景</h2><h3><a name="art-" class="anchor" href="#art-"></a>ART 执行模式</h3><p>ART（Android Runtime,Android Java 运行时）有三种不同的执行模式。</p>
+<p><strong>解释：</strong> Java 字节码在执行期间被解释。ART 中的检测允许获取正在执行的代码的 dexpc（~dex 文件中的偏移量）。</p>
+<p><strong>JIT 编译：</strong> Java 字节码在运行时编译为原生代码。代码和 ELF 信息都仅存在于进程内存中。调试信息存储在全局变量中，目前仅当应用程序可调试或设置了全局系统属性（<code>dalvik.vm.minidebuginfo</code>）时才会存储。这是因为当前实现会产生过高的内存开销，无法默认启用。</p>
+<p><strong>AOT（ahead of time）编译：</strong> Java 代码在运行时之前编译为原生代码。这会生成一个 .oat 文件，本质上是一个 .so 文件。代码和 ELF 信息都存储在磁盘上。在执行期间，像共享原生库一样，它被内存映射到进程内存中。</p>
+<h3><a name="-" class="anchor" href="#-"></a>堆栈展开</h3><p>堆栈展开是从堆栈的原始字节确定返回地址链的过程。这些是我们想要将分配的内存归因于的地址。</p>
+<p>堆栈展开的最有效方法是使用帧指针。这在 Android 上是不可靠的，因为我们不控制供应商库或 OEM 版本的构建参数，并且由于 ARM32 上的问题。因此，我们的堆栈展开依赖于 libunwindstack，它使用库 ELF 文件中的 DWARF 信息来确定返回地址。这可能显著更慢，展开堆栈需要 100μs 到 ~100 ms 之间的时间(<a href="https://gist.github.com/fmayer/a3a5a352196f9037f34241f8fb09004d">来自 simpleperf 的数据</a>)。</p>
+<p><a href="https://cs.android.com/android/platform/superproject/main/+/main:system/unwinding/libunwindstack/">libunwindstack</a> 是 Android 对 <a href="https://www.nongnu.org/libunwind/">libunwind</a> 的替代品。它具有现代 C++ 面向对象 API 表面，并支持 Android 特定功能，允许它使用 ART 根据执行模式发出的信息来展开混合的原生和 Java 应用程序。它还支持原生代码和 ART 的所有三种执行模式的符号化。</p>
+<h3><a name="-" class="anchor" href="#-"></a>符号化</h3><p>符号化是从代码地址确定函数名和行号的过程。对于 Google 构建的版本，我们可以从 go/ab 或 <a href="https://ci.android.com">https://ci.android.com</a> 获取符号化二进制文件（即具有可用于符号化的 ELF 部分的二进制文件）（例如 <a href="https://ci.android.com/builds/submitted/6410994/aosp_cf_x86_phone-userdebug/latest/aosp_cf_x86_phone-symbols-6410994.zip%EF%BC%89%E3%80%82">https://ci.android.com/builds/submitted/6410994/aosp_cf_x86_phone-userdebug/latest/aosp_cf_x86_phone-symbols-6410994.zip）。</a></p>
+<p>对于其他版本，符号化需要二进制文件中包含的调试信息。此信息通常被压缩。JIT 编译代码的符号化需要进程内存中包含的信息。</p>
+<h3><a name="perfetto" class="anchor" href="#perfetto"></a>Perfetto</h3><p><a href="https://perfetto.dev">Perfetto</a> 是一个开源、高效且可扩展的平台级 tracing 系统，允许从内核、应用程序和服务收集性能数据。它的目标是成为 Android 和 Chrome 的下一代性能 tracing 机制。</p>
+<h2><a name="-" class="anchor" href="#-"></a>相关工作</h2><h3><a name="simpleperf" class="anchor" href="#simpleperf"></a>simpleperf</h3><p>即使 <a href="https://cs.android.com/android/platform/superproject/main/+/main:system/extras/simpleperf/doc/README.md">simpleperf</a> 是 CPU 而不是 memory profiler，它在本质上与本文档中提出的工作相似，因为它支持离线展开。要求内核定期提供堆栈跟踪的副本，这些副本被转储到磁盘上。转储的信息随后在分析完成后用于展开堆栈。</p>
+<h3><a name="malloc-debug" class="anchor" href="#malloc-debug"></a>malloc-debug</h3><p><a href="https://cs.android.com/android/platform/superproject/main/+/main:bionic/libc/malloc_debug/">malloc-debug</a> 检测 bionic 的分配函数以检测常见的内存问题，如缓冲区溢出、双重释放等。这与本文档中描述的项目相似，因为它使用相同的机制来检测 libc 分配函数。与 heapprofd 不同，它不向用户提供 heap dumps。</p>
+<h3><a name="-" class="anchor" href="#-"></a>功能矩阵</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>use after free 检测</th>
+<th>Java 对象图归因</th>
+<th>原生内存归因</th>
+<th>Android</th>
+<th>进程外</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>heapprofd</td>
+<td>否</td>
+<td>否</td>
+<td>是</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr>
+<td>malloc-debug</td>
+<td>是</td>
+<td>否</td>
+<td>是</td>
+<td>是</td>
+<td>否</td>
+</tr>
+</tbody></table>
+<h2><a name="-" class="anchor" href="#-"></a>考虑的替代方案</h2><h3><a name="copy-on-write-" class="anchor" href="#copy-on-write-"></a>Copy-on-write 堆栈</h3><p>堆栈的下层帧在客户端发送和服务器展开堆栈信息之间不太可能更改。我们希望通过 <a href="http://man7.org/linux/man-pages/man2/vmsplice.2.html"><code>vmsplice(2)</code></a> 将它们拼接到一个管道中来利用这一事实来标记堆栈页面为写时复制。不幸的是，vmsplice 系统调用不会将页面标记为写时复制，而是在概念上映射到管道缓冲区，这会导致守护进程看到 vmsplice 之后发生的堆栈更改，从而破坏展开器。</p>
+<h3><a name="-fork-2-profile" class="anchor" href="#-fork-2-profile"></a>跨 fork（2）进行 profile</h3><p>如果我们想要为新 fork 的进程启用 profiling，我们需要建立与 heapprofd 的新连接并创建新的连接池。这是为了防止来自父进程和子进程的消息交错。</p>
+<p>对于非 zygote 进程，我们可以使用 <a href="http://man7.org/linux/man-pages/man3/pthread_atfork.3.html"><code>pthread_atfork(3)</code></a> 来建立新连接。</p>
+<p>对于 zygote 进程，<code>FileDescriptorInfo::ReopenOrDetach</code> 在 <code>fork(2)</code> 之后被调用——因此在 <code>pthread_atfork</code> 处理程序之后——分离所有 socket，即将它们替换为指向 <code>/dev/null</code> 的文件描述符。如果 socket 不包含在 <a href="https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/jni/fd_utils.cpp?q=symbol:kPathWhitelist"><code>kPathWhiteList</code></a> 中，zygote 会崩溃。因此，仅使用 <code>pthread_atfork</code> 处理程序是不可行的，因为在其中建立的连接将在 zygote 子进程中立即断开。</p>
+<p>Fork 后，zygote 调用 <code>PreApplicationInit</code>，目前 malloc_debug 使用它来通过设置 <code>gMallocLeakZygoteChild</code> 来检测它是处于根 zygote 还是子进程中。它还调用 <a href="https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/jni/com_android_internal_os_Zygote.cpp?q=CallStaticVoidMethod.*gCallPostForkChildHooks">Java 回调</a>，但目前似乎不存在动态注册原生回调的方法。</p>
+<p>朴素的延迟初始化（即在 atfork 处理程序中关闭 socket，然后在第一次调用 malloc 时重新连接）是有问题的，因为 zygote 中 fork 和 <code>ReopenOrDetach</code> 之间的代码可能会调用 <code>malloc</code>，从而导致建立连接，然后再次被 <code>ReopenOrDetach</code> 关闭。</p>
+<p>为了解决这个问题，我们可以采取类似于 <code>gMallocLeakZygoteChild</code> 的方法。Fork 之前，zygote 将被修改以将 <code>gheapprofdInZygoteFork</code> 设置为 true，在 fork 处理完成后，它将被设置为 false。这样我们可以确保延迟初始化直到 fork 完全完成。<code>pthread_atfork</code> 用于在 fork 后在子进程中关闭文件描述符。</p>
+<h3><a name="-profile-" class="anchor" href="#-profile-"></a>通过外部检测启动来 profile 应用程序</h3><p>此选项依赖于 tracing 系统检测应用程序启动的能力（无论如何我们都需要此功能来进行性能分析）。</p>
+<p><strong>优势</strong></p>
+<ul>
+<li>从 libc 视角要处理的情况减少了一种</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>不太准确，将错过启动的前 X 毫秒</li>
+<li>观察 ftrace 事件以检测启动的机制不是平凡的。</li>
+</ul>
+<h3><a name="-" class="anchor" href="#-"></a>延迟展开</h3><p>预期许多分配是短暂的，我们可以将堆栈的展开延迟固定的时间。这是内存与 CPU 使用之间的权衡，因为这些堆栈必须保持在内存中，直到被展开或释放。</p>
+<p>此图显示 20% 的分配在来自同一进程的 900 个采样分配（在 1% 处，因此总共 500000 个）内被释放。</p>
+<table>
+ <tr>
+ <td>
+
+<p><img src="/perfetto-docs-zh-cn/docs/images/heapprofd-design/Android-Heap2.png" alt=""></p>
+<p>
+<strong>平均：</strong> 7000 个分配
+ </td>
+ <td>
+
+<p><img src="/perfetto-docs-zh-cn/docs/images/heapprofd-design/Android-Heap3.png" alt=""></p>
+<p>
+<strong>平均：</strong> 8950 字节
+ </td>
+ </tr>
+</table>
+
+
+<p>因此，在 1% 采样率下，以每个进程 ~8 兆字节（900 * 8950）的成本，我们可以减少展开次数约 20%。这将不允许我们获得&quot;分配空间&quot;的准确数字，因此拒绝了这个想法。</p>
+
+  </main>
+
+  <section class="toc"></section>
+
+  
+<footer class="site-footer">
+  <p class="docs-footer-notice">
+    Except as otherwise noted, the content of this page is licensed under the
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+    Attribution 4.0 License</a>, and code samples are licensed
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0
+    License</a>. Java is a registered trademark of Oracle and/or its affiliates.
+  </p>
+  <ul>
+    <li><a href="//creativecommons.org/licenses/by/4.0/">Site CC BY 4.0</a></li>
+    <li><a href="//www.google.com/intl/en/policies/privacy/">Privacy</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>
