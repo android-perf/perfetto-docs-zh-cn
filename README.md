@@ -62,4 +62,4 @@ bash .project/sync-check.sh
 
 ## 致谢
 
-voidice@gmail.com
+voidice@gmail.com;zhuyong7@honor.com;xiaolu5@honor.com;
