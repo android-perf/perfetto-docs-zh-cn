@@ -729,7 +729,11 @@ if monitor_build_progress "$BUILD_LOG"; then
         git config user.name "Deploy Bot"
         git add -A
         git commit -m "Deploy to GitHub Pages"
+        # 先 push 到本地仓库的 gh-pages 分支
         git push --force "$DOCS_ZH_DIR" main:gh-pages
+        # 再从本地 gh-pages 分支 push 到远程 origin
+        cd "$DOCS_ZH_DIR"
+        git push origin gh-pages --force
         
         # 清理临时目录
         rm -rf "$DEPLOY_TEMP"
