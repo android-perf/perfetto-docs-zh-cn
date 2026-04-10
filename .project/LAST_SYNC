@@ -6,4 +6,4 @@
 # 更新方式:
 #   bash .project/sync-check.sh --update
 
-15d9eafe 2026-04-02 15:43:49 +0000 Copybara import from Chromium: proto and stdlib changes (#5391)
+c9055bca 2026-04-08 12:01:17 -0700 tp: Add event_wait_ids to GpuRenderStageEvent (#5329)

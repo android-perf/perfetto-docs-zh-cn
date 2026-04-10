@@ -164,3 +164,32 @@ Counter 名称和 ID 由 GPU 生产者通过数据源描述符中的 `GpuCounter
 ### 多机
 
 在跨多台机器进行 Tracing 时，每个 GPU trace 事件还携带 `machine_id`，用于区分该 GPU 属于哪台机器。Perfetto UI 在 GPU Track 旁显示机器标签。
+
+### 渲染阶段事件关联
+
+GPU 渲染阶段事件可以使用 `GpuRenderStageEvent` 上的 `event_wait_ids` 字段声明对其他渲染阶段事件的依赖关系。每个条目是该事件在运行前需要等待的另一个渲染阶段事件的 `event_id`。trace processor 使用这些信息在关联的 GPU 切片之间创建流箭头。
+
+示例：一个依赖于先前异步 memcpy 的 matmul kernel：
+
+```
+gpu_render_stage_event {
+    event_id: 1
+    duration: 50000
+    hw_queue_iid: 1
+    stage_iid: 2
+    context: 0
+    name: "Memcpy HtoD"
+}
+
+gpu_render_stage_event {
+    event_id: 2
+    duration: 40000
+    hw_queue_iid: 3
+    stage_iid: 4
+    context: 0
+    name: "matmul_kernel"
+    event_wait_ids: 1
+}
+```
+
+这会创建一个从 memcpy 事件（event\_id 1）到 matmul kernel（event\_id 2）的流，在 Perfetto UI 中可视化依赖关系。

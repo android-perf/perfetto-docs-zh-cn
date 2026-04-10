@@ -109,11 +109,11 @@ git checkout main 2>/dev/null || git checkout -b main origin/main
 git pull origin main --ff-only
 print_success "本地仓库已同步到最新"
 
-# 远程最新 commit
+# 远程最新 commit（只看 docs/ 目录）
 REMOTE_COMMIT=$(git rev-parse HEAD)
-REMOTE_SHORT=$(git rev-parse --short HEAD)
-REMOTE_DATE=$(git log -1 --format=%cd --date=short HEAD)
-REMOTE_MSG=$(git log -1 --format=%s HEAD)
+REMOTE_SHORT=$(git log -1 --format="%h" HEAD -- docs/)
+REMOTE_DATE=$(git log -1 --format=%cd --date=short HEAD -- docs/)
+REMOTE_MSG=$(git log -1 --format=%s HEAD -- docs/)
 
 echo ""
 # 检查模式
@@ -186,11 +186,11 @@ if [[ "$UPDATE_MODE" == true ]]; then
     echo ""
     print_info "正在更新 LAST_SYNC 文件..."
     
-    # 获取上游最新信息: <hash> <date> <time> <tz> <message>
-    REMOTE_HASH=$(git log -1 --format="%h" origin/main)
-    REMOTE_DATE=$(git log -1 --format="%ci" origin/main | awk '{print $1}')
-    REMOTE_TIME=$(git log -1 --format="%ci" origin/main | awk '{print $2, $3}')
-    REMOTE_MSG=$(git log -1 --format="%s" origin/main)
+    # 获取上游 docs/ 最新信息: <hash> <date> <time> <tz> <message>
+    REMOTE_HASH=$(git log -1 --format="%h" origin/main -- docs/)
+    REMOTE_DATE=$(git log -1 --format="%ci" origin/main -- docs/ | awk '{print $1}')
+    REMOTE_TIME=$(git log -1 --format="%ci" origin/main -- docs/ | awk '{print $2, $3}')
+    REMOTE_MSG=$(git log -1 --format="%s" origin/main -- docs/)
     REMOTE_LINE="$REMOTE_HASH $REMOTE_DATE $REMOTE_TIME $REMOTE_MSG"
     
     # 写入 LAST_SYNC 文件（保留注释）
